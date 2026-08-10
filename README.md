@@ -2,97 +2,73 @@
 
 ## Current Phase
 
-Phase 4B.6 — Rime Script Alignment Analysis
+Phase 4B.7 — Final Data Quality Audit
 
 ## Current Objective
 
-This version measures Base candidate coverage when both the Zhu Ziqing corpus
-and the Rime engine use Simplified Chinese. It compares three controlled
-settings:
+The current repository prepares deterministic human-review samples from the
+final Phase 4B.6 benchmark. The goal is to check whether remaining problems are
+dominated by contextual Pinyin errors, segmentation, residual script mismatch,
+or Base candidate coverage before any personalisation experiment begins.
 
-1. Phase 4B: original Traditional/mixed corpus with default Luna output;
-2. Phase 4B.5: OpenCC T2S corpus with mismatched default Luna output;
-3. Phase 4B.6: OpenCC T2S corpus with engine-side Luna `zh_hans` output.
+Phase 4B.7 does not assign labels automatically and does not start Phase 4C.
 
-This remains a data-construction and retrieval experiment. It does not change
-or evaluate personalisation and does not start Phase 4C.
+## Final Benchmark Representation
 
-## Why This Phase
+The accepted data representation under review is:
 
-Phase 4B.5 was not a fair Simplified Chinese evaluation: only the corpus was
-converted, while the candidate generator continued to emit predominantly
-Traditional/mixed strings. Its coverage reduction measured script mismatch.
+- OpenCC Simplified Chinese corpus;
+- unchanged Jieba lexical segmentation and pypinyin generation;
+- Luna Pinyin with engine-side `zh_hans` Simplified output;
+- 4,691 interactions;
+- preserved original/normalized provenance and chronology.
 
-Phase 4B.6 aligns the two sides. Luna Pinyin's existing
-`simplifier@zh_hans` engine filter applies OpenCC `t2s.json` when the `zh_hans`
-schema option is enabled. The adapter sets that option inside an isolated
-librime session; it never converts retrieved candidate strings afterwards.
+Coverage is:
 
-## Current Pipeline
+| Metric | Result |
+| --- | ---: |
+| Top-1 | 72.12% |
+| Top-3 | 85.44% |
+| Top-5 | 88.23% |
+| Top-10 | 89.11% |
+| Missing | 511 (10.89%) |
+
+The earlier Phase 4B.5 script mismatch is resolved: corpus and Rime output now
+share the Simplified convention. These remain Base coverage results, not
+personalisation performance.
+
+## Current Audit Pipeline
 
 ```text
-Phase 4A canonical text (preserved)
-        ↓
-separate OpenCC t2s.json representation
-        ↓
-Jieba segmentation
-        ↓
-tone-free full Pinyin
-        ↓
-luna_pinyin + engine option zh_hans
-        ↓
-Simplified candidate order from librime
-        ↓
-coverage, script, recovery, and provenance diagnostics
+unchanged Phase 4B.6 interactions
+        ├── 2,664 polyphonic-flagged rows
+        │       ↓ fixed-seed sample of 100
+        │       ↓ human contextual pronunciation judgement
+        │
+        └── 511 Top-10 missing rows
+                ↓ fixed-seed sample of 100
+                ↓ human missing-cause judgement
+                        ↓
+              labelled-only aggregate summary
 ```
 
-Each interaction stores work identity/chronology, source offsets, original
-target, Simplified target and contexts, Pinyin, ordered candidates, target rank,
-and both normalization and Rime script-mode provenance.
+The fixed seed is `40407`. Sampling uses SHA-256 ordering of the seed, sample
+name, and interaction ID, without replacement. The audit manifest records the
+source checksum and selected IDs.
 
-## Observed Coverage
+## Review Files
 
-| Setting | Corpus | Rime output | Interactions | Top-1 | Top-3 | Top-5 | Top-10 | Missing |
-| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Phase 4B | Original Traditional/mixed | Default Luna | 4,531 | 64.67% | 76.91% | 79.50% | 80.53% | 19.47% |
-| Phase 4B.5 | OpenCC T2S | Default Luna | 4,691 | 32.85% | 39.14% | 40.55% | 41.04% | 58.96% |
-| Phase 4B.6 | OpenCC T2S | Luna `zh_hans` | 4,691 | 72.12% | 85.44% | 88.23% | 89.11% | 10.89% |
+- [`polyphonic_review_sample.csv`](results/audits/phase_04b7/polyphonic_review_sample.csv)
+- [`missing_review_sample.csv`](results/audits/phase_04b7/missing_review_sample.csv)
+- [`review instructions`](results/audits/phase_04b7/README.md)
+- [`audit manifest`](results/audits/phase_04b7/audit_manifest.json)
 
-Engine alignment recovers 2,255 of Phase 4B.5's 2,766 missing targets, leaving
-511. These are candidate-coverage results, not personalisation results.
+All human label fields are currently blank. No data-quality conclusion should
+be drawn until manual review is completed.
 
-Direct engine verification:
+## How to Run
 
-| Pinyin | Default | Simplified Rime |
-| --- | --- | --- |
-| `weishenme` | 爲什麼 | 为什么 |
-| `women` | 我們 | 我们 |
-| `shihou` | 時候 | 时候 |
-
-## Candidate Script Diagnostics
-
-Among 46,878 Phase 4B.6 candidate occurrences:
-
-- Simplified-only: 20,135 (42.9519%)
-- Traditional-only: 18 (0.0384%)
-- Mixed: 2 (0.0043%)
-- Script-invariant: 26,723 (57.0054%)
-
-Script-invariant candidates are reported separately because many Chinese forms
-are shared across both conventions. Classification compares each candidate with
-OpenCC `t2s` and `s2t`; no candidate is removed or rewritten for diagnostics.
-
-## Interaction Count Difference
-
-OpenCC runs before Jieba, so normalized character forms change lexical
-boundaries. Relative to Phase 4B, the 4,691-interaction set contains 865 added
-spans and 705 removed spans, for a net increase of 160. This is a segmentation
-effect, not candidate generation adding interactions. The detailed audit is in
-`results/audits/phase_04b/script_normalization_interaction_delta.json`.
-
-## Dependencies and Setup
-
-From the repository root on macOS:
+Install/setup the existing Phase 4B.6 environment if needed:
 
 ```bash
 python3 -m venv .venv
@@ -102,84 +78,63 @@ brew install opencc librime
 make rime-adapter
 ```
 
-Python dependencies remain `jieba==0.42.1` and `pypinyin==0.55.0`. Rime data
-commits are locked in `config/rime/sources.json`; Simplified mode is declared in
-`config/rime/simplified_candidate_mode.json`.
-
-## How to Run
-
-Regenerate the separate OpenCC-normalized corpus and Phase 4B.5 comparison:
+Reproduce the blank deterministic audit samples:
 
 ```bash
-.venv/bin/python -m normalization.phase_04b5
+.venv/bin/python -m audits.phase_04b7_manual_review prepare
 ```
 
-Generate the aligned Simplified Rime interactions and full diagnostics:
+After entering human labels, summarize them:
 
 ```bash
-.venv/bin/python -m normalization.phase_04b6
+.venv/bin/python -m audits.phase_04b7_manual_review summarize
 ```
 
-Reproduce the segmentation-delta audit:
+Optionally save a JSON summary:
 
 ```bash
-.venv/bin/python -m audits.phase_04b5_interaction_delta
+.venv/bin/python -m audits.phase_04b7_manual_review summarize \
+  --json-output results/audits/phase_04b7/manual_review_summary.json
 ```
 
-Run all tests:
+Run the full test suite:
 
 ```bash
-.venv/bin/python -m unittest discover -s tests -v
+python3 -m unittest discover -s tests -v
 ```
 
-The Phase 4B.6 command prints three-way coverage and candidate-script counts.
-Detailed results are written to
-`data/processed/interactions/zhu_ziqing_simplified_rime/phase_04b6_comparison.json`.
+## Manual Review Policy
 
-## Data Layout
+For the polyphonic sample, judge whether the generated pronunciation is correct
+for that occurrence in context: `correct`, `incorrect`, or `uncertain`.
 
-```text
-data/processed/
-├── authors/zhu_ziqing/                       # unchanged Phase 4A
-├── normalized/authors/zhu_ziqing_t2s/       # Phase 4B.5 T2S text
-└── interactions/
-    ├── zhu_ziqing/                           # Phase 4B baseline
-    ├── zhu_ziqing_t2s/                       # Phase 4B.5 mismatch
-    └── zhu_ziqing_simplified_rime/           # Phase 4B.6 aligned
-```
+For missing targets, choose only after inspection: `proper_name`,
+`rare_or_literary_vocabulary`, `segmentation_problem`, `pinyin_problem`,
+`candidate_coverage_problem`, `traditional_variant_residual`, `other`, or
+`uncertain`.
 
-## Important Assumptions
+Blank labels are reported separately. Percentages use manually labelled rows
+only. The summarizer never infers or fills labels.
 
-- Phase 4B.5 and Phase 4B.6 use identical normalized text, segmentation,
-  Pinyin, target filtering, context policy, schema data, and Top-10 limit.
-- Their only candidate-side difference is the engine `zh_hans` option.
-- Rime uses a fresh temporary user directory per run, preventing saved options
-  or learned state from influencing results.
-- Coverage uses exact candidate/target equality.
-- Numeric Base scores remain unavailable; engine candidate rank is preserved.
+## Data Safeguards
 
-## Current Limitations
+- Phase 4B, Phase 4B.5, and Phase 4B.6 data remain unchanged.
+- Rime, OpenCC, segmentation, Pinyin generation, personalisation, and evaluation
+  code are outside this audit's mutation scope.
+- All Phase 4B.7 outputs live under `results/audits/phase_04b7/`.
+- The source interaction checksum is verified before sampling.
 
-- Results cover one author, one corpus, and one pinned Luna schema snapshot.
-- T2S changes segmentation, so Phase 4B versus Phase 4B.6 is not fully paired;
-  exact-span recovery is reported separately.
-- A small residual of 18 Traditional-only and two mixed candidate occurrences
-  remains under the documented OpenCC-based classifier.
-- Candidate coverage does not show whether personalisation helps.
-- Manual review and analysis of 511 remaining misses are incomplete.
-- No second author or final chronology boundary has been selected.
+## Next Step
 
-## Next Planned Phase
-
-Phase 4C remains deferred. Before starting it, the project must choose the
-benchmark script configuration, review remaining data-quality issues, prepare a
-second-author control, and define the chronological history/test boundary.
+Complete the two human reviews and run the summarizer. Phase 4C remains deferred
+until the audit result is reviewed and the benchmark data is explicitly
+accepted.
 
 ## Project History
 
 - Phase specifications: [`docs/phases/`](docs/phases/)
-- Completed outcomes: [`results/phases/`](results/phases/)
-- Phase 4B audits: [`results/audits/phase_04b/`](results/audits/phase_04b/)
+- Completed phase outcomes: [`results/phases/`](results/phases/)
+- Audit outputs: [`results/audits/`](results/audits/)
 - Workflow: [`docs/WORKFLOW.md`](docs/WORKFLOW.md)
 
 Existing Git tags are unchanged. Tags are not created automatically.

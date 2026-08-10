@@ -1,6 +1,6 @@
 # Phase 4 — Real Author Benchmark
 
-Status: Phase 4A, Phase 4B, Phase 4B.5, and Phase 4B.6 complete; Phase 4C deferred.
+Status: Phase 4A–4B.6 complete; Phase 4B.7 human review prepared; Phase 4C deferred.
 
 ## Objective
 
@@ -59,6 +59,16 @@ and personalisation evaluation are validated separately.
   categories, interaction deltas, and recovery at identical source spans.
 - Preserves Phase 4A, Phase 4B, and Phase 4B.5 data as separate inputs.
 
+### Phase 4B.7 — Final Data Quality Audit
+
+- Draws reproducible 100-row samples from polyphonic-flagged and Top-10-missing
+  Phase 4B.6 interactions.
+- Preserves provenance and exposes blank human-only judgement fields.
+- Validates allowed labels and summarizes only completed manual judgements,
+  reporting blanks and using labelled rows as percentage denominators.
+- Draws no pronunciation, segmentation, or missing-cause conclusion before
+  human review.
+
 ### Phase 4C — Real Personalised Evaluation (Planned)
 
 - Review interaction quality and determine an auditable chronological
@@ -69,7 +79,7 @@ and personalisation evaluation are validated separately.
 - Retain strict earlier-than-test history filtering and explicit missing-target
   handling.
 
-Phase 4C is not implemented by Phase 4B, Phase 4B.5, or Phase 4B.6.
+Phase 4C is not implemented by any Phase 4B sub-phase.
 
 ## Required / Verified Behaviours
 
