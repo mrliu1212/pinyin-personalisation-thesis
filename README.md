@@ -2,145 +2,166 @@
 
 ## Current Phase
 
-Phase 4A — Real Author Corpus Preparation
+Phase 4B — Real Pinyin-IME Interaction Construction and Base Candidate Coverage
 
 ## Current Objective
 
-The current repository builds a reproducible, provenance-preserving pilot
-corpus of chronological Chinese prose by 朱自清 (Zhu Ziqing). This prepares the
-real author data needed for a later benchmark; it does not yet create Pinyin
-interactions or evaluate candidate ranking.
+This version converts the provenance-preserving Zhu Ziqing corpus prepared in
+Phase 4A into reproducible lexical Pinyin-IME interactions. It measures whether
+a real Base candidate generator contains each author's target often enough for
+later reranking research. It does **not** evaluate personalisation.
 
-The eventual Phase 4 comparison is:
-
-```text
-earlier writings by Author A -> personalisation history
-later unseen writings by Author A -> candidate-ranking evaluation
-```
-
-Author A's own earlier writing will eventually be compared with Base ranking
-and history from the wrong author.
+The current research question is: can chronological author text be converted
+into realistic interactions, and what is the target coverage of the Base
+generator?
 
 ## Current Pipeline
 
 ```text
-curated Wikisource work catalog
+Phase 4A cleaned work + chronology + provenance
         ↓
-MediaWiki Action API acquisition
+Jieba lexical segmentation
         ↓
-revision-pinned raw JSON + provenance
+2–4 character all-Chinese targets
         ↓
-conservative text extraction
+tone-free full Pinyin (pypinyin)
         ↓
-chronological processed manifest
+pinned Luna Pinyin schema through librime
         ↓
-corpus diagnostics
+ordered Base Top-10 candidates
+        ↓
+traceable JSONL interactions + coverage diagnostics
 ```
 
-Raw API responses are never overwritten during processing. Each response is
-stored under its MediaWiki revision ID with a SHA-256 checksum. Cleaned text is
-kept separately under `data/processed/` and no script conversion, vocabulary
-modernisation, spelling correction, segmentation, or Pinyin generation is
-performed.
+Each interaction retains the work identity and date, source offsets, complete
+preceding `raw_context`, a transparent 12-Chinese-character
+`derived_context`, target, full Pinyin, candidate order, and target rank or an
+explicit missing-target value. Rime exposes order here but not a meaningful
+numeric score, so candidates store `base_rank` and `base_score: null` rather
+than an invented score.
 
 ## Why This Phase
 
-Real-data evaluation is meaningful only if the history/test chronology and text
-provenance can be audited. Phase 4A therefore establishes which pages are
-eligible prose works, preserves reliable date precision and uncertainty,
-records exclusions, and removes only identifiable Wikisource presentation
-artifacts. It deliberately shows the available chronology before any
-train/test boundary is selected.
+The later real-author benchmark can only rerank targets that the Base generator
+retrieves. Phase 4B establishes that coverage, exposes conversion and
+segmentation limitations, and makes each interaction auditable before any
+history/test boundary or personalised evaluation is selected.
 
-## Pilot Corpus
+## Dependencies and Setup
 
-The pilot author is 朱自清. The curated included works are:
+The processing layer adds two pinned Python dependencies:
 
-1. `匆匆` — 1922-03-28
-2. `槳聲燈影裏的秦淮河` — 1924-01-25
-3. `背影` — 1925-10 (month precision)
-4. `阿河` — 1926-01-11
-5. `荷塘月色` — 1927-07 (month precision)
-6. `給亡婦` — 1932-10-11
-7. `春` — 1933-07 (month precision)
+- `jieba==0.42.1` for established lightweight Chinese word segmentation;
+- `pypinyin==0.55.0` for normalized tone-free full Pinyin.
 
-The curated catalog also records excluded poetry, preface, and collection pages
-with explicit reasons. Source titles, URLs, page IDs, revision IDs, retrieval
-timestamps, date bases, and checksums are retained in machine-readable JSON.
+The Base source is Homebrew `librime` with the `luna_pinyin` schema. The exact
+official Rime data repository commits are locked in
+`config/rime/sources.json`. On macOS, from the repository root:
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements-phase4b.txt
+brew install librime
+.venv/bin/python -m interactions.setup_rime
+make rime-adapter
+```
+
+`interactions.setup_rime` fetches only the recorded commits, deploys the schema
+under ignored `data/rime/`, and records the local setup. `make rime-adapter`
+builds the small command-line bridge under ignored `.build/`. Both are required
+before real candidate generation.
 
 ## How to Run
 
-Run all Phase 1–4A tests from the repository root:
+Run all Phase 1–4B tests (ordinary tests are offline and use a fake candidate
+adapter):
 
 ```bash
-python3 -m unittest discover -s tests -v
+.venv/bin/python -m unittest discover -s tests -v
 ```
 
-Fetch or update the curated pilot pages from the Chinese Wikisource MediaWiki
-API:
+Generate a small, 50-interaction pilot from `匆匆`:
 
 ```bash
-python3 -m corpus.acquire
+.venv/bin/python -m interactions.generate \
+  --work-id congcong \
+  --max-interactions 50 \
+  --output-dir data/processed/interactions/zhu_ziqing_pilot
 ```
 
-The command requests each catalog page, stores a new file when Wikisource has a
-new revision, and updates `data/raw/authors/zhu_ziqing/acquisition_manifest.json`.
-Existing revision-pinned raw files are not overwritten.
-
-Prepare cleaned text and the chronological processed manifest:
+Generate all eligible interactions from the seven included works:
 
 ```bash
-python3 -m corpus.prepare
+.venv/bin/python -m interactions.generate \
+  --output-dir data/processed/interactions/zhu_ziqing
 ```
 
-Print corpus diagnostics:
+Print the full Base coverage diagnostics:
 
 ```bash
-python3 -m corpus.diagnostics
+.venv/bin/python -m interactions.diagnostics
 ```
 
-The diagnostic output reports included and excluded counts, total and per-work
-Chinese character counts, chronological order, exclusion reasons, and missing
-or uncertain date metadata.
+Generation writes `interactions.jsonl` and a machine-readable `manifest.json`
+containing preprocessing versions and policies, candidate-source configuration,
+exclusion counts, and coverage. Re-running the full command replaces only the
+derived Phase 4B outputs; it does not alter the Phase 4A corpus.
+
+## Interaction Policy
+
+- Jieba default-mode tokens are the lexical units.
+- Targets must contain only Chinese characters and be 2–4 characters long.
+- Single characters, units longer than four characters, punctuation, Latin
+  text, numbers, and other non-Chinese units are counted by exclusion reason.
+- Pinyin uses `pypinyin` normal style, strict mode, no tones, and concatenated
+  syllables; abbreviated Pinyin is excluded.
+- Potentially polyphonic characters are flagged for review; the generated
+  reading is not claimed to be perfect.
+- Candidate retrieval uses at most 10 entries in the exact order returned by
+  librime. Missing targets remain in the dataset and coverage denominator.
+- No final history/test split is selected and no future text is added to an
+  earlier interaction's context.
 
 ## Data Layout
 
 ```text
-data/
-├── manifests/
-│   └── zhu_ziqing_works.json
-├── raw/authors/zhu_ziqing/
-│   ├── acquisition_manifest.json
-│   └── <work_id>__rev_<revision_id>__sha256_<digest>.json
-└── processed/authors/zhu_ziqing/
-    ├── manifest.json
-    └── <work_id>.txt
+data/processed/interactions/zhu_ziqing/
+├── interactions.jsonl
+└── manifest.json
 ```
+
+The Phase 4A raw and cleaned corpus remains unchanged in its existing
+directories.
 
 ## Current Limitations
 
-- The pilot contains one author and seven included prose works.
-- `荷塘月色` has usable month-level chronology but no reliable first-publication
-  date in the selected page metadata.
-- Several dates have only month precision.
-- Wikisource metadata and transcription quality still require scholarly review
-  before a final benchmark is claimed.
-- Exact train/test boundaries have not been selected.
-- No Pinyin conversion, segmentation, candidate generation, or author-ranking
-  evaluation exists in Phase 4A.
+- The corpus still contains one author and seven prose works.
+- Jieba boundaries are automatic and may not always match realistic IME input
+  units, especially for historical or literary wording.
+- Automatic polyphonic-character readings need review; the flag is deliberately
+  broad and is not a correctness judgment.
+- Luna Pinyin and the canonical corpus both use Traditional Chinese here;
+  candidate coverage depends on this schema, dictionary snapshot, and Top-10
+  limit.
+- Targets absent from Top-10 cannot be helped by a reranker unless retrieval is
+  expanded later.
+- The exact 12-character context representation is a preparation choice, not an
+  optimized context model.
+- A second author, wrong-user control, and final chronological history/test
+  boundary have not been prepared.
 
-## Next Planned Step
+## Next Planned Phase
 
-Phase 4B will decide how eligible corpus text is converted into auditable
-Pinyin-IME evaluation interactions and how candidate availability is checked.
-That work must preserve the chronology established here and will not begin
-automatically.
+Phase 4C will define the chronological boundary and evaluate Base versus
+correct-user and wrong-user personalisation on real interactions. It must not
+start until the Phase 4B dataset and coverage decisions are reviewed.
 
-## Phase Documentation
+## Project History
 
 - Phase design history: [`docs/phases/`](docs/phases/)
 - Completed phase outcomes: [`results/phases/`](results/phases/)
 - Repository workflow: [`docs/WORKFLOW.md`](docs/WORKFLOW.md)
 
-The accepted Phase 3 snapshot remains tagged `phase-03`. No Phase 4 tag has
-been created.
+Accepted snapshots are preserved by Git commits/tags. Existing tags, including
+`phase-04a`, are not modified and this workflow does not create tags
+automatically.

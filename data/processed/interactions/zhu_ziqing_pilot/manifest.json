@@ -1,0 +1,106 @@
+{
+  "author_id": "zhu_ziqing",
+  "author_name": "朱自清",
+  "candidate_generator": {
+    "maximum_k": 10,
+    "name": "librime",
+    "numeric_score_available": false,
+    "ordering": "candidate iterator order returned by librime",
+    "rime_source_lock": {
+      "schema_id": "luna_pinyin",
+      "sources": [
+        {
+          "commit": "082425ea0684bca36474415d4a0e8db9b016487e",
+          "files": [
+            "default.yaml",
+            "key_bindings.yaml",
+            "punctuation.yaml",
+            "symbols.yaml"
+          ],
+          "name": "rime-prelude",
+          "url": "https://github.com/rime/rime-prelude.git"
+        },
+        {
+          "commit": "56b934b099dfbeab842320f13aa8b461a6ab3e42",
+          "files": [
+            "luna_pinyin.dict.yaml",
+            "luna_pinyin.schema.yaml",
+            "pinyin.yaml"
+          ],
+          "name": "rime-luna-pinyin",
+          "url": "https://github.com/rime/rime-luna-pinyin.git"
+        },
+        {
+          "commit": "e9b1a374a6ea015fca5bdd04318924b4483ac35a",
+          "files": [
+            "essay.txt"
+          ],
+          "name": "rime-essay",
+          "url": "https://github.com/rime/rime-essay.git"
+        },
+        {
+          "commit": "3a4b0f4013e2b4c14b1e80c92b1d4723eb65f39c",
+          "files": [
+            "stroke.dict.yaml",
+            "stroke.schema.yaml"
+          ],
+          "name": "rime-stroke",
+          "url": "https://github.com/rime/rime-stroke.git"
+        }
+      ]
+    },
+    "schema_id": "luna_pinyin",
+    "version": "librime 1.17.0_2"
+  },
+  "coverage": {
+    "coverage_top_1": 0.9,
+    "coverage_top_10": 0.96,
+    "coverage_top_3": 0.94,
+    "coverage_top_5": 0.96,
+    "interaction_count": 50,
+    "interactions_by_target_length": {
+      "2": 49,
+      "3": 1
+    },
+    "interactions_by_work": {
+      "congcong": 50
+    },
+    "mean_candidate_list_size": 9.82,
+    "median_candidate_list_size": 10.0,
+    "missing_target_rate": 0.04,
+    "polyphonic_review_count": 20,
+    "target_absent": 2,
+    "target_present_top_1": 45,
+    "target_present_top_10": 48,
+    "target_present_top_3": 47,
+    "target_present_top_5": 48
+  },
+  "eligible_targets_before_optional_limit": 140,
+  "excluded_token_counts": {
+    "below_minimum_length": 253,
+    "non_chinese_or_punctuation": 86
+  },
+  "generated_at": "2026-08-10T17:18:35.160649+00:00",
+  "pinyin_conversion_failures": 0,
+  "preprocessing": {
+    "context_policy": {
+      "derived_context": "last N Chinese characters from raw context",
+      "derived_context_characters": 12,
+      "raw_context": "complete preceding source text"
+    },
+    "jieba_version": "0.42.1",
+    "pinyin_method": "pypinyin Style.NORMAL, strict, tone-free, concatenated",
+    "pypinyin_version": "0.55.0",
+    "segmentation_method": "jieba.Tokenizer.tokenize(mode=default)",
+    "target_policy": {
+      "all_chinese_only": true,
+      "exclude_punctuation_latin_numbers": true,
+      "maximum_characters": 4,
+      "minimum_characters": 2
+    }
+  },
+  "schema_version": 1,
+  "source_corpus_manifest": "data/processed/authors/zhu_ziqing/manifest.json",
+  "successfully_converted_pinyin_interactions": 50,
+  "work_filter": "congcong"
+}

@@ -1,0 +1,1146 @@
+{
+  "candidate_list_size_distribution": {
+    "10": 880,
+    "8": 2
+  },
+  "maximum_candidate_k": 10,
+  "pinyin_conversion_status": {
+    "missing_stored_pinyin": 0,
+    "missing_stored_pinyin_syllables": 0,
+    "stored_pinyin": 882,
+    "stored_pinyin_syllables": 882
+  },
+  "polyphonic_review": {
+    "flagged": 625,
+    "flagged_rate": 0.7086167800453514,
+    "unflagged": 257
+  },
+  "repeated_missing_targets": [
+    {
+      "count": 18,
+      "example_interaction_ids": [
+        "28c80e881689f7b9ce4f29a1",
+        "2f8d89336b61936e834654fa",
+        "cd4410e3f8a3d717eb86625f"
+      ],
+      "pinyin_values": [
+        "ahe"
+      ],
+      "target_candidate": "阿河",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 14,
+      "example_interaction_ids": [
+        "a8c6a9bce8871a2c24e668a4",
+        "e2a2136298f54af58e8179fc",
+        "d7ff9aa0cf4c03ecedfede6e"
+      ],
+      "pinyin_values": [
+        "yinwei"
+      ],
+      "target_candidate": "因為",
+      "work_ids": [
+        "ahe",
+        "qinhuai_river",
+        "to_my_late_wife"
+      ]
+    },
+    {
+      "count": 11,
+      "example_interaction_ids": [
+        "8cd1a7d2f9f5565dfd622f0f",
+        "b559dc19120d787bf317481f",
+        "df9c9a2e59461ab0a42a86b7"
+      ],
+      "pinyin_values": [
+        "shenme"
+      ],
+      "target_candidate": "什么",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 11,
+      "example_interaction_ids": [
+        "34ae0e7536872224816c4ddd",
+        "fbda7b05fbb4e3695340fa0b",
+        "f0708344fe125753372fd4c3"
+      ],
+      "pinyin_values": [
+        "aqi"
+      ],
+      "target_candidate": "阿齊",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 8,
+      "example_interaction_ids": [
+        "746129869f019e2cbec8fc4f",
+        "47470faefc3c26ff178acc70",
+        "05ef3b2b5a6c887384ed43c8"
+      ],
+      "pinyin_values": [
+        "fangli"
+      ],
+      "target_candidate": "房里",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 7,
+      "example_interaction_ids": [
+        "c5e9a0c4156e6bef51a82439",
+        "4654ec940766caa6cf18c74e",
+        "81806131a37e7bea23a1a182"
+      ],
+      "pinyin_values": [
+        "zheli"
+      ],
+      "target_candidate": "這里",
+      "work_ids": [
+        "ahe",
+        "qinhuai_river"
+      ]
+    },
+    {
+      "count": 6,
+      "example_interaction_ids": [
+        "f64a1e840c961a855145b3c6",
+        "3c3e1873071d0f88692e3f1d",
+        "c8e8280c13d2754b31d8a798"
+      ],
+      "pinyin_values": [
+        "weijun"
+      ],
+      "target_candidate": "韋君",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 5,
+      "example_interaction_ids": [
+        "c34f740c4233cb250a1c298c",
+        "0035c4039943c93b894fb9cc",
+        "2a1dfcc1ffbab68339c6786f"
+      ],
+      "pinyin_values": [
+        "dazhongqiao"
+      ],
+      "target_candidate": "大中橋",
+      "work_ids": [
+        "qinhuai_river"
+      ]
+    },
+    {
+      "count": 5,
+      "example_interaction_ids": [
+        "792e8996ef78d09f0ad12f25",
+        "ef400e7e9fd9407530129a10",
+        "540e21225f93b86bef33df13"
+      ],
+      "pinyin_values": [
+        "cailian"
+      ],
+      "target_candidate": "采蓮",
+      "work_ids": [
+        "moonlight_over_lotus_pond"
+      ]
+    },
+    {
+      "count": 4,
+      "example_interaction_ids": [
+        "7a611d54dd41a8f26c8ba13c",
+        "3c99635f49de15347726c646",
+        "4b27d066520ae63265bbd79f"
+      ],
+      "pinyin_values": [
+        "buyuan"
+      ],
+      "target_candidate": "不愿",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 4,
+      "example_interaction_ids": [
+        "dd2f745f144663550c95c321",
+        "b0784b7ec661176c4dee0c41",
+        "76af0d70ed2706edb4ca9474"
+      ],
+      "pinyin_values": [
+        "zhongqiao"
+      ],
+      "target_candidate": "中橋",
+      "work_ids": [
+        "qinhuai_river"
+      ]
+    },
+    {
+      "count": 4,
+      "example_interaction_ids": [
+        "d92bc3da19404f0c2769f7b2",
+        "ac54f7416d46b7482c410095",
+        "0b0b69406b0241a6165aee1a"
+      ],
+      "pinyin_values": [
+        "jitian"
+      ],
+      "target_candidate": "几天",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 4,
+      "example_interaction_ids": [
+        "6861fdeb548285d1296fa1e3",
+        "41124840829b39ce4f32cb52",
+        "d854b1286f50dbfe80010833"
+      ],
+      "pinyin_values": [
+        "pingbo"
+      ],
+      "target_candidate": "平伯",
+      "work_ids": [
+        "qinhuai_river"
+      ]
+    },
+    {
+      "count": 4,
+      "example_interaction_ids": [
+        "074d4a44e44a383fab027376",
+        "903366f0fe8863b6515888b4",
+        "5dbac7bdbf68e9515d3026bc"
+      ],
+      "pinyin_values": [
+        "woxian"
+      ],
+      "target_candidate": "我現",
+      "work_ids": [
+        "ahe",
+        "beiying",
+        "to_my_late_wife"
+      ]
+    },
+    {
+      "count": 4,
+      "example_interaction_ids": [
+        "766395bd77b5f89b4d370a03",
+        "cf07f5c58f413ba398c6a698",
+        "1409fb6063d66f9fff06e95a"
+      ],
+      "pinyin_values": [
+        "lima"
+      ],
+      "target_candidate": "李媽",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 4,
+      "example_interaction_ids": [
+        "3250b65371ffbaad4303c8df",
+        "cbc5174cc16aef7f8baf8231",
+        "953fa8995fe377aa1cd4971f"
+      ],
+      "pinyin_values": [
+        "dongguantou"
+      ],
+      "target_candidate": "東關頭",
+      "work_ids": [
+        "qinhuai_river"
+      ]
+    },
+    {
+      "count": 4,
+      "example_interaction_ids": [
+        "c1ccce8f3951ee4c933ed676",
+        "284d657f89966abcfd8a3f51",
+        "99d35ca7c93fd64cd5479929"
+      ],
+      "pinyin_values": [
+        "cangqian"
+      ],
+      "target_candidate": "艙前",
+      "work_ids": [
+        "qinhuai_river"
+      ]
+    },
+    {
+      "count": 3,
+      "example_interaction_ids": [
+        "2b7c51264684b300cba12d42",
+        "d961869d9b2e76298639f2d0",
+        "59c1d23af77864c50ad9be6c"
+      ],
+      "pinyin_values": [
+        "tazhong"
+      ],
+      "target_candidate": "他終",
+      "work_ids": [
+        "beiying"
+      ]
+    },
+    {
+      "count": 3,
+      "example_interaction_ids": [
+        "787a5253b998ec021ef49302",
+        "05334c3077bff5481ce14d0c",
+        "b7f1f98f8044d57c97bb3aa0"
+      ],
+      "pinyin_values": [
+        "jihu"
+      ],
+      "target_candidate": "几乎",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 3,
+      "example_interaction_ids": [
+        "8071bafa9670b705d5deab07",
+        "c905436334b775f6f79d3174",
+        "b2699be2d032a21d01f06cb7"
+      ],
+      "pinyin_values": [
+        "kelian"
+      ],
+      "target_candidate": "可怜",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 3,
+      "example_interaction_ids": [
+        "63a23796cbaf8ba2da145f10",
+        "b386c6149478166cd6f61a08",
+        "2d62347d2fffe08328aa3024"
+      ],
+      "pinyin_values": [
+        "jiali"
+      ],
+      "target_candidate": "家裡",
+      "work_ids": [
+        "to_my_late_wife"
+      ]
+    },
+    {
+      "count": 3,
+      "example_interaction_ids": [
+        "7162f5556a2ce88210b586d1",
+        "21323b76bcd0d38f5fba364f",
+        "93f6761defa53fb7b1cfd496"
+      ],
+      "pinyin_values": [
+        "wuli"
+      ],
+      "target_candidate": "屋里",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 3,
+      "example_interaction_ids": [
+        "52984c31ce6d441edb7bedc7",
+        "5591d16b5481bd92bd38d48c",
+        "eae83cfd5730767b7711c23a"
+      ],
+      "pinyin_values": [
+        "gefang"
+      ],
+      "target_candidate": "歌舫",
+      "work_ids": [
+        "qinhuai_river"
+      ]
+    },
+    {
+      "count": 3,
+      "example_interaction_ids": [
+        "f33594558e8692f00d78df6d",
+        "0cd09007a6081e0ada9d4ecd",
+        "b3509c846c4f64d6ebfd7a39"
+      ],
+      "pinyin_values": [
+        "minzhong"
+      ],
+      "target_candidate": "民眾",
+      "work_ids": [
+        "qinhuai_river"
+      ]
+    },
+    {
+      "count": 3,
+      "example_interaction_ids": [
+        "55c44c53a544eb1f6e83d25e",
+        "0dda717b66bd8491d18e3289",
+        "750cf867541f1477fc72005f"
+      ],
+      "pinyin_values": [
+        "chuanzhu"
+      ],
+      "target_candidate": "穿著",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 3,
+      "example_interaction_ids": [
+        "1f798a6daa1a381d98524a6d",
+        "0ad97917790b5f6912ba1133",
+        "ecdf8039bfe25148e2a497fe"
+      ],
+      "pinyin_values": [
+        "bianwei"
+      ],
+      "target_candidate": "變為",
+      "work_ids": [
+        "qinhuai_river"
+      ]
+    },
+    {
+      "count": 3,
+      "example_interaction_ids": [
+        "97670f163170fa8903b48b27",
+        "c7f3a09471e9e81b8428471f",
+        "8c12775168171e40e0aaeefa"
+      ],
+      "pinyin_values": [
+        "guotiedao"
+      ],
+      "target_candidate": "過鐵道",
+      "work_ids": [
+        "beiying"
+      ]
+    },
+    {
+      "count": 3,
+      "example_interaction_ids": [
+        "db6ba7770d973d6093b383a1",
+        "cb7937f5d39f86afbbc64123",
+        "0c00c4aded7fb4cb2a2598f9"
+      ],
+      "pinyin_values": [
+        "maier"
+      ],
+      "target_candidate": "邁兒",
+      "work_ids": [
+        "to_my_late_wife"
+      ]
+    },
+    {
+      "count": 3,
+      "example_interaction_ids": [
+        "259d4e498b7e6517164a64d8",
+        "aae7615f132a59fc6c2b058e",
+        "00afef9f51f3c9fa275ec7b7"
+      ],
+      "pinyin_values": [
+        "suizhu"
+      ],
+      "target_candidate": "隨著",
+      "work_ids": [
+        "qinhuai_river"
+      ]
+    },
+    {
+      "count": 3,
+      "example_interaction_ids": [
+        "090bca9ae4d193ab2ae8d7b6",
+        "af859f6fd96a16833241946e",
+        "3ac5cb034f09ed2b58b850d8"
+      ],
+      "pinyin_values": [
+        "weijunfufu"
+      ],
+      "target_candidate": "韋君夫婦",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "92a3a73a9ce18dae4223041e",
+        "4bc559a79c74d59f34a73934"
+      ],
+      "pinyin_values": [
+        "yizhi"
+      ],
+      "target_candidate": "一只",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "749144d90c2bef209a463645",
+        "f49448a0d7b3b8d349efca05"
+      ],
+      "pinyin_values": [
+        "zhuer"
+      ],
+      "target_candidate": "主儿",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "ec582404b869454f9053b6a6",
+        "e773f347c5adc3605c32c062"
+      ],
+      "pinyin_values": [
+        "yihou"
+      ],
+      "target_candidate": "以后",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "4a9c3c5a85758f96aa5327a4",
+        "e625c1db4db39aef3bf17162"
+      ],
+      "pinyin_values": [
+        "yige"
+      ],
+      "target_candidate": "以歌",
+      "work_ids": [
+        "qinhuai_river"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "ca487d43665e27505137c1f2",
+        "5fd4fe10d5ae8cd86482912b"
+      ],
+      "pinyin_values": [
+        "xianggang"
+      ],
+      "target_candidate": "像剛",
+      "work_ids": [
+        "spring"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "b5cf08a0e9a566b92d7387ba",
+        "ae6ef64c8e3db1915d52ac19"
+      ],
+      "pinyin_values": [
+        "ershi"
+      ],
+      "target_candidate": "兒事",
+      "work_ids": [
+        "spring",
+        "to_my_late_wife"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "70b7f4415225e6644a5b66a0",
+        "40902412f754b9a88e5974a5"
+      ],
+      "pinyin_values": [
+        "jifen"
+      ],
+      "target_candidate": "几分",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "7752c5dc922cbb718deef150",
+        "27e360dfaaf90d45eef32563"
+      ],
+      "pinyin_values": [
+        "lishe"
+      ],
+      "target_candidate": "利涉",
+      "work_ids": [
+        "qinhuai_river"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "e52db155a35b06ce56701693",
+        "d3cabd4fb86187caa24821d2"
+      ],
+      "pinyin_values": [
+        "houlai"
+      ],
+      "target_candidate": "后來",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "496d774972369434703548bd",
+        "1dde77cae48e024d39a3dc10"
+      ],
+      "pinyin_values": [
+        "wenwei"
+      ],
+      "target_candidate": "問韋",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "5c229dedbc50abbeb77cc252",
+        "c44071abaa38639aec0a9961"
+      ],
+      "pinyin_values": [
+        "jiaku"
+      ],
+      "target_candidate": "夾褲",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "4ce4f71b50c0e21e23826eec",
+        "5b8636d0f7d6343d99ee2a27"
+      ],
+      "pinyin_values": [
+        "jilou"
+      ],
+      "target_candidate": "妓樓",
+      "work_ids": [
+        "qinhuai_river"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "046a834b3a9ca7ca48bf09c9",
+        "ae40377f336d6582b6babe27"
+      ],
+      "pinyin_values": [
+        "jiali"
+      ],
+      "target_candidate": "家里",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "2588ea8b6dac44aeef6ae716",
+        "51933375e2a154c6a6becee0"
+      ],
+      "pinyin_values": [
+        "zhiqi"
+      ],
+      "target_candidate": "志气",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "f173f1a86a3ed1632f6bf90b",
+        "223fb5c03c891ebeccb8a4c5"
+      ],
+      "pinyin_values": [
+        "zenme"
+      ],
+      "target_candidate": "怎么",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "9a36637e1005b39bc53ab5b7",
+        "f1d5104047fa4558c3791239"
+      ],
+      "pinyin_values": [
+        "yuanyi"
+      ],
+      "target_candidate": "愿意",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "ab4a1f5eae1a5ed675485de6",
+        "e7a59909001f50a091da7e40"
+      ],
+      "pinyin_values": [
+        "shouli"
+      ],
+      "target_candidate": "手里",
+      "work_ids": [
+        "ahe",
+        "qinhuai_river"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "04e8635176b4ec8fe77fb1e7",
+        "377b0ad7af9b124e7e2194e5"
+      ],
+      "pinyin_values": [
+        "darong"
+      ],
+      "target_candidate": "打絨",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "e55c29296b3f0baefbbcbd42",
+        "09d67be905403fa38a9c411b"
+      ],
+      "pinyin_values": [
+        "zhengzhazhu"
+      ],
+      "target_candidate": "掙扎著",
+      "work_ids": [
+        "qinhuai_river",
+        "to_my_late_wife"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "f8ea05927b3148f01c235a6e",
+        "ef61f4c56b07a3f5d9c71864"
+      ],
+      "pinyin_values": [
+        "fangzhu"
+      ],
+      "target_candidate": "放著",
+      "work_ids": [
+        "ahe",
+        "qinhuai_river"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "85b13aee4299117843bb3711",
+        "66a93b0924ea086ba00cadc7"
+      ],
+      "pinyin_values": [
+        "rizuo"
+      ],
+      "target_candidate": "日作",
+      "work_ids": [
+        "ahe",
+        "to_my_late_wife"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "9e6bdac60f5c871cc4345237",
+        "bf47f16de7167f24c2dafc56"
+      ],
+      "pinyin_values": [
+        "shizhenshi"
+      ],
+      "target_candidate": "時眞是",
+      "work_ids": [
+        "beiying"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "44cd9ea4d52f5b9b43e678cf",
+        "7729c40765212f1ec1dabc4e"
+      ],
+      "pinyin_values": [
+        "qiuniang"
+      ],
+      "target_candidate": "求娘",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "45d519173f25af14e5fc10f4",
+        "900c77d30e8cdc4a92bea50f"
+      ],
+      "pinyin_values": [
+        "pozhu"
+      ],
+      "target_candidate": "泊著",
+      "work_ids": [
+        "qinhuai_river"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "cc5d963500511bde4a2d04e1",
+        "73a76a21d7edf35751f2194f"
+      ],
+      "pinyin_values": [
+        "weiye"
+      ],
+      "target_candidate": "為業",
+      "work_ids": [
+        "qinhuai_river"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "804f04cf0670c143497a76d8",
+        "65ebc894e6ce68a83b3f2154"
+      ],
+      "pinyin_values": [
+        "shenme"
+      ],
+      "target_candidate": "甚么",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "067e5850e175dc94a3844a12",
+        "9fdec9ed7ea6acf3a6ba75fa"
+      ],
+      "pinyin_values": [
+        "kanzhu"
+      ],
+      "target_candidate": "看著",
+      "work_ids": [
+        "qinhuai_river"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "830461869d349ff21323de32",
+        "11bbfd90fbabe4f1d713d7d8"
+      ],
+      "pinyin_values": [
+        "zhongmu"
+      ],
+      "target_candidate": "眾目",
+      "work_ids": [
+        "qinhuai_river"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "d867bd4227fd4a368d075fe7",
+        "9af65dece1ad15b3019842c0"
+      ],
+      "pinyin_values": [
+        "xiachao"
+      ],
+      "target_candidate": "瞎吵",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "ab97c086d749034c6eb792ca",
+        "c3899dde4422bd5f79fb5e11"
+      ],
+      "pinyin_values": [
+        "yingzhutou"
+      ],
+      "target_candidate": "硬著頭",
+      "work_ids": [
+        "ahe",
+        "to_my_late_wife"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "de7d38226d079861fc1929f6",
+        "81cc06c49bfc53d6cbdbfab2"
+      ],
+      "pinyin_values": [
+        "zhongyu"
+      ],
+      "target_candidate": "終于",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "f51a5be9bc8263c646440b7b",
+        "c7d68359db537a349f6df3b1"
+      ],
+      "pinyin_values": [
+        "lvzhu"
+      ],
+      "target_candidate": "綠著",
+      "work_ids": [
+        "qinhuai_river"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "27026c7001beb85e8356c34b",
+        "4a71a81f41fa297e1803de91"
+      ],
+      "pinyin_values": [
+        "shengxie"
+      ],
+      "target_candidate": "繩鞋",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "bf802b66b54216f66ed1b8a9",
+        "4c3cdf8533736916211549d8"
+      ],
+      "pinyin_values": [
+        "chafang"
+      ],
+      "target_candidate": "茶舫",
+      "work_ids": [
+        "qinhuai_river"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "75852eaa6b2351fb3d4d9941",
+        "28a74a2660d71d6d19e26ab0"
+      ],
+      "pinyin_values": [
+        "yishang"
+      ],
+      "target_candidate": "衣上",
+      "work_ids": [
+        "beiying",
+        "qinhuai_river"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "ec90e71966276534ff293841",
+        "968670e154a5cf518c2040ae"
+      ],
+      "pinyin_values": [
+        "xijian"
+      ],
+      "target_candidate": "西間",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "fefa6ed9ec3b2371b40815bf",
+        "e0742aefccbda10b751f08b2"
+      ],
+      "pinyin_values": [
+        "juezhu"
+      ],
+      "target_candidate": "覺著",
+      "work_ids": [
+        "qinhuai_river"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "73f990868b49530a6a364d30",
+        "02e3e9b585639575fe650ff3"
+      ],
+      "pinyin_values": [
+        "jili"
+      ],
+      "target_candidate": "記里",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "77df04334f185a0d024e0e16",
+        "0ca66c91f0ee8b5561f9d9b2"
+      ],
+      "pinyin_values": [
+        "maoer"
+      ],
+      "target_candidate": "貓儿",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "0e7588202f160650c6437fbd",
+        "796f349103d9bf674de9a6ae"
+      ],
+      "pinyin_values": [
+        "ganjin"
+      ],
+      "target_candidate": "赶緊",
+      "work_ids": [
+        "ahe"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "b94ae4abe9523ae5f1424e29",
+        "5ace2c3234f4f5eebf6fe886"
+      ],
+      "pinyin_values": [
+        "zhequan"
+      ],
+      "target_candidate": "這全",
+      "work_ids": [
+        "ahe",
+        "to_my_late_wife"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "14ea83035258d046a71daa68",
+        "db0633ae5bc255fff9b7e336"
+      ],
+      "pinyin_values": [
+        "yuzhu"
+      ],
+      "target_candidate": "遇著",
+      "work_ids": [
+        "qinhuai_river"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "1fb27770705f9c5274a852cf",
+        "bfe11d35e71322ba75b11084"
+      ],
+      "pinyin_values": [
+        "youzong"
+      ],
+      "target_candidate": "遊踪",
+      "work_ids": [
+        "qinhuai_river"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "15d7e72f276f1e20bddf2095",
+        "693801811e81715cfdac25ef"
+      ],
+      "pinyin_values": [
+        "cailianren"
+      ],
+      "target_candidate": "采蓮人",
+      "work_ids": [
+        "moonlight_over_lotus_pond"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "7cb7f1aefea072e72edcc548",
+        "38e576259aa75aa821695097"
+      ],
+      "pinyin_values": [
+        "runer"
+      ],
+      "target_candidate": "閏兒",
+      "work_ids": [
+        "moonlight_over_lotus_pond",
+        "to_my_late_wife"
+      ]
+    },
+    {
+      "count": 2,
+      "example_interaction_ids": [
+        "101548da56be5e11aa9b7259",
+        "67db9ad27df8ac70f51bd8ad"
+      ],
+      "pinyin_values": [
+        "lingzhu"
+      ],
+      "target_candidate": "領著",
+      "work_ids": [
+        "ahe",
+        "to_my_late_wife"
+      ]
+    }
+  ],
+  "source_interaction_count": 4531,
+  "target_length_distribution": {
+    "2": 671,
+    "3": 190,
+    "4": 21
+  },
+  "top_10_missing_count": 882,
+  "top_10_missing_rate": 0.19465901566983007,
+  "work_distribution": {
+    "ahe": 327,
+    "beiying": 43,
+    "congcong": 11,
+    "moonlight_over_lotus_pond": 56,
+    "qinhuai_river": 298,
+    "spring": 36,
+    "to_my_late_wife": 111
+  }
+}

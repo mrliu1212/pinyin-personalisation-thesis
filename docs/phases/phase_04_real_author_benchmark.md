@@ -1,115 +1,129 @@
 # Phase 4 — Real Author Benchmark
 
-Status: Phase 4A complete; later Phase 4 sub-phases not started.
+Status: Phase 4A complete; Phase 4B complete; Phase 4C deferred.
 
 ## Objective
 
-Test whether an author's own earlier language use helps rank lexical choices in
-later unseen writing better than Base ranking or history from a different
-author:
+Establish whether an author's earlier language use can later improve candidate
+ranking in unseen writing relative to Base ranking and another author's
+history. Phase 4 is split so corpus provenance, candidate retrieval coverage,
+and personalisation evaluation are validated separately.
 
-```text
-past writings of Author A -> personalisation history
-future unseen writings of Author A -> candidate-ranking evaluation
-```
+## Scope
 
-The current implementation covers Phase 4A corpus preparation only. It does not
-produce Pinyin interactions, candidates, or benchmark metrics.
+### Phase 4A — Real Author Corpus Preparation
 
-## Phase 4A Scope / Work Performed
+- Curated a prose-only pilot catalog for 朱自清 from Chinese Wikisource.
+- Preserved revision-pinned raw responses, page and revision identifiers,
+  retrieval timestamps, checksums, date bases, and date precision.
+- Conservatively prepared seven cleaned prose works and recorded four excluded
+  pages with reasons.
+- Produced chronological corpus metadata and diagnostics without selecting a
+  train/test boundary.
 
-- Curated a prose-only pilot catalog for 朱自清 using the Chinese Wikisource
-  author/work pages.
-- Acquired 11 catalog pages through the public MediaWiki Action API using
-  `action=parse` with rendered HTML, wikitext, and revision provenance.
-- Stored canonical API responses by revision ID without requesting script
-  conversion.
-- Preserved page/revision identifiers, request URLs, retrieval timestamps, and
-  raw/processed SHA-256 checksums.
-- Conservatively removed Wikisource headers, navigation aids, page-number
-  markers, and license containers while preserving wording and punctuation.
-- Produced cleaned text for seven included prose works and explicit reasons for
-  four exclusions.
-- Produced a chronological machine-readable manifest and corpus diagnostics.
+### Phase 4B — Interaction Construction and Base Coverage
 
-The acquisition uses the official MediaWiki Action API pattern and parse
-operation documented at:
+- Segments the Phase 4A text into lightweight lexical units with Jieba.
+- Retains all-Chinese targets of 2–4 characters and reports every excluded-token
+  category.
+- Converts targets to normalized tone-free full Pinyin with `pypinyin`, while
+  surfacing potentially polyphonic cases for review.
+- Preserves complete raw preceding context plus a deterministic short context
+  suffix, work chronology, source offsets, and source provenance.
+- Retrieves ordered Top-10 candidates from a real librime adapter using a
+  reproducibly pinned Luna Pinyin schema.
+- Records Base ranks without inventing numeric scores and reports target
+  coverage, missing targets, candidate-list sizes, and counts by work/length.
 
-- <https://www.mediawiki.org/wiki/API:Action_API>
-- <https://www.mediawiki.org/wiki/API:Parsing_wikitext>
+### Phase 4C — Real Personalised Evaluation (Planned)
 
-The pilot source index is:
+- Review interaction quality and determine an auditable chronological
+  history/test boundary.
+- Prepare a genuinely independent author for the wrong-user control.
+- Evaluate Base, correct-user, and wrong-user conditions using the existing
+  Phase 2 model and Phase 3 metrics.
+- Retain strict earlier-than-test history filtering and explicit missing-target
+  handling.
 
-- <https://zh.wikisource.org/wiki/Author:%E6%9C%B1%E8%87%AA%E6%B8%85>
+Phase 4C is not implemented by Phase 4B.
 
 ## Required / Verified Behaviours
 
-- No author text is fabricated, paraphrased, or manually substituted.
-- Every catalog entry records inclusion status, genre, chronology metadata,
-  source page, and an exclusion reason when excluded.
-- Raw source responses and cleaned text occupy separate directories.
-- Processing verifies the raw checksum and does not modify raw files.
-- Cleaning is deterministic and does not modernize, correct, or script-convert
-  the work.
-- Chronology retains day/month/year precision and explicitly represents missing
-  or uncertain dates.
-- Ordinary tests use local fixtures and require no network access.
-- Diagnostics report included/excluded counts, corpus size, per-work size,
-  chronology, exclusions, and date metadata needing review.
+- Author text, targets, and candidates are never fabricated or rewritten to
+  improve coverage.
+- Phase 4A raw and cleaned sources remain separate and unchanged by interaction
+  generation.
+- Each interaction is traceable to an author, work, date, source revision/file,
+  and character offsets.
+- Lexical targets are used rather than decomposing words character by character.
+- Raw context is retained whenever a derived context is added.
+- Candidate ordering is the order returned by librime; absent numeric scores
+  remain null.
+- Missing targets remain in both the interaction output and coverage
+  denominator.
+- Fixed source/configuration produces deterministic interaction records.
+- Ordinary processing tests are offline; the real adapter is isolated behind a
+  candidate-generator interface.
+- Phase 2 scoring and Phase 3 evaluation code remain unchanged.
 
 ## Completion Criteria
 
-- A reproducible command acquires the curated Wikisource pages and provenance.
-- Included raw responses can be converted deterministically into separate
-  cleaned files.
-- The pilot manifest presents a usable chronology without inventing dates or
-  selecting a premature train/test boundary.
-- Excluded pages and reasons are machine-readable.
-- All existing and Phase 4A tests pass without live-network requirements.
+### Phase 4A
 
-These Phase 4A criteria were met.
+- Reproducible, provenance-preserving acquisition and cleaning produce a usable
+  seven-work chronology with explicit exclusions and uncertainties. Complete.
+
+### Phase 4B
+
+- Real corpus text is reproducibly converted through lexical extraction, full
+  Pinyin, real Base candidates, traceable JSONL, and complete coverage
+  diagnostics. Complete.
+- A one-work pilot is inspected before full-corpus generation, and all prior
+  plus new processing tests pass. Complete.
+
+### Phase 4C
+
+- A reviewed chronological split and second-author control exist.
+- Base/correct-user/wrong-user results are evaluated without future leakage.
+- Outcomes and limitations are recorded independently of the phase design.
+
+These Phase 4C criteria remain open.
 
 ## Important Design Decisions
 
-- The pipeline is a narrow Chinese Wikisource ingestion tool, not a general web
-  crawler.
-- The work catalog is manually curated metadata; author prose is always
-  acquired from the recorded source revision.
-- Canonical MediaWiki output is requested without a language-variant parameter,
-  preventing silent Simplified/Traditional conversion.
-- Composition chronology is preferred when explicitly stated. If it is not
-  available, a reliable publication date may be used with that basis recorded;
-  a date mentioned only as part of the narrative is not treated as composition
-  evidence.
-- Partial dates remain partial. No default month or day is inserted.
-- Collection/container pages are excluded rather than concatenated because
-  their component works need separate provenance and dates.
-- The final real-data train/test boundary remains undecided until corpus
-  coverage and chronology are reviewed.
-
-## Manual Commands
-
-```bash
-python3 -m unittest discover -s tests -v
-python3 -m corpus.acquire
-python3 -m corpus.prepare
-python3 -m corpus.diagnostics
-```
+- Chinese Wikisource remains a narrow, auditable source rather than making the
+  ingestion layer a general crawler.
+- Phase 4A preserves canonical source script and partial dates; it does not
+  modernize text or invent missing date components.
+- Phase 4B uses established lightweight linguistic libraries instead of custom
+  segmentation or Pinyin decoding.
+- Full Pinyin is concatenated and tone-free. Jianpin remains out of scope.
+- The candidate source is Luna Pinyin through librime, with exact Rime data
+  commits recorded in a lock file and local deployment manifest.
+- The Base adapter is separate from interaction construction so candidate
+  sources can be reviewed or replaced without coupling research logic to Rime.
+- Top-10 is an explicit retrieval limit. Rime iterator order is authoritative;
+  no artificial probabilities are assigned.
+- Exact context length, target-length policy, and dependency versions are
+  recorded but not tuned on Zhu Ziqing coverage.
+- No final chronological split is selected until interaction quality and
+  coverage have been reviewed.
 
 ## Known Limitations / Deferred Questions
 
-- A single author and seven works are insufficient for a final generalisation
-  claim.
-- The pilot has uneven work lengths and a large chronology gap between 1927 and
-  1932.
-- `荷塘月色` lacks a reliable first-publication date in the selected page
-  metadata, although its July 1927 work chronology is explicit.
-- Page transcription quality and metadata bases need further scholarly review.
-- Phase 4B must decide the interaction extraction unit, candidate-source
-  coverage policy, treatment of punctuation/context boundaries, and missing
-  candidate cases without leaking later works into history.
-- A wrong-author control requires at least one separately prepared comparison
-  author corpus; no second author has been selected.
-- Pinyin generation, word segmentation, candidate generation, scoring changes,
-  profiles/interventions, and real-data ranking metrics are deferred.
-
+- Seven works from one author cannot support a generalisation claim.
+- Automatic segmentation may produce targets unlike users' actual input units.
+- Polyphonic conversion flags are intentionally conservative and require a
+  review policy before Phase 4C.
+- Top-10 misses may reflect schema vocabulary, orthographic variation,
+  segmentation, Pinyin conversion, or retrieval depth; these causes are not yet
+  separated.
+- The derived exact-context suffix is transparent but not validated as the best
+  representation for literary text.
+- Whether Top-K should be expanded before evaluation remains unresolved.
+- Phase 4C requires a second author selected and prepared under comparable
+  provenance and chronology rules.
+- The train/test date boundary and handling of month-precision chronology need
+  explicit decisions before evaluation.
+- Recency, confidence-aware scoring, semantic context, model-weight changes,
+  profiles/interventions, UI, and commercial IME comparisons remain deferred.

@@ -1,8 +1,7 @@
 __pycache__/
 *.py[cod]
 *.pyo
-
-.DS_Storegit rm -r --cached __pycache__
-git rm -r --cached src/__pycache__
-git rm -r --cached tests/__pycache__
-git rm -r --cached experiments/__pycache__
+.DS_Store
+.venv/
+.build/
+data/rime/
