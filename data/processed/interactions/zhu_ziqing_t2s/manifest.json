@@ -1,0 +1,124 @@
+{
+  "author_id": "zhu_ziqing",
+  "author_name": "朱自清",
+  "candidate_generator": {
+    "maximum_k": 10,
+    "name": "librime",
+    "numeric_score_available": false,
+    "ordering": "candidate iterator order returned by librime",
+    "rime_source_lock": {
+      "schema_id": "luna_pinyin",
+      "sources": [
+        {
+          "commit": "082425ea0684bca36474415d4a0e8db9b016487e",
+          "files": [
+            "default.yaml",
+            "key_bindings.yaml",
+            "punctuation.yaml",
+            "symbols.yaml"
+          ],
+          "name": "rime-prelude",
+          "url": "https://github.com/rime/rime-prelude.git"
+        },
+        {
+          "commit": "56b934b099dfbeab842320f13aa8b461a6ab3e42",
+          "files": [
+            "luna_pinyin.dict.yaml",
+            "luna_pinyin.schema.yaml",
+            "pinyin.yaml"
+          ],
+          "name": "rime-luna-pinyin",
+          "url": "https://github.com/rime/rime-luna-pinyin.git"
+        },
+        {
+          "commit": "e9b1a374a6ea015fca5bdd04318924b4483ac35a",
+          "files": [
+            "essay.txt"
+          ],
+          "name": "rime-essay",
+          "url": "https://github.com/rime/rime-essay.git"
+        },
+        {
+          "commit": "3a4b0f4013e2b4c14b1e80c92b1d4723eb65f39c",
+          "files": [
+            "stroke.dict.yaml",
+            "stroke.schema.yaml"
+          ],
+          "name": "rime-stroke",
+          "url": "https://github.com/rime/rime-stroke.git"
+        }
+      ]
+    },
+    "schema_id": "luna_pinyin",
+    "version": "librime 1.17.0_2"
+  },
+  "coverage": {
+    "coverage_top_1": 0.3285013856320614,
+    "coverage_top_10": 0.41036026433596245,
+    "coverage_top_3": 0.3913877638030271,
+    "coverage_top_5": 0.40545725858026005,
+    "interaction_count": 4691,
+    "interactions_by_target_length": {
+      "2": 4220,
+      "3": 384,
+      "4": 87
+    },
+    "interactions_by_work": {
+      "ahe": 1236,
+      "beiying": 363,
+      "congcong": 149,
+      "moonlight_over_lotus_pond": 390,
+      "qinhuai_river": 1627,
+      "spring": 196,
+      "to_my_late_wife": 730
+    },
+    "mean_candidate_list_size": 9.99552334257088,
+    "median_candidate_list_size": 10,
+    "missing_target_rate": 0.5896397356640375,
+    "polyphonic_review_count": 2664,
+    "target_absent": 2766,
+    "target_present_top_1": 1541,
+    "target_present_top_10": 1925,
+    "target_present_top_3": 1836,
+    "target_present_top_5": 1902
+  },
+  "eligible_targets_before_optional_limit": 4691,
+  "excluded_token_counts": {
+    "above_maximum_length": 8,
+    "below_minimum_length": 4997,
+    "non_chinese_or_punctuation": 2430
+  },
+  "generated_at": "2026-08-10T20:14:58.775328+00:00",
+  "normalization": {
+    "configuration": "t2s.json",
+    "direction": "Traditional Chinese to Simplified Chinese",
+    "normalizer": "OpenCC",
+    "normalizer_version": "Open Chinese Convert (OpenCC) Command Line Tool Version: 1.4.0",
+    "offset_policy": "require equal Unicode code-point length; fail otherwise",
+    "writes_source_files": false
+  },
+  "normalized_corpus_manifest": "data/processed/normalized/authors/zhu_ziqing_t2s/manifest.json",
+  "pinyin_conversion_failures": 0,
+  "preprocessing": {
+    "context_policy": {
+      "derived_context": "last N Chinese characters from raw context",
+      "derived_context_characters": 12,
+      "raw_context": "complete preceding source text"
+    },
+    "jieba_version": "0.42.1",
+    "pinyin_method": "pypinyin Style.NORMAL, strict, tone-free, concatenated",
+    "pypinyin_version": "0.55.0",
+    "segmentation_method": "jieba.Tokenizer.tokenize(mode=default)",
+    "target_policy": {
+      "all_chinese_only": true,
+      "exclude_punctuation_latin_numbers": true,
+      "maximum_characters": 4,
+      "minimum_characters": 2
+    }
+  },
+  "schema_version": 1,
+  "source_corpus_manifest": "data/processed/normalized/authors/zhu_ziqing_t2s/manifest.json",
+  "source_original_corpus_manifest": "data/processed/authors/zhu_ziqing/manifest.json",
+  "successfully_converted_pinyin_interactions": 4691,
+  "work_filter": null
+}

@@ -1,0 +1,8 @@
+{
+  "schema_id": "luna_pinyin",
+  "enabled_schema_options": ["zh_hans"],
+  "required_engine_filter": "simplifier@zh_hans",
+  "required_opencc_config": "t2s.json",
+  "candidate_conversion_location": "inside librime engine filter",
+  "user_directory_policy": "isolated temporary directory per generation run"
+}

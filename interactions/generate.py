@@ -79,6 +79,7 @@ def generate(args: argparse.Namespace) -> dict[str, Any]:
         version=rime_manifest["librime"],
         schema_id=rime_manifest["schema_id"],
         max_candidates=args.max_candidates,
+        enabled_options=tuple(getattr(args, "rime_options", ())),
     ) as generator:
         for work in works:
             text_path = args.corpus_manifest.parent / work["processed_file"]
@@ -132,6 +133,7 @@ def generate(args: argparse.Namespace) -> dict[str, Any]:
             "maximum_k": args.max_candidates,
             "numeric_score_available": False,
             "ordering": "candidate iterator order returned by librime",
+            "enabled_schema_options": list(getattr(args, "rime_options", ())),
             "rime_source_lock": rime_manifest["source_lock"],
         },
         "eligible_targets_before_optional_limit": eligible_before_limit,
@@ -171,6 +173,13 @@ def main() -> None:
     parser.add_argument("--max-target-length", type=int, default=4)
     parser.add_argument("--context-characters", type=int, default=12)
     parser.add_argument("--max-candidates", type=int, default=10)
+    parser.add_argument(
+        "--rime-option",
+        dest="rime_options",
+        action="append",
+        default=[],
+        help="enable a Rime schema option in the isolated candidate session",
+    )
     args = parser.parse_args()
     manifest = generate(args)
     coverage = manifest["coverage"]
@@ -191,4 +200,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

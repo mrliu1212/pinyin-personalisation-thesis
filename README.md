@@ -2,166 +2,184 @@
 
 ## Current Phase
 
-Phase 4B — Real Pinyin-IME Interaction Construction and Base Candidate Coverage
+Phase 4B.6 — Rime Script Alignment Analysis
 
 ## Current Objective
 
-This version converts the provenance-preserving Zhu Ziqing corpus prepared in
-Phase 4A into reproducible lexical Pinyin-IME interactions. It measures whether
-a real Base candidate generator contains each author's target often enough for
-later reranking research. It does **not** evaluate personalisation.
+This version measures Base candidate coverage when both the Zhu Ziqing corpus
+and the Rime engine use Simplified Chinese. It compares three controlled
+settings:
 
-The current research question is: can chronological author text be converted
-into realistic interactions, and what is the target coverage of the Base
-generator?
+1. Phase 4B: original Traditional/mixed corpus with default Luna output;
+2. Phase 4B.5: OpenCC T2S corpus with mismatched default Luna output;
+3. Phase 4B.6: OpenCC T2S corpus with engine-side Luna `zh_hans` output.
+
+This remains a data-construction and retrieval experiment. It does not change
+or evaluate personalisation and does not start Phase 4C.
+
+## Why This Phase
+
+Phase 4B.5 was not a fair Simplified Chinese evaluation: only the corpus was
+converted, while the candidate generator continued to emit predominantly
+Traditional/mixed strings. Its coverage reduction measured script mismatch.
+
+Phase 4B.6 aligns the two sides. Luna Pinyin's existing
+`simplifier@zh_hans` engine filter applies OpenCC `t2s.json` when the `zh_hans`
+schema option is enabled. The adapter sets that option inside an isolated
+librime session; it never converts retrieved candidate strings afterwards.
 
 ## Current Pipeline
 
 ```text
-Phase 4A cleaned work + chronology + provenance
+Phase 4A canonical text (preserved)
         ↓
-Jieba lexical segmentation
+separate OpenCC t2s.json representation
         ↓
-2–4 character all-Chinese targets
+Jieba segmentation
         ↓
-tone-free full Pinyin (pypinyin)
+tone-free full Pinyin
         ↓
-pinned Luna Pinyin schema through librime
+luna_pinyin + engine option zh_hans
         ↓
-ordered Base Top-10 candidates
+Simplified candidate order from librime
         ↓
-traceable JSONL interactions + coverage diagnostics
+coverage, script, recovery, and provenance diagnostics
 ```
 
-Each interaction retains the work identity and date, source offsets, complete
-preceding `raw_context`, a transparent 12-Chinese-character
-`derived_context`, target, full Pinyin, candidate order, and target rank or an
-explicit missing-target value. Rime exposes order here but not a meaningful
-numeric score, so candidates store `base_rank` and `base_score: null` rather
-than an invented score.
+Each interaction stores work identity/chronology, source offsets, original
+target, Simplified target and contexts, Pinyin, ordered candidates, target rank,
+and both normalization and Rime script-mode provenance.
 
-## Why This Phase
+## Observed Coverage
 
-The later real-author benchmark can only rerank targets that the Base generator
-retrieves. Phase 4B establishes that coverage, exposes conversion and
-segmentation limitations, and makes each interaction auditable before any
-history/test boundary or personalised evaluation is selected.
+| Setting | Corpus | Rime output | Interactions | Top-1 | Top-3 | Top-5 | Top-10 | Missing |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Phase 4B | Original Traditional/mixed | Default Luna | 4,531 | 64.67% | 76.91% | 79.50% | 80.53% | 19.47% |
+| Phase 4B.5 | OpenCC T2S | Default Luna | 4,691 | 32.85% | 39.14% | 40.55% | 41.04% | 58.96% |
+| Phase 4B.6 | OpenCC T2S | Luna `zh_hans` | 4,691 | 72.12% | 85.44% | 88.23% | 89.11% | 10.89% |
+
+Engine alignment recovers 2,255 of Phase 4B.5's 2,766 missing targets, leaving
+511. These are candidate-coverage results, not personalisation results.
+
+Direct engine verification:
+
+| Pinyin | Default | Simplified Rime |
+| --- | --- | --- |
+| `weishenme` | 爲什麼 | 为什么 |
+| `women` | 我們 | 我们 |
+| `shihou` | 時候 | 时候 |
+
+## Candidate Script Diagnostics
+
+Among 46,878 Phase 4B.6 candidate occurrences:
+
+- Simplified-only: 20,135 (42.9519%)
+- Traditional-only: 18 (0.0384%)
+- Mixed: 2 (0.0043%)
+- Script-invariant: 26,723 (57.0054%)
+
+Script-invariant candidates are reported separately because many Chinese forms
+are shared across both conventions. Classification compares each candidate with
+OpenCC `t2s` and `s2t`; no candidate is removed or rewritten for diagnostics.
+
+## Interaction Count Difference
+
+OpenCC runs before Jieba, so normalized character forms change lexical
+boundaries. Relative to Phase 4B, the 4,691-interaction set contains 865 added
+spans and 705 removed spans, for a net increase of 160. This is a segmentation
+effect, not candidate generation adding interactions. The detailed audit is in
+`results/audits/phase_04b/script_normalization_interaction_delta.json`.
 
 ## Dependencies and Setup
 
-The processing layer adds two pinned Python dependencies:
-
-- `jieba==0.42.1` for established lightweight Chinese word segmentation;
-- `pypinyin==0.55.0` for normalized tone-free full Pinyin.
-
-The Base source is Homebrew `librime` with the `luna_pinyin` schema. The exact
-official Rime data repository commits are locked in
-`config/rime/sources.json`. On macOS, from the repository root:
+From the repository root on macOS:
 
 ```bash
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements-phase4b.txt
-brew install librime
+brew install opencc librime
 .venv/bin/python -m interactions.setup_rime
 make rime-adapter
 ```
 
-`interactions.setup_rime` fetches only the recorded commits, deploys the schema
-under ignored `data/rime/`, and records the local setup. `make rime-adapter`
-builds the small command-line bridge under ignored `.build/`. Both are required
-before real candidate generation.
+Python dependencies remain `jieba==0.42.1` and `pypinyin==0.55.0`. Rime data
+commits are locked in `config/rime/sources.json`; Simplified mode is declared in
+`config/rime/simplified_candidate_mode.json`.
 
 ## How to Run
 
-Run all Phase 1–4B tests (ordinary tests are offline and use a fake candidate
-adapter):
+Regenerate the separate OpenCC-normalized corpus and Phase 4B.5 comparison:
+
+```bash
+.venv/bin/python -m normalization.phase_04b5
+```
+
+Generate the aligned Simplified Rime interactions and full diagnostics:
+
+```bash
+.venv/bin/python -m normalization.phase_04b6
+```
+
+Reproduce the segmentation-delta audit:
+
+```bash
+.venv/bin/python -m audits.phase_04b5_interaction_delta
+```
+
+Run all tests:
 
 ```bash
 .venv/bin/python -m unittest discover -s tests -v
 ```
 
-Generate a small, 50-interaction pilot from `匆匆`:
-
-```bash
-.venv/bin/python -m interactions.generate \
-  --work-id congcong \
-  --max-interactions 50 \
-  --output-dir data/processed/interactions/zhu_ziqing_pilot
-```
-
-Generate all eligible interactions from the seven included works:
-
-```bash
-.venv/bin/python -m interactions.generate \
-  --output-dir data/processed/interactions/zhu_ziqing
-```
-
-Print the full Base coverage diagnostics:
-
-```bash
-.venv/bin/python -m interactions.diagnostics
-```
-
-Generation writes `interactions.jsonl` and a machine-readable `manifest.json`
-containing preprocessing versions and policies, candidate-source configuration,
-exclusion counts, and coverage. Re-running the full command replaces only the
-derived Phase 4B outputs; it does not alter the Phase 4A corpus.
-
-## Interaction Policy
-
-- Jieba default-mode tokens are the lexical units.
-- Targets must contain only Chinese characters and be 2–4 characters long.
-- Single characters, units longer than four characters, punctuation, Latin
-  text, numbers, and other non-Chinese units are counted by exclusion reason.
-- Pinyin uses `pypinyin` normal style, strict mode, no tones, and concatenated
-  syllables; abbreviated Pinyin is excluded.
-- Potentially polyphonic characters are flagged for review; the generated
-  reading is not claimed to be perfect.
-- Candidate retrieval uses at most 10 entries in the exact order returned by
-  librime. Missing targets remain in the dataset and coverage denominator.
-- No final history/test split is selected and no future text is added to an
-  earlier interaction's context.
+The Phase 4B.6 command prints three-way coverage and candidate-script counts.
+Detailed results are written to
+`data/processed/interactions/zhu_ziqing_simplified_rime/phase_04b6_comparison.json`.
 
 ## Data Layout
 
 ```text
-data/processed/interactions/zhu_ziqing/
-├── interactions.jsonl
-└── manifest.json
+data/processed/
+├── authors/zhu_ziqing/                       # unchanged Phase 4A
+├── normalized/authors/zhu_ziqing_t2s/       # Phase 4B.5 T2S text
+└── interactions/
+    ├── zhu_ziqing/                           # Phase 4B baseline
+    ├── zhu_ziqing_t2s/                       # Phase 4B.5 mismatch
+    └── zhu_ziqing_simplified_rime/           # Phase 4B.6 aligned
 ```
 
-The Phase 4A raw and cleaned corpus remains unchanged in its existing
-directories.
+## Important Assumptions
+
+- Phase 4B.5 and Phase 4B.6 use identical normalized text, segmentation,
+  Pinyin, target filtering, context policy, schema data, and Top-10 limit.
+- Their only candidate-side difference is the engine `zh_hans` option.
+- Rime uses a fresh temporary user directory per run, preventing saved options
+  or learned state from influencing results.
+- Coverage uses exact candidate/target equality.
+- Numeric Base scores remain unavailable; engine candidate rank is preserved.
 
 ## Current Limitations
 
-- The corpus still contains one author and seven prose works.
-- Jieba boundaries are automatic and may not always match realistic IME input
-  units, especially for historical or literary wording.
-- Automatic polyphonic-character readings need review; the flag is deliberately
-  broad and is not a correctness judgment.
-- Luna Pinyin and the canonical corpus both use Traditional Chinese here;
-  candidate coverage depends on this schema, dictionary snapshot, and Top-10
-  limit.
-- Targets absent from Top-10 cannot be helped by a reranker unless retrieval is
-  expanded later.
-- The exact 12-character context representation is a preparation choice, not an
-  optimized context model.
-- A second author, wrong-user control, and final chronological history/test
-  boundary have not been prepared.
+- Results cover one author, one corpus, and one pinned Luna schema snapshot.
+- T2S changes segmentation, so Phase 4B versus Phase 4B.6 is not fully paired;
+  exact-span recovery is reported separately.
+- A small residual of 18 Traditional-only and two mixed candidate occurrences
+  remains under the documented OpenCC-based classifier.
+- Candidate coverage does not show whether personalisation helps.
+- Manual review and analysis of 511 remaining misses are incomplete.
+- No second author or final chronology boundary has been selected.
 
 ## Next Planned Phase
 
-Phase 4C will define the chronological boundary and evaluate Base versus
-correct-user and wrong-user personalisation on real interactions. It must not
-start until the Phase 4B dataset and coverage decisions are reviewed.
+Phase 4C remains deferred. Before starting it, the project must choose the
+benchmark script configuration, review remaining data-quality issues, prepare a
+second-author control, and define the chronological history/test boundary.
 
 ## Project History
 
-- Phase design history: [`docs/phases/`](docs/phases/)
-- Completed phase outcomes: [`results/phases/`](results/phases/)
-- Repository workflow: [`docs/WORKFLOW.md`](docs/WORKFLOW.md)
+- Phase specifications: [`docs/phases/`](docs/phases/)
+- Completed outcomes: [`results/phases/`](results/phases/)
+- Phase 4B audits: [`results/audits/phase_04b/`](results/audits/phase_04b/)
+- Workflow: [`docs/WORKFLOW.md`](docs/WORKFLOW.md)
 
-Accepted snapshots are preserved by Git commits/tags. Existing tags, including
-`phase-04a`, are not modified and this workflow does not create tags
-automatically.
+Existing Git tags are unchanged. Tags are not created automatically.

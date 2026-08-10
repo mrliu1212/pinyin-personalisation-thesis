@@ -1,6 +1,6 @@
 # Phase 4 — Real Author Benchmark
 
-Status: Phase 4A complete; Phase 4B complete; Phase 4C deferred.
+Status: Phase 4A, Phase 4B, Phase 4B.5, and Phase 4B.6 complete; Phase 4C deferred.
 
 ## Objective
 
@@ -35,6 +35,30 @@ and personalisation evaluation are validated separately.
 - Records Base ranks without inventing numeric scores and reports target
   coverage, missing targets, candidate-list sizes, and counts by work/length.
 
+### Phase 4B.5 — Script Normalisation Analysis
+
+- Produces a separate OpenCC `t2s.json` representation without overwriting the
+  canonical Phase 4A corpus or accepted Phase 4B interactions.
+- Verifies equal source/normalized code-point length before preserving exact
+  offsets and records source-to-derived checksums and configuration.
+- Applies the unchanged segmentation, Pinyin, context, candidate, and coverage
+  pipeline to normalized text.
+- Compares full-set coverage and conservatively pairs baseline missing targets
+  with normalized interactions only when work/start/end spans are identical.
+- Treats zero recovered targets and reduced coverage as a valid negative result;
+  no equivalence heuristic or candidate normalization is introduced.
+
+### Phase 4B.6 — Rime Script Alignment Analysis
+
+- Uses the same Phase 4B.5 Simplified corpus and interaction construction.
+- Enables Luna Pinyin's `zh_hans` option so `simplifier@zh_hans` applies
+  `t2s.json` inside librime before candidates are returned.
+- Uses an isolated temporary user directory and never post-converts retrieved
+  candidates.
+- Reports three-way Phase 4B/4B.5/4B.6 coverage, exhaustive candidate-script
+  categories, interaction deltas, and recovery at identical source spans.
+- Preserves Phase 4A, Phase 4B, and Phase 4B.5 data as separate inputs.
+
 ### Phase 4C — Real Personalised Evaluation (Planned)
 
 - Review interaction quality and determine an auditable chronological
@@ -45,7 +69,7 @@ and personalisation evaluation are validated separately.
 - Retain strict earlier-than-test history filtering and explicit missing-target
   handling.
 
-Phase 4C is not implemented by Phase 4B.
+Phase 4C is not implemented by Phase 4B, Phase 4B.5, or Phase 4B.6.
 
 ## Required / Verified Behaviours
 
@@ -80,6 +104,21 @@ Phase 4C is not implemented by Phase 4B.
   diagnostics. Complete.
 - A one-work pilot is inspected before full-corpus generation, and all prior
   plus new processing tests pass. Complete.
+
+### Phase 4B.5
+
+- Separate T2S corpus and interaction representations retain exact provenance
+  and leave Phase 4A/4B inputs unchanged. Complete.
+- Before/after Top-1/3/5/10 and missing rates, same-span recovery, and examples
+  are reported without modifying candidates or personalisation. Complete.
+
+### Phase 4B.6
+
+- Direct engine examples verify Simplified candidates are produced inside Rime,
+  including `爲什麼 → 为什么`. Complete.
+- A separate aligned dataset and reproducible diagnostics report coverage,
+  candidate scripts, segmentation delta, and recovery without touching earlier
+  data. Complete.
 
 ### Phase 4C
 

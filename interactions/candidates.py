@@ -37,25 +37,30 @@ class RimeCliCandidateGenerator:
         version: str,
         schema_id: str = "luna_pinyin",
         max_candidates: int = 10,
+        enabled_options: tuple[str, ...] = (),
     ) -> None:
         self.version = version
         self.schema_id = schema_id
         self.max_candidates = max_candidates
+        self.enabled_options = enabled_options
         self._temporary_user = tempfile.TemporaryDirectory(prefix="phase4b_rime_user_")
+        command = [
+            str(executable),
+            "--shared-data",
+            str(shared_data),
+            "--user-data",
+            self._temporary_user.name,
+            "--prebuilt-data",
+            str(prebuilt_data),
+            "--schema",
+            schema_id,
+            "--max-candidates",
+            str(max_candidates),
+        ]
+        for option in enabled_options:
+            command.extend(["--enable-option", option])
         self._process = subprocess.Popen(
-            [
-                str(executable),
-                "--shared-data",
-                str(shared_data),
-                "--user-data",
-                self._temporary_user.name,
-                "--prebuilt-data",
-                str(prebuilt_data),
-                "--schema",
-                schema_id,
-                "--max-candidates",
-                str(max_candidates),
-            ],
+            command,
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
@@ -89,6 +94,10 @@ class RimeCliCandidateGenerator:
         except subprocess.TimeoutExpired:
             self._process.terminate()
             self._process.wait(timeout=5)
+        if self._process.stdout:
+            self._process.stdout.close()
+        if self._process.stderr:
+            self._process.stderr.close()
         self._temporary_user.cleanup()
 
     def __enter__(self) -> "RimeCliCandidateGenerator":
@@ -96,4 +105,3 @@ class RimeCliCandidateGenerator:
 
     def __exit__(self, *args: object) -> None:
         self.close()
-

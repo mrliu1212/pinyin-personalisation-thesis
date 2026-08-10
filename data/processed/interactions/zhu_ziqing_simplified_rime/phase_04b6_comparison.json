@@ -1,0 +1,3662 @@
+{
+  "candidate_change_examples": [
+    {
+      "baseline_candidates": [
+        "阿桂",
+        "阿貴",
+        "啊",
+        "阿",
+        "吖",
+        "錒",
+        "嗄",
+        "呵",
+        "腌",
+        "吁"
+      ],
+      "pinyin": "agui",
+      "simplified_candidates": [
+        "阿桂",
+        "阿贵",
+        "啊",
+        "阿",
+        "吖",
+        "锕",
+        "嗄",
+        "呵",
+        "腌",
+        "吁"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "啊和",
+        "啊",
+        "阿",
+        "吖",
+        "錒",
+        "嗄",
+        "呵",
+        "腌",
+        "吁",
+        "ㄚ"
+      ],
+      "pinyin": "ahe",
+      "simplified_candidates": [
+        "啊和",
+        "啊",
+        "阿",
+        "吖",
+        "锕",
+        "嗄",
+        "呵",
+        "腌",
+        "吁",
+        "ㄚ"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "愛好",
+        "哀嚎",
+        "哀號",
+        "艾蒿",
+        "愛",
+        "唉",
+        "哎",
+        "艾",
+        "獃",
+        "矮"
+      ],
+      "pinyin": "aihao",
+      "simplified_candidates": [
+        "爱好",
+        "哀嚎",
+        "哀号",
+        "艾蒿",
+        "爱",
+        "唉",
+        "哎",
+        "艾",
+        "呆",
+        "矮"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "挨近",
+        "哀矜",
+        "愛",
+        "唉",
+        "哎",
+        "艾",
+        "獃",
+        "矮",
+        "癌",
+        "埃"
+      ],
+      "pinyin": "aijin",
+      "simplified_candidates": [
+        "挨近",
+        "哀矜",
+        "爱",
+        "唉",
+        "哎",
+        "艾",
+        "呆",
+        "矮",
+        "癌",
+        "埃"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "愛着",
+        "挨着",
+        "隘懾",
+        "愛",
+        "唉",
+        "哎",
+        "艾",
+        "獃",
+        "矮",
+        "癌"
+      ],
+      "pinyin": "aizhe",
+      "simplified_candidates": [
+        "爱着",
+        "挨着",
+        "隘慑",
+        "爱",
+        "唉",
+        "哎",
+        "艾",
+        "呆",
+        "矮",
+        "癌"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "艾炷",
+        "愛",
+        "唉",
+        "哎",
+        "艾",
+        "獃",
+        "矮",
+        "癌",
+        "埃",
+        "捱"
+      ],
+      "pinyin": "aizhu",
+      "simplified_candidates": [
+        "艾炷",
+        "爱",
+        "唉",
+        "哎",
+        "艾",
+        "呆",
+        "矮",
+        "癌",
+        "埃",
+        "挨"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "昂助手",
+        "昂",
+        "盎",
+        "骯",
+        "枊",
+        "昻",
+        "岇",
+        "醠",
+        "腌",
+        "軮"
+      ],
+      "pinyin": "angzhushou",
+      "simplified_candidates": [
+        "昂助手",
+        "昂",
+        "盎",
+        "肮",
+        "枊",
+        "昻",
+        "岇",
+        "醠",
+        "腌",
+        "軮"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "安靜",
+        "安靖",
+        "暗井",
+        "按",
+        "俺",
+        "安",
+        "案",
+        "暗",
+        "岸",
+        "鞍"
+      ],
+      "pinyin": "anjing",
+      "simplified_candidates": [
+        "安静",
+        "安靖",
+        "暗井",
+        "按",
+        "俺",
+        "安",
+        "案",
+        "暗",
+        "岸",
+        "鞍"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "岸上",
+        "安上",
+        "按上",
+        "暗傷",
+        "按",
+        "俺",
+        "安",
+        "案",
+        "暗",
+        "岸"
+      ],
+      "pinyin": "anshang",
+      "simplified_candidates": [
+        "岸上",
+        "安上",
+        "按上",
+        "暗伤",
+        "按",
+        "俺",
+        "安",
+        "案",
+        "暗",
+        "岸"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "暗笑",
+        "諳曉",
+        "按下",
+        "暗下",
+        "安下",
+        "安息",
+        "安溪",
+        "安西",
+        "暗喜",
+        "諳習"
+      ],
+      "pinyin": "anxiao",
+      "simplified_candidates": [
+        "暗笑",
+        "谙晓",
+        "按下",
+        "暗下",
+        "安下",
+        "安息",
+        "安溪",
+        "安西",
+        "暗喜",
+        "谙习"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "懊悔",
+        "奧會",
+        "奧",
+        "熬",
+        "澳",
+        "傲",
+        "凹",
+        "敖",
+        "襖",
+        "嗷"
+      ],
+      "pinyin": "aohui",
+      "simplified_candidates": [
+        "懊悔",
+        "奥会",
+        "奥",
+        "熬",
+        "澳",
+        "傲",
+        "凹",
+        "敖",
+        "袄",
+        "嗷"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "呵氣",
+        "阿奇",
+        "啊",
+        "阿",
+        "吖",
+        "錒",
+        "嗄",
+        "呵",
+        "腌",
+        "吁"
+      ],
+      "pinyin": "aqi",
+      "simplified_candidates": [
+        "呵气",
+        "阿奇",
+        "啊",
+        "阿",
+        "吖",
+        "锕",
+        "嗄",
+        "呵",
+        "腌",
+        "吁"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "爸爸",
+        "巴巴",
+        "粑粑",
+        "八八",
+        "叭叭",
+        "吧吧",
+        "把把",
+        "壩壩",
+        "吧",
+        "把"
+      ],
+      "pinyin": "baba",
+      "simplified_candidates": [
+        "爸爸",
+        "巴巴",
+        "粑粑",
+        "八八",
+        "叭叭",
+        "吧吧",
+        "把把",
+        "坝坝",
+        "吧",
+        "把"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "拜拜",
+        "白白",
+        "擺擺",
+        "掰掰",
+        "百拜",
+        "白",
+        "百",
+        "擺",
+        "拜",
+        "敗"
+      ],
+      "pinyin": "baibai",
+      "simplified_candidates": [
+        "拜拜",
+        "白白",
+        "摆摆",
+        "掰掰",
+        "百拜",
+        "白",
+        "百",
+        "摆",
+        "拜",
+        "败"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "白白地",
+        "拜拜",
+        "白白",
+        "擺擺",
+        "掰掰",
+        "百拜",
+        "白",
+        "百",
+        "擺",
+        "拜"
+      ],
+      "pinyin": "baibaidi",
+      "simplified_candidates": [
+        "白白地",
+        "拜拜",
+        "白白",
+        "摆摆",
+        "掰掰",
+        "百拜",
+        "白",
+        "百",
+        "摆",
+        "拜"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "白底",
+        "白帝",
+        "白地",
+        "白堤",
+        "白狄",
+        "白",
+        "百",
+        "擺",
+        "拜",
+        "敗"
+      ],
+      "pinyin": "baidi",
+      "simplified_candidates": [
+        "白底",
+        "白帝",
+        "白地",
+        "白堤",
+        "白狄",
+        "白",
+        "百",
+        "摆",
+        "拜",
+        "败"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "百花",
+        "白話",
+        "白花",
+        "白樺",
+        "白化",
+        "擺劃",
+        "百劃",
+        "白華",
+        "白虎",
+        "白狐"
+      ],
+      "pinyin": "baihua",
+      "simplified_candidates": [
+        "百花",
+        "白话",
+        "白花",
+        "白桦",
+        "白化",
+        "摆划",
+        "百划",
+        "白华",
+        "白虎",
+        "白狐"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "白水",
+        "白",
+        "百",
+        "擺",
+        "拜",
+        "敗",
+        "柏",
+        "掰",
+        "佰",
+        "襬"
+      ],
+      "pinyin": "baishui",
+      "simplified_candidates": [
+        "白水",
+        "白",
+        "百",
+        "摆",
+        "拜",
+        "败",
+        "柏",
+        "掰",
+        "佰",
+        "䙓"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "白天",
+        "白體",
+        "白堤",
+        "白題",
+        "百體",
+        "白",
+        "百",
+        "擺",
+        "拜",
+        "敗"
+      ],
+      "pinyin": "baitian",
+      "simplified_candidates": [
+        "白天",
+        "白体",
+        "白堤",
+        "白题",
+        "百体",
+        "白",
+        "百",
+        "摆",
+        "拜",
+        "败"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "百種",
+        "白種",
+        "擺鐘",
+        "百中",
+        "白",
+        "百",
+        "擺",
+        "拜",
+        "敗",
+        "柏"
+      ],
+      "pinyin": "baizhong",
+      "simplified_candidates": [
+        "百种",
+        "白种",
+        "摆钟",
+        "百中",
+        "白",
+        "百",
+        "摆",
+        "拜",
+        "败",
+        "柏"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "罷了",
+        "拔了",
+        "把了",
+        "芭樂",
+        "扒了",
+        "吧",
+        "把",
+        "八",
+        "爸",
+        "巴"
+      ],
+      "pinyin": "bale",
+      "simplified_candidates": [
+        "罢了",
+        "拔了",
+        "把了",
+        "芭乐",
+        "扒了",
+        "吧",
+        "把",
+        "八",
+        "爸",
+        "巴"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "斑白",
+        "半百",
+        "半白",
+        "班白",
+        "頒白",
+        "辦",
+        "版",
+        "半",
+        "班",
+        "板"
+      ],
+      "pinyin": "banbai",
+      "simplified_candidates": [
+        "斑白",
+        "半百",
+        "半白",
+        "班白",
+        "颁白",
+        "办",
+        "版",
+        "半",
+        "班",
+        "板"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "斑駁",
+        "斑剝",
+        "半波",
+        "斑駮",
+        "班駁",
+        "辦",
+        "版",
+        "半",
+        "班",
+        "板"
+      ],
+      "pinyin": "banbo",
+      "simplified_candidates": [
+        "斑驳",
+        "斑剥",
+        "半波",
+        "斑駮",
+        "班驳",
+        "办",
+        "版",
+        "半",
+        "班",
+        "板"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "般的",
+        "辦的",
+        "般地",
+        "辦得",
+        "搬的",
+        "扮的",
+        "搬得",
+        "扮得",
+        "板的",
+        "版的"
+      ],
+      "pinyin": "bande",
+      "simplified_candidates": [
+        "般的",
+        "办的",
+        "般地",
+        "办得",
+        "搬的",
+        "扮的",
+        "搬得",
+        "扮得",
+        "板的",
+        "版的"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "班底",
+        "辦",
+        "版",
+        "半",
+        "班",
+        "板",
+        "般",
+        "搬",
+        "伴",
+        "斑"
+      ],
+      "pinyin": "bandi",
+      "simplified_candidates": [
+        "班底",
+        "办",
+        "版",
+        "半",
+        "班",
+        "板",
+        "般",
+        "搬",
+        "伴",
+        "斑"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "伴兒",
+        "板兒",
+        "瘢兒",
+        "瓣兒",
+        "辦",
+        "版",
+        "半",
+        "班",
+        "板",
+        "般"
+      ],
+      "pinyin": "baner",
+      "simplified_candidates": [
+        "伴儿",
+        "板儿",
+        "瘢儿",
+        "瓣儿",
+        "办",
+        "版",
+        "半",
+        "班",
+        "板",
+        "般"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "辦法",
+        "頒發",
+        "伴發",
+        "辦",
+        "版",
+        "半",
+        "班",
+        "板",
+        "般",
+        "搬"
+      ],
+      "pinyin": "banfa",
+      "simplified_candidates": [
+        "办法",
+        "颁发",
+        "伴发",
+        "办",
+        "版",
+        "半",
+        "班",
+        "板",
+        "般",
+        "搬"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "半乾",
+        "班幹",
+        "綁案",
+        "幫",
+        "棒",
+        "榜",
+        "邦",
+        "浜",
+        "綁",
+        "泵"
+      ],
+      "pinyin": "bangan",
+      "simplified_candidates": [
+        "半干",
+        "班干",
+        "绑案",
+        "帮",
+        "棒",
+        "榜",
+        "邦",
+        "浜",
+        "绑",
+        "泵"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "幫助",
+        "幫主",
+        "綁住",
+        "蚌珠",
+        "幫住",
+        "幫",
+        "棒",
+        "榜",
+        "邦",
+        "浜"
+      ],
+      "pinyin": "bangzhu",
+      "simplified_candidates": [
+        "帮助",
+        "帮主",
+        "绑住",
+        "蚌珠",
+        "帮住",
+        "帮",
+        "棒",
+        "榜",
+        "邦",
+        "浜"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "棒子",
+        "膀子",
+        "幫子",
+        "梆子",
+        "牓子",
+        "幫",
+        "棒",
+        "榜",
+        "邦",
+        "浜"
+      ],
+      "pinyin": "bangzi",
+      "simplified_candidates": [
+        "棒子",
+        "膀子",
+        "帮子",
+        "梆子",
+        "牓子",
+        "帮",
+        "棒",
+        "榜",
+        "邦",
+        "浜"
+      ]
+    }
+  ],
+  "candidate_script_distribution": {
+    "phase_04b6_simplified_rime": {
+      "candidate_occurrence_count": 46878,
+      "classification_method": "Compare each complete candidate with OpenCC t2s and s2t outputs. Invariant candidates are reported separately so counts are exhaustive.",
+      "examples": {
+        "mixed": [
+          {
+            "candidate": "乾图",
+            "occurrences": 1
+          },
+          {
+            "candidate": "苧",
+            "occurrences": 1
+          }
+        ],
+        "script_invariant": [
+          {
+            "candidate": "喔",
+            "occurrences": 116
+          },
+          {
+            "candidate": "我",
+            "occurrences": 116
+          },
+          {
+            "candidate": "握",
+            "occurrences": 116
+          },
+          {
+            "candidate": "沃",
+            "occurrences": 113
+          },
+          {
+            "candidate": "倭",
+            "occurrences": 112
+          },
+          {
+            "candidate": "渥",
+            "occurrences": 109
+          },
+          {
+            "candidate": "不",
+            "occurrences": 92
+          },
+          {
+            "candidate": "部",
+            "occurrences": 91
+          },
+          {
+            "candidate": "着",
+            "occurrences": 72
+          },
+          {
+            "candidate": "著",
+            "occurrences": 63
+          },
+          {
+            "candidate": "布",
+            "occurrences": 62
+          },
+          {
+            "candidate": "折",
+            "occurrences": 61
+          },
+          {
+            "candidate": "者",
+            "occurrences": 61
+          },
+          {
+            "candidate": "那",
+            "occurrences": 57
+          },
+          {
+            "candidate": "步",
+            "occurrences": 55
+          },
+          {
+            "candidate": "他",
+            "occurrences": 53
+          },
+          {
+            "candidate": "她",
+            "occurrences": 53
+          },
+          {
+            "candidate": "它",
+            "occurrences": 53
+          },
+          {
+            "candidate": "塔",
+            "occurrences": 52
+          },
+          {
+            "candidate": "一",
+            "occurrences": 51
+          }
+        ],
+        "simplified_only": [
+          {
+            "candidate": "卧",
+            "occurrences": 116
+          },
+          {
+            "candidate": "窝",
+            "occurrences": 116
+          },
+          {
+            "candidate": "涡",
+            "occurrences": 112
+          },
+          {
+            "candidate": "我们",
+            "occurrences": 102
+          },
+          {
+            "candidate": "这",
+            "occurrences": 83
+          },
+          {
+            "candidate": "补",
+            "occurrences": 77
+          },
+          {
+            "candidate": "时",
+            "occurrences": 48
+          },
+          {
+            "candidate": "没",
+            "occurrences": 47
+          },
+          {
+            "candidate": "他们",
+            "occurrences": 45
+          },
+          {
+            "candidate": "他懑",
+            "occurrences": 45
+          },
+          {
+            "candidate": "塔门",
+            "occurrences": 45
+          },
+          {
+            "candidate": "她们",
+            "occurrences": 45
+          },
+          {
+            "candidate": "它们",
+            "occurrences": 45
+          },
+          {
+            "candidate": "牠们",
+            "occurrences": 45
+          },
+          {
+            "candidate": "一个",
+            "occurrences": 41
+          },
+          {
+            "candidate": "亿个",
+            "occurrences": 41
+          },
+          {
+            "candidate": "两",
+            "occurrences": 39
+          },
+          {
+            "candidate": "还",
+            "occurrences": 38
+          },
+          {
+            "candidate": "凉",
+            "occurrences": 34
+          },
+          {
+            "candidate": "腌",
+            "occurrences": 33
+          }
+        ],
+        "traditional_only": [
+          {
+            "candidate": "昇",
+            "occurrences": 12
+          },
+          {
+            "candidate": "乾",
+            "occurrences": 3
+          },
+          {
+            "candidate": "於",
+            "occurrences": 3
+          }
+        ]
+      },
+      "occurrence_counts": {
+        "mixed": 2,
+        "script_invariant": 26723,
+        "simplified_only": 20135,
+        "traditional_only": 18
+      },
+      "occurrence_rates": {
+        "mixed": 4.2663936174751484e-05,
+        "script_invariant": 0.570054183198942,
+        "simplified_only": 0.42951917743931056,
+        "traditional_only": 0.00038397542557276333
+      },
+      "unique_candidate_counts": {
+        "mixed": 2,
+        "script_invariant": 7621,
+        "simplified_only": 7392,
+        "traditional_only": 3
+      }
+    },
+    "phase_04b_default_rime": {
+      "candidate_occurrence_count": 45254,
+      "classification_method": "Compare each complete candidate with OpenCC t2s and s2t outputs. Invariant candidates are reported separately so counts are exhaustive.",
+      "examples": {
+        "mixed": [
+          {
+            "candidate": "干進",
+            "occurrences": 5
+          },
+          {
+            "candidate": "擊筑",
+            "occurrences": 3
+          },
+          {
+            "candidate": "蟻后",
+            "occurrences": 3
+          },
+          {
+            "candidate": "伙計",
+            "occurrences": 2
+          },
+          {
+            "candidate": "台啓",
+            "occurrences": 2
+          },
+          {
+            "candidate": "台顏",
+            "occurrences": 2
+          },
+          {
+            "candidate": "斗藪",
+            "occurrences": 2
+          },
+          {
+            "candidate": "欄干",
+            "occurrences": 2
+          },
+          {
+            "candidate": "闌干",
+            "occurrences": 2
+          },
+          {
+            "candidate": "霉頭",
+            "occurrences": 2
+          },
+          {
+            "candidate": "亞里",
+            "occurrences": 1
+          },
+          {
+            "candidate": "划來",
+            "occurrences": 1
+          },
+          {
+            "candidate": "台覽",
+            "occurrences": 1
+          },
+          {
+            "candidate": "尸鳩",
+            "occurrences": 1
+          },
+          {
+            "candidate": "岩漿",
+            "occurrences": 1
+          },
+          {
+            "candidate": "干係",
+            "occurrences": 1
+          },
+          {
+            "candidate": "干請",
+            "occurrences": 1
+          },
+          {
+            "candidate": "廣里",
+            "occurrences": 1
+          },
+          {
+            "candidate": "淺淀",
+            "occurrences": 1
+          },
+          {
+            "candidate": "游揚",
+            "occurrences": 1
+          }
+        ],
+        "script_invariant": [
+          {
+            "candidate": "我",
+            "occurrences": 145
+          },
+          {
+            "candidate": "喔",
+            "occurrences": 144
+          },
+          {
+            "candidate": "握",
+            "occurrences": 140
+          },
+          {
+            "candidate": "沃",
+            "occurrences": 131
+          },
+          {
+            "candidate": "倭",
+            "occurrences": 127
+          },
+          {
+            "candidate": "渥",
+            "occurrences": 113
+          },
+          {
+            "candidate": "不",
+            "occurrences": 102
+          },
+          {
+            "candidate": "部",
+            "occurrences": 101
+          },
+          {
+            "candidate": "着",
+            "occurrences": 91
+          },
+          {
+            "candidate": "著",
+            "occurrences": 79
+          },
+          {
+            "candidate": "者",
+            "occurrences": 75
+          },
+          {
+            "candidate": "折",
+            "occurrences": 73
+          },
+          {
+            "candidate": "布",
+            "occurrences": 65
+          },
+          {
+            "candidate": "那",
+            "occurrences": 62
+          },
+          {
+            "candidate": "哲",
+            "occurrences": 58
+          },
+          {
+            "candidate": "步",
+            "occurrences": 58
+          },
+          {
+            "candidate": "海",
+            "occurrences": 56
+          },
+          {
+            "candidate": "咳",
+            "occurrences": 54
+          },
+          {
+            "candidate": "嗨",
+            "occurrences": 54
+          },
+          {
+            "candidate": "害",
+            "occurrences": 54
+          }
+        ],
+        "simplified_only": [
+          {
+            "candidate": "腌",
+            "occurrences": 33
+          },
+          {
+            "candidate": "吁",
+            "occurrences": 30
+          },
+          {
+            "candidate": "里",
+            "occurrences": 23
+          },
+          {
+            "candidate": "台",
+            "occurrences": 15
+          },
+          {
+            "candidate": "岳",
+            "occurrences": 15
+          },
+          {
+            "candidate": "么",
+            "occurrences": 14
+          },
+          {
+            "candidate": "布置",
+            "occurrences": 11
+          },
+          {
+            "candidate": "谮",
+            "occurrences": 11
+          },
+          {
+            "candidate": "粽",
+            "occurrences": 9
+          },
+          {
+            "candidate": "液面",
+            "occurrences": 8
+          },
+          {
+            "candidate": "确",
+            "occurrences": 7
+          },
+          {
+            "candidate": "㖞",
+            "occurrences": 6
+          },
+          {
+            "candidate": "党",
+            "occurrences": 6
+          },
+          {
+            "candidate": "巨子",
+            "occurrences": 6
+          },
+          {
+            "candidate": "种",
+            "occurrences": 6
+          },
+          {
+            "candidate": "丑",
+            "occurrences": 5
+          },
+          {
+            "candidate": "云",
+            "occurrences": 5
+          },
+          {
+            "candidate": "后",
+            "occurrences": 5
+          },
+          {
+            "candidate": "听听",
+            "occurrences": 5
+          },
+          {
+            "candidate": "峇里",
+            "occurrences": 5
+          }
+        ],
+        "traditional_only": [
+          {
+            "candidate": "窩",
+            "occurrences": 142
+          },
+          {
+            "candidate": "臥",
+            "occurrences": 137
+          },
+          {
+            "candidate": "渦",
+            "occurrences": 121
+          },
+          {
+            "candidate": "這",
+            "occurrences": 105
+          },
+          {
+            "candidate": "我們",
+            "occurrences": 102
+          },
+          {
+            "candidate": "補",
+            "occurrences": 86
+          },
+          {
+            "candidate": "還",
+            "occurrences": 59
+          },
+          {
+            "candidate": "佈",
+            "occurrences": 53
+          },
+          {
+            "candidate": "時",
+            "occurrences": 42
+          },
+          {
+            "candidate": "一個",
+            "occurrences": 39
+          },
+          {
+            "candidate": "億個",
+            "occurrences": 39
+          },
+          {
+            "candidate": "納",
+            "occurrences": 38
+          },
+          {
+            "candidate": "兩",
+            "occurrences": 32
+          },
+          {
+            "candidate": "錒",
+            "occurrences": 32
+          },
+          {
+            "candidate": "業",
+            "occurrences": 30
+          },
+          {
+            "candidate": "腎",
+            "occurrences": 30
+          },
+          {
+            "candidate": "葉",
+            "occurrences": 30
+          },
+          {
+            "candidate": "頁",
+            "occurrences": 30
+          },
+          {
+            "candidate": "折實",
+            "occurrences": 29
+          },
+          {
+            "candidate": "親",
+            "occurrences": 29
+          }
+        ]
+      },
+      "occurrence_counts": {
+        "mixed": 45,
+        "script_invariant": 26001,
+        "simplified_only": 373,
+        "traditional_only": 18835
+      },
+      "occurrence_rates": {
+        "mixed": 0.0009943872364873824,
+        "script_invariant": 0.5745569452424095,
+        "simplified_only": 0.008242365315773192,
+        "traditional_only": 0.4162063022053299
+      },
+      "unique_candidate_counts": {
+        "mixed": 30,
+        "script_invariant": 7718,
+        "simplified_only": 100,
+        "traditional_only": 7331
+      }
+    }
+  },
+  "coverage_recovery_from_phase_04b": {
+    "matching_aligned_span_count": 578,
+    "no_matching_span_count": 304,
+    "recovered_count": 178,
+    "recovered_examples": [
+      {
+        "aligned_candidates": [
+          "变为",
+          "变味",
+          "编委",
+          "编为",
+          "变位",
+          "贬为",
+          "辨伪",
+          "辨味",
+          "便",
+          "边"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "变为",
+        "pinyin": "bianwei",
+        "reference_rank": null,
+        "source_start_offset": 846,
+        "source_target": "變為",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "烟熏",
+          "眼瞓",
+          "眼",
+          "演",
+          "言",
+          "烟",
+          "严",
+          "燕",
+          "盐",
+          "岩"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "烟熏",
+        "pinyin": "yanxun",
+        "reference_rank": null,
+        "source_start_offset": 1279,
+        "source_target": "煙熏",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "游踪",
+          "油棕",
+          "有",
+          "又",
+          "由",
+          "油",
+          "友",
+          "右",
+          "游",
+          "优"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "游踪",
+        "pinyin": "youzong",
+        "reference_rank": null,
+        "source_start_offset": 1654,
+        "source_target": "遊踪",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "因为",
+          "淫威",
+          "引为",
+          "音位",
+          "淫猥",
+          "吟味",
+          "隐位",
+          "寅畏",
+          "隐微",
+          "因"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "因为",
+        "pinyin": "yinwei",
+        "reference_rank": null,
+        "source_start_offset": 2100,
+        "source_target": "因為",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "因为",
+          "淫威",
+          "引为",
+          "音位",
+          "淫猥",
+          "吟味",
+          "隐位",
+          "寅畏",
+          "隐微",
+          "因"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "因为",
+        "pinyin": "yinwei",
+        "reference_rank": null,
+        "source_start_offset": 2245,
+        "source_target": "因為",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "杂沓",
+          "杂遝",
+          "咋",
+          "砸",
+          "杂",
+          "匝",
+          "咂",
+          "嘁",
+          "襍",
+          "紥"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "杂沓",
+        "pinyin": "zata",
+        "reference_rank": null,
+        "source_start_offset": 2279,
+        "source_target": "雜沓",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "乐器",
+          "跃起",
+          "约期",
+          "约契",
+          "月",
+          "越",
+          "约",
+          "余额",
+          "曰",
+          "岳"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "乐器",
+        "pinyin": "yueqi",
+        "reference_rank": null,
+        "source_start_offset": 2283,
+        "source_target": "樂器",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "因为",
+          "淫威",
+          "引为",
+          "音位",
+          "淫猥",
+          "吟味",
+          "隐位",
+          "寅畏",
+          "隐微",
+          "因"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "因为",
+        "pinyin": "yinwei",
+        "reference_rank": null,
+        "source_start_offset": 2321,
+        "source_target": "因為",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "变为",
+          "变味",
+          "编委",
+          "编为",
+          "变位",
+          "贬为",
+          "辨伪",
+          "辨味",
+          "便",
+          "边"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "变为",
+        "pinyin": "bianwei",
+        "reference_rank": null,
+        "source_start_offset": 2332,
+        "source_target": "變為",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "水利",
+          "水里",
+          "水力",
+          "税利",
+          "水梨",
+          "税吏",
+          "水礼",
+          "水栗",
+          "帨缡",
+          "谁"
+        ],
+        "aligned_rank": 2,
+        "aligned_target": "水里",
+        "pinyin": "shuili",
+        "reference_rank": null,
+        "source_start_offset": 2687,
+        "source_target": "水里",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "伟业",
+          "尾页",
+          "胃液",
+          "为业",
+          "萎叶",
+          "炜烨",
+          "韡晔",
+          "为",
+          "未",
+          "位"
+        ],
+        "aligned_rank": 4,
+        "aligned_target": "为业",
+        "pinyin": "weiye",
+        "reference_rank": null,
+        "source_start_offset": 2968,
+        "source_target": "為業",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "因为",
+          "淫威",
+          "引为",
+          "音位",
+          "淫猥",
+          "吟味",
+          "隐位",
+          "寅畏",
+          "隐微",
+          "因"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "因为",
+        "pinyin": "yinwei",
+        "reference_rank": null,
+        "source_start_offset": 3043,
+        "source_target": "因為",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "变为",
+          "变味",
+          "编委",
+          "编为",
+          "变位",
+          "贬为",
+          "辨伪",
+          "辨味",
+          "便",
+          "边"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "变为",
+        "pinyin": "bianwei",
+        "reference_rank": null,
+        "source_start_offset": 3903,
+        "source_target": "變為",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "民众",
+          "闽中",
+          "民",
+          "敏",
+          "闽",
+          "闵",
+          "抿",
+          "珉",
+          "旻",
+          "泯"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "民众",
+        "pinyin": "minzhong",
+        "reference_rank": null,
+        "source_start_offset": 4062,
+        "source_target": "民眾",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "民众",
+          "闽中",
+          "民",
+          "敏",
+          "闽",
+          "闵",
+          "抿",
+          "珉",
+          "旻",
+          "泯"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "民众",
+        "pinyin": "minzhong",
+        "reference_rank": null,
+        "source_start_offset": 4069,
+        "source_target": "民眾",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "行为",
+          "腥味",
+          "兴味",
+          "星位",
+          "幸未",
+          "姓魏",
+          "姓卫",
+          "幸位",
+          "行尾",
+          "行苇"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "行为",
+        "pinyin": "xingwei",
+        "reference_rank": null,
+        "source_start_offset": 4128,
+        "source_target": "行為",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "伟业",
+          "尾页",
+          "胃液",
+          "为业",
+          "萎叶",
+          "炜烨",
+          "韡晔",
+          "为",
+          "未",
+          "位"
+        ],
+        "aligned_rank": 4,
+        "aligned_target": "为业",
+        "pinyin": "weiye",
+        "reference_rank": null,
+        "source_start_offset": 4314,
+        "source_target": "為業",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "因为",
+          "淫威",
+          "引为",
+          "音位",
+          "淫猥",
+          "吟味",
+          "隐位",
+          "寅畏",
+          "隐微",
+          "因"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "因为",
+        "pinyin": "yinwei",
+        "reference_rank": null,
+        "source_start_offset": 4472,
+        "source_target": "因為",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "因为",
+          "淫威",
+          "引为",
+          "音位",
+          "淫猥",
+          "吟味",
+          "隐位",
+          "寅畏",
+          "隐微",
+          "因"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "因为",
+        "pinyin": "yinwei",
+        "reference_rank": null,
+        "source_start_offset": 4489,
+        "source_target": "因為",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "因为",
+          "淫威",
+          "引为",
+          "音位",
+          "淫猥",
+          "吟味",
+          "隐位",
+          "寅畏",
+          "隐微",
+          "因"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "因为",
+        "pinyin": "yinwei",
+        "reference_rank": null,
+        "source_start_offset": 4517,
+        "source_target": "因為",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      }
+    ],
+    "reference": "Phase 4B baseline",
+    "reference_missing_count": 882,
+    "remaining_missing_count": 400,
+    "remaining_missing_examples": [
+      {
+        "aligned_candidates": [
+          "二类",
+          "二垒",
+          "饵雷",
+          "而",
+          "二",
+          "儿",
+          "尔",
+          "耳",
+          "贰",
+          "尓"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "而泪",
+        "pinyin": "erlei",
+        "reference_rank": null,
+        "source_start_offset": 196,
+        "source_target": "而淚",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "折弯是",
+          "折弯",
+          "遮挽",
+          "这碗",
+          "折碗",
+          "这晚",
+          "这",
+          "着",
+          "者",
+          "折"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "遮挽时",
+        "pinyin": "zhewanshi",
+        "reference_rank": null,
+        "source_start_offset": 343,
+        "source_target": "遮挽時",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "如轻言",
+          "乳清",
+          "入情",
+          "如",
+          "入",
+          "乳",
+          "汝",
+          "儒",
+          "茹",
+          "辱"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "如轻烟",
+        "pinyin": "ruqingyan",
+        "reference_rank": null,
+        "source_start_offset": 510,
+        "source_target": "如輕煙",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "整容",
+          "峥嵘",
+          "正",
+          "整",
+          "证",
+          "郑",
+          "挣",
+          "争",
+          "症",
+          "政"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "蒸融",
+        "pinyin": "zhengrong",
+        "reference_rank": null,
+        "source_start_offset": 528,
+        "source_target": "蒸融",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "和曾",
+          "和",
+          "喝",
+          "何",
+          "合",
+          "河",
+          "呵",
+          "核",
+          "盒",
+          "贺"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "何曾",
+        "pinyin": "hezeng",
+        "reference_rank": null,
+        "source_start_offset": 543,
+        "source_target": "何曾",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "依旧而",
+          "依旧",
+          "已久",
+          "一九",
+          "已就",
+          "忆旧",
+          "亦就",
+          "一久",
+          "以久",
+          "一就"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "一九二",
+        "pinyin": "yijiuer",
+        "reference_rank": null,
+        "source_start_offset": 0,
+        "source_target": "一九二",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "瓶钵是",
+          "瓶钵",
+          "萍泊",
+          "评泊",
+          "评薄",
+          "平",
+          "凭",
+          "评",
+          "瓶",
+          "屏"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "平伯是",
+        "pinyin": "pingboshi",
+        "reference_rank": null,
+        "source_start_offset": 21,
+        "source_target": "平伯是",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "触犯",
+          "初犯",
+          "出饭",
+          "出",
+          "处",
+          "除",
+          "初",
+          "楚",
+          "触",
+          "储"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "初泛",
+        "pinyin": "chufan",
+        "reference_rank": null,
+        "source_start_offset": 24,
+        "source_target": "初泛",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "中来",
+          "中",
+          "种",
+          "重",
+          "仲",
+          "众",
+          "钟",
+          "锺",
+          "忠",
+          "终"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "重来",
+        "pinyin": "zhonglai",
+        "reference_rank": null,
+        "source_start_offset": 29,
+        "source_target": "重來",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "放来",
+          "防来",
+          "放赖",
+          "放",
+          "方",
+          "房",
+          "防",
+          "芳",
+          "坊",
+          "访"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "方来",
+        "pinyin": "fanglai",
+        "reference_rank": null,
+        "source_start_offset": 53,
+        "source_target": "方來",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "玩生源",
+          "完胜",
+          "万盛",
+          "晚生",
+          "万乘",
+          "万圣",
+          "玩",
+          "万",
+          "完",
+          "晚"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "万生园",
+        "pinyin": "wanshengyuan",
+        "reference_rank": null,
+        "source_start_offset": 108,
+        "source_target": "万生園",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "角逐",
+          "攫住",
+          "爵主",
+          "觉",
+          "绝",
+          "巨额",
+          "决",
+          "诀",
+          "掘",
+          "爵"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "觉著",
+        "pinyin": "juezhu",
+        "reference_rank": null,
+        "source_start_offset": 144,
+        "source_target": "覺著",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "角逐",
+          "攫住",
+          "爵主",
+          "觉",
+          "绝",
+          "巨额",
+          "决",
+          "诀",
+          "掘",
+          "爵"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "觉著",
+        "pinyin": "juezhu",
+        "reference_rank": null,
+        "source_start_offset": 150,
+        "source_target": "覺著",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "签注",
+          "牵住",
+          "钳住",
+          "僭主",
+          "前箸",
+          "钱",
+          "前",
+          "千",
+          "咁",
+          "签"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "嵌著",
+        "pinyin": "qianzhu",
+        "reference_rank": null,
+        "source_start_offset": 246,
+        "source_target": "嵌著",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "是人气",
+          "诗人",
+          "世人",
+          "使人",
+          "是人",
+          "时任",
+          "士人",
+          "十人",
+          "示人",
+          "食人"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "使人起",
+        "pinyin": "shirenqi",
+        "reference_rank": null,
+        "source_start_offset": 263,
+        "source_target": "使人起",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "肉泥",
+          "肉",
+          "柔",
+          "揉",
+          "𫔄",
+          "鞣",
+          "糅",
+          "禸",
+          "蹂",
+          "宍"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "柔腻",
+        "pinyin": "rouni",
+        "reference_rank": null,
+        "source_start_offset": 266,
+        "source_target": "柔膩",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "理应",
+          "俪影",
+          "丽影",
+          "李缨",
+          "李颖",
+          "李英",
+          "牦缨",
+          "李膺",
+          "里",
+          "李"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "里映",
+        "pinyin": "liying",
+        "reference_rank": null,
+        "source_start_offset": 273,
+        "source_target": "里映",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "控场",
+          "空肠",
+          "空场",
+          "空",
+          "孔",
+          "控",
+          "恐",
+          "崆",
+          "倥",
+          "箜"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "空敞",
+        "pinyin": "kongchang",
+        "reference_rank": null,
+        "source_start_offset": 322,
+        "source_target": "空敞",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "苍铅",
+          "仓前",
+          "藏钱",
+          "藏起",
+          "仓",
+          "藏",
+          "苍",
+          "舱",
+          "沧",
+          "跄"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "舱前",
+        "pinyin": "cangqian",
+        "reference_rank": null,
+        "source_start_offset": 346,
+        "source_target": "艙前",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "蜘蛛",
+          "支柱",
+          "植株",
+          "止住",
+          "之主",
+          "制住",
+          "踯躅",
+          "只住",
+          "只煮",
+          "执住"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "支著",
+        "pinyin": "zhizhu",
+        "reference_rank": null,
+        "source_start_offset": 372,
+        "source_target": "支著",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      }
+    ]
+  },
+  "coverage_recovery_from_phase_04b5": {
+    "matching_aligned_span_count": 2766,
+    "no_matching_span_count": 0,
+    "recovered_count": 2255,
+    "recovered_examples": [
+      {
+        "aligned_candidates": [
+          "时候",
+          "事后",
+          "侍候",
+          "时后",
+          "狮吼",
+          "失候",
+          "豕豞",
+          "是",
+          "时",
+          "事"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "时候",
+        "pinyin": "shihou",
+        "reference_rank": null,
+        "source_start_offset": 9,
+        "source_target": "时候",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "杨柳",
+          "洋流",
+          "样",
+          "杨",
+          "养",
+          "阳",
+          "羊",
+          "洋",
+          "扬",
+          "痒"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "杨柳",
+        "pinyin": "yangliu",
+        "reference_rank": null,
+        "source_start_offset": 12,
+        "source_target": "杨柳",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "时候",
+          "事后",
+          "侍候",
+          "时后",
+          "狮吼",
+          "失候",
+          "豕豞",
+          "是",
+          "时",
+          "事"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "时候",
+        "pinyin": "shihou",
+        "reference_rank": null,
+        "source_start_offset": 21,
+        "source_target": "时候",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "时候",
+          "事后",
+          "侍候",
+          "时后",
+          "狮吼",
+          "失候",
+          "豕豞",
+          "是",
+          "时",
+          "事"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "时候",
+        "pinyin": "shihou",
+        "reference_rank": null,
+        "source_start_offset": 33,
+        "source_target": "时候",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "聪明",
+          "从命",
+          "从",
+          "葱",
+          "聪",
+          "丛",
+          "匆",
+          "琮",
+          "苁",
+          "璁"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "聪明",
+        "pinyin": "congming",
+        "reference_rank": null,
+        "source_start_offset": 39,
+        "source_target": "聪明",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "我们",
+          "我",
+          "喔",
+          "窝",
+          "握",
+          "卧",
+          "沃",
+          "倭",
+          "涡",
+          "渥"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "我们",
+        "pinyin": "women",
+        "reference_rank": null,
+        "source_start_offset": 48,
+        "source_target": "我们",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "为什么",
+          "为甚么",
+          "为什",
+          "为甚",
+          "委身",
+          "韦神",
+          "未深",
+          "为",
+          "未",
+          "位"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "为什么",
+        "pinyin": "weishenme",
+        "reference_rank": null,
+        "source_start_offset": 53,
+        "source_target": "为什么",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "他们",
+          "它们",
+          "她们",
+          "牠们",
+          "塔门",
+          "他懑",
+          "他",
+          "她",
+          "它",
+          "塔"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "他们",
+        "pinyin": "tamen",
+        "reference_rank": null,
+        "source_start_offset": 70,
+        "source_target": "他们",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "何处",
+          "喝出",
+          "合出",
+          "荷锄",
+          "和",
+          "喝",
+          "何",
+          "合",
+          "河",
+          "呵"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "何处",
+        "pinyin": "hechu",
+        "reference_rank": null,
+        "source_start_offset": 81,
+        "source_target": "何处",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "他们",
+          "它们",
+          "她们",
+          "牠们",
+          "塔门",
+          "他懑",
+          "他",
+          "她",
+          "它",
+          "塔"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "他们",
+        "pinyin": "tamen",
+        "reference_rank": null,
+        "source_start_offset": 86,
+        "source_target": "他们",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "现在",
+          "先在",
+          "先宰",
+          "先载",
+          "陷在",
+          "见在",
+          "县宰",
+          "先",
+          "线",
+          "缐"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "现在",
+        "pinyin": "xianzai",
+        "reference_rank": null,
+        "source_start_offset": 95,
+        "source_target": "现在",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "哪里",
+          "那里",
+          "那",
+          "拿",
+          "哪",
+          "纳",
+          "娜",
+          "呐",
+          "钠",
+          "讷"
+        ],
+        "aligned_rank": 2,
+        "aligned_target": "那里",
+        "pinyin": "nali",
+        "reference_rank": null,
+        "source_start_offset": 100,
+        "source_target": "那里",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "他们",
+          "它们",
+          "她们",
+          "牠们",
+          "塔门",
+          "他懑",
+          "他",
+          "她",
+          "它",
+          "塔"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "他们",
+        "pinyin": "tamen",
+        "reference_rank": null,
+        "source_start_offset": 110,
+        "source_target": "他们",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "确乎",
+          "却",
+          "缺",
+          "确",
+          "雀",
+          "阙",
+          "怯",
+          "瘸",
+          "鹊",
+          "阕"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "确乎",
+        "pinyin": "quehu",
+        "reference_rank": null,
+        "source_start_offset": 124,
+        "source_target": "确乎",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "渐渐",
+          "见见",
+          "浅浅",
+          "尖尖",
+          "贱贱",
+          "剑尖",
+          "闲闲",
+          "剪剪",
+          "渐减",
+          "箭尖"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "渐渐",
+        "pinyin": "jianjian",
+        "reference_rank": null,
+        "source_start_offset": 127,
+        "source_target": "渐渐",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "空虚",
+          "恐需",
+          "空",
+          "孔",
+          "控",
+          "恐",
+          "崆",
+          "倥",
+          "箜",
+          "涳"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "空虚",
+        "pinyin": "kongxu",
+        "reference_rank": null,
+        "source_start_offset": 129,
+        "source_target": "空虚",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "已经",
+          "意境",
+          "一经",
+          "一惊",
+          "易经",
+          "遗精",
+          "一径",
+          "译经",
+          "义净",
+          "亦经"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "已经",
+        "pinyin": "yijing",
+        "reference_rank": null,
+        "source_start_offset": 145,
+        "source_target": "已经",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "针尖",
+          "箴谏",
+          "真机",
+          "针剂",
+          "真迹",
+          "震级",
+          "侦缉",
+          "赈济",
+          "甄姬",
+          "侦骑"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "针尖",
+        "pinyin": "zhenjian",
+        "reference_rank": null,
+        "source_start_offset": 155,
+        "source_target": "针尖",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "时间",
+          "事件",
+          "实践",
+          "世间",
+          "是件",
+          "始建",
+          "尸检",
+          "十件",
+          "时艰",
+          "试件"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "时间",
+        "pinyin": "shijian",
+        "reference_rank": null,
+        "source_start_offset": 173,
+        "source_target": "时间",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "没有",
+          "煤油",
+          "没油",
+          "没由",
+          "每有",
+          "没",
+          "每",
+          "美",
+          "梅",
+          "妹"
+        ],
+        "aligned_rank": 1,
+        "aligned_target": "没有",
+        "pinyin": "meiyou",
+        "reference_rank": null,
+        "source_start_offset": 179,
+        "source_target": "没有",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      }
+    ],
+    "reference": "Phase 4B.5 corpus-only T2S",
+    "reference_missing_count": 2766,
+    "remaining_missing_count": 511,
+    "remaining_missing_examples": [
+      {
+        "aligned_candidates": [
+          "历算",
+          "傈僳",
+          "礼俗",
+          "俚俗",
+          "鲤素",
+          "李肃",
+          "离俗",
+          "里",
+          "李",
+          "离"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "里算",
+        "pinyin": "lisuan",
+        "reference_rank": null,
+        "source_start_offset": 136,
+        "source_target": "里算",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "流利",
+          "琉璃",
+          "流离",
+          "刘力",
+          "流丽",
+          "六礼",
+          "六粒",
+          "懰栗",
+          "刘丽",
+          "鹠𫛽"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "流里",
+        "pinyin": "liuli",
+        "reference_rank": null,
+        "source_start_offset": 176,
+        "source_target": "流里",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "二类",
+          "二垒",
+          "饵雷",
+          "而",
+          "二",
+          "儿",
+          "尔",
+          "耳",
+          "贰",
+          "尓"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "而泪",
+        "pinyin": "erlei",
+        "reference_rank": null,
+        "source_start_offset": 196,
+        "source_target": "而泪",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "折弯是",
+          "折弯",
+          "遮挽",
+          "这碗",
+          "折碗",
+          "这晚",
+          "这",
+          "着",
+          "者",
+          "折"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "遮挽时",
+        "pinyin": "zhewanshi",
+        "reference_rank": null,
+        "source_start_offset": 343,
+        "source_target": "遮挽时",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "如轻言",
+          "乳清",
+          "入情",
+          "如",
+          "入",
+          "乳",
+          "汝",
+          "儒",
+          "茹",
+          "辱"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "如轻烟",
+        "pinyin": "ruqingyan",
+        "reference_rank": null,
+        "source_start_offset": 510,
+        "source_target": "如轻烟",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "整容",
+          "峥嵘",
+          "正",
+          "整",
+          "证",
+          "郑",
+          "挣",
+          "争",
+          "症",
+          "政"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "蒸融",
+        "pinyin": "zhengrong",
+        "reference_rank": null,
+        "source_start_offset": 528,
+        "source_target": "蒸融",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "和曾",
+          "和",
+          "喝",
+          "何",
+          "合",
+          "河",
+          "呵",
+          "核",
+          "盒",
+          "贺"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "何曾",
+        "pinyin": "hezeng",
+        "reference_rank": null,
+        "source_start_offset": 543,
+        "source_target": "何曾",
+        "work_id": "congcong",
+        "work_title": "匆匆"
+      },
+      {
+        "aligned_candidates": [
+          "依旧而",
+          "依旧",
+          "已久",
+          "一九",
+          "已就",
+          "忆旧",
+          "亦就",
+          "一久",
+          "以久",
+          "一就"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "一九二",
+        "pinyin": "yijiuer",
+        "reference_rank": null,
+        "source_start_offset": 0,
+        "source_target": "一九二",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "瓶钵是",
+          "瓶钵",
+          "萍泊",
+          "评泊",
+          "评薄",
+          "平",
+          "凭",
+          "评",
+          "瓶",
+          "屏"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "平伯是",
+        "pinyin": "pingboshi",
+        "reference_rank": null,
+        "source_start_offset": 21,
+        "source_target": "平伯是",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "触犯",
+          "初犯",
+          "出饭",
+          "出",
+          "处",
+          "除",
+          "初",
+          "楚",
+          "触",
+          "储"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "初泛",
+        "pinyin": "chufan",
+        "reference_rank": null,
+        "source_start_offset": 24,
+        "source_target": "初泛",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "中来",
+          "中",
+          "种",
+          "重",
+          "仲",
+          "众",
+          "钟",
+          "锺",
+          "忠",
+          "终"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "重来",
+        "pinyin": "zhonglai",
+        "reference_rank": null,
+        "source_start_offset": 29,
+        "source_target": "重来",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "一曲",
+          "易趣",
+          "一区",
+          "一去",
+          "疫区",
+          "意趣",
+          "移去",
+          "逸趣",
+          "义渠",
+          "异趣"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "已去",
+        "pinyin": "yiqu",
+        "reference_rank": null,
+        "source_start_offset": 48,
+        "source_target": "已去",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "放来",
+          "防来",
+          "放赖",
+          "放",
+          "方",
+          "房",
+          "防",
+          "芳",
+          "坊",
+          "访"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "方来",
+        "pinyin": "fanglai",
+        "reference_rank": null,
+        "source_start_offset": 53,
+        "source_target": "方来",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "降生",
+          "缰绳",
+          "江声",
+          "将",
+          "讲",
+          "江",
+          "奖",
+          "降",
+          "蒋",
+          "姜"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "桨声",
+        "pinyin": "jiangsheng",
+        "reference_rank": null,
+        "source_start_offset": 66,
+        "source_target": "桨声",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "玩生源",
+          "完胜",
+          "万盛",
+          "晚生",
+          "万乘",
+          "万圣",
+          "玩",
+          "万",
+          "完",
+          "晚"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "万生园",
+        "pinyin": "wanshengyuan",
+        "reference_rank": null,
+        "source_start_offset": 108,
+        "source_target": "万生园",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "角逐",
+          "攫住",
+          "爵主",
+          "觉",
+          "绝",
+          "巨额",
+          "决",
+          "诀",
+          "掘",
+          "爵"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "觉著",
+        "pinyin": "juezhu",
+        "reference_rank": null,
+        "source_start_offset": 144,
+        "source_target": "觉著",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "角逐",
+          "攫住",
+          "爵主",
+          "觉",
+          "绝",
+          "巨额",
+          "决",
+          "诀",
+          "掘",
+          "爵"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "觉著",
+        "pinyin": "juezhu",
+        "reference_rank": null,
+        "source_start_offset": 150,
+        "source_target": "觉著",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "签注",
+          "牵住",
+          "钳住",
+          "僭主",
+          "前箸",
+          "钱",
+          "前",
+          "千",
+          "咁",
+          "签"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "嵌著",
+        "pinyin": "qianzhu",
+        "reference_rank": null,
+        "source_start_offset": 246,
+        "source_target": "嵌著",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "是人气",
+          "诗人",
+          "世人",
+          "使人",
+          "是人",
+          "时任",
+          "士人",
+          "十人",
+          "示人",
+          "食人"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "使人起",
+        "pinyin": "shirenqi",
+        "reference_rank": null,
+        "source_start_offset": 263,
+        "source_target": "使人起",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      },
+      {
+        "aligned_candidates": [
+          "肉泥",
+          "肉",
+          "柔",
+          "揉",
+          "𫔄",
+          "鞣",
+          "糅",
+          "禸",
+          "蹂",
+          "宍"
+        ],
+        "aligned_rank": null,
+        "aligned_target": "柔腻",
+        "pinyin": "rouni",
+        "reference_rank": null,
+        "source_start_offset": 266,
+        "source_target": "柔腻",
+        "work_id": "qinhuai_river",
+        "work_title": "槳聲燈影裏的秦淮河"
+      }
+    ]
+  },
+  "coverage_table": [
+    {
+      "corpus": "Original Traditional/mixed",
+      "interaction_count": 4531,
+      "missing_count": 882,
+      "missing_rate": 0.19465901566983007,
+      "rime_output": "Default Luna Traditional/mixed",
+      "setting": "Phase 4B",
+      "top_10_count": 3649,
+      "top_10_rate": 0.80534098433017,
+      "top_1_count": 2930,
+      "top_1_rate": 0.6466563672478481,
+      "top_3_count": 3485,
+      "top_3_rate": 0.7691458839108365,
+      "top_5_count": 3602,
+      "top_5_rate": 0.7949679982343854
+    },
+    {
+      "corpus": "OpenCC T2S",
+      "interaction_count": 4691,
+      "missing_count": 2766,
+      "missing_rate": 0.5896397356640375,
+      "rime_output": "Default Luna Traditional/mixed",
+      "setting": "Phase 4B.5",
+      "top_10_count": 1925,
+      "top_10_rate": 0.41036026433596245,
+      "top_1_count": 1541,
+      "top_1_rate": 0.3285013856320614,
+      "top_3_count": 1836,
+      "top_3_rate": 0.3913877638030271,
+      "top_5_count": 1902,
+      "top_5_rate": 0.40545725858026005
+    },
+    {
+      "corpus": "OpenCC T2S",
+      "interaction_count": 4691,
+      "missing_count": 511,
+      "missing_rate": 0.10893199744191004,
+      "rime_output": "Luna zh_hans engine option",
+      "setting": "Phase 4B.6",
+      "top_10_count": 4180,
+      "top_10_rate": 0.8910680025580899,
+      "top_1_count": 3383,
+      "top_1_rate": 0.7211681944148369,
+      "top_3_count": 4008,
+      "top_3_rate": 0.8544020464719676,
+      "top_5_count": 4139,
+      "top_5_rate": 0.8823278618631422
+    }
+  ],
+  "engine_verification_examples": [
+    {
+      "baseline_candidates": [
+        "爲什麼",
+        "爲甚麼",
+        "爲什",
+        "爲甚",
+        "委身",
+        "韋神",
+        "未深",
+        "爲",
+        "未",
+        "位"
+      ],
+      "pinyin": "weishenme",
+      "post_retrieval_conversion": false,
+      "simplified_candidates": [
+        "为什么",
+        "为甚么",
+        "为什",
+        "为甚",
+        "委身",
+        "韦神",
+        "未深",
+        "为",
+        "未",
+        "位"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "我們",
+        "我",
+        "喔",
+        "窩",
+        "握",
+        "臥",
+        "沃",
+        "倭",
+        "渦",
+        "渥"
+      ],
+      "pinyin": "women",
+      "post_retrieval_conversion": false,
+      "simplified_candidates": [
+        "我们",
+        "我",
+        "喔",
+        "窝",
+        "握",
+        "卧",
+        "沃",
+        "倭",
+        "涡",
+        "渥"
+      ]
+    },
+    {
+      "baseline_candidates": [
+        "時候",
+        "事後",
+        "侍候",
+        "時後",
+        "獅吼",
+        "失候",
+        "豕豞",
+        "是",
+        "時",
+        "事"
+      ],
+      "pinyin": "shihou",
+      "post_retrieval_conversion": false,
+      "simplified_candidates": [
+        "时候",
+        "事后",
+        "侍候",
+        "时后",
+        "狮吼",
+        "失候",
+        "豕豞",
+        "是",
+        "时",
+        "事"
+      ]
+    }
+  ],
+  "input_sha256": {
+    "phase_04b5_interactions": "5fe0520101c86bfdb83b5aa5296d766eb429eb3b516c60ed6035fe537fc87fa8",
+    "phase_04b5_normalized_manifest": "84fc6807cb04d107bcef6121532bc49a4b4f301cf3180254f34fc341511dbcca",
+    "phase_04b_interactions": "ea59a56a694025a4e8d4bfccc305ce556cd894084ab8fe8cf32b159265c01e80"
+  },
+  "interaction_delta_vs_phase_04b": {
+    "added_by_work": {
+      "ahe": 201,
+      "beiying": 83,
+      "congcong": 27,
+      "moonlight_over_lotus_pond": 81,
+      "qinhuai_river": 304,
+      "spring": 40,
+      "to_my_late_wife": 129
+    },
+    "added_count": 865,
+    "added_examples": [
+      {
+        "raw_target": "別墅",
+        "simplified_target": "别墅",
+        "source_end_offset": 27,
+        "source_start_offset": 25,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "鄉下",
+        "simplified_target": "乡下",
+        "source_end_offset": 31,
+        "source_start_offset": 29,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "不盡",
+        "simplified_target": "不尽",
+        "source_end_offset": 56,
+        "source_start_offset": 54,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "顯得",
+        "simplified_target": "显得",
+        "source_end_offset": 73,
+        "source_start_offset": 71,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "常如",
+        "simplified_target": "常如",
+        "source_end_offset": 83,
+        "source_start_offset": 81,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "鏡子",
+        "simplified_target": "镜子",
+        "source_end_offset": 85,
+        "source_start_offset": 83,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "她們",
+        "simplified_target": "她们",
+        "source_end_offset": 104,
+        "source_start_offset": 102,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "一會",
+        "simplified_target": "一会",
+        "source_end_offset": 111,
+        "source_start_offset": 109,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "不聲不響",
+        "simplified_target": "不声不响",
+        "source_end_offset": 134,
+        "source_start_offset": 130,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "流過",
+        "simplified_target": "流过",
+        "source_end_offset": 137,
+        "source_start_offset": 135,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "小石橋",
+        "simplified_target": "小石桥",
+        "source_end_offset": 151,
+        "source_start_offset": 148,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "那邊",
+        "simplified_target": "那边",
+        "source_end_offset": 155,
+        "source_start_offset": 153,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "栽著",
+        "simplified_target": "栽著",
+        "source_end_offset": 172,
+        "source_start_offset": 170,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "桃樹",
+        "simplified_target": "桃树",
+        "source_end_offset": 174,
+        "source_start_offset": 172,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "三塊",
+        "simplified_target": "三块",
+        "source_end_offset": 259,
+        "source_start_offset": 257,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "羅列",
+        "simplified_target": "罗列",
+        "source_end_offset": 272,
+        "source_start_offset": 270,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "外邊",
+        "simplified_target": "外边",
+        "source_end_offset": 334,
+        "source_start_offset": 332,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "念書",
+        "simplified_target": "念书",
+        "source_end_offset": 336,
+        "source_start_offset": 334,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "剛回到",
+        "simplified_target": "刚回到",
+        "source_end_offset": 343,
+        "source_start_offset": 340,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "這個",
+        "simplified_target": "这个",
+        "source_end_offset": 361,
+        "source_start_offset": 359,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      }
+    ],
+    "comparison_key": [
+      "work_id",
+      "source_start_offset",
+      "source_end_offset"
+    ],
+    "net_change": 160,
+    "removed_by_work": {
+      "ahe": 179,
+      "beiying": 68,
+      "congcong": 18,
+      "moonlight_over_lotus_pond": 58,
+      "qinhuai_river": 220,
+      "spring": 38,
+      "to_my_late_wife": 124
+    },
+    "removed_count": 705,
+    "removed_examples": [
+      {
+        "raw_target": "那別墅",
+        "source_end_offset": 27,
+        "source_start_offset": 24,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "越顯",
+        "source_end_offset": 72,
+        "source_start_offset": 70,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "常如鏡子",
+        "source_end_offset": 85,
+        "source_start_offset": 81,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "過一會子",
+        "source_end_offset": 112,
+        "source_start_offset": 108,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "地不聲",
+        "source_end_offset": 132,
+        "source_start_offset": 129,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "不響",
+        "source_end_offset": 134,
+        "source_start_offset": 132,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "地流過",
+        "source_end_offset": 137,
+        "source_start_offset": 134,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "小石",
+        "source_end_offset": 150,
+        "source_start_offset": 148,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "橋那邊",
+        "source_end_offset": 155,
+        "source_start_offset": 152,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "著桃樹",
+        "source_end_offset": 174,
+        "source_start_offset": 171,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "兩三塊",
+        "source_end_offset": 259,
+        "source_start_offset": 256,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "或羅列",
+        "source_end_offset": 272,
+        "source_start_offset": 269,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "在外",
+        "source_end_offset": 333,
+        "source_start_offset": 331,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "邊念書",
+        "source_end_offset": 336,
+        "source_start_offset": 333,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "也剛",
+        "source_end_offset": 341,
+        "source_start_offset": 339,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "回到",
+        "source_end_offset": 343,
+        "source_start_offset": 341,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "過這個",
+        "source_end_offset": 361,
+        "source_start_offset": 358,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "著樓",
+        "source_end_offset": 381,
+        "source_start_offset": 379,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "韋君夫婦",
+        "source_end_offset": 392,
+        "source_start_offset": 388,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      },
+      {
+        "raw_target": "要給",
+        "source_end_offset": 487,
+        "source_start_offset": 485,
+        "work_id": "ahe",
+        "work_title": "阿河"
+      }
+    ]
+  },
+  "output_interactions_sha256": "2d0df837fed3cf6b1a141b9f43677733671cf1f08cb72ca3b9e2f0f2f13f5077",
+  "research_question": "How does candidate coverage change when corpus and Rime output use the same Simplified Chinese convention?",
+  "rime_simplified_configuration": {
+    "candidate_conversion_location": "inside librime engine filter",
+    "enabled_schema_options": [
+      "zh_hans"
+    ],
+    "required_engine_filter": "simplifier@zh_hans",
+    "required_opencc_config": "t2s.json",
+    "schema_id": "luna_pinyin",
+    "user_directory_policy": "isolated temporary directory per generation run"
+  },
+  "schema_version": 1,
+  "source_integrity": {
+    "phase_04a_file_sha256": {
+      "ahe.txt": "635fc27f6287bdd85d1544c14300f40b100f257263bf81244b78fb39d4233c1f",
+      "beiying.txt": "da04eee893dcbeb42ce68002dead0e238bfbb2aac7a135a68d2ba265fc2ea171",
+      "congcong.txt": "69384fd0b7a5111821fa019dda88d8f2145b60ce8260158913f4c343c0a8a85f",
+      "moonlight_over_lotus_pond.txt": "46e94750635bea482435d63bb955ddc9fa516747032b3817ed6d671e258b6dda",
+      "qinhuai_river.txt": "58ded9c8ba11e497218e23b629326a239542798388a67759b9c0c826cb182532",
+      "spring.txt": "3d8abc9d1fbc44193ec4378bb4f10e0bad4195e6f3cfae9625d89a7b615b2d0f",
+      "to_my_late_wife.txt": "2d58e7819d617115006fd0e417b0a45d58d7be43b8073c11c16f9db7b584545e"
+    },
+    "phase_04a_unchanged": true
+  }
+}

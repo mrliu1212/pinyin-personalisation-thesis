@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
+#include <vector>
 
 namespace {
 
@@ -13,6 +14,7 @@ struct Options {
   std::string prebuilt_data;
   std::string schema = "luna_pinyin";
   int max_candidates = 10;
+  std::vector<std::string> enabled_options;
 };
 
 bool ParseOptions(int argc, char** argv, Options* options) {
@@ -32,6 +34,8 @@ bool ParseOptions(int argc, char** argv, Options* options) {
       options->schema = value;
     } else if (argument == "--max-candidates") {
       options->max_candidates = std::stoi(value);
+    } else if (argument == "--enable-option") {
+      options->enabled_options.push_back(value);
     } else {
       return false;
     }
@@ -54,7 +58,8 @@ int main(int argc, char** argv) {
   Options options;
   if (!ParseOptions(argc, argv, &options)) {
     std::cerr << "usage: rime_candidate_cli --shared-data DIR --user-data DIR "
-                 "--prebuilt-data DIR --schema ID --max-candidates K\n";
+                 "--prebuilt-data DIR --schema ID --max-candidates K "
+                 "[--enable-option NAME]...\n";
     return 2;
   }
 
@@ -86,6 +91,9 @@ int main(int argc, char** argv) {
     api->finalize();
     return 3;
   }
+  for (const std::string& option : options.enabled_options) {
+    api->set_option(session, option.c_str(), true);
+  }
 
   std::string input;
   while (std::getline(std::cin, input)) {
@@ -110,4 +118,3 @@ int main(int argc, char** argv) {
   api->finalize();
   return 0;
 }
-
