@@ -1,0 +1,117 @@
+{
+  "author_id": "lu_xun",
+  "author_name": "鲁迅",
+  "candidate_generator": {
+    "enabled_schema_options": [
+      "zh_hans"
+    ],
+    "maximum_k": 10,
+    "name": "librime",
+    "numeric_score_available": false,
+    "ordering": "candidate iterator order returned by librime",
+    "rime_source_lock": {
+      "schema_id": "luna_pinyin",
+      "sources": [
+        {
+          "commit": "082425ea0684bca36474415d4a0e8db9b016487e",
+          "files": [
+            "default.yaml",
+            "key_bindings.yaml",
+            "punctuation.yaml",
+            "symbols.yaml"
+          ],
+          "name": "rime-prelude",
+          "url": "https://github.com/rime/rime-prelude.git"
+        },
+        {
+          "commit": "56b934b099dfbeab842320f13aa8b461a6ab3e42",
+          "files": [
+            "luna_pinyin.dict.yaml",
+            "luna_pinyin.schema.yaml",
+            "pinyin.yaml"
+          ],
+          "name": "rime-luna-pinyin",
+          "url": "https://github.com/rime/rime-luna-pinyin.git"
+        },
+        {
+          "commit": "e9b1a374a6ea015fca5bdd04318924b4483ac35a",
+          "files": [
+            "essay.txt"
+          ],
+          "name": "rime-essay",
+          "url": "https://github.com/rime/rime-essay.git"
+        },
+        {
+          "commit": "3a4b0f4013e2b4c14b1e80c92b1d4723eb65f39c",
+          "files": [
+            "stroke.dict.yaml",
+            "stroke.schema.yaml"
+          ],
+          "name": "rime-stroke",
+          "url": "https://github.com/rime/rime-stroke.git"
+        }
+      ]
+    },
+    "schema_id": "luna_pinyin",
+    "version": "librime 1.17.0_2"
+  },
+  "coverage": {
+    "coverage_top_1": 0.7571447385750033,
+    "coverage_top_10": 0.9278282628736995,
+    "coverage_top_3": 0.8909521928091664,
+    "coverage_top_5": 0.917160542605031,
+    "interaction_count": 7593,
+    "interactions_by_target_length": {
+      "2": 6931,
+      "3": 505,
+      "4": 157
+    },
+    "interactions_by_work": {
+      "have_chinese_lost_self_confidence": 195,
+      "hometown": 1327,
+      "kong_yiji": 683,
+      "madmans_diary": 1235,
+      "medicine": 1236,
+      "new_years_sacrifice": 2533,
+      "takeism": 384
+    },
+    "mean_candidate_list_size": 9.986698274726722,
+    "median_candidate_list_size": 10,
+    "missing_target_rate": 0.07217173712630054,
+    "polyphonic_review_count": 4397,
+    "target_absent": 548,
+    "target_present_top_1": 5749,
+    "target_present_top_10": 7045,
+    "target_present_top_3": 6765,
+    "target_present_top_5": 6964
+  },
+  "eligible_targets_before_optional_limit": 7593,
+  "excluded_token_counts": {
+    "above_maximum_length": 8,
+    "below_minimum_length": 7797,
+    "non_chinese_or_punctuation": 5083
+  },
+  "generated_at": "2026-08-10T21:26:58.415482+00:00",
+  "pinyin_conversion_failures": 0,
+  "preprocessing": {
+    "context_policy": {
+      "derived_context": "last N Chinese characters from raw context",
+      "derived_context_characters": 12,
+      "raw_context": "complete preceding source text"
+    },
+    "jieba_version": "0.42.1",
+    "pinyin_method": "pypinyin Style.NORMAL, strict, tone-free, concatenated",
+    "pypinyin_version": "0.55.0",
+    "segmentation_method": "jieba.Tokenizer.tokenize(mode=default)",
+    "target_policy": {
+      "all_chinese_only": true,
+      "exclude_punctuation_latin_numbers": true,
+      "maximum_characters": 4,
+      "minimum_characters": 2
+    }
+  },
+  "schema_version": 1,
+  "source_corpus_manifest": "data/processed/normalized/authors/lu_xun_t2s/manifest.json",
+  "successfully_converted_pinyin_interactions": 7593,
+  "work_filter": null
+}
