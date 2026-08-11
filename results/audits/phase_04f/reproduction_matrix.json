@@ -1,0 +1,243 @@
+{
+  "audit_date": "2026-08-11",
+  "classification_legend": {
+    "A": "DIRECTLY REUSED",
+    "B": "FAITHFULLY ADAPTED",
+    "C": "ARCHITECTURALLY REPRODUCED",
+    "D": "OMITTED — MOBILE/FRONTEND ONLY",
+    "E": "NOT REPRODUCIBLE FROM PUBLIC ARTIFACTS"
+  },
+  "components": [
+    {
+      "classification": "A",
+      "component": "LLM base model",
+      "deviation": "The separate pre-post-training base checkpoint is not shipped; the released merged checkpoint is used.",
+      "justification": "The paper identifies Qwen3-0.6B and the released GGUF metadata is audited separately.",
+      "local_implementation": "Official release checkpoint loaded through a desktop llama.cpp-compatible runtime.",
+      "observed_upstream_implementation": "Paper: Qwen3-0.6B family; Android source loads the bundled merged GGUF with no LoRA path.",
+      "official_source": "ACL paper §2/§3 and ImeLLMManager.kt:createGenerationInstance"
+    },
+    {
+      "classification": "A",
+      "component": "post-trained IME model",
+      "deviation": "Public only as an opaque APK asset with no independent model repository, revision, model card, or training provenance.",
+      "justification": "The exact v1.0.1-beta APK asset is directly reused and pinned by checksums; no substitute model is called HuoziIME.",
+      "local_implementation": "Use scirime_grpo_v2_744-q4_0.gguf extracted from the official APK after checksum verification.",
+      "observed_upstream_implementation": "ImeModelAssetsManager.kt names the merged Q4_0 checkpoint; the official APK bundles it.",
+      "official_source": "Official v1.0.1-beta release and ImeModelAssetsManager.kt"
+    },
+    {
+      "classification": "A",
+      "component": "prompt/template",
+      "deviation": "Input-only mode sets history/last_msg to the available thesis fields and never invents an interlocutor.",
+      "justification": "The small upstream prompt assets and ChatML envelope are isolated with GPL provenance instead of being silently paraphrased.",
+      "local_implementation": "Tracked prompt-integration module reproduces the default business prompt, env tags, instruction, and assistant prefix.",
+      "observed_upstream_implementation": "Default business style prompt plus ChatML <history>, <last_msg>, <memory>, and <instruction> sections.",
+      "official_source": "ImeDataTypes.kt and ImeLLMManager.kt:buildChatMLPromptSegments"
+    },
+    {
+      "classification": "B",
+      "component": "candidate generation",
+      "deviation": "Desktop runtime generates candidate branches sequentially rather than Android JNI batched sequences; interactive official seeds are time-based, while benchmark seeds are recorded and deterministic.",
+      "justification": "The released LLM participates directly and frozen decoding values/candidate cleanup follow upstream code.",
+      "local_implementation": "llama-cpp-python generation with Top-K 20, Top-P 0.8, temperature 0.7, repeat penalty 1.2/last-n 16, maximum 8 tokens, and four candidates by default.",
+      "observed_upstream_implementation": "Native generatePhraseCandidates creates up to four short continuations using parallel llama.cpp sequences.",
+      "official_source": "imem_logic_gen.cpp:generatePhraseCandidates and CandidatePostProcessor.kt"
+    },
+    {
+      "classification": "B",
+      "component": "special action tokens",
+      "deviation": "Kotlin parsing is independently ported to Python.",
+      "justification": "Token strings and parsing semantics are explicit in public source.",
+      "local_implementation": "Parse <MEM_RETRIEVAL> query=\"...\" </MEM_RETRIEVAL> and <NO_MEM>; preserve raw trigger evidence.",
+      "observed_upstream_implementation": "Native control-token discovery plus MemToolcallParser/CandidatePostProcessor parsing.",
+      "official_source": "imem_logic_gen.cpp, MemToolcallParser.kt, CandidatePostProcessor.kt"
+    },
+    {
+      "classification": "B",
+      "component": "memory trigger",
+      "deviation": "The runtime parser is adapted; the learned policy is only available opaquely inside the released checkpoint.",
+      "justification": "The official checkpoint is used, so its emitted action is the policy decision. A separately named disabled fallback is available only for non-official test/runtime fixtures.",
+      "local_implementation": "OfficialTokenMemoryTrigger records OFFICIAL_POLICY only when the pinned model is active; ReferenceMemoryTriggerFallback is explicitly ARCHITECTURAL_FALLBACK.",
+      "observed_upstream_implementation": "The LLM emits a retrieval tool call only when memory is needed; GRPO is described in the paper and Kotlin parses the action.",
+      "official_source": "ACL paper §2.3 and MemToolcallParser.kt"
+    },
+    {
+      "classification": "B",
+      "component": "memory extraction",
+      "deviation": "Desktop frozen-history preparation runs synchronously in the background-preparation command rather than Android idle windows.",
+      "justification": "The official extraction prompt, output schema, validation, 192-token cap, and no-memory behaviour are public.",
+      "local_implementation": "Official-checkpoint MemoryExtractor accepts only supported JSON fields or <NO_MEM>, preserving trajectory source IDs.",
+      "observed_upstream_implementation": "IdleMemoryWorker extracts only explicit actionable plans/agreements to summary plus optional structured fields.",
+      "official_source": "IdleMemoryWorker.kt"
+    },
+    {
+      "classification": "D",
+      "component": "L1",
+      "deviation": "Per-style and per-memory Android KV blobs and KV-splice are not reproduced; resident-model/prompt cache status is traced but is not claimed as L1 equivalence.",
+      "justification": "The exact implementation is tightly coupled to the Android JNI context and is optional/disabled by default in the audited release.",
+      "local_implementation": "No L1 personal KV state. Report ordinary desktop runtime cache reuse separately.",
+      "observed_upstream_implementation": "Style KV snapshots, radix prefix reuse, optional per-memory KV blobs and optional KV-splice.",
+      "official_source": "L1KvBlobPaths.kt, ImeLLMManager.kt, imem_logic_cache.cpp"
+    },
+    {
+      "classification": "B",
+      "component": "L2",
+      "deviation": "Adds user_id, active state, and richer provenance required by the thesis without adding control operations.",
+      "justification": "Structured plaintext records and their HNSW mappings are public and central to the backend.",
+      "local_implementation": "Per-user authoritative JSONL MemoryStore plus per-user persisted HNSW index and inspectable mapping.",
+      "observed_upstream_implementation": "Append-only memories.jsonl, vector labels, tombstones, and HNSW texts/index files.",
+      "official_source": "LongTermMemoryStore.kt and imem_vector_db.cpp"
+    },
+    {
+      "classification": "B",
+      "component": "L3",
+      "deviation": "No online fine-tuning is attempted because that pipeline is not public.",
+      "justification": "Chronological interaction and decision logging is public and sufficient for provenance.",
+      "local_implementation": "Separate append-only chronological InteractionTraceStore with stable IDs and complete prediction traces.",
+      "observed_upstream_implementation": "Aggregated user_input_history.jsonl, process marks, and parametric decision JSONL logs.",
+      "official_source": "ImeService.kt, IdleMemoryWorker.kt, ParametricLogExporter.kt"
+    },
+    {
+      "classification": "B",
+      "component": "plaintext memory",
+      "deviation": "Adds explicit source_interaction_ids and user_id.",
+      "justification": "The plaintext record remains authoritative; vectors are only an accelerator.",
+      "local_implementation": "Individually addressable MemoryRecord with stable upstream-style ID, fields, vector label, and provenance.",
+      "observed_upstream_implementation": "MemoryRecord(id,timestamp,who,what,detail,source,vectorLabel,processedAtMs,indexedOk,sourceLineIndex).",
+      "official_source": "LongTermMemoryStore.kt"
+    },
+    {
+      "classification": "A",
+      "component": "embedding model",
+      "deviation": "Loaded through the desktop llama.cpp binding rather than Android JNI.",
+      "justification": "The official APK's Q8_0 embedding GGUF is directly reused and hash-pinned.",
+      "local_implementation": "bge-small-zh-v1.5-q8_0.gguf from the official release.",
+      "observed_upstream_implementation": "Dedicated embedding instance using bge-small-zh-v1.5-q8_0.gguf.",
+      "official_source": "ImeModelAssetsManager.kt and imem_vector_db.cpp"
+    },
+    {
+      "classification": "B",
+      "component": "HNSW",
+      "deviation": "Uses the maintained Python hnswlib binding because the Android C++ wrapper is not desktop-portable; the vendored upstream hnswlib revision is not recorded.",
+      "justification": "Same library family, metric, normalization, and frozen public parameters are retained.",
+      "local_implementation": "hnswlib inner-product index; L2-normalized embeddings; max_elements 2048, M 16, ef_construction 200, ef_search 64; per-user mapping.",
+      "observed_upstream_implementation": "Vendored hnswlib HierarchicalNSW with InnerProductSpace and L2-normalized vectors.",
+      "official_source": "imem_vector_db.cpp and LLMBridge.kt"
+    },
+    {
+      "classification": "B",
+      "component": "memory-grounded generation",
+      "deviation": "Uses ordinary prompt re-prefill; optional mobile KV-splice is omitted.",
+      "justification": "The selected plaintext memory or <NO_MEM> is inserted into the same prompt and generation is rerun.",
+      "local_implementation": "One selected memory is supplied as '- plaintext' in <memory>; all supplied IDs and text are traced.",
+      "observed_upstream_implementation": "Top retrieval is inserted into <memory> and generatePhraseCandidates is rerun with tool calls disabled.",
+      "official_source": "ImeLLMManager.kt:handleMemRetrievalAndRerun"
+    },
+    {
+      "classification": "B",
+      "component": "asynchronous memory update",
+      "deviation": "The benchmark prepare step executes the background processor explicitly and freezes its output; interactive API keeps the foreground/background boundary but does not launch Android coroutines.",
+      "justification": "Prediction never rebuilds memory, and extraction/indexing is a separate component.",
+      "local_implementation": "BackgroundMemoryProcessor consumes completed training trajectories; evaluation opens frozen state read-only and performs no updates.",
+      "observed_upstream_implementation": "ModelMutexScheduler preempts IdleMemoryWorker whenever foreground inference starts.",
+      "official_source": "ModelMutexScheduler.kt and IdleMemoryWorker.kt"
+    },
+    {
+      "classification": "A",
+      "component": "quantization",
+      "deviation": "None for model files; desktop kernels differ from Android.",
+      "justification": "Official released quantized files are directly reused.",
+      "local_implementation": "Generation Q4_0 and embedding Q8_0 GGUF assets.",
+      "observed_upstream_implementation": "Bundled scirime...q4_0 and bge...q8_0 assets.",
+      "official_source": "Official v1.0.1-beta APK and ImeModelAssetsManager.kt"
+    },
+    {
+      "classification": "D",
+      "component": "KV/prefix caching",
+      "deviation": "No claim of Android radix CursorKV, session snapshots, or memory KV splice.",
+      "justification": "Device/runtime-specific optimization is not required for the research backend.",
+      "local_implementation": "Resident desktop runtime reuse and timing/cache metadata only.",
+      "observed_upstream_implementation": "System prompt snapshots, incremental prefill, radix KV reuse, optional memory splice.",
+      "official_source": "imem_logic_cache.cpp and ImeLLMManager.kt"
+    },
+    {
+      "classification": "D",
+      "component": "mobile scheduling",
+      "deviation": "Android big-core/thread/lifecycle policies omitted.",
+      "justification": "Mobile runtime only.",
+      "local_implementation": "Desktop foreground/background method separation without phone scheduling claims.",
+      "observed_upstream_implementation": "Android lifecycle, coroutine, mutex, thread and device scheduling.",
+      "official_source": "ModelMutexScheduler.kt, ImeLLMManager.kt, native-lib.cpp"
+    },
+    {
+      "classification": "D",
+      "component": "Android UI",
+      "deviation": "Keyboard, GhostText, settings and companion chat UI omitted.",
+      "justification": "Frontend only.",
+      "local_implementation": "None.",
+      "observed_upstream_implementation": "YuyanIME-derived Android keyboard and HuoziIME chat application.",
+      "official_source": "Official repository app/ and keyboard packages"
+    },
+    {
+      "classification": "D",
+      "component": "MCP/chat context",
+      "deviation": "Benchmark external_context is always None; no partner message is fabricated.",
+      "justification": "The thesis evaluates only the paper's documented input-only fallback.",
+      "local_implementation": "Optional external_context API field; frozen Zhu/Lu adapter rejects non-None values.",
+      "observed_upstream_implementation": "MCP can sync history/last message; input-only cursor completion remains available when absent.",
+      "official_source": "ACL paper §2.4 and ImeLLMManager.kt"
+    },
+    {
+      "classification": "B",
+      "component": "Pinyin decoder",
+      "deviation": "The APK's Android ELF native library cannot run on macOS, its Rime-1.11.2 compiled pinyin table is incompatible with desktop librime 1.17.0_2, and its source dictionary is not public. The pinned Luna Pinyin dictionary therefore replaces the exact Yuyan dictionary.",
+      "justification": "Both paths use mature librime full-Pinyin processing, consume actual normalized Pinyin/keystrokes, and return ordered Chinese candidates. The schema/dictionary deviation is explicit and no custom decoder is introduced.",
+      "local_implementation": "RimeCliCandidateGenerator over librime 1.17.0_2, schema luna_pinyin, zh_hans/OpenCC t2s.json, Top-10, with pinned source provenance.",
+      "observed_upstream_implementation": "Yuyan RimeEngine passes key events through Rime JNI/libyuyanime.so, selects full-Pinyin schema pinyin, and reads RimeContext candidates; the APK schema records Rime 1.11.2.",
+      "official_source": "Rime.kt, RimeEngine.kt, Kernel.kt, AppPrefs.kt, and APK assets/rime/build/pinyin.schema.yaml"
+    },
+    {
+      "classification": "B",
+      "component": "candidate-surface integration",
+      "deviation": "Android visual widgets are not reproduced; their semantic separation is represented as structured result channels.",
+      "justification": "The source exposes a standard DecodingInfo candidate bar and a separate showAiSuggestion/GhostText container, with no numerical fusion or common candidate score.",
+      "local_implementation": "Separate pinyin_candidates, HuoziIME direct suggestions, and memory-grounded suggestions with multi-source provenance and no unified ranking.",
+      "observed_upstream_implementation": "Ordinary Rime candidates update the normal candidate bar; HuoziIME outputs are displayed through GhostText and an AI suggestion container/list.",
+      "official_source": "DecodingInfo.kt, InputView.kt, ImeService.kt, and ImeLLMManager.kt"
+    },
+    {
+      "classification": "E",
+      "component": "evaluation assets",
+      "deviation": "No fabricated replacement is used to claim reproduction of paper results; Zhu/Lu is reported separately as a thesis sanity benchmark.",
+      "justification": "The paper describes pre-synthesized examples and memory evaluation but the repository/release contains no dataset or output artifacts.",
+      "local_implementation": "Upstream experiments marked NOT REPRODUCIBLE; independent input-only evaluation framework only.",
+      "observed_upstream_implementation": "Paper reports trigger/retrieval/generation/latency experiments; public repository exposes only an Android performance harness.",
+      "official_source": "ACL paper §3 and official repository audit"
+    },
+    {
+      "classification": "E",
+      "component": "post-training pipeline and data",
+      "deviation": "No training reproduction and no test-set mimic training.",
+      "justification": "The APK includes a 12,000-row mixed_robust.jsonl with generation, trigger and memory-worker examples, but no documentation establishes whether it is the complete/final training set and no runnable training scripts or optimizer configuration are public.",
+      "local_implementation": "None; official released merged checkpoint is used as an opaque artifact.",
+      "observed_upstream_implementation": "Paper describes style post-training and GRPO rewards; repository has no training directory. The release APK contains mixed_robust.jsonl (4,200 A, 4,200 B, 2,160 C1 and 1,440 C2 rows; SHA-256 eb321b277a9faeb578962b2783537c9ce6845af69f2bebd92180c326df7ee723) without a provenance/readme.",
+      "official_source": "ACL paper appendix and official repository audit"
+    },
+    {
+      "classification": "E",
+      "component": "paper source submodule",
+      "deviation": "Published ACL PDF is audited directly.",
+      "justification": "The repository declares a private SSH submodule URL but does not record a paper gitlink/SHA in HEAD.",
+      "local_implementation": "None.",
+      "observed_upstream_implementation": ".gitmodules names paper at git@github.com:Shan-HIT/ScirIME-Paper.git; git ls-tree contains no paper entry.",
+      "official_source": "Official repository .gitmodules and git tree at pinned SHA"
+    }
+  ],
+  "final_reproduction_label": "B. Faithful HuoziIME reference-backend adaptation",
+  "paper": "https://aclanthology.org/2026.acl-demo.32/",
+  "repository": "https://github.com/Shan-HIT/HuoziIME",
+  "schema_version": 1,
+  "upstream_commit": "63f249e711f6501169e6baafec7e12318b3c765b",
+  "upstream_release": "v1.0.1-beta"
+}

@@ -2,127 +2,181 @@
 
 ## Current Phase
 
-Phase 4E — Hybrid Neural-Transparent Personalisation
+Phase 4F — HuoziIME Reference Backend Reproduction
 
 ## Current Objective
 
-Phase 4E implements a frozen hybrid architecture motivated by Phase 4D's
-lexical-context limitations. It combines Luna candidates, causal-LM semantic
-context scores, semantic retrieval from frozen user history, explicit
-behavioural features, and transparent personal-vocabulary injection through an
-interpretable linear pairwise reranker.
+Phase 4F establishes a published, modern personalisation backend before the
+thesis begins its transparency and control contribution. It implements the
+strongest supportable desktop adaptation of
+[HuoziIME](https://github.com/Shan-HIT/HuoziIME), grounded in the official
+[ACL 2026 paper](https://aclanthology.org/2026.acl-demo.32/) and release.
 
-The implementation and engineering smoke test are complete. The full Zhu
-Ziqing Phase 4E evaluation has deliberately not been run, so no performance
-improvement is claimed.
+The official audit, implementation, frozen training-state preparation, and
+engineering smoke test are complete. The full Zhu Ziqing evaluation has
+deliberately not been run, so Phase 4F is not final and no benchmark claim is
+made.
 
-## Frozen Design
+## Reference Status
 
-For each interaction, the existing 12-character context remains available for
-audit while neural features use only the final 64 Chinese characters preceding
-the target:
+Recommended classification: **B. Faithful HuoziIME reference-backend
+adaptation**.
+
+- Audited repository commit: `63f249e711f6501169e6baafec7e12318b3c765b`
+- Audited release: `v1.0.1-beta`
+- Generation model: official bundled `scirime_grpo_v2_744-q4_0.gguf`, Q4_0
+- Embedding model: official bundled `bge-small-zh-v1.5-q8_0.gguf`, Q8_0
+- Desktop runtime: `llama-cpp-python==0.3.16`, Metal on Apple M1
+- Retrieval: per-user HNSW over L2-normalized 512-dimensional embeddings
+
+The complete component classification and all asset hashes are recorded in
+[`results/audits/phase_04f/reproduction_matrix.md`](results/audits/phase_04f/reproduction_matrix.md)
+and
+[`results/experiments/phase_04f/backend_manifest.json`](results/experiments/phase_04f/backend_manifest.json).
+
+## Current Backend
 
 ```text
-Luna Top-10 ────────────────→ Base features
-64-character context ───────→ frozen Qwen causal-LM features
-same-Pinyin user history ───→ frozen Qwen semantic Top-5 memory
-chronological user history ─→ behaviour + optional personal vocabulary
-                                      ↓
-                         standardized linear pairwise reranker
-                                      ↓
-                     factor-decomposable candidate ranking
+own preceding text + traced Pinyin/keystrokes
+                    ↓
+       official lightweight LLM generation
+                    ↓
+        official learned retrieval action?
+             no ↙             ↘ yes
+      direct candidates    per-user HNSW
+                                ↓
+                    selected plaintext memory
+                                ↓
+                    memory-grounded generation
+                                ↓
+                   candidates + decision trace
+
+completed training history → separate background memory worker → frozen L2/L3
 ```
 
-The frozen models are `Qwen/Qwen3-0.6B-Base` and
-`Qwen/Qwen3-Embedding-0.6B`, pinned to exact repository revisions in the Phase
-4E model manifest. They remain frozen and are used only for scoring and
-embedding—not generation. Retrieval is exact-same-Pinyin with `K=5`, personal
-vocabulary injection is capped at three, and the logistic-regression/scaling
-configuration is fixed rather than tuned on the test set.
+The backend includes:
 
-## Evaluation
+- direct LLM candidate generation rather than Luna/Phase 4E reranking;
+- the official checkpoint's selective `<MEM_RETRIEVAL>` action;
+- authoritative, individually addressable plaintext L2 memories;
+- per-user HNSW indexes that map every vector to a memory ID;
+- memory-grounded LLM reruns with supplied memory IDs and text recorded;
+- separate chronological L3 interaction/decision traces;
+- explicit foreground prediction and background memory processing;
+- strict Zhu/Lu user isolation and frozen training histories.
 
-Phase 4E reuses the exact Phase 4C splits and prepares exactly seven conditions:
+Phase 4F does not import Phase 4E frequency, semantic, vocabulary, or linear
+reranking features.
 
-1. Base Luna;
-2. existing Phase 4D no-gate correct-user;
-3. Phase 4E generic neural context;
-4. Phase 4E hybrid fixed-pool correct-user;
-5. Phase 4E hybrid fixed-pool wrong-user;
-6. Phase 4E hybrid augmented-pool correct-user;
-7. Phase 4E hybrid augmented-pool wrong-user.
+## Input-Only Benchmark Mode
 
-Metrics cover the full Zhu test benchmark and its original Luna-rerankable
-subset, with separate reporting for both test works. Besides Top-K, MRR, mean
-rank, missing targets, coverage, and rank changes, the framework records neural,
-semantic-memory, behaviour, vocabulary-recovery, learned-weight, McNemar, and
-paired-bootstrap diagnostics.
+The frozen corpus has the user's own preceding writing, not an interlocutor's
+message. The benchmark therefore passes the final 100 characters of raw
+preceding text, records normalized tone-free Pinyin/keystrokes, and always uses
+`external_context=None`. It never fabricates a dialogue partner.
 
-Correct-user memory contains only Zhu training interactions. Wrong-user memory
-contains only Lu training interactions. No test or future interaction enters
-either memory, and no test-time update occurs.
+The audited Android generation path reads text before the cursor; it does not
+expose a separate Pinyin decoder constraint. Pinyin is therefore accepted and
+traced by the API but is not injected into the LLM prompt. Exact target ranking
+metrics are only generative sanity/reference metrics, not directly equivalent
+to the earlier Luna candidate-ranking experiments.
 
-## Transparency
+## Memory and Retrieval
 
-Every evaluated query stores the complete semantic retrieval trace and, for
-every candidate:
+Training histories are adapted into per-work chronological trajectories capped
+at the upstream 4,000-character memory-worker buffer. The official checkpoint,
+prompt, greedy 192-token generation path, JSON schema, and upstream skip
+semantics produce frozen memories. Each memory records its stable ID, user,
+plaintext, chronology, source interaction IDs, vector label, and provenance.
 
-- Base rank, source, ordinal utility, and structural features;
-- causal-LM conditional score, prior, context gain, and normalized values;
-- semantic-memory evidence plus all retrieved cases and similarities;
-- behavioural counts, shares, seen status, and recency;
-- standardized values, learned coefficients, exact feature/factor
-  contributions, final score, and final rank.
-
-The recorded fields reconstruct every ranking decision. Selected examples also
-support factor-removal and individual-memory-deletion counterfactuals without
-retraining.
+Retrieval follows the audited release: HNSW inner product over L2-normalized
+embeddings, `max_elements=2048`, `M=16`, `ef_construction=200`,
+`ef_search=64`, vector Top-20, raw-cosine threshold `0.4`, and one selected
+memory after the official vector/lexical reranking formula. Correct-user state
+contains only Zhu training history; wrong-user state contains only Lu training
+history. No test-time updates occur.
 
 ## How to Run
 
-Run all tests:
+Install the additional Phase 4F runtime dependencies:
+
+```bash
+.venv/bin/pip install -r requirements-phase4f.txt
+```
+
+On the audited Apple Silicon host, Command Line Tools did not expose libc++
+headers to Python extension builds automatically. The exact successful native
+build commands were:
+
+```bash
+ARCHFLAGS='-arch arm64' CXXFLAGS='-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1' .venv/bin/pip install hnswlib==0.8.0
+ARCHFLAGS='-arch arm64' CFLAGS='-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1' CXXFLAGS='-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1' CMAKE_ARGS='-DCMAKE_OSX_ARCHITECTURES=arm64 -DGGML_METAL=ON' .venv/bin/pip install llama-cpp-python==0.3.16
+```
+
+Run the complete unit-test suite:
 
 ```bash
 .venv/bin/python -m unittest discover -s tests -v
 ```
 
-Prepare or inspect the pinned model manifest:
+Audit manifests, hashes, and prior artifacts without loading the models:
 
 ```bash
-.venv/bin/python -m experiments.exp_phase_04e_hybrid_personalisation --prepare-models
+.venv/bin/python -m experiments.exp_phase_04f_reference_backend --audit
 ```
 
-Run the small engineering-only neural smoke test:
+Download/extract the pinned official release and prepare frozen training-only
+Zhu/Lu memories and indexes:
 
 ```bash
-.venv/bin/python -m experiments.exp_phase_04e_hybrid_personalisation --smoke-test
+.venv/bin/python -m experiments.exp_phase_04f_reference_backend --prepare
 ```
 
-After accepting the frozen implementation, manually run the final experiment:
+Run the small real-model engineering path:
 
 ```bash
-.venv/bin/python -m experiments.exp_phase_04e_hybrid_personalisation
+.venv/bin/python -m experiments.exp_phase_04f_reference_backend --smoke-test
 ```
 
-The final command writes `results/experiments/phase_04e/evaluation.json`. That
-complete evaluation has not been run in this implementation checkpoint.
+After reviewing and accepting the implementation, manually run the final
+input-only evaluation:
+
+```bash
+.venv/bin/python -m experiments.exp_phase_04f_reference_backend
+```
+
+The final command writes
+`results/experiments/phase_04f/evaluation.json`. It has not been run in this
+checkpoint.
+
+## Phase 4E vs Phase 4F
+
+Phase 4E remains the previous hybrid neural-transparent research prototype:
+Luna candidates plus frozen Qwen features and a learned linear reranker. Phase
+4F is additive and separate: it adapts the published HuoziIME LLM-generation,
+plaintext-memory, selective-retrieval, and grounded-generation backend. No
+Phase 4E implementation or results were rewritten.
 
 ## Current Limitations
 
-- Pretrained-data membership for the historical authors is unknown, so this is
-  not a clean unseen-text generalisation benchmark.
-- Neural feature extractors are internally opaque; auditability is at the
-  explicit feature/factor and retrieved-case decision layer.
-- Semantic memory remains restricted to exact normalized Pinyin.
-- Personal vocabulary can inject only candidates observed in frozen personal
-  history and cannot invent unseen vocabulary.
-- The design is a frozen post-hoc extension because the Zhu test set was
-  observed in earlier phases.
+- The official merged checkpoint is public only inside the APK; there is no
+  independently versioned model repository or complete training provenance.
+- The paper evaluation datasets/results and a runnable post-training pipeline
+  are not public, so published experiments cannot be reproduced from the
+  available artifacts.
+- The thesis corpus tests only input-only operation, not HuoziIME's complete
+  cross-application conversation-context capability.
+- Pinyin is trace metadata rather than an upstream-documented generation
+  constraint, limiting comparability with Luna Top-K metrics.
+- Exact Android KV-splice/prefix caching, mobile scheduling, frontend, and MCP
+  transport are omitted; desktop latency is not compared with phone latency.
+- The engineering smoke is not a performance or accuracy result. The final
+  benchmark remains pending manual execution and review.
 
 ## Project History
 
 - Phase specifications: [`docs/phases/`](docs/phases/)
-- Completed results: [`results/experiments/`](results/experiments/)
+- Completed and engineering results: [`results/experiments/`](results/experiments/)
 - Audit outputs: [`results/audits/`](results/audits/)
 - Workflow rules: [`docs/WORKFLOW.md`](docs/WORKFLOW.md)
 

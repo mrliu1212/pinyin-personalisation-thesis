@@ -1,0 +1,236 @@
+{
+  "audit": {
+    "audit_date": "2026-08-11",
+    "paper_source": "https://aclanthology.org/2026.acl-demo.32/",
+    "repository_commit": "63f249e711f6501169e6baafec7e12318b3c765b",
+    "repository_source": "https://github.com/Shan-HIT/HuoziIME",
+    "submodules": {
+      "paper": {
+        "declared_url": "git@github.com:Shan-HIT/ScirIME-Paper.git",
+        "gitlink_present": false,
+        "sha": null
+      }
+    },
+    "upstream_release": "v1.0.1-beta",
+    "upstream_release_asset": {
+      "download_url": "https://github.com/Shan-HIT/HuoziIME/releases/download/v1.0.1-beta/HuoziIME.apk",
+      "filename": "HuoziIME.apk",
+      "sha256": "6ce98a804e503aa2d6dc426ff6284d5064ffff09c9527dcaacfc050f6ab99207",
+      "size_bytes": 995361342
+    },
+    "vendored_dependency_provenance": {
+      "hnswalg_header_sha256": "0fb2c1b1d3aae1ea959b536f96844f3f3ae6a2f32ce063f2c31f93d84a7e5c32",
+      "hnswlib_header_sha256": "54403db81f55fd28246114c5c9f683e663a2a55ad64903b56578c73e6db5ad2c",
+      "llama_cpp_cmake_sha256": "3430b275f39398260e1f5bac44ed2ba2538ac6e732a468a4705e65b55af17166",
+      "upstream_dependency_shas_recorded_by_huoziime": false
+    }
+  },
+  "component_classifications_file": "results/audits/phase_04f/reproduction_matrix.json",
+  "context_policy": {
+    "benchmark_preceding_text": "last 100 characters of raw_context, strictly before target",
+    "external_context_availability": true,
+    "external_context_in_benchmark": null,
+    "input_only_mode": true,
+    "pinyin_or_keystrokes_policy": "normalized Pinyin is consumed by the separate mature Pinyin decoder; it is not inserted into the HuoziIME LLM prompt because audited upstream completion receives text before cursor",
+    "upstream_basis": "ImeService.getTextBeforeCursor(100)"
+  },
+  "embedding_model": {
+    "architecture": "bert",
+    "context_length": 512,
+    "embedding_dimension": 512,
+    "file_in_release": "assets/bge-small-zh-v1.5-q8_0.gguf",
+    "identifier": "bge-small-zh-v1.5",
+    "independent_revision": null,
+    "model_file_sha256": "5a88d266870fbd27c6f329df60de80e2d4cf3bbd5e6f080bd5c1b2e5abb12039",
+    "model_file_size_bytes": 26472640,
+    "quantization": "Q8_0",
+    "revision_basis": "official v1.0.1-beta APK asset checksum"
+  },
+  "final_reproduction_label": "B. Faithful HuoziIME reference-backend adaptation",
+  "engineering_validation": {
+    "assets_prepared": true,
+    "final_evaluation_run": false,
+    "frozen_state": {
+      "lu_indexed_memories": 4,
+      "lu_test_overlap_count": 0,
+      "zhu_indexed_memories": 4,
+      "zhu_test_overlap_count": 0
+    },
+    "smoke_result": "results/experiments/phase_04f/smoke_test.json",
+    "smoke_status": "PASS: beijing produced 北京 through the Pinyin decoder; real embedding, HNSW mapping and official-model grounded generation completed on the separate HuoziIME channel"
+  },
+  "pinyin_decoder": {
+    "implementation": "RimeCliCandidateGenerator over desktop librime C API",
+    "decoder_version": "librime 1.17.0_2",
+    "schema": "luna_pinyin",
+    "dictionary": "pinned rime-luna-pinyin sources recorded in data/rime/setup_manifest.json",
+    "dictionary_revision": "rime-luna-pinyin@56b934b099dfbeab842320f13aa8b461a6ab3e42 with rime-essay@e9b1a374a6ea015fca5bdd04318924b4483ac35a",
+    "simplified_traditional_mode": "Simplified Chinese through zh_hans and OpenCC t2s.json",
+    "candidate_count": 10,
+    "configuration": "data/rime/setup_manifest.json",
+    "provenance": "config/rime/sources.json and data/rime/setup_manifest.json",
+    "official_yuyan_path": "RimeEngine/Rime JNI, APK schema pinyin built with Rime 1.11.2",
+    "official_yuyan_dictionary_reused": false,
+    "direct_reuse_limitation": "APK native library is Android ELF and its compiled table is incompatible with desktop librime 1.17.0_2; source dictionary is not public",
+    "status": "FAITHFUL DESKTOP ADAPTATION"
+  },
+  "pinyin_huoziime_integration": {
+    "mode": "FAITHFUL_DESKTOP_ADAPTATION_SEPARATE_CHANNELS",
+    "upstream_semantics": "ordinary Rime candidate bar plus separate GhostText/AI suggestion surface",
+    "candidate_channels_unified": false,
+    "official_numerical_fusion_rule": null,
+    "shared_candidate_score": null,
+    "raw_pinyin_supplied_to_huoziime_llm": false,
+    "provenance_sources": [
+      "PINYIN_DECODER",
+      "HUOZIIME_DIRECT",
+      "HUOZIIME_MEMORY_GROUNDED"
+    ]
+  },
+  "evaluation_layers": {
+    "pinyin_conversion": "Top-1/3/5/10, MRR, coverage and missing targets from decoder ranks only",
+    "huoziime_personalisation": "trigger, retrieval, grounding, output differences, memory provenance and latency; no forced Pinyin target match",
+    "integrated_backend": "decoder-only plus generic/correct/wrong HuoziIME conditions with separate channels and overlap diagnostics; no invented unified Top-K"
+  },
+  "frozen_previous_artifacts": {
+    "data/processed/interactions/zhu_ziqing_simplified_rime/interactions.jsonl": "2d0df837fed3cf6b1a141b9f43677733671cf1f08cb72ca3b9e2f0f2f13f5077",
+    "results/experiments/phase_04c/evaluation.json": "c9a03ae4cdc18bba0facff7bcdd4ec9a0221906859cd001781719d8d646456ff",
+    "results/experiments/phase_04d/evaluation.json": "17c3ef37a416afba87b01de3741cd0c2131b50ad59ef737bdd136c10316d9620",
+    "results/experiments/phase_04e/model_manifest.json": "e0d9bfe875458d7b1fc40001df3017b868cef25b5456aa03c647fe4e2b38d21b"
+  },
+  "hnsw": {
+    "ef_construction": 200,
+    "ef_search": 64,
+    "implementation": "hnswlib Python binding 0.8.0",
+    "m": 16,
+    "max_elements": 2048,
+    "metric": "inner product over L2-normalized vectors",
+    "retrieval_flow": {
+      "final_injected_memories": 1,
+      "lexical_rerank": "0.85 * CJK-bigram Jaccard + 0.15 * Latin-token Jaccard",
+      "retrieval_k": 20,
+      "selection": "highest 0.88 * ((cosine+1)/2) + 0.12 * lexical among records with raw cosine >= 0.4"
+    }
+  },
+  "memory_extraction": {
+    "implementation": "faithful Python adaptation of IdleMemoryWorker using the official checkpoint and prompt",
+    "max_output_tokens": 192,
+    "minimum_input_characters": 6,
+    "output": "JSON summary plus optional datetime/location/participants/item/detail, or <NO_MEM>",
+    "policy": "explicit actionable plans/agreements only",
+    "training_history_adapter": "per-work chronological user trajectory, reconstructed only from frozen training interactions and capped to the upstream 4,000-character trajectory buffer"
+  },
+  "memory_trigger": {
+    "fallback": "ReferenceMemoryTriggerFallback; disabled/no-retrieval and labelled ARCHITECTURAL_FALLBACK; never presented as official policy",
+    "implementation": "OfficialTokenMemoryTrigger parser around action tokens emitted by the pinned official checkpoint",
+    "official_checkpoint_policy_used": true,
+    "type": "OFFICIAL_POLICY"
+  },
+  "mobile_components_omitted": [
+    "Android keyboard and settings UI",
+    "GhostText rendering",
+    "companion chat application",
+    "MCP cross-application transport",
+    "Android lifecycle and sandbox integration",
+    "phone-specific thread/thermal/big.LITTLE scheduling",
+    "radix CursorKV and per-style session snapshots",
+    "per-memory KV blobs and optional KV-splice"
+  ],
+  "model": {
+    "architecture": "qwen3",
+    "context_length_metadata": 40960,
+    "embedding_length": 1024,
+    "file_in_release": "assets/scirime_grpo_v2_744-q4_0.gguf",
+    "general_license_metadata": "Apache License 2.0",
+    "general_name_metadata": "Scirime_Grpo_V2_744_",
+    "identifier": "official HuoziIME v1.0.1-beta bundled scirime_grpo_v2_744",
+    "independent_revision": null,
+    "model_file_sha256": "2012b7aa860674e5f2b9fc0c90cc4828b7e5f50f7be4069fa0122685956416a5",
+    "model_file_size_bytes": 468700896,
+    "official_post_trained_checkpoint_used": true,
+    "quantization": "Q4_0",
+    "size_label_metadata": "751M"
+  },
+  "other_release_artifacts": [
+    {
+      "disposition": "not selected because audited runtime source explicitly requests scirime_grpo_v2_744-q4_0.gguf",
+      "file": "assets/Merged_Lora_Qwen3-0.6B-Base-with-MEM_gguf_q4_0_v8.gguf",
+      "sha256": "15b1781956a4b19481d21933b088374ef10c9c0f1c97e204c6240ce2f062daa2",
+      "size_bytes": 468700896
+    },
+    {
+      "disposition": "audited but not treated as a complete reproducible training pipeline",
+      "file": "assets/mixed_robust.jsonl",
+      "row_count": 12000,
+      "sha256": "eb321b277a9faeb578962b2783537c9ce6845af69f2bebd92180c326df7ee723",
+      "size_bytes": 17304672
+    },
+    {
+      "disposition": "official synthetic demonstration memory; not imported into Zhu/Lu personal state",
+      "file": "assets/pre_mem.jsonl",
+      "sha256": "08de8820ea8772216545dac2eb690715108fd76ff3539ef9416335aacbe5333e",
+      "size_bytes": 263
+    }
+  ],
+  "phase": "Phase 4F.1 — Pinyin Integration Correction",
+  "precision": {
+    "embedding": "Q8_0 GGUF",
+    "generation": "Q4_0 GGUF"
+  },
+  "project_specific_adaptations": [
+    "desktop Python orchestration around llama.cpp-compatible runtime",
+    "sequential candidate branches instead of Android JNI sequence batching",
+    "deterministic recorded per-query seeds during benchmark evaluation",
+    "per-user L2 stores/indexes for strict Zhu/Lu isolation",
+    "explicit active and provenance fields without Phase 5 control operations",
+    "input-only mapping with no fabricated dialogue partner",
+    "normalized Pinyin consumed by pinned desktop Luna/librime while remaining outside the unchanged HuoziIME prompt",
+    "separate Pinyin-candidate and HuoziIME-suggestion channels reflecting the audited Android UI semantics",
+    "training-work trajectory reconstruction before the official memory-worker prompt"
+  ],
+  "reference_paper": "HuoziIME: An On-Device LLM-Enhanced Input Method for Deep Personalization",
+  "reproduction_gates": {
+    "1_official_grounding": "PASS",
+    "2_upstream_pinning": "PASS_WITH_LIMITATION: HuoziIME/release/assets pinned; vendored dependency SHAs absent upstream",
+    "3_llm_centred_typing": "PASS",
+    "4_persistent_user_memory": "PASS",
+    "5_plaintext_addressability": "PASS",
+    "6_semantic_retrieval": "PASS",
+    "7_selective_memory_architecture": "PASS",
+    "8_memory_grounded_generation": "PASS",
+    "9_user_isolation": "PASS",
+    "10_input_only_validity": "PASS",
+    "11_no_test_tuning": "PASS",
+    "12_practical_inference": "PASS: checksum-verified real-model smoke returned a grounded candidate without retraining or rebuilding memory",
+    "13_reproduction_honesty": "PASS",
+    "14_pinyin_integration": "PASS: normalized Pinyin enters mature librime; Pinyin metrics are separate from HuoziIME diagnostics; no fusion score invented"
+  },
+  "runtime": {
+    "device_backend": "Metal through llama-cpp-python (confirmed by engineering smoke); CPU fallback remains possible but must be reported, never silent",
+    "hardware": {
+      "cpu": "Apple M1, 8 cores (4 performance, 4 efficiency)",
+      "gpu": "Apple M1, 7 cores, Metal supported",
+      "memory_gb": 8,
+      "model": "MacBook Air (MacBookAir10,1)"
+    },
+    "operating_system": "macOS 26.2 (25C56), arm64",
+    "python": "3.13.0",
+    "runtime_package": "llama-cpp-python==0.3.16"
+  },
+  "schema_version": 2,
+  "state_layers": {
+    "L1": "OMITTED mobile KV/prefix personal-memory implementation; ordinary model/prompt cache telemetry only",
+    "L2": "authoritative per-user structured plaintext JSONL plus per-user HNSW index",
+    "L3": "separate chronological interaction/prediction/background-process JSONL traces; no unavailable continual fine-tuning"
+  },
+  "unavailable_upstream_artifacts": [
+    "complete documented post-training dataset provenance and runnable training code/configuration",
+    "paper evaluation datasets and result artifacts",
+    "independent checkpoint repository/revision/model card",
+    "paper submodule gitlink/SHA",
+    "pinned upstream revisions for vendored llama.cpp and hnswlib",
+    "desktop build/runtime supplied by HuoziIME",
+    "source dictionary and reproducible desktop build for the exact Yuyan pinyin schema"
+  ],
+  "weights_committed_to_git": false
+}
