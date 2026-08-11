@@ -5,3 +5,4 @@ __pycache__/
 .venv/
 .build/
 data/rime/
+.cache/phase_04e/

@@ -2,58 +2,61 @@
 
 ## Current Phase
 
-Phase 4D — Transparent Contextual Memory Retrieval
+Phase 4E — Hybrid Neural-Transparent Personalisation
 
 ## Current Objective
 
-Phase 4D evaluates a transparent contextual-memory model motivated by the
-completed Phase 4C negative result. Phase 4C found that frequency
-personalisation did not outperform the strong Luna baseline and that exact
-context evidence was usually absent.
+Phase 4E implements a frozen hybrid architecture motivated by Phase 4D's
+lexical-context limitations. It combines Luna candidates, causal-LM semantic
+context scores, semantic retrieval from frozen user history, explicit
+behavioural features, and transparent personal-vocabulary injection through an
+interpretable linear pairwise reranker.
 
-The new model retrieves similar contexts from a frozen user's history while
-preserving explicit frequency fallback, confidence, and candidate-level score
-traces. The implementation is ready for testing, but the final Phase 4D
-experiment has not been run and no improvement is claimed.
+The implementation and engineering smoke test are complete. The full Zhu
+Ziqing Phase 4E evaluation has deliberately not been run, so no performance
+improvement is claimed.
 
 ## Frozen Design
 
-For each existing 12-character derived context and normalized Pinyin:
+For each interaction, the existing 12-character context remains available for
+audit while neural features use only the final 64 Chinese characters preceding
+the target:
 
 ```text
-same-Pinyin frozen user history
-        ↓
-character TF-IDF cosine, n-grams (1,2)
-        ↓
-Top-5 positive-similarity contexts
-        ↓
-context evidence C(y), confidence q
-        +
-frequency fallback F(y)
-        ↓
-U(y) = (1-q)F(y) + qC(y)
-        ↓
-0.5 normalized Luna Base + 0.5 U(y)
+Luna Top-10 ────────────────→ Base features
+64-character context ───────→ frozen Qwen causal-LM features
+same-Pinyin user history ───→ frozen Qwen semantic Top-5 memory
+chronological user history ─→ behaviour + optional personal vocabulary
+                                      ↓
+                         standardized linear pairwise reranker
+                                      ↓
+                     factor-decomposable candidate ranking
 ```
 
-The no-gate ablation uses `U(y)=C(y)`. Parameters are frozen: `K=5`,
-global/Pinyin frequency weights `0.25/0.75`, and Base blending `alpha=0.5`.
-Final-score ties retain Base order.
+The frozen models are `Qwen/Qwen3-0.6B-Base` and
+`Qwen/Qwen3-Embedding-0.6B`, pinned to exact repository revisions in the Phase
+4E model manifest. They remain frozen and are used only for scoring and
+embedding—not generation. Retrieval is exact-same-Pinyin with `K=5`, personal
+vocabulary injection is capped at three, and the logistic-regression/scaling
+configuration is fixed rather than tuned on the test set.
 
 ## Evaluation
 
-Phase 4D reuses the exact Phase 4C splits and compares:
+Phase 4E reuses the exact Phase 4C splits and prepares exactly seven conditions:
 
 1. Base Luna;
-2. Phase 4C frequency personalisation;
-3. Phase 4D no-gate correct-user;
-4. Phase 4D full correct-user;
-5. Phase 4D full wrong-user.
+2. existing Phase 4D no-gate correct-user;
+3. Phase 4E generic neural context;
+4. Phase 4E hybrid fixed-pool correct-user;
+5. Phase 4E hybrid fixed-pool wrong-user;
+6. Phase 4E hybrid augmented-pool correct-user;
+7. Phase 4E hybrid augmented-pool wrong-user.
 
-Metrics cover the full 926-interaction Zhu test benchmark and its Base-rerankable
-subset. In addition to Top-K, MRR, mean rank, and rank-change counts, Phase 4D
-reports same-Pinyin eligibility, non-zero contextual matches, similarity
-statistics, and context-involved improved/harmed counts.
+Metrics cover the full Zhu test benchmark and its original Luna-rerankable
+subset, with separate reporting for both test works. Besides Top-K, MRR, mean
+rank, missing targets, coverage, and rank changes, the framework records neural,
+semantic-memory, behaviour, vocabulary-recovery, learned-weight, McNemar, and
+paired-bootstrap diagnostics.
 
 Correct-user memory contains only Zhu training interactions. Wrong-user memory
 contains only Lu training interactions. No test or future interaction enters
@@ -61,14 +64,19 @@ either memory, and no test-time update occurs.
 
 ## Transparency
 
-Every evaluated query stores the full retrieval trace and, for every candidate:
+Every evaluated query stores the complete semantic retrieval trace and, for
+every candidate:
 
-- Base rank and normalized ordinal utility;
-- raw and normalized global/Pinyin counts and `F(y)`;
-- retrieved contributors, similarity-weighted `C(y)`, and `q`;
-- final personal evidence `U(y)`, final score, and final rank.
+- Base rank, source, ordinal utility, and structural features;
+- causal-LM conditional score, prior, context gain, and normalized values;
+- semantic-memory evidence plus all retrieved cases and similarities;
+- behavioural counts, shares, seen status, and recency;
+- standardized values, learned coefficients, exact feature/factor
+  contributions, final score, and final rank.
 
-The recorded fields reconstruct every ranking decision.
+The recorded fields reconstruct every ranking decision. Selected examples also
+support factor-removal and individual-memory-deletion counterfactuals without
+retraining.
 
 ## How to Run
 
@@ -78,23 +86,38 @@ Run all tests:
 .venv/bin/python -m unittest discover -s tests -v
 ```
 
-After accepting the implementation, manually run Phase 4D:
+Prepare or inspect the pinned model manifest:
 
 ```bash
-.venv/bin/python -m experiments.exp_phase_04d_context_personalisation
+.venv/bin/python -m experiments.exp_phase_04e_hybrid_personalisation --prepare-models
 ```
 
-The experiment writes `results/experiments/phase_04d/evaluation.json`. The
-directory currently contains only a placeholder; no Phase 4D result has been
-generated.
+Run the small engineering-only neural smoke test:
+
+```bash
+.venv/bin/python -m experiments.exp_phase_04e_hybrid_personalisation --smoke-test
+```
+
+After accepting the frozen implementation, manually run the final experiment:
+
+```bash
+.venv/bin/python -m experiments.exp_phase_04e_hybrid_personalisation
+```
+
+The final command writes `results/experiments/phase_04e/evaluation.json`. That
+complete evaluation has not been run in this implementation checkpoint.
 
 ## Current Limitations
 
-- Character n-gram similarity captures lexical overlap, not semantics.
-- The context remains the existing 12-character preceding string.
-- Retrieval cannot use histories with a different normalized Pinyin.
-- All parameters are frozen and untuned.
-- Reranking cannot recover candidates absent from Base Top-10.
+- Pretrained-data membership for the historical authors is unknown, so this is
+  not a clean unseen-text generalisation benchmark.
+- Neural feature extractors are internally opaque; auditability is at the
+  explicit feature/factor and retrieved-case decision layer.
+- Semantic memory remains restricted to exact normalized Pinyin.
+- Personal vocabulary can inject only candidates observed in frozen personal
+  history and cannot invent unseen vocabulary.
+- The design is a frozen post-hoc extension because the Zhu test set was
+  observed in earlier phases.
 
 ## Project History
 
