@@ -8,13 +8,17 @@ import hashlib
 import json
 from pathlib import Path
 import platform
-import resource
 import shutil
 import sys
 import time
 import urllib.request
 import zipfile
 from typing import Any
+
+try:
+    import resource
+except ImportError:
+    resource = None
 
 from src.phase_04c_evaluation import (
     LU_TRAIN_WORK_IDS,
@@ -63,10 +67,14 @@ STATE_MANIFEST = STATE_DIR / "state_manifest.json"
 
 BACKEND_MANIFEST = ROOT / "results/experiments/phase_04f/backend_manifest.json"
 REPRODUCTION_MATRIX = ROOT / "results/audits/phase_04f/reproduction_matrix.json"
-SMOKE_RESULT = ROOT / "results/experiments/phase_04f/smoke_test.json"
+SMOKE_RESULT = ROOT / "results" / "experiments" / "phase_04f" / (
+    "smoke_test_windows_cuda.json" if sys.platform == "win32" else "smoke_test.json"
+)
 FINAL_RESULT = ROOT / "results/experiments/phase_04f/evaluation.json"
 PINYIN_AUDIT = ROOT / "results/audits/phase_04f/pinyin_integration_audit.json"
-RIME_EXECUTABLE = ROOT / ".build/rime_candidate_cli"
+RIME_EXECUTABLE = ROOT / ".build" / (
+    "rime_candidate_cli.exe" if sys.platform == "win32" else "rime_candidate_cli"
+)
 RIME_ROOT = ROOT / "data/rime"
 RIME_SETUP_MANIFEST = RIME_ROOT / "setup_manifest.json"
 
@@ -97,6 +105,10 @@ ASSETS = {
         263,
     ),
 }
+REQUIRED_MODEL_ASSET_MEMBERS = (
+    "assets/scirime_grpo_v2_744-q4_0.gguf",
+    "assets/bge-small-zh-v1.5-q8_0.gguf",
+)
 
 
 def _write_json(path: Path, value: Any) -> None:
@@ -105,6 +117,12 @@ def _write_json(path: Path, value: Any) -> None:
         json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
+
+
+def _peak_process_ram_raw() -> int | None:
+    if resource is None:
+        return None
+    return resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
 
 
 def verify_frozen_artifacts() -> dict[str, str]:
@@ -198,7 +216,19 @@ def _download_apk() -> None:
             partial.unlink()
 
 
-def prepare_assets() -> dict[str, Any]:
+def _required_model_assets_valid() -> bool:
+    for member in REQUIRED_MODEL_ASSET_MEMBERS:
+        destination, expected_hash, expected_size = ASSETS[member]
+        if not destination.exists() or destination.stat().st_size != expected_size:
+            return False
+        if sha256_file(destination) != expected_hash:
+            return False
+    return True
+
+
+def _prepare_extracted_assets() -> None:
+    if _required_model_assets_valid():
+        return
     _download_apk()
     MODEL_DIR.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(APK_PATH) as archive:
@@ -211,10 +241,14 @@ def prepare_assets() -> dict[str, Any]:
                 shutil.copyfileobj(source, target)
             if destination.stat().st_size != expected_size or sha256_file(destination) != expected_hash:
                 raise ValueError(f"extracted asset failed verification: {member}")
+
+
+def prepare_assets() -> dict[str, Any]:
+    _prepare_extracted_assets()
     if not RIME_EXECUTABLE.exists() or not RIME_SETUP_MANIFEST.exists():
         raise FileNotFoundError(
-            "Phase 4F.1 decoder is not prepared; run `make rime-adapter` and "
-            "`.venv/bin/python -m interactions.setup_rime` first"
+            "Phase 4F.1 decoder is not prepared; see the platform-specific "
+            "Rime setup commands in README.md"
         )
     rime_manifest = json.loads(RIME_SETUP_MANIFEST.read_text(encoding="utf-8"))
     if rime_manifest.get("schema_id") != "luna_pinyin":
@@ -459,7 +493,7 @@ def smoke_test() -> dict[str, Any]:
         },
         "runtime": generation.info(),
         "embedding_runtime": embedding.info(),
-        "peak_process_ram_raw": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
+        "peak_process_ram_raw": _peak_process_ram_raw(),
         "platform": platform.platform(),
         "l3_trace_count": len(traces.list()),
         "final_evaluation_run": False,

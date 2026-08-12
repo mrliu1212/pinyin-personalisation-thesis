@@ -9,6 +9,7 @@ import statistics
 from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
+import sys
 from typing import Any
 
 from .candidates import RimeCliCandidateGenerator
@@ -160,7 +161,10 @@ def main() -> None:
         "--rime-manifest", type=Path, default=Path("data/rime/setup_manifest.json")
     )
     parser.add_argument(
-        "--rime-executable", type=Path, default=Path(".build/rime_candidate_cli")
+        "--rime-executable",
+        type=Path,
+        default=Path(".build")
+        / ("rime_candidate_cli.exe" if sys.platform == "win32" else "rime_candidate_cli"),
     )
     parser.add_argument(
         "--output-dir",

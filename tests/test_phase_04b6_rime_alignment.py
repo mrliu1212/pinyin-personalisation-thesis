@@ -1,4 +1,5 @@
 import json
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -12,6 +13,9 @@ from normalization.phase_04b6 import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
+RIME_EXECUTABLE = ROOT / ".build" / (
+    "rime_candidate_cli.exe" if sys.platform == "win32" else "rime_candidate_cli"
+)
 
 
 class Phase04B6RimeAlignmentTest(unittest.TestCase):
@@ -28,7 +32,7 @@ class Phase04B6RimeAlignmentTest(unittest.TestCase):
         )
 
     @unittest.skipUnless(
-        (ROOT / ".build/rime_candidate_cli").exists()
+        RIME_EXECUTABLE.exists()
         and (ROOT / "data/rime/setup_manifest.json").exists(),
         "local librime adapter/data are not deployed",
     )
@@ -37,7 +41,7 @@ class Phase04B6RimeAlignmentTest(unittest.TestCase):
             (ROOT / "data/rime/setup_manifest.json").read_text(encoding="utf-8")
         )
         arguments = {
-            "executable": ROOT / ".build/rime_candidate_cli",
+            "executable": RIME_EXECUTABLE,
             "shared_data": ROOT / manifest["shared_data_dir"],
             "prebuilt_data": ROOT / manifest["prebuilt_data_dir"],
             "version": manifest["librime"],

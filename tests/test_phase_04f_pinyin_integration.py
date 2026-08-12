@@ -1,4 +1,5 @@
 import json
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -23,6 +24,9 @@ from src.reference_backend.pinyin_integration import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
+RIME_EXECUTABLE = ROOT / ".build" / (
+    "rime_candidate_cli.exe" if sys.platform == "win32" else "rime_candidate_cli"
+)
 
 
 def evaluation_fixture(root: Path, decoder: DeterministicPinyinDecoder):
@@ -54,14 +58,14 @@ class Phase04F1PinyinIntegrationTests(unittest.TestCase):
             normalize_pinyin("běijīng")
 
     @unittest.skipUnless(
-        (ROOT / ".build/rime_candidate_cli").exists()
+        RIME_EXECUTABLE.exists()
         and (ROOT / "data/rime/setup_manifest.json").exists(),
         "pinned desktop Rime decoder is not prepared",
     )
     def test_real_decoder_returns_query_compatible_chinese_candidate(self):
         manifest = json.loads((ROOT / "data/rime/setup_manifest.json").read_text())
         with LibrimeLunaPinyinDecoder(
-            executable=ROOT / ".build/rime_candidate_cli",
+            executable=RIME_EXECUTABLE,
             shared_data=ROOT / "data/rime/shared",
             prebuilt_data=ROOT / "data/rime/build",
             version=manifest["librime"],

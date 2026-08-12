@@ -104,6 +104,52 @@ Install the additional Phase 4F runtime dependencies:
 .venv/bin/pip install -r requirements-phase4f.txt
 ```
 
+Prepare the pinned Phase 4F.1 Rime decoder on Windows in an x64 MSVC 14.44
+environment. With Visual Studio Build Tools 2026, initialize that compiler and
+open PowerShell first:
+
+```bat
+call "C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\VC\Auxiliary\Build\vcvars64.bat" -vcvars_ver=14.44
+powershell.exe -NoExit
+```
+
+The VS18 host can compile with v143/14.44 but may not include the VS2022 v143
+MSBuild platform targets. The following uses CMake's supported Ninja generator
+with the same x64 compiler. Run it from the repository root:
+
+```powershell
+New-Item -ItemType Directory -Force .build | Out-Null
+git clone --recursive --branch 1.17.0 https://github.com/rime/librime.git .build/librime-1.17.0
+Push-Location .build/librime-1.17.0
+$repoRoot = (Resolve-Path '..\..').Path
+$cmakeRoot = 'C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\Common7\IDE\CommonExtensions\Microsoft\CMake'
+@(
+  'set RIME_ROOT=%CD%'
+  "set PATH=$repoRoot\.venv\Scripts;%PATH%"
+  'if not defined BOOST_ROOT set BOOST_ROOT=%RIME_ROOT%\deps\boost-1.89.0'
+  'set ARCH='
+  'set BJAM_TOOLSET=msvc-14.3'
+  'set CMAKE_GENERATOR="Ninja"'
+  'set PLATFORM_TOOLSET='
+  "set DEVTOOLS_PATH=$cmakeRoot\CMake\bin;$cmakeRoot\Ninja"
+) | Set-Content env.bat -Encoding ascii
+.\install-boost.bat
+.\build.bat clean
+.\build.bat deps
+.\build.bat librime
+Pop-Location
+$env:RIME_PREFIX = (Resolve-Path '.build/librime-1.17.0/dist').Path
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/build_rime_adapter.ps1 -RimePrefix $env:RIME_PREFIX
+.\.venv\Scripts\python.exe -m interactions.setup_rime --rime-prefix $env:RIME_PREFIX --librime-version "librime 1.17.0"
+```
+
+If GNU Make is installed, the adapter build command can instead be
+`make rime-adapter RIME_PREFIX="$env:RIME_PREFIX"`. The setup step fetches only
+the revisions frozen in `config/rime/sources.json`, deploys `luna_pinyin`, and
+copies the same build's OpenCC data from the checkout-level `share/opencc`
+directory so `zh_hans` resolves `t2s.json` at runtime. The Windows adapter keeps
+`rime.dll` beside `rime_candidate_cli.exe`.
+
 On the audited Apple Silicon host, Command Line Tools did not expose libc++
 headers to Python extension builds automatically. The exact successful native
 build commands were:
