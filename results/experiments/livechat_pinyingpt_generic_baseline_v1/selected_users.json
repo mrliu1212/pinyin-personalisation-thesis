@@ -1,0 +1,408 @@
+{
+  "qualifying_user_count": 155,
+  "selected_user_count": 100,
+  "selected_users": [
+    {
+      "streamer_id": "streamer41",
+      "usable_train_responses": 9884
+    },
+    {
+      "streamer_id": "streamer80",
+      "usable_train_responses": 8253
+    },
+    {
+      "streamer_id": "streamer26",
+      "usable_train_responses": 8121
+    },
+    {
+      "streamer_id": "streamer60",
+      "usable_train_responses": 7969
+    },
+    {
+      "streamer_id": "streamer122",
+      "usable_train_responses": 7869
+    },
+    {
+      "streamer_id": "streamer127",
+      "usable_train_responses": 7441
+    },
+    {
+      "streamer_id": "streamer62",
+      "usable_train_responses": 7393
+    },
+    {
+      "streamer_id": "streamer78",
+      "usable_train_responses": 6972
+    },
+    {
+      "streamer_id": "streamer144",
+      "usable_train_responses": 6775
+    },
+    {
+      "streamer_id": "streamer126",
+      "usable_train_responses": 6520
+    },
+    {
+      "streamer_id": "streamer83",
+      "usable_train_responses": 6472
+    },
+    {
+      "streamer_id": "streamer106",
+      "usable_train_responses": 6231
+    },
+    {
+      "streamer_id": "streamer121",
+      "usable_train_responses": 6146
+    },
+    {
+      "streamer_id": "streamer93",
+      "usable_train_responses": 6145
+    },
+    {
+      "streamer_id": "streamer124",
+      "usable_train_responses": 6005
+    },
+    {
+      "streamer_id": "streamer113",
+      "usable_train_responses": 5995
+    },
+    {
+      "streamer_id": "streamer125",
+      "usable_train_responses": 5992
+    },
+    {
+      "streamer_id": "streamer25",
+      "usable_train_responses": 5819
+    },
+    {
+      "streamer_id": "streamer105",
+      "usable_train_responses": 5658
+    },
+    {
+      "streamer_id": "streamer71",
+      "usable_train_responses": 5637
+    },
+    {
+      "streamer_id": "streamer36",
+      "usable_train_responses": 5596
+    },
+    {
+      "streamer_id": "streamer77",
+      "usable_train_responses": 5518
+    },
+    {
+      "streamer_id": "streamer131",
+      "usable_train_responses": 5470
+    },
+    {
+      "streamer_id": "streamer63",
+      "usable_train_responses": 5443
+    },
+    {
+      "streamer_id": "streamer184",
+      "usable_train_responses": 5328
+    },
+    {
+      "streamer_id": "streamer198",
+      "usable_train_responses": 5323
+    },
+    {
+      "streamer_id": "streamer109",
+      "usable_train_responses": 5289
+    },
+    {
+      "streamer_id": "streamer100",
+      "usable_train_responses": 5272
+    },
+    {
+      "streamer_id": "streamer120",
+      "usable_train_responses": 5175
+    },
+    {
+      "streamer_id": "streamer190",
+      "usable_train_responses": 5103
+    },
+    {
+      "streamer_id": "streamer116",
+      "usable_train_responses": 5051
+    },
+    {
+      "streamer_id": "streamer123",
+      "usable_train_responses": 5016
+    },
+    {
+      "streamer_id": "streamer162",
+      "usable_train_responses": 4940
+    },
+    {
+      "streamer_id": "streamer169",
+      "usable_train_responses": 4875
+    },
+    {
+      "streamer_id": "streamer186",
+      "usable_train_responses": 4797
+    },
+    {
+      "streamer_id": "streamer32",
+      "usable_train_responses": 4737
+    },
+    {
+      "streamer_id": "streamer146",
+      "usable_train_responses": 4717
+    },
+    {
+      "streamer_id": "streamer87",
+      "usable_train_responses": 4684
+    },
+    {
+      "streamer_id": "streamer145",
+      "usable_train_responses": 4624
+    },
+    {
+      "streamer_id": "streamer15",
+      "usable_train_responses": 4619
+    },
+    {
+      "streamer_id": "streamer234",
+      "usable_train_responses": 4609
+    },
+    {
+      "streamer_id": "streamer44",
+      "usable_train_responses": 4578
+    },
+    {
+      "streamer_id": "streamer117",
+      "usable_train_responses": 4512
+    },
+    {
+      "streamer_id": "streamer173",
+      "usable_train_responses": 4477
+    },
+    {
+      "streamer_id": "streamer194",
+      "usable_train_responses": 4412
+    },
+    {
+      "streamer_id": "streamer201",
+      "usable_train_responses": 4392
+    },
+    {
+      "streamer_id": "streamer130",
+      "usable_train_responses": 4374
+    },
+    {
+      "streamer_id": "streamer3",
+      "usable_train_responses": 4348
+    },
+    {
+      "streamer_id": "streamer17",
+      "usable_train_responses": 4339
+    },
+    {
+      "streamer_id": "streamer6",
+      "usable_train_responses": 4323
+    },
+    {
+      "streamer_id": "streamer251",
+      "usable_train_responses": 4307
+    },
+    {
+      "streamer_id": "streamer64",
+      "usable_train_responses": 4245
+    },
+    {
+      "streamer_id": "streamer205",
+      "usable_train_responses": 4219
+    },
+    {
+      "streamer_id": "streamer66",
+      "usable_train_responses": 4173
+    },
+    {
+      "streamer_id": "streamer7",
+      "usable_train_responses": 4092
+    },
+    {
+      "streamer_id": "streamer142",
+      "usable_train_responses": 3966
+    },
+    {
+      "streamer_id": "streamer27",
+      "usable_train_responses": 3931
+    },
+    {
+      "streamer_id": "streamer108",
+      "usable_train_responses": 3871
+    },
+    {
+      "streamer_id": "streamer177",
+      "usable_train_responses": 3828
+    },
+    {
+      "streamer_id": "streamer103",
+      "usable_train_responses": 3825
+    },
+    {
+      "streamer_id": "streamer137",
+      "usable_train_responses": 3810
+    },
+    {
+      "streamer_id": "streamer96",
+      "usable_train_responses": 3798
+    },
+    {
+      "streamer_id": "streamer149",
+      "usable_train_responses": 3766
+    },
+    {
+      "streamer_id": "streamer159",
+      "usable_train_responses": 3762
+    },
+    {
+      "streamer_id": "streamer227",
+      "usable_train_responses": 3721
+    },
+    {
+      "streamer_id": "streamer84",
+      "usable_train_responses": 3717
+    },
+    {
+      "streamer_id": "streamer53",
+      "usable_train_responses": 3713
+    },
+    {
+      "streamer_id": "streamer153",
+      "usable_train_responses": 3712
+    },
+    {
+      "streamer_id": "streamer99",
+      "usable_train_responses": 3696
+    },
+    {
+      "streamer_id": "streamer54",
+      "usable_train_responses": 3606
+    },
+    {
+      "streamer_id": "streamer259",
+      "usable_train_responses": 3597
+    },
+    {
+      "streamer_id": "streamer30",
+      "usable_train_responses": 3592
+    },
+    {
+      "streamer_id": "streamer211",
+      "usable_train_responses": 3555
+    },
+    {
+      "streamer_id": "streamer223",
+      "usable_train_responses": 3555
+    },
+    {
+      "streamer_id": "streamer38",
+      "usable_train_responses": 3521
+    },
+    {
+      "streamer_id": "streamer217",
+      "usable_train_responses": 3494
+    },
+    {
+      "streamer_id": "streamer196",
+      "usable_train_responses": 3492
+    },
+    {
+      "streamer_id": "streamer167",
+      "usable_train_responses": 3416
+    },
+    {
+      "streamer_id": "streamer45",
+      "usable_train_responses": 3409
+    },
+    {
+      "streamer_id": "streamer12",
+      "usable_train_responses": 3384
+    },
+    {
+      "streamer_id": "streamer172",
+      "usable_train_responses": 3379
+    },
+    {
+      "streamer_id": "streamer241",
+      "usable_train_responses": 3378
+    },
+    {
+      "streamer_id": "streamer158",
+      "usable_train_responses": 3363
+    },
+    {
+      "streamer_id": "streamer94",
+      "usable_train_responses": 3351
+    },
+    {
+      "streamer_id": "streamer49",
+      "usable_train_responses": 3341
+    },
+    {
+      "streamer_id": "streamer248",
+      "usable_train_responses": 3327
+    },
+    {
+      "streamer_id": "streamer238",
+      "usable_train_responses": 3320
+    },
+    {
+      "streamer_id": "streamer203",
+      "usable_train_responses": 3313
+    },
+    {
+      "streamer_id": "streamer139",
+      "usable_train_responses": 3312
+    },
+    {
+      "streamer_id": "streamer76",
+      "usable_train_responses": 3267
+    },
+    {
+      "streamer_id": "streamer236",
+      "usable_train_responses": 3261
+    },
+    {
+      "streamer_id": "streamer34",
+      "usable_train_responses": 3203
+    },
+    {
+      "streamer_id": "streamer118",
+      "usable_train_responses": 3197
+    },
+    {
+      "streamer_id": "streamer89",
+      "usable_train_responses": 3169
+    },
+    {
+      "streamer_id": "streamer74",
+      "usable_train_responses": 3159
+    },
+    {
+      "streamer_id": "streamer222",
+      "usable_train_responses": 3150
+    },
+    {
+      "streamer_id": "streamer218",
+      "usable_train_responses": 3122
+    },
+    {
+      "streamer_id": "streamer13",
+      "usable_train_responses": 3107
+    },
+    {
+      "streamer_id": "streamer185",
+      "usable_train_responses": 3101
+    },
+    {
+      "streamer_id": "streamer161",
+      "usable_train_responses": 3044
+    }
+  ],
+  "selection_rule": "highest usable train response count; streamer_id lexical tie break",
+  "threshold": 2400
+}

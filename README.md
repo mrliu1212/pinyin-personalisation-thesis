@@ -1,5 +1,7 @@
 # Transparent, User-Controllable Pinyin Personalisation
 
+Current authoritative research direction: [RESEARCH_TARGETS.md](RESEARCH_TARGETS.md)
+
 ## Current Phase
 
 Phase 4F — HuoziIME Reference Backend Reproduction

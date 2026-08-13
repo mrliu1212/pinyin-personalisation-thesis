@@ -1,0 +1,239 @@
+{
+  "dataset_license_conclusion": "dataset usage terms are not explicitly established by the repository license alone",
+  "download_source": "https://drive.google.com/drive/folders/1q2GXfeNRN5bOr2Hc5aDneiBXXVfGN45V?usp=sharing",
+  "downloaded_files": {
+    "RawDialogueData/dev_data.pk": {
+      "container_type": "list",
+      "deterministic_examples": [
+        {
+          "audience_comment": "那我毕业了哦",
+          "row_index": 48436,
+          "streamer_id": "streamer20",
+          "streamer_response": "那你毕业了？对但是你现在要留校哈哈哈其他同学需要你来当榜样哈哈哈"
+        },
+        {
+          "audience_comment": "会唱歌和不会唱歌的都沉默了",
+          "row_index": 85015,
+          "streamer_id": "streamer72",
+          "streamer_response": "我要唱会唱歌的，唱男版的男版的嗯？"
+        },
+        {
+          "audience_comment": "你可以拿你的iPad搜一下祖国人的那个。",
+          "row_index": 51470,
+          "streamer_id": "streamer203",
+          "streamer_response": "祖国人那个月牙在哪在哪搜啊在哪里搜啊百度吗？"
+        },
+        {
+          "audience_comment": "我来了呀，就送一个灯牌就跑了",
+          "row_index": 100994,
+          "streamer_id": "streamer27",
+          "streamer_response": "送一个灯牌就。"
+        },
+        {
+          "audience_comment": "我大号不玩了",
+          "row_index": 58359,
+          "streamer_id": "streamer80",
+          "streamer_response": "我大号不玩了。这是网络上的还是现中的？左右为难是网络还是现实呢？"
+        }
+      ],
+      "download_file_id": "1_0j1--iPJBu3spWrA_6boWLkiCRFNLeP",
+      "duplicate_rows_beyond_first": 20,
+      "duplicate_streamer_responses_beyond_first": 156,
+      "empty_streamer_responses": 0,
+      "field_names": [
+        "streamer_id",
+        "audience_comment",
+        "streamer_response"
+      ],
+      "field_types": [
+        "str",
+        "str",
+        "str"
+      ],
+      "hidden_timestamp_order_session_fields": false,
+      "malformed_rows": 0,
+      "path": "RawDialogueData/dev_data.pk",
+      "response_script_distribution": {
+        "no_identifiable_chinese": 72,
+        "shared_or_ambiguous": 5881,
+        "simplified": 97066
+      },
+      "responses_per_streamer": {
+        "count": 344,
+        "max": 1256,
+        "mean": 299.4738372093023,
+        "median": 268.0,
+        "min": 2,
+        "p25": 129.0,
+        "p75": 412.25,
+        "p90": 603.9999999999999,
+        "p95": 712.6999999999998
+      },
+      "row_count": 103019,
+      "sample_length": 3,
+      "sample_structure": "list[str, str, str]",
+      "sha256": "d18831efb8e42e4f74eadc4e11be28aec27354b3e337076749fa3411921c8f18",
+      "size_bytes": 11682745,
+      "streamer_id_all_strings": true,
+      "streamer_id_pattern_match_count": 103019,
+      "unique_streamers": 344
+    },
+    "RawDialogueData/test_data.pk": {
+      "container_type": "list",
+      "deterministic_examples": [
+        {
+          "audience_comment": "必须好看了",
+          "row_index": 100200,
+          "streamer_id": "streamer117",
+          "streamer_response": "必须好看！嗯，"
+        },
+        {
+          "audience_comment": "掉了",
+          "row_index": 92126,
+          "streamer_id": "streamer190",
+          "streamer_response": "掉了。欢迎猴哥话说前几天我都不在青岛你怎么能在万象城看到我"
+        },
+        {
+          "audience_comment": "刷个保时捷给聪聪？",
+          "row_index": 101598,
+          "streamer_id": "streamer64",
+          "streamer_response": "你刷个保时捷给甜甜了哈哈"
+        },
+        {
+          "audience_comment": "可以心动追你吗龙",
+          "row_index": 30528,
+          "streamer_id": "streamer63",
+          "streamer_response": "可以播给你们看因为我明天下午还要拍拍拍照呢晚上还要马上就是晚上还要马上直接参加这个活动"
+        },
+        {
+          "audience_comment": "广州飞福州",
+          "row_index": 60998,
+          "streamer_id": "streamer34",
+          "streamer_response": "广州飞福州。什么是那个广州什么什么行呀。"
+        }
+      ],
+      "download_file_id": "1_5LHN1WItUm4_XpznzIgEtajrtBcwpEC",
+      "duplicate_rows_beyond_first": 18,
+      "duplicate_streamer_responses_beyond_first": 163,
+      "empty_streamer_responses": 0,
+      "field_names": [
+        "streamer_id",
+        "audience_comment",
+        "streamer_response"
+      ],
+      "field_types": [
+        "str",
+        "str",
+        "str"
+      ],
+      "hidden_timestamp_order_session_fields": false,
+      "malformed_rows": 0,
+      "path": "RawDialogueData/test_data.pk",
+      "response_script_distribution": {
+        "no_identifiable_chinese": 80,
+        "shared_or_ambiguous": 5870,
+        "simplified": 97070
+      },
+      "responses_per_streamer": {
+        "count": 344,
+        "max": 1282,
+        "mean": 299.4767441860465,
+        "median": 265.5,
+        "min": 2,
+        "p25": 128.75,
+        "p75": 406.0,
+        "p90": 612.4999999999998,
+        "p95": 719.6499999999996
+      },
+      "row_count": 103020,
+      "sample_length": 3,
+      "sample_structure": "list[str, str, str]",
+      "sha256": "76be463ca0ba4606590e5441c6cb3daaf103fcd58126a66834909baeb8dc9636",
+      "size_bytes": 11755849,
+      "streamer_id_all_strings": true,
+      "streamer_id_pattern_match_count": 103020,
+      "unique_streamers": 344
+    },
+    "RawDialogueData/train_data.pk": {
+      "container_type": "list",
+      "deterministic_examples": [
+        {
+          "audience_comment": "你有不跳舞，没露什么的",
+          "row_index": 325479,
+          "streamer_id": "streamer206",
+          "streamer_response": "你好像说的没有错哎，好像真的是这样的哈哈哈哈所以这个是直男是吗哈哈哈哈。"
+        },
+        {
+          "audience_comment": "在顺和直播基地",
+          "row_index": 287280,
+          "streamer_id": "streamer153",
+          "streamer_response": "在顺和直播间接88567，"
+        },
+        {
+          "audience_comment": "你头上是什么",
+          "row_index": 343157,
+          "streamer_id": "streamer184",
+          "streamer_response": "我头上是带着那个卷发器，头发刚剪了一下剪短了我把它压一下。"
+        },
+        {
+          "audience_comment": "又刷到你了[捂脸]",
+          "row_index": 645673,
+          "streamer_id": "streamer169",
+          "streamer_response": "又刷到我了。是的漂泊哥。"
+        },
+        {
+          "audience_comment": "让他出去吐",
+          "row_index": 278529,
+          "streamer_id": "streamer44",
+          "streamer_response": "不让他排队吐！kick drum bass！ yeah！能听到音乐吗？"
+        }
+      ],
+      "download_file_id": "1OmmMqjg_Ajmf1PqiD0XTglc8amrPgS6n",
+      "duplicate_rows_beyond_first": 1046,
+      "duplicate_streamer_responses_beyond_first": 4116,
+      "empty_streamer_responses": 0,
+      "field_names": [
+        "streamer_id",
+        "audience_comment",
+        "streamer_response"
+      ],
+      "field_types": [
+        "str",
+        "str",
+        "str"
+      ],
+      "hidden_timestamp_order_session_fields": false,
+      "malformed_rows": 0,
+      "path": "RawDialogueData/train_data.pk",
+      "response_script_distribution": {
+        "mixed": 3,
+        "no_identifiable_chinese": 616,
+        "shared_or_ambiguous": 46810,
+        "simplified": 776723
+      },
+      "responses_per_streamer": {
+        "count": 346,
+        "max": 9884,
+        "mean": 2381.942196531792,
+        "median": 2092.5,
+        "min": 4,
+        "p25": 992.0,
+        "p75": 3318.25,
+        "p90": 4767.0,
+        "p95": 5778.75
+      },
+      "row_count": 824152,
+      "sample_length": 3,
+      "sample_structure": "list[str, str, str]",
+      "sha256": "88f2167f8d7e9100ff83e4af18dd85faa3702e3e00408776bd14d05f86d045c1",
+      "size_bytes": 93700449,
+      "streamer_id_all_strings": true,
+      "streamer_id_pattern_match_count": 824152,
+      "unique_streamers": 346
+    }
+  },
+  "google_drive_folder_id": "1q2GXfeNRN5bOr2Hc5aDneiBXXVfGN45V",
+  "official_repository_revision": "d06c90aae0cedc1d75792c84e6bc140828c90ded",
+  "official_repository_url": "https://github.com/gaojingsheng/LiveChat",
+  "repository_license_file": "LICENSE (MIT text)"
+}

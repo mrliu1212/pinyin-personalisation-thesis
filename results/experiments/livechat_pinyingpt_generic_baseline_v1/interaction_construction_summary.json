@@ -1,0 +1,30 @@
+{
+  "ambiguity_quartile_boundaries": {
+    "q25": 4.321928094887363,
+    "q50": 5.857980995127572,
+    "q75": 9.562242424221072
+  },
+  "audience_comment_used_as_model_context": false,
+  "compatible_targets": 2154394,
+  "evaluation_responses_considered": 138282,
+  "evaluation_responses_with_eligible_target": 138164,
+  "evaluation_responses_without_eligible_target": 118,
+  "excluded_targets": 191,
+  "exclusion_reasons": {
+    "pinyingpt_compatibility_failure": 191
+  },
+  "frozen_interaction_count": 10000,
+  "interactions_per_user": {
+    "count": 100,
+    "max": 100,
+    "mean": 100,
+    "median": 100.0,
+    "min": 100,
+    "p25": 100.0,
+    "p75": 100.0,
+    "p90": 100.0,
+    "p95": 100.0
+  },
+  "one_target_per_evaluation_response": true,
+  "segmented_han_targets": 2154585
+}

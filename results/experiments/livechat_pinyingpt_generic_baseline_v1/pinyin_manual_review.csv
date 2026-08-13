@@ -1,0 +1,76 @@
+﻿sample_type,streamer_id,source_response_id,interaction_id,response,context,target,pinyin,polyphonic,exclusion_reason
+ordinary,streamer60,lcresp-cab127b8236044ef6b0227a4,lcime-c72bac2a507faf2d2f55645c,应该是。蟑螂啊蟑螂兄弟，蟑螂上面有蟑螂那么大啊。,应该是。蟑螂啊蟑螂兄弟，蟑螂,上面,shang mian,False,
+ordinary,streamer127,lcresp-8a54e5aeec8b5a703981e24f,lcime-72e892ad570c10d332a58aff,5点起床起来晨跑吗这么早。,5点,起床,qi chuang,False,
+ordinary,streamer45,lcresp-14c7ebbe7da9f4309ddafa33,lcime-7e20c44cfcec64950c758577,海边好玩吗。阳光挺刺眼的，我没戴墨镜，然后就是回来之后眼睛一直不舒服。,海边,好玩,hao wan,False,
+ordinary,streamer60,lcresp-ae3770635a2228c3cf10ad27,lcime-1daa19f53b233584cbe98b84,3个小时能收6W？对啊对他他就是他开播能播半个小时就是那样式的他开播能播半个小时，但他只要这半个小时里边。,3个小时能收6W？对啊对他他就是他开播能播半个小时就是那样式的他开播能播半个,小时,xiao shi,False,
+ordinary,streamer145,lcresp-2dcc8434ec58f71d9f5410ed,lcime-56d2a8e761c7d50628f1195f,03不算70后吗。好像算哈好像算哈。,03不算70,后,hou,False,
+ordinary,streamer77,lcresp-95313aa82a9ad7dbc1f7d35c,lcime-7760148fce7b2b02da04e881,好热呀OK， 开始，呦呦呦呦兄弟忘记调了，再一次吧what you want is me？,好热呀OK， 开始，呦,呦,you,False,
+ordinary,streamer123,lcresp-68fa693e58d8dda6012b5414,lcime-aef0a83b454d1fdb016be9a3,他都不来了。那你跟他说你说让他陪你一起看。,他都不来了。那你跟他说你说,让,rang,False,
+ordinary,streamer172,lcresp-d91b5c4cba4c39ac8b51cf4c,lcime-3782784cd9fcde598b2da70b,还不如我上来点。还不如我上来就点赞。,还不如,我,wo,False,
+ordinary,streamer63,lcresp-96072f65e564fe40e70df27e,lcime-62630147cee4ab19cd16439f,什么意思？你不愿意跟我一起来？,什么意思？你不愿意,跟,gen,False,
+ordinary,streamer53,lcresp-294431bbf0d5a79c65b24d80,lcime-f65f797cf9d429e7a28099d2,牌啊，,,牌,pai,False,
+ordinary,streamer78,lcresp-f54f04624664130e776256fd,lcime-a19d29c49be1e3f5aae0e345,天天破产很正常吗？,,天天,tian tian,False,
+ordinary,streamer198,lcresp-931e0d9cdb5448746fe730cb,lcime-3219eda9287a8a3f31fb714e,啊我正常一点我吃一个这个龙角嗓哈吃一个龙角嗓保护一下我嗓子啊！这么多人助力我们助力不成。,啊我正常一点我吃一个这个龙角嗓哈吃一个龙角嗓,保护,bao hu,False,
+ordinary,streamer144,lcresp-f6d885638d1b0b77bd91d851,lcime-4683c671c470d2f3dfb8482f,谁敢告诉爹妈。哈哈哈我就最喜欢这个。,谁敢告诉爹妈。哈哈哈我,就,jiu,False,
+ordinary,streamer259,lcresp-1f63975e205bcc3d5cd15cee,lcime-bddbb8bb79b6a2db80be77e4,我们点点赞吧。我刚刚开播。点点赞我们直播间26个人。,我们点点赞吧。我刚刚开播。点点,赞,zan,False,
+ordinary,streamer222,lcresp-107271704882d2d667805c7a,lcime-6664ac9b2e736ef3f45543e4,为啥不看欢迎 number 106。,,为啥,wei sha,False,
+ordinary,streamer54,lcresp-d71ef87c85ad61c1e3a388b4,lcime-bc690fe9eca6a52b98cd3724,我都不知道我亏没，看起来都好差的。你刷了多少，然后你看看你把这些东西丢都丢出来，你看看你亏了没有，这就就看出来了你多少抽的，然后看看自己的票就算出来了。,我都不知道我亏没，看起来都好差的。你刷了多少，然后你看看你把这些东西丢都丢出来，你看看你亏了没有，这就就看出来了,你,ni,False,
+ordinary,streamer49,lcresp-26f3c2a9cf330380edd58422,lcime-a8c921ba9d94b199234404bd,广东深圳。应该没有吧。不知道，,广东深圳。,应该,ying gai,False,
+ordinary,streamer49,lcresp-5b420c2c6e9310c618600cda,lcime-863238c40a6186f2e18aba8f,有一点真的是有一点吗？,有一点真的是有,一点,yi dian,False,
+ordinary,streamer106,lcresp-06cf6c5021922968c1f5aefc,lcime-33d4833c2b7fd0c5916484c2,我点了杯无酒精就拢共拢可能酒就点了个三四倍满那种鸡尾酒然后加上无酒精的，然后我们五个人一个人在聊天，然后四个人当场就是开了个麻将哈哈哈我们四个人在那里在手机上打麻将然后呢这个时候少了点什么？,我点了杯无酒精就拢共拢可能酒就点了个三四倍满那种鸡尾酒然后加上无酒精的，然后我们五个人一个人在聊天，然后四个人当场就是开了个麻将哈哈哈我们四个人在那里在手机上打麻将然后呢这个时候少了,点,dian,False,
+ordinary,streamer198,lcresp-64bc2e3f0c711c5e4a46da75,lcime-2d074b6f976538a50b4bd448,我就是没睡醒吗？我只想活一次。,我就是没睡醒,吗,ma,False,
+ordinary,streamer87,lcresp-34549bc69acbb06e720afbfe,lcime-29aaf8f2f791abf1d57a5b12,可能你忘了。下次免费票提前打吗？,可能你忘了。下次免费票提前打,吗,ma,False,
+ordinary,streamer217,lcresp-a7a2e0d5bca09c9aa8651e08,lcime-4ba286adc0c3a2f8acd92844,去外面洗澡就进了？NO NO NO NO NO我从来不去外面洗澡外面洗澡害羞。,去外面洗澡就进了？NO NO NO NO NO我从来不,去,qu,False,
+ordinary,streamer190,lcresp-ad92b6076a266fa645f781cd,lcime-ff9c4f73d75b4985e62fcee0,没了。再充点再充点就有。,没了。再,充点,chong dian,False,
+ordinary,streamer126,lcresp-9f623ae5eee89542a217ead8,lcime-38c2bd30c38002a6f1ad2960,他吓跑害怕我们知道他的地址，然后对他做一些非法的事情。,他吓跑害怕我们知道他的地址，然后对他,做,zuo,False,
+ordinary,streamer32,lcresp-9559b4732c2dd4e3dfbe1624,lcime-a52639a814ae07484cc62fcd,因为你状态不好，嗓音状态不好的时候你根本没人唱这个歌，这歌全是。,因为,你,ni,False,
+polyphonic,streamer78,lcresp-b24c85eda9824ba6cf496375,lcime-73624ebfb207ce8e4ff43612,叫阿姨你不会介意的吧。,叫阿姨你不会介意,的,de,True,
+polyphonic,streamer190,lcresp-d356b15b7cde93204d803817,lcime-1ba07b8299b299e9cb1017b6,我也没隐身你在骂谁啊我也没隐身你瞧不起谁啊。,我也没隐身你在骂谁啊我也没隐身你瞧不起,谁,shui,True,
+polyphonic,streamer203,lcresp-74d958434a579e2d5bc32512,lcime-68d0e2d0b5c5dac6d7896611,管理给你们通过我就说怎么怎么啊怎么修怎么跳上来了原来是你呀，上来就说一句我去玩了。,管理给你们通过我就,说,shuo,True,
+polyphonic,streamer27,lcresp-16a6c3195f22f79e6294ca61,lcime-04633263e600208f682c1cf1,7年分了不难受吗。,7年分,了,le,True,
+polyphonic,streamer125,lcresp-4dbb6510eae868b6c4675f07,lcime-97263cb3825293ac9a8d97db,说明睡眠质量好啊。我经常做很奇怪的梦。,说明睡眠质量好啊。我经常做很,奇怪,qi guai,True,
+polyphonic,streamer62,lcresp-861265cdc7aa9de3e6b4f1e1,lcime-44c5fa14348e704ac4f10c04,都不太好看。,,都,dou,True,
+polyphonic,streamer144,lcresp-3810c4df92773e85423a929a,lcime-412351ae91b0997f18b06b7a,下手要重。对哈哈哈有点激动哈哈激动下手重了哎真的有点重没事一会就好了。,下手要重。对哈哈哈,有点,you dian,True,
+polyphonic,streamer41,lcresp-91e69718ef0e439b901934d6,lcime-2a4e9be23a04c6b5cfac5b69,家。灯牌有馒头吃吗？十几灯牌我请你吃馒头吧行不行十几灯牌我请你吃馒头吧行不行？,家。灯牌有馒头吃吗？十几灯牌我请你吃馒头吧行不行十几灯牌我请你吃馒头,吧,ba,True,
+polyphonic,streamer53,lcresp-8759fa70bce1a20dac79de4b,lcime-802102cbed912d187e4fb4d1,能力有限。对，确实是能力有限啊哈哈哈哈。,能力有限。对，确实,是,shi,True,
+polyphonic,streamer162,lcresp-d0ed1463ea62c1d7af38f79e,lcime-2d2141e065b1cae72bcaafb5,怎么样？感觉下着大雨，想，想起了想起了好多人是不是这首歌，没有点关注的小朋友们，大家记得点点关注，所有主页要跳，那我们就,怎么样？感觉下着大雨，想，想起了想起,了,le,True,
+polyphonic,streamer53,lcresp-703b088fcda43b58a2fe91b6,lcime-56c905f1a584a8a6d65c9680,没中的来了我马上给你们再补一个，好。不好，家人们,没中的来,了,le,True,
+polyphonic,streamer13,lcresp-3156b5542ce6d26a78aad14e,lcime-5083dba99a4df3ce2a7c9139,我像运动健将。哈哈哈。,我像,运动健将,yun dong jian jiang,True,
+polyphonic,streamer153,lcresp-8e4bcf6a371c6885aaf3ccd1,lcime-e6e32bc923aa3bfb7aa2717f,为什么一天不能送100个灯牌？哇他这个好大呀这个表情是一直是之前好像没有这么大吧是吧嗯，这个很酷啊。,为什么一天不能送100个灯牌？哇他这个好大呀这个表情是一直,是,shi,True,
+polyphonic,streamer6,lcresp-9a21f139a35c2951e66c1347,lcime-7020ae5173ae475bb2dd47f2,其余时间在干嘛？下播其余时间陪大哥哈哈哈哈下播其余时间拍视频剪辑找素材找歌找歌单看看平台出了什么新的特效能不能用哈哈哈看看逛逛逛逛某宝看看有没有什么道具可以奇奇怪怪的可以买，没事就在那逛哈哈哈下了播不是你们想象那样的不是你们想。,其余时间在干嘛？下播其余时间陪大哥哈哈哈哈下播其余时间拍视频剪辑找素材找歌找歌单看看平台出了什么新的特效能不能用哈哈哈看看逛逛逛逛某宝看看有没有什么道具可以奇奇怪怪的可以买，没事就在那逛哈哈哈下了播,不是,bu shi,True,
+polyphonic,streamer15,lcresp-f6e7ee9b5f9c8f4c7065439d,lcime-db1d83076362f1f1d92221fa,继续哈哈哈还要继续播哈哈哈哈哈你是冲我的吧哈哈哈哈,继续哈哈哈还要继续播哈哈哈哈哈你是冲我,的,de,True,
+polyphonic,streamer149,lcresp-f09af79e30a4db08767831a9,lcime-bad0ce89055484cf7b372412,我记得有个大哥不是和小伟说的吗？,我记得有个大哥不是和小伟说,的,de,True,
+polyphonic,streamer185,lcresp-50129cda08073446f8a50f98,lcime-7f6c748c3e98c87d3059351d,笑的很开心，,笑,的,de,True,
+polyphonic,streamer238,lcresp-0419b3f83ccad6248ea3f268,lcime-9d38652fab454d939c6ead43,保时捷有了，可是飞机还没有感情。,,保时捷,bao shi jie,True,
+polyphonic,streamer26,lcresp-03ab5df61d54206afb30b066,lcime-343e3a4e75eccd5deadbf4f0,你倒是看公屏啊，,你倒是,看公屏,kan gong ping,True,
+polyphonic,streamer32,lcresp-baac76c0bea80307c62b0384,lcime-252500d609628256766d735e,你别烦我了真的是。我能挣几个我能挣几个波我能挣几个笔钱啊哈哈哈是不是来唱个歌。,你别烦我了真的是。我能挣几个我能挣,几个,ji ge,True,
+polyphonic,streamer27,lcresp-c04c18a53f794ca1cf7e8d58,lcime-4a3033ef560f6b4920a86b3a,萌猪看到了。对啊，其他的都看到过了就没有看过这个营销带啥。,萌猪看到了。对啊，其他,的,de,True,
+polyphonic,streamer122,lcresp-053a650b9a160d64ec1e725c,lcime-b37ad789c472dcb39fac3582,感谢猪哥哥哥,,感谢,gan xie,True,
+polyphonic,streamer137,lcresp-5029377366bae9fe4dfc3e52,lcime-b6e9881388bcad76ae1f094c,不好讲，现在人倒是有个感情的定性过程，就像一开始我跟你之间你不熟，然后结果你开始跟我对话之后发现，哦，原来我们以后可以这么熟是吧哈哈哈。哈哈哈,不好讲，现在人倒是有个感情的定性过程，就像一开始我跟你之间你不熟，然后结果你开始跟我对话之后发现，哦，原来我们,以后,yi hou,True,
+polyphonic,streamer83,lcresp-d25002827c406802834e7adf,lcime-c6640b1251a40003cc7fe21c,我也没有收到。我还没寄呢哈哈哈。,我也没有收到。我还,没,mei,True,
+polyphonic,streamer217,lcresp-8acd82a46ad2c191b601fdb9,lcime-d045841a5721e11ef3149efe,小区的。哈哈哈哈好吧。,小区的。,哈哈哈哈,ha ha ha ha,True,
+compatibility_failure,streamer172,lcresp-bd797059c63e5384f760b8d0,,嬷嬷不要打我我觉得如果如果要是这么说来你们要你你要是你要你要是是调侃摸摸的名字应该叫李爽吗？,,嬷嬷,"['ma', 'ma']",True,pinyingpt_compatibility_failure
+compatibility_failure,streamer217,lcresp-092c7f1c5b6595a1bb843892,,就是我也不是故意要演出来给对方看哈哈哈我好像就成习惯了演戏成习惯了吧哈哈哈哈你不犟我就很犟,,犟,['jiang'],False,pinyingpt_compatibility_failure
+compatibility_failure,streamer74,lcresp-4981c82d4dfea9caf2cca9aa,,当然我都识㖞，你在上海还中山啊？,,㖞,['wai'],False,pinyingpt_compatibility_failure
+compatibility_failure,streamer13,lcresp-502fb8db5122f5232f2a1dd8,,晚安。要命得㗎喇。,,㗎,['㗎'],False,pinyingpt_compatibility_failure
+compatibility_failure,streamer131,lcresp-41c024f67306e061e88619b6,,"点点关注家人们咱们再点点赞啊，把赞点上去，有条件的家人们咱们来个来个心心占个榜啊心心占据榜小财大用小财大用你你那个你那个灯牌720他是谁家的呀我昨天晚上正好进他直播间刚好看到你就那么巧就看到你你的名字了小财大用然后我点了一下果然是咱家的粉哈哈哈720是个是个男主播，我是在好友那里看看那个那个就昨天那个容嬷嬷和他 PK来着点进去了正好看到你在太巧了他那他直播间有2,000个人。",,嬷嬷,"['ma', 'ma']",True,pinyingpt_compatibility_failure
+compatibility_failure,streamer80,lcresp-e9945dbdddf2e109b0c77c0a,,然后我一戴上的时候这块就有个包硌着我额头我怕给我额头硌出来个。,,硌,['ge'],True,pinyingpt_compatibility_failure
+compatibility_failure,streamer159,lcresp-bf3d4ebab5022aba833e0fd8,,虽然没有完全标准这是我加了一点点自己的理解进去加了一点点我对这首歌的理解哈哈哈哈哈哈不到有有条件㗎。,,㗎,['㗎'],False,pinyingpt_compatibility_failure
+compatibility_failure,streamer223,lcresp-b7fc101851eb17855760adb4,,那个迅猛就是遇见你啊我觉得迅猛的声音还嗲嗲的那种感觉。,,嗲,['die'],True,pinyingpt_compatibility_failure
+compatibility_failure,streamer131,lcresp-0a38bdeb8c7703fdee0683fc,,脸长痦子里了。对他说点点痦子对啊对，两块钱一颗两块钱一颗点痦子他说你这是痦子上长了个脸吗哈哈哈。,,痦子,"['wu', 'zi']",True,pinyingpt_compatibility_failure
+compatibility_failure,streamer76,lcresp-8df7475e2bdb1d87e480c55a,,王思聪给你刷礼物不见得是好事，那抖音还有什么大哥啊啊刘哥红给我刷礼物，嘿嘿，我在直播间跳本草纲目，灵魂看到嚯小珊瑚唱歌这么好听，一个女孩子还在直播间跳本草纲目，我一定要鼓励他一下，踹一艘穿云箭，哈哈哈哈啊啊，他们说刘公红可好了，刘公红就是说非常的就是鼓励人做梦了开始做。,,嚯,['huo'],True,pinyingpt_compatibility_failure
+compatibility_failure,streamer127,lcresp-ca9aa7396d228826c66ff67b,,你知道。怎么感觉我是原唱，我的声音跟他是不是有点像啊，就跟王健林的声音有点像，就比较嗲的那种。,,嗲,['die'],True,pinyingpt_compatibility_failure
+compatibility_failure,streamer94,lcresp-6162941e2926d8cbfc216de1,,帮你回忆一下。对对对对，就是叫云起我寻思着这个名字我家包子哥好像不太喜欢呢。,,寻思,"['xin', 'si']",True,pinyingpt_compatibility_failure
+compatibility_failure,streamer60,lcresp-8e76c387170556a7197f5229,,就是喝酒喝的。对他最基本就是喝酒喝的花30多 w哎不是我说哥你你你寻思寻思最后是你有。,,寻思,"['xin', 'si']",True,pinyingpt_compatibility_failure
+compatibility_failure,streamer62,lcresp-2983da840fb004f4a6bf8ab7,,加减还要想一想。哈哈哈我11那加减法我都得寻思寻思。,,寻思,"['xin', 'si']",True,pinyingpt_compatibility_failure
+compatibility_failure,streamer60,lcresp-9bc900b8ca9263a4eafd6cb3,,对不靠谱啊不是哥那个什么你考虑考虑呢啊哥你这寻思寻思呢啊我个人觉得还是很靠谱的啊你看我诚挚的双眼哥你看我这你看你看我这眼睛啊你看我这眼睛里面透露出来这种睿智的光芒和那种就是深深爱着你的眼神啊！就是,,寻思,"['xin', 'si']",True,pinyingpt_compatibility_failure
+compatibility_failure,streamer131,lcresp-0a38bdeb8c7703fdee0683fc,,脸长痦子里了。对他说点点痦子对啊对，两块钱一颗两块钱一颗点痦子他说你这是痦子上长了个脸吗哈哈哈。,,痦子,"['wu', 'zi']",True,pinyingpt_compatibility_failure
+compatibility_failure,streamer3,lcresp-41ddd74677662690b3e1f817,,唢呐？唢呐怎么可能长这样这么小。,,唢呐,"['suo', 'na']",True,pinyingpt_compatibility_failure
+compatibility_failure,streamer144,lcresp-56b3165302d83910ffd80d47,,净出些馊主意，滚。哥哥,,馊主意,"['sou', 'zhu', 'yi']",False,pinyingpt_compatibility_failure
+compatibility_failure,streamer71,lcresp-d7b4c85424d0ffdfea9bfef9,,我就很想家很想去。我寻思着要不,,寻思,"['xin', 'si']",True,pinyingpt_compatibility_failure
+compatibility_failure,streamer116,lcresp-49440b8f16c611ea90aed28a,,容嬷嬷的不是录音容嬷嬷的我发生方式不对的肯定我好好痛的容嬷嬷我我模仿一次就嗓子就会很疼。,,嬷嬷,"['ma', 'ma']",True,pinyingpt_compatibility_failure
+compatibility_failure,streamer89,lcresp-87bc5d9ff7fc5883add87ec5,,今天有这么晚到家啊。你今天来的比平时都晚比平时都晚呢我还寻思你竟然不来了。,,寻思,"['xin', 'si']",True,pinyingpt_compatibility_failure
+compatibility_failure,streamer87,lcresp-39e838eb34c9d894f36aa609,,不玩拉黑吧。然后每次我寻思他在 PK 中第十名了我们第10名了，大家,,寻思,"['xin', 'si']",True,pinyingpt_compatibility_failure
+compatibility_failure,streamer60,lcresp-da618fe2625097bb289f3dcc,,你对自己下手真狠。打水光针他就这个样子打水光针就这样他木子啊。这是我的痦子这是我痦子。,,痦子,"['wu', 'zi']",True,pinyingpt_compatibility_failure
+compatibility_failure,streamer131,lcresp-0a38bdeb8c7703fdee0683fc,,脸长痦子里了。对他说点点痦子对啊对，两块钱一颗两块钱一颗点痦子他说你这是痦子上长了个脸吗哈哈哈。,,痦子,"['wu', 'zi']",True,pinyingpt_compatibility_failure
+compatibility_failure,streamer131,lcresp-2626c34f89baf44ceb052edc,,听一声容嬷嬷行吗？,,嬷嬷,"['ma', 'ma']",True,pinyingpt_compatibility_failure

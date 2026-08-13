@@ -1,0 +1,28 @@
+{
+  "candidate_target_exclusion_rate": 8.864816194301918e-05,
+  "candidate_target_exclusion_reasons": {
+    "pinyingpt_compatibility_failure": 191
+  },
+  "compatibility_definition": "character occurs in pinyin2char.json and is an exact non-UNK checkpoint tokenizer token",
+  "conversion_library": "pypinyin",
+  "conversion_version": "0.55.0",
+  "frozen_target_count": 10000,
+  "polyphonic_target_count": 5433,
+  "polyphonic_target_rate": 0.5433,
+  "published_map_character_assignments": 65564,
+  "segmentation_library": "jieba",
+  "segmentation_version": "0.42.1",
+  "target_length_distribution": {
+    "count": 10000,
+    "max": 5,
+    "mean": 1.5554,
+    "median": 1.0,
+    "min": 1,
+    "p25": 1.0,
+    "p75": 2.0,
+    "p90": 2.0,
+    "p95": 3.0
+  },
+  "tokenizer_compatible_character_assignments": 15888,
+  "traditional_to_simplified_conversion": false
+}

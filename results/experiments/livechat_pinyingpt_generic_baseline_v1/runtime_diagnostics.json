@@ -1,0 +1,70 @@
+{
+  "average_seconds_per_prediction_this_run": 2.585098999988986e-05,
+  "conditions": [
+    {
+      "complete": true,
+      "completed_interactions": 10000,
+      "completed_this_run": 0,
+      "condition": "pinyin_only",
+      "elapsed_seconds_this_run": 0.25652049999916926,
+      "expected_interactions": 10000
+    },
+    {
+      "complete": true,
+      "completed_interactions": 10000,
+      "completed_this_run": 0,
+      "condition": "contextual",
+      "elapsed_seconds_this_run": 0.260499299998628,
+      "expected_interactions": 10000
+    }
+  ],
+  "created_at": "2026-08-13T09:07:27.181506+00:00",
+  "peak_gpu_memory_bytes": 950119424,
+  "peak_gpu_memory_probe": {
+    "conditions": [
+      "pinyin_only",
+      "contextual"
+    ],
+    "effective_context_token_count": 267,
+    "interaction_count": 1,
+    "interaction_id": "lcime-b0419f3004405816eda7aa3b",
+    "observed_peak_gpu_memory_bytes": 950119424,
+    "prediction_artifacts_modified": false,
+    "target_length": 2
+  },
+  "persisted_average_seconds_per_prediction": 0.025719750735029082,
+  "persisted_prediction_rows_across_conditions": 20000,
+  "persisted_prediction_runtime": {
+    "contextual": {
+      "average_seconds_per_interaction": 0.028193474080013402,
+      "prediction_rows": 10000,
+      "summed_per_interaction_inference_seconds": 281.934740800134
+    },
+    "pinyin_only": {
+      "average_seconds_per_interaction": 0.023246027390044766,
+      "prediction_rows": 10000,
+      "summed_per_interaction_inference_seconds": 232.46027390044765
+    }
+  },
+  "persisted_summed_inference_seconds_across_conditions": 514.3950147005817,
+  "platform": "Windows-11-10.0.26200-SP0",
+  "prediction_rows_across_conditions": 20000,
+  "python": "3.12.13",
+  "runtime": {
+    "architecture": "GPT2LMHeadModel",
+    "attention_heads": 12,
+    "checkpoint": "aihijo/transformers4ime-pinyingpt-concat",
+    "checkpoint_revision": "76dd20dc92d8236a350fb732e99dde6fa15e2263",
+    "cuda_runtime": "12.8",
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "hidden_size": 768,
+    "layers": 12,
+    "official_code_revision": "8f1573ed0bd4d1f3d8d3f10a05f7e870725646f1",
+    "parameter_count": 102408960,
+    "torch_version": "2.11.0+cu128",
+    "vocabulary_size": 21571
+  },
+  "total_inference_seconds_this_run": 0.5170197999977972,
+  "transformers_version": "4.57.6"
+}

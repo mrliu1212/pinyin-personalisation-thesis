@@ -1,0 +1,269 @@
+{
+  "schema_version": 1,
+  "purpose": "PinyinGPT real-model engineering smoke test; not a benchmark",
+  "created_at": "2026-08-13T00:52:18.853150+00:00",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "runtime": {
+    "checkpoint": "aihijo/transformers4ime-pinyingpt-concat",
+    "checkpoint_revision": "76dd20dc92d8236a350fb732e99dde6fa15e2263",
+    "official_code_revision": "8f1573ed0bd4d1f3d8d3f10a05f7e870725646f1",
+    "architecture": "GPT2LMHeadModel",
+    "parameter_count": 102408960,
+    "layers": 12,
+    "hidden_size": 768,
+    "attention_heads": 12,
+    "vocabulary_size": 21571,
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "torch_version": "2.11.0+cu128",
+    "cuda_runtime": "12.8"
+  },
+  "checkpoint_files": {
+    "pytorch_model.bin": "1c5ebb9e7b15d75ea8899b914fc8363f4745703115253071f7834780263c74bb",
+    "config.json": "86bb492283d576cc845cd2e9f2b67f8e07423a546659c5f1d427f146dd492cb4",
+    "vocab.txt": "f7863b040bae29ac474065729355252248c92d41141c1e09fbf21dd3e593a238",
+    "pinyin2char.json": "f344e2dd29253b50b8cc7a512b793996427d1400d7c2d0c79e0e12ff3628e142"
+  },
+  "decoding": {
+    "mode": "Pinyin-constrained character-level beam search",
+    "beam_size": 16,
+    "returned_candidates": 10,
+    "score": "sum of full-vocabulary autoregressive token log-probabilities",
+    "oracle_pinyin_segmentation": true
+  },
+  "generated_examples": [
+    {
+      "context": "这个工具真的很",
+      "typed_pinyin": "shi yong",
+      "segmented_pinyin": [
+        "shi",
+        "yong"
+      ],
+      "model_input_tokens": [
+        "[CLS]",
+        "这",
+        "个",
+        "工",
+        "具",
+        "真",
+        "的",
+        "很",
+        "[SEP]",
+        "[shi]",
+        "[yong]",
+        "[SEP]"
+      ],
+      "candidates": [
+        {
+          "text": "实用",
+          "rank": 1,
+          "log_probability": -8.47255802154541,
+          "mean_log_probability": -4.236279010772705,
+          "compatible": true
+        },
+        {
+          "text": "适用",
+          "rank": 2,
+          "log_probability": -12.772534370422363,
+          "mean_log_probability": -6.386267185211182,
+          "compatible": true
+        },
+        {
+          "text": "使用",
+          "rank": 3,
+          "log_probability": -13.885738372802734,
+          "mean_log_probability": -6.942869186401367,
+          "compatible": true
+        },
+        {
+          "text": "是用",
+          "rank": 4,
+          "log_probability": -14.90925407409668,
+          "mean_log_probability": -7.45462703704834,
+          "compatible": true
+        },
+        {
+          "text": "食用",
+          "rank": 5,
+          "log_probability": -18.328487396240234,
+          "mean_log_probability": -9.164243698120117,
+          "compatible": true
+        },
+        {
+          "text": "是勇",
+          "rank": 6,
+          "log_probability": -20.887981414794922,
+          "mean_log_probability": -10.443990707397461,
+          "compatible": true
+        },
+        {
+          "text": "屎用",
+          "rank": 7,
+          "log_probability": -21.00731658935547,
+          "mean_log_probability": -10.503658294677734,
+          "compatible": true
+        },
+        {
+          "text": "识用",
+          "rank": 8,
+          "log_probability": -21.312225341796875,
+          "mean_log_probability": -10.656112670898438,
+          "compatible": true
+        },
+        {
+          "text": "失用",
+          "rank": 9,
+          "log_probability": -22.231657028198242,
+          "mean_log_probability": -11.115828514099121,
+          "compatible": true
+        },
+        {
+          "text": "势勇",
+          "rank": 10,
+          "log_probability": -23.00908660888672,
+          "mean_log_probability": -11.50454330444336,
+          "compatible": true
+        }
+      ],
+      "beam_size": 16,
+      "runtime_device": "cuda"
+    },
+    {
+      "context": "奥斯卡组委会",
+      "typed_pinyin": "qing xiang yu kan hao",
+      "segmented_pinyin": [
+        "qing",
+        "xiang",
+        "yu",
+        "kan",
+        "hao"
+      ],
+      "model_input_tokens": [
+        "[CLS]",
+        "奥",
+        "斯",
+        "卡",
+        "组",
+        "委",
+        "会",
+        "[SEP]",
+        "[qing]",
+        "[xiang]",
+        "[yu]",
+        "[kan]",
+        "[hao]",
+        "[SEP]"
+      ],
+      "candidates": [
+        {
+          "text": "倾向于看好",
+          "rank": 1,
+          "log_probability": -32.27867126464844,
+          "mean_log_probability": -6.4557342529296875,
+          "compatible": true
+        },
+        {
+          "text": "倾向于砍号",
+          "rank": 2,
+          "log_probability": -39.28472900390625,
+          "mean_log_probability": -7.85694580078125,
+          "compatible": true
+        },
+        {
+          "text": "倾向于砍好",
+          "rank": 3,
+          "log_probability": -39.483551025390625,
+          "mean_log_probability": -7.896710205078125,
+          "compatible": true
+        },
+        {
+          "text": "倾向与看好",
+          "rank": 4,
+          "log_probability": -40.43840789794922,
+          "mean_log_probability": -8.087681579589844,
+          "compatible": true
+        },
+        {
+          "text": "倾向于刊号",
+          "rank": 5,
+          "log_probability": -41.304466247558594,
+          "mean_log_probability": -8.260893249511719,
+          "compatible": true
+        },
+        {
+          "text": "倾向于砍耗",
+          "rank": 6,
+          "log_probability": -41.375484466552734,
+          "mean_log_probability": -8.275096893310547,
+          "compatible": true
+        },
+        {
+          "text": "倾向于砍豪",
+          "rank": 7,
+          "log_probability": -41.970619201660156,
+          "mean_log_probability": -8.394123840332032,
+          "compatible": true
+        },
+        {
+          "text": "倾向于砍毫",
+          "rank": 8,
+          "log_probability": -43.37216567993164,
+          "mean_log_probability": -8.674433135986328,
+          "compatible": true
+        },
+        {
+          "text": "倾向于看号",
+          "rank": 9,
+          "log_probability": -44.01941680908203,
+          "mean_log_probability": -8.803883361816407,
+          "compatible": true
+        },
+        {
+          "text": "倾向与砍号",
+          "rank": 10,
+          "log_probability": -44.55116271972656,
+          "mean_log_probability": -8.910232543945312,
+          "compatible": true
+        }
+      ],
+      "beam_size": 16,
+      "runtime_device": "cuda"
+    }
+  ],
+  "fixed_candidate_example": {
+    "context": "这个工具真的很",
+    "typed_pinyin": "shi yong",
+    "candidates": [
+      {
+        "text": "实用",
+        "rank": 1,
+        "log_probability": -8.472557965200394,
+        "mean_log_probability": -4.236278982600197,
+        "compatible": true
+      },
+      {
+        "text": "适用",
+        "rank": 2,
+        "log_probability": -12.772530317306519,
+        "mean_log_probability": -6.386265158653259,
+        "compatible": true
+      },
+      {
+        "text": "使用",
+        "rank": 3,
+        "log_probability": -13.885739520192146,
+        "mean_log_probability": -6.942869760096073,
+        "compatible": true
+      },
+      {
+        "text": "试用",
+        "rank": 4,
+        "log_probability": -17.59316498041153,
+        "mean_log_probability": -8.796582490205765,
+        "compatible": true
+      }
+    ]
+  },
+  "final_benchmark_run": false,
+  "personalisation_implemented": false
+}
