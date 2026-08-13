@@ -1,0 +1,56 @@
+{
+  "authors": [
+    "Re_spectators",
+    "MScarlet",
+    "Etinjat",
+    "Agent Phage",
+    "QBLevi",
+    "breaddddd"
+  ],
+  "context_character_limit": 512,
+  "created_at": "2026-08-13T21:26:07.445393+00:00",
+  "dataset": "Deep Author Dataset V1",
+  "dependencies": {
+    "hanzidentifier": "1.3.0",
+    "jieba": "0.42.1",
+    "pypinyin": "0.55.0",
+    "requests": "2.32.4"
+  },
+  "license": "CC BY-SA 3.0 unless a page records a different compatible notice",
+  "model_inference": false,
+  "outputs": {
+    "data/manifests/deep_author_authors_manifest.csv": {
+      "bytes": 766,
+      "sha256": "dfa959a4654a03a3438a038dd5cc405a66f559b5ac0cd3e32981e67c03c0d28c"
+    },
+    "data/manifests/deep_author_works_manifest.csv": {
+      "bytes": 520183,
+      "sha256": "65d15838eac5e8fcb3a8dda3dd0998d6d55307629468611b6f09e54a22a61815"
+    },
+    "data/processed/deep_author/interactions_t1_ready.jsonl": {
+      "bytes": 2048557493,
+      "sha256": "8d1a98e18a5f7ed997930b65bbd1149c3d52daaa22ac2c59771256a966648da2"
+    },
+    "results/audits/deep_author_dataset_v1/author_statistics.csv": {
+      "bytes": 970,
+      "sha256": "e0439410f5989c63c9efd85984aced3fd59f873f409ca69d5d14061207bd4e98"
+    },
+    "results/audits/deep_author_dataset_v1/corpus_statistics.csv": {
+      "bytes": 43408,
+      "sha256": "e9ca60825af0f4515ae4bcf73460c75397e41a2187968084331957a1e3c1b6ef"
+    },
+    "results/audits/deep_author_dataset_v1/interaction_statistics.json": {
+      "bytes": 93,
+      "sha256": "6b1c763edd7903ada3ee86b5d84a25e34e3d0c189aafa888c2dc6d5ae16b5eca"
+    }
+  },
+  "personalisation": false,
+  "random_seed": 40408,
+  "run_command": ".\\.venv\\Scripts\\python.exe -m experiments.prepare_deep_author_dataset",
+  "source_git_commit": "c594e2a641a757700a48e8a796deaf50becb0b65",
+  "source": "SCP Chinese Branch via SCPPER-CN public metadata/source API",
+  "window": [
+    "2014-01-01",
+    "2021-12-31"
+  ]
+}

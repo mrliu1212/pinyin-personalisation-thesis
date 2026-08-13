@@ -54,6 +54,11 @@ class PinyinGPTConcatBackend:
     """
 
     def __init__(self, checkpoint: Path, device: str = "auto") -> None:
+        self.checkpoint = checkpoint.resolve()
+        if not (self.checkpoint / "pytorch_model.bin").is_file():
+            raise FileNotFoundError(
+                f"PinyinGPT2-Concat checkpoint is incomplete: {self.checkpoint}"
+            )
         try:
             import torch
             from transformers import BertTokenizer, GPT2Config, GPT2LMHeadModel
@@ -63,11 +68,6 @@ class PinyinGPTConcatBackend:
             ) from error
 
         self.torch = torch
-        self.checkpoint = checkpoint.resolve()
-        if not (self.checkpoint / "pytorch_model.bin").is_file():
-            raise FileNotFoundError(
-                f"PinyinGPT2-Concat checkpoint is incomplete: {self.checkpoint}"
-            )
 
         additional_tokens = json.loads(
             (self.checkpoint / "additional_special_tokens.json").read_text(

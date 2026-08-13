@@ -1,0 +1,12 @@
+{
+  "discovered": 928,
+  "excluded": 646,
+  "exclusion_reasons": {
+    "coauthored_or_unclear_attribution": 6,
+    "insufficient_extracted_chinese_text": 3,
+    "not_marked_chinese_original": 556,
+    "structural_or_non_work_page": 81
+  },
+  "failed": 0,
+  "included": 282
+}

@@ -1,0 +1,33 @@
+schema_version: 1
+dataset: deep_author_dataset_v1
+base_commit: c594e2a641a757700a48e8a796deaf50becb0b65
+base_tag: livechat-generic-baseline-v1
+random_seed: 40408
+source:
+  site: SCP-CN
+  metadata_api: https://scpper.mer.run/api
+  license: CC BY-SA 3.0 unless a page records a different compatible notice
+authors:
+  - Re_spectators
+  - MScarlet
+  - Etinjat
+  - Agent Phage
+  - QBLevi
+  - breaddddd
+window:
+  start: 2014-01-01
+  end: 2021-12-31
+text:
+  unicode_normalization: NFC
+  traditional_to_simplified: false
+  segmentation: jieba 0.42.1 default mode, no custom dictionary
+  pinyin: pypinyin 0.55.0 NORMAL strict tone-free lowercase
+interactions:
+  short: one eligible Jieba token
+  multi: two to four consecutive eligible tokens, same start/context as Short
+  context_character_limit: 512
+  context_rule: preceding source text only; absolute source offsets retained
+inference:
+  model_loaded: false
+  candidate_ranking_run: false
+run_command: .\\.venv\\Scripts\\python.exe -m experiments.prepare_deep_author_dataset

@@ -1,0 +1,12 @@
+{
+  "cleaned_characters": 1423072,
+  "han_characters": 1016100,
+  "raw_characters": 1461986,
+  "removed_characters": 38952,
+  "script_distribution": {
+    "mixed": 62,
+    "simplified": 205,
+    "traditional": 15
+  },
+  "traditional_conversion_applied": false
+}

@@ -1,0 +1,7 @@
+﻿author_id,author_name,included_work_count,excluded_work_count,total_cleaned_characters,han_characters,paragraphs,sentences,segmented_tokens,short_interactions,multi_interactions,full_pinyin_success,initial_pinyin_success,alignment_failures,depth_concern
+da-author-re-spectators-464e4708,Re_spectators,16,28,90356,62232,849,2275,55975,36660,29629,66289,66289,0,none_observed
+da-author-mscarlet-78b5e8fb,MScarlet,34,191,212690,151542,1206,4863,131876,92541,75055,167596,167596,0,none_observed
+da-author-etinjat-1c584251,Etinjat,84,325,295864,208443,2612,8107,187665,122480,89314,211794,211794,26,none_observed
+da-author-agent-phage-bc08199e,Agent Phage,56,33,348182,255215,2526,10107,211481,150242,122379,272621,272621,0,none_observed
+da-author-qblevi-494cde49,QBLevi,37,24,81068,62974,259,3319,50624,36496,28700,65196,65196,0,none_observed
+da-author-breaddddd-d9923f3d,breaddddd,55,45,394912,275694,5188,10768,245891,162974,127562,290536,290536,0,none_observed

@@ -1,0 +1,18 @@
+{
+  "authors": [
+    {"name": "Re_spectators", "wikidot_id": 3722555},
+    {"name": "MScarlet", "wikidot_id": 1745583},
+    {"name": "Etinjat", "wikidot_id": 4055881},
+    {"name": "Agent Phage", "wikidot_id": 2950095},
+    {"name": "QBLevi", "wikidot_id": 3269138},
+    {"name": "breaddddd", "wikidot_id": 3471238}
+  ],
+  "reserve_authors": [
+    {"name": "Ninth BB"},
+    {"name": "DrSee"}
+  ],
+  "window_start": "2014-01-01",
+  "window_end": "2021-12-31",
+  "source": "SCP Chinese Branch via SCPPER-CN public metadata/source API",
+  "license": "CC BY-SA 3.0 unless a page records a different compatible notice"
+}
