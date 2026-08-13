@@ -1,7 +1,7 @@
 # Deep Author Contextual Pinyin Research
 
 The authoritative thesis direction is [RESEARCH_TARGETS.md](RESEARCH_TARGETS.md).
-This branch prepares Deep Author Dataset V1 for a later generic PinyinGPT T1
+This branch prepares Deep Author Dataset V1.1 for a later generic PinyinGPT T1
 evaluation. It does not run model inference or implement personalisation.
 
 ## Retained generic backend
@@ -33,10 +33,13 @@ Raw and full processed text are intentionally local and ignored by Git:
 - `data/processed/deep_author/interactions_t1_ready.jsonl`
 - `data/processed/deep_author/works/`
 
-Committed manifests, hashes, statistics and review material are under
-`data/manifests/` and `results/audits/deep_author_dataset_v1/`. The preparation
-method and actual corpus statistics are summarized in
-[docs/reports/01_dataset_preparation.md](docs/reports/01_dataset_preparation.md),
-and the frozen parameters are in `config/deep_author/run_config.yaml`.
+V1 is the historical initial build frozen at `deep-author-dataset-preparation-v1`;
+its report is [docs/reports/01_dataset_preparation.md](docs/reports/01_dataset_preparation.md).
+V1.1 is the current cleaned dataset: source-confirmed SCP metadata is removed,
+retained text is normalized to Simplified Chinese, and simulated IME context and
+Gold use Han-only spans separated by hard non-Han boundaries. Its audit is under
+`results/audits/deep_author_dataset_v1_1/`, and its correction report is
+[docs/reports/01b_dataset_preparation_v1_1.md](docs/reports/01b_dataset_preparation_v1_1.md).
+Frozen parameters are in `config/deep_author/run_config.yaml`.
 
 Do not proceed to T1 evaluation until the manual review sample has been checked.

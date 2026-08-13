@@ -1,0 +1,58 @@
+{
+  "data/manifests/deep_author_authors_manifest.csv": {
+    "bytes": 766,
+    "sha256": "dfa959a4654a03a3438a038dd5cc405a66f559b5ac0cd3e32981e67c03c0d28c"
+  },
+  "data/manifests/deep_author_works_manifest.csv": {
+    "bytes": 520183,
+    "sha256": "65d15838eac5e8fcb3a8dda3dd0998d6d55307629468611b6f09e54a22a61815"
+  },
+  "data/processed/deep_author/interactions_t1_ready.jsonl": {
+    "bytes": 2412806391,
+    "sha256": "5d5b57fcc4f1db09328f2a4a3ecb63064e49dfac75a233d33e2fd36970007c01"
+  },
+  "results/audits/deep_author_dataset_v1_1/alignment_failures.csv": {
+    "bytes": 5530,
+    "sha256": "ce4fcfc1ca3bf7fdcbc03412c314031fd46ff794cab76136ab3832e0e0632922"
+  },
+  "results/audits/deep_author_dataset_v1_1/author_statistics.csv": {
+    "bytes": 1105,
+    "sha256": "78f3beb383d888202ddda3adfe664351bd9084bd2d0948b1e0e21878dca7790b"
+  },
+  "results/audits/deep_author_dataset_v1_1/cleaning_comparison.json": {
+    "bytes": 707,
+    "sha256": "bf202d56126fe636c6bd8dde9ae9ff1ebbe053eb974d3352139cc4ec840d392f"
+  },
+  "results/audits/deep_author_dataset_v1_1/corpus_statistics.csv": {
+    "bytes": 91329,
+    "sha256": "63363b550f6f944da18c1f17aa52daed8edcee932ac3a5db0265b7acedadd07e"
+  },
+  "results/audits/deep_author_dataset_v1_1/duplicate_audit.json": {
+    "bytes": 254,
+    "sha256": "763f063e658d79f36b1c6f60afd22789c4cde1b83dfcc9776fa3f9dc8ed6c0f3"
+  },
+  "results/audits/deep_author_dataset_v1_1/interaction_statistics.json": {
+    "bytes": 154,
+    "sha256": "a948ef4269da694dbe5dcc2be5684aee615776ab64fcbc7acb5706d215990d86"
+  },
+  "results/audits/deep_author_dataset_v1_1/manual_review.csv": {
+    "bytes": 16777,
+    "sha256": "b7293594bc66778beca3a55da8ab6b5d31f2fb25023c0a9bdbc5caecffce22ce"
+  },
+  "results/audits/deep_author_dataset_v1_1/normalisation_statistics.json": {
+    "bytes": 732,
+    "sha256": "a7612d0f7a38b29faac54c7329f8769d44d6870fb6f1bfcf7c05c8fed1736471"
+  },
+  "results/audits/deep_author_dataset_v1_1/removed_metadata_review.csv": {
+    "bytes": 37186,
+    "sha256": "22e61beb65000ed4ff29f77f217bbe97c86c28c8a0f93531b6a94690f24e2033"
+  },
+  "results/audits/deep_author_dataset_v1_1/script_normalisation_review.csv": {
+    "bytes": 31768,
+    "sha256": "c4fe2aa7d4d88c7ac7c09c15cc693fe5ab2be3a8b48d1b76e333eb8dc2fdbece"
+  },
+  "results/audits/deep_author_dataset_v1_1/uncertain_blocks.csv": {
+    "bytes": 1164,
+    "sha256": "9299671d65c3a27f2c547731af81725a44d238c75b278da32bada7fef7c9f4e8"
+  }
+}

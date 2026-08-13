@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 from collections import Counter, defaultdict
+from bisect import bisect_left
 import csv
 from dataclasses import dataclass
 from datetime import date, datetime, timezone
+import html
 import hashlib
 import importlib.metadata
 import json
@@ -17,6 +19,7 @@ from typing import Any, Iterable, Mapping, Sequence
 
 import hanzidentifier
 import jieba
+from opencc import OpenCC
 from pypinyin import Style, lazy_pinyin
 import requests
 
@@ -26,12 +29,11 @@ AUTHOR_CONFIG = ROOT / "config/deep_author/authors_v1.json"
 RAW_ROOT = ROOT / "data/raw/deep_author"
 PROCESSED_ROOT = ROOT / "data/processed/deep_author"
 MANIFEST_ROOT = ROOT / "data/manifests"
-AUDIT_ROOT = ROOT / "results/audits/deep_author_dataset_v1"
+AUDIT_ROOT = ROOT / "results/audits/deep_author_dataset_v1_1"
 API_BASE = "https://scpper.mer.run/api"
 SEED = 40408
 CONTEXT_CHARACTER_LIMIT = 512
 
-HARD_SENTENCE_END = frozenset("。！？!?；;")
 EXCLUDED_TAGS = frozenset(
     {
         "中心",
@@ -54,6 +56,14 @@ BOILERPLATE_LINES = frozenset(
         "评分模块",
         "页面版本",
     }
+)
+
+CREDIT_START = re.compile(r"\[\[include\s+:scp-wiki-cn:[^\]\n]*credit:start", re.IGNORECASE)
+CREDIT_END = re.compile(r"\[\[include\s+:scp-wiki-cn:[^\]\n]*credit:end[^\n]*", re.IGNORECASE)
+SUSPICIOUS_METADATA = re.compile(
+    r"^(?:著作信息|作者\s*[:：]|图像信息\s*[:：]?|圖像信息\s*[:：]?|"
+    r"图片信息\s*[:：]?|圖片授權\s*[:：]?|图片授权\s*[:：]?|"
+    r"延伸閱讀\s*[:：]?|延伸阅读\s*[:：]?|.*查看本文作者的更多作品.*)$"
 )
 
 
@@ -126,6 +136,164 @@ def clean_text(text: str) -> str:
     return "\n\n".join(paragraphs).strip() + ("\n" if paragraphs else "")
 
 
+def _rendered_source_line(line: str) -> str:
+    """Reduce one Wikidot source line to an anchor suitable for textContent."""
+
+    value = html.unescape(line).strip()
+    value = re.sub(r"\[\[\[[^\]|]+\|([^\]]+)\]\]\]", r"\1", value)
+    value = re.sub(r"\[\[\[([^\]]+)\]\]\]", r"\1", value)
+    value = re.sub(r"\[\*[^ ]+\s+([^\]]+)\]", r"\1", value)
+    value = re.sub(r"\[https?://\S+\s+([^\]]+)\]", r"\1", value)
+    value = re.sub(r"\[\[[^\]]+\]\]", " ", value)
+    value = re.sub(r"(?:\*\*|//|__|--|@@|^>\s*)", "", value)
+    return re.sub(r"\s+", " ", value).strip()
+
+
+def metadata_prefix_end(source: str, rendered: str) -> int | None:
+    """Return the rendered offset after a source-confirmed leading credit block."""
+
+    start_match = CREDIT_START.search(source)
+    end_match = CREDIT_END.search(source)
+    if not start_match or not end_match or end_match.end() <= start_match.start():
+        return None
+    suffix = source[end_match.end() :]
+    candidates: list[tuple[int, int]] = []
+    for line in suffix.splitlines():
+        anchor = _rendered_source_line(line)
+        if len(anchor) < 8 or not any(is_han(character) for character in anchor):
+            continue
+        position = rendered.find(anchor)
+        if position >= 0:
+            candidates.append((position, len(anchor)))
+            if len(candidates) >= 20:
+                break
+    if not candidates:
+        return None
+    position, _ = min(candidates)
+    return position if position > 0 else None
+
+
+def clean_text_with_offsets(text: str, removed_prefix_end: int = 0) -> tuple[str, list[int]]:
+    """Apply V1 whitespace cleanup while mapping every output character to raw textContent."""
+
+    original = text
+    normalized_chars: list[str] = []
+    normalized_map: list[int] = []
+    index = 0
+    while index < len(original):
+        if original[index : index + 2] == "\r\n":
+            normalized_chars.append("\n")
+            normalized_map.append(index)
+            index += 2
+            continue
+        cluster_start = index
+        cluster = "\n" if original[index] == "\r" else original[index]
+        index += 1
+        while index < len(original) and unicodedata.combining(original[index]):
+            cluster += original[index]
+            index += 1
+        converted = unicodedata.normalize("NFC", cluster)
+        normalized_chars.extend(converted)
+        normalized_map.extend([cluster_start] * len(converted))
+    normalized = "".join(normalized_chars)
+
+    output: list[str] = []
+    offsets: list[int] = []
+    paragraph_open = False
+    base = 0
+    blocks = list(re.finditer(r"(?:^|\n\s*\n)(.*?)(?=\n\s*\n|\Z)", normalized, re.DOTALL))
+    for block_match in blocks:
+        block = block_match.group(1)
+        block_start = block_match.start(1)
+        line_rows: list[tuple[str, list[int]]] = []
+        cursor = 0
+        for raw_line in block.splitlines(keepends=True):
+            line = raw_line.rstrip("\n")
+            line_start = block_start + cursor
+            cursor += len(raw_line)
+            pieces: list[str] = []
+            line_offsets: list[int] = []
+            for match in re.finditer(r"\S+(?:[\t\u00a0\u3000 ]+|$)", line):
+                token = match.group(0).rstrip("\t\u00a0\u3000 ")
+                if not token:
+                    continue
+                if pieces:
+                    pieces.append(" ")
+                    line_offsets.append(normalized_map[line_start + match.start()])
+                pieces.extend(token)
+                line_offsets.extend(normalized_map[line_start + match.start() : line_start + match.start() + len(token)])
+            cleaned_line = "".join(pieces).strip()
+            if (
+                not cleaned_line
+                or cleaned_line in BOILERPLATE_LINES
+                or re.fullmatch(r"[.·•]{3,}", cleaned_line)
+                or all(offset < removed_prefix_end for offset in line_offsets if offset >= 0)
+            ):
+                continue
+            keep = [(character, offset) for character, offset in zip("".join(pieces), line_offsets) if offset >= removed_prefix_end]
+            if keep:
+                line_rows.append(("".join(character for character, _ in keep).strip(), [offset for _, offset in keep]))
+        if not line_rows:
+            continue
+        if paragraph_open:
+            output.extend("\n\n")
+            offsets.extend([-1, -1])
+        for line_index, (line, line_offsets) in enumerate(line_rows):
+            if line_index:
+                output.append("\n")
+                offsets.append(-1)
+            output.extend(line)
+            offsets.extend(line_offsets[: len(line)])
+        paragraph_open = True
+        base += len(block)
+    if output:
+        output.append("\n")
+        offsets.append(-1)
+    return "".join(output), offsets
+
+
+def simplify_text(text: str, converter: OpenCC | None = None) -> str:
+    return (converter or OpenCC("t2s")).convert(text)
+
+
+def changed_character_count(before: str, after: str) -> int:
+    return sum(left != right for left, right in zip(before, after)) + abs(len(before) - len(after))
+
+
+def find_uncertain_blocks(text: str, removed_prefix_end: int) -> list[dict[str, Any]]:
+    rows = []
+    cursor = 0
+    for line in text.splitlines(keepends=True):
+        stripped = line.strip()
+        start = cursor + len(line) - len(line.lstrip())
+        end = start + len(stripped)
+        cursor += len(line)
+        if start >= removed_prefix_end and stripped and SUSPICIOUS_METADATA.fullmatch(stripped):
+            rows.append({"source_position_start": start, "source_position_end": end, "block_text": stripped})
+    return rows
+
+
+def boundary_statistics(text: str) -> Counter[str]:
+    counts: Counter[str] = Counter()
+    for match in re.finditer(r"[^\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\U00020000-\U0003134f]+", text):
+        value = match.group()
+        counts["total"] += 1
+        if any(character.isspace() for character in value):
+            counts["whitespace"] += 1
+        if re.search(r"[A-Za-z0-9]", value):
+            counts["latin_or_digit"] += 1
+        if any(unicodedata.category(character).startswith("P") for character in value):
+            counts["punctuation"] += 1
+        if any(
+            not character.isspace()
+            and not character.isascii()
+            and not unicodedata.category(character).startswith("P")
+            for character in value
+        ):
+            counts["other_symbol"] += 1
+    return counts
+
+
 def full_pinyin(text: str) -> list[str]:
     if not text or not all(is_han(character) for character in text):
         raise ValueError("target must contain Han characters only")
@@ -163,17 +331,33 @@ def script_label(text: str) -> str:
     }[hanzidentifier.identify(text)]
 
 
-def segment_text(text: str) -> list[dict[str, Any]]:
+def han_spans(text: str) -> list[dict[str, Any]]:
     return [
-        {
-            "text": token,
-            "token_index": index,
-            "start": start,
-            "end": end,
-            "is_han": bool(token) and all(is_han(character) for character in token),
-        }
-        for index, (token, start, end) in enumerate(jieba.tokenize(text, mode="default"))
+        {"boundary_span_id": index, "text": match.group(), "start": match.start(), "end": match.end()}
+        for index, match in enumerate(re.finditer(r"[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\U00020000-\U0003134f]+", text))
     ]
+
+
+def segment_text(text: str, source_offsets: Sequence[int] | None = None) -> list[dict[str, Any]]:
+    tokens: list[dict[str, Any]] = []
+    for span in han_spans(text):
+        for token, local_start, local_end in jieba.tokenize(span["text"], mode="default"):
+            start = int(span["start"]) + local_start
+            end = int(span["start"]) + local_end
+            mapped = list(source_offsets[start:end]) if source_offsets is not None else list(range(start, end))
+            tokens.append(
+                {
+                    "text": token,
+                    "token_index": len(tokens),
+                    "start": start,
+                    "end": end,
+                    "source_start": mapped[0],
+                    "source_end": mapped[-1] + 1,
+                    "boundary_span_id": span["boundary_span_id"],
+                    "is_han": True,
+                }
+            )
+    return tokens
 
 
 def preliminary_exclusion_reason(
@@ -211,20 +395,19 @@ def attribution_exclusion_reason(
     return ""
 
 
-def _hard_boundary_between(text: str, start: int, end: int) -> bool:
-    value = text[start:end]
-    return "\n" in value or any(character in HARD_SENTENCE_END for character in value)
-
-
 def make_interactions(work: Mapping[str, Any], tokens: Sequence[Mapping[str, Any]]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
-    text = work["cleaned_text"]
+    text = work["simplified_cleaned_text"]
+    source_offsets = work.get("source_offsets") or list(range(len(text)))
+    han_positions = [position for position, character in enumerate(text) if is_han(character)]
     interactions: list[dict[str, Any]] = []
     failures: list[dict[str, Any]] = []
     for index, token in enumerate(tokens):
-        if not token["is_han"]:
-            continue
         start, end = int(token["start"]), int(token["end"])
-        if start <= 0:
+        source_start = int(token["source_start"])
+        source_end = int(token["source_end"])
+        context_end = bisect_left(han_positions, start)
+        context_positions = han_positions[max(0, context_end - CONTEXT_CHARACTER_LIMIT) : context_end]
+        if not context_positions:
             continue
         try:
             syllables = full_pinyin(token["text"])
@@ -236,16 +419,21 @@ def make_interactions(work: Mapping[str, Any], tokens: Sequence[Mapping[str, Any
             "author_name": work["author_name"],
             "work_id": work["work_id"],
             "work_title": work["page_title"],
-            "context_source_position_start": max(0, start - CONTEXT_CHARACTER_LIMIT),
-            "context": text[max(0, start - CONTEXT_CHARACTER_LIMIT) : start],
+            "context_source_position_start": source_offsets[context_positions[0]],
+            "context": "".join(text[position] for position in context_positions),
             "source_creation_date": work["creation_date"],
             "source_hash": work["SHA256"],
+            "original_cleaned_hash": work["original_cleaned_sha256"],
+            "processed_text_hash": work["simplified_cleaned_sha256"],
+            "boundary_span_id": token["boundary_span_id"],
         }
         short = {
             **base,
-            "interaction_id": interaction_id(work["work_id"], start, end, "short"),
-            "source_position_start": start,
-            "source_position_end": end,
+            "interaction_id": interaction_id(work["work_id"], source_start, source_end, "short"),
+            "source_position_start": source_start,
+            "source_position_end": source_end,
+            "processed_position_start": start,
+            "processed_position_end": end,
             "gold": token["text"],
             "full_pinyin": " ".join(syllables),
             "initial_pinyin": " ".join(initial_pinyin(syllables)),
@@ -256,18 +444,16 @@ def make_interactions(work: Mapping[str, Any], tokens: Sequence[Mapping[str, Any
         interactions.append(short)
 
         merged = [token]
-        previous_end = end
         for next_token in tokens[index + 1 :]:
             if len(merged) >= 4:
                 break
-            next_start, next_end = int(next_token["start"]), int(next_token["end"])
-            if _hard_boundary_between(text, previous_end, next_start) or not next_token["is_han"]:
+            if next_token["boundary_span_id"] != token["boundary_span_id"]:
                 break
             merged.append(next_token)
-            previous_end = next_end
         if len(merged) < 2:
             continue
         multi_end = int(merged[-1]["end"])
+        multi_source_end = int(merged[-1]["source_end"])
         gold = text[start:multi_end]
         if not all(is_han(character) for character in gold):
             continue
@@ -279,9 +465,11 @@ def make_interactions(work: Mapping[str, Any], tokens: Sequence[Mapping[str, Any
         interactions.append(
             {
                 **base,
-                "interaction_id": interaction_id(work["work_id"], start, multi_end, "multi"),
-                "source_position_start": start,
-                "source_position_end": multi_end,
+                "interaction_id": interaction_id(work["work_id"], source_start, multi_source_end, "multi"),
+                "source_position_start": source_start,
+                "source_position_end": multi_source_end,
+                "processed_position_start": start,
+                "processed_position_end": multi_end,
                 "gold": gold,
                 "full_pinyin": " ".join(multi_syllables),
                 "initial_pinyin": " ".join(initial_pinyin(multi_syllables)),
@@ -311,7 +499,13 @@ def _write_csv(path: Path, rows: Sequence[Mapping[str, Any]], columns: Sequence[
     with path.open("w", encoding="utf-8-sig", newline="") as destination:
         writer = csv.DictWriter(destination, fieldnames=columns, extrasaction="ignore")
         writer.writeheader()
-        writer.writerows(rows)
+        writer.writerows(
+            {
+                key: "\n".join(line.rstrip() for line in value.splitlines()) if isinstance(value, str) else value
+                for key, value in row.items()
+            }
+            for row in rows
+        )
 
 
 @dataclass
@@ -324,10 +518,14 @@ class DeepAuthorBuilder:
         self.raw_root = self.root / "data/raw/deep_author"
         self.processed_root = self.root / "data/processed/deep_author"
         self.manifest_root = self.root / "data/manifests"
-        self.audit_root = self.root / "results/audits/deep_author_dataset_v1"
+        self.audit_root = self.root / "results/audits/deep_author_dataset_v1_1"
         self.config = json.loads((self.root / "config/deep_author/authors_v1.json").read_text(encoding="utf-8"))
         self.session = requests.Session()
-        self.session.headers["User-Agent"] = "DeepAuthorDatasetV1/1.0 (academic reproducibility)"
+        self.session.headers["User-Agent"] = "DeepAuthorDatasetV1.1/1.0 (academic reproducibility)"
+        self.opencc = OpenCC("t2s")
+        self.removed_metadata: list[dict[str, Any]] = []
+        self.uncertain_blocks: list[dict[str, Any]] = []
+        self.raw_checksums_before: dict[str, str] = {}
 
     def _get(self, endpoint: str, **params: Any) -> Any:
         response = self.session.get(f"{self.api_base}/{endpoint.lstrip('/')}", params=params, timeout=60)
@@ -482,27 +680,75 @@ class DeepAuthorBuilder:
             if record["inclusion_status"] != "included":
                 continue
             raw_path = self.root / record["raw_filename"]
+            self.raw_checksums_before[record["raw_filename"]] = sha256_file(raw_path)
             payload = json.loads(raw_path.read_text(encoding="utf-8"))
             extracted = str(payload["page"].get("textContent") or "")
-            cleaned = clean_text(extracted)
-            if not cleaned or han_count(cleaned) < 20:
+            source = str(payload["page"].get("source") or "")
+            prefix_end = metadata_prefix_end(source, extracted) or 0
+            original_cleaned, source_offsets = clean_text_with_offsets(extracted, prefix_end)
+            simplified = simplify_text(original_cleaned, self.opencc)
+            if not simplified or han_count(simplified) < 20:
                 record["inclusion_status"] = "excluded"
                 record["exclusion_reason"] = "insufficient_extracted_chinese_text"
                 continue
-            tokens = segment_text(cleaned)
+            if prefix_end:
+                removed = extracted[:prefix_end]
+                self.removed_metadata.append(
+                    {
+                        "author": record["author_name"],
+                        "work": record["page_title"],
+                        "work_id": record["work_id"],
+                        "source_position_start": 0,
+                        "source_position_end": prefix_end,
+                        "removal_rule": "source_confirmed_credit_module_prefix",
+                        "removed_text": removed,
+                        "before_context": "",
+                        "after_context": extracted[prefix_end : prefix_end + 160],
+                    }
+                )
+            uncertain = find_uncertain_blocks(extracted, prefix_end)
+            for block in uncertain:
+                self.uncertain_blocks.append(
+                    {
+                        "author": record["author_name"],
+                        "work": record["page_title"],
+                        "work_id": record["work_id"],
+                        **block,
+                        "detected_structure_type": "metadata_like_text_outside_confirmed_block",
+                        "reason_uncertain": "not structurally bounded by a source credit module",
+                        "proposed_action": "retain pending human review",
+                    }
+                )
+            tokens = segment_text(simplified, source_offsets)
+            boundaries = boundary_statistics(simplified)
             work = {
                 **record,
-                "cleaned_text": cleaned,
+                "cleaned_text": simplified,
+                "original_cleaned_text": original_cleaned,
+                "simplified_cleaned_text": simplified,
+                "source_offsets": source_offsets,
                 "raw_character_count": len(extracted),
-                "cleaned_character_count": len(cleaned),
-                "han_character_count": han_count(cleaned),
-                "removed_character_count": max(0, len(extracted) - len(cleaned)),
-                "paragraph_count": len([value for value in cleaned.split("\n\n") if value.strip()]),
-                "sentence_count": sentence_count(cleaned),
+                "original_cleaned_character_count": len(original_cleaned),
+                "cleaned_character_count": len(simplified),
+                "han_character_count": han_count(simplified),
+                "removed_character_count": max(0, len(extracted) - len(original_cleaned)),
+                "metadata_removed_character_count": prefix_end,
+                "metadata_removed_block_count": int(bool(prefix_end)),
+                "paragraph_count": len([value for value in simplified.split("\n\n") if value.strip()]),
+                "sentence_count": sentence_count(simplified),
                 "segmented_token_count": len(tokens),
-                "script_distribution": script_label(cleaned),
-                "extraction_method": "SCPPER-CN text-content endpoint; NFC/whitespace/known UI cleanup",
-                "cleaned_sha256": sha256_bytes(cleaned.encode("utf-8")),
+                "original_script_distribution": script_label(original_cleaned),
+                "script_distribution": script_label(simplified),
+                "opencc_changed_character_count": changed_character_count(original_cleaned, simplified),
+                "boundary_sequence_count": boundaries["total"],
+                "punctuation_boundary_count": boundaries["punctuation"],
+                "latin_or_digit_boundary_count": boundaries["latin_or_digit"],
+                "whitespace_boundary_count": boundaries["whitespace"],
+                "other_symbol_boundary_count": boundaries["other_symbol"],
+                "extraction_method": "SCPPER-CN text-content; source-confirmed block cleanup; NFC; OpenCC t2s; Han hard boundaries",
+                "original_cleaned_sha256": sha256_bytes(original_cleaned.encode("utf-8")),
+                "simplified_cleaned_sha256": sha256_bytes(simplified.encode("utf-8")),
+                "cleaned_sha256": sha256_bytes(simplified.encode("utf-8")),
             }
             work_interactions, work_failures = make_interactions(work, tokens)
             short_count = sum(row["composition_type"] == "short" for row in work_interactions)
@@ -514,8 +760,7 @@ class DeepAuthorBuilder:
             work["alignment_failure_count"] = len(work_failures)
             work_path = self.processed_root / "works" / f"{work['work_id']}.json"
             token_path = self.processed_root / "works" / f"{work['work_id']}.tokens.jsonl"
-            serializable_work = {key: value for key, value in work.items() if key != "cleaned_text"}
-            serializable_work["cleaned_text"] = cleaned
+            serializable_work = {key: value for key, value in work.items() if key not in {"cleaned_text", "source_offsets"}}
             _write_json(work_path, serializable_work)
             _write_jsonl(token_path, tokens)
             works.append(work)
@@ -563,9 +808,14 @@ class DeepAuthorBuilder:
         for work in works:
             per_work.append({key: work[key] for key in (
                 "author_id", "author_name", "work_id", "page_title", "creation_date", "raw_character_count",
-                "cleaned_character_count", "han_character_count", "removed_character_count", "paragraph_count",
+                "original_cleaned_character_count", "cleaned_character_count", "han_character_count", "removed_character_count",
+                "metadata_removed_character_count", "metadata_removed_block_count", "paragraph_count",
                 "sentence_count", "segmented_token_count", "short_interaction_count", "multi_interaction_count",
-                "full_pinyin_success_count", "initial_pinyin_success_count", "alignment_failure_count", "script_distribution",
+                "full_pinyin_success_count", "initial_pinyin_success_count", "alignment_failure_count",
+                "original_script_distribution", "script_distribution", "opencc_changed_character_count",
+                "boundary_sequence_count", "punctuation_boundary_count", "latin_or_digit_boundary_count",
+                "whitespace_boundary_count", "other_symbol_boundary_count", "original_cleaned_sha256",
+                "simplified_cleaned_sha256",
             )})
         _write_csv(self.audit_root / "corpus_statistics.csv", per_work, list(per_work[0]) if per_work else [])
 
@@ -592,30 +842,64 @@ class DeepAuthorBuilder:
                 "full_pinyin_success": sum(item["full_pinyin_success_count"] for item in selected),
                 "initial_pinyin_success": sum(item["initial_pinyin_success_count"] for item in selected),
                 "alignment_failures": sum(item["alignment_failure_count"] for item in selected),
+                "metadata_blocks_removed": sum(item["metadata_removed_block_count"] for item in selected),
+                "opencc_changed_characters": sum(item["opencc_changed_character_count"] for item in selected),
+                "hard_boundaries": sum(item["boundary_sequence_count"] for item in selected),
                 "depth_concern": "review_required" if len(selected) < 5 or sum(item["han_character_count"] for item in selected) < 10000 else "none_observed",
             }
             author_stats.append(row)
         _write_csv(self.audit_root / "author_statistics.csv", author_stats, list(author_stats[0]))
+        _write_json(self.audit_root / "cleaning_comparison.json", {
+            "v1": {
+                "included_works": 282, "han_characters": 1016100, "segmented_tokens": 883512,
+                "short_interactions": 601393, "multi_interactions": 472639,
+                "total_interactions": 1074032, "alignment_failures": 26, "duplicate_groups": 0,
+            },
+            "v1_1": {
+                "included_works": len(works),
+                "han_characters": sum(row["han_character_count"] for row in works),
+                "segmented_tokens": sum(row["segmented_token_count"] for row in works),
+                "short_interactions": sum(row["short_interaction_count"] for row in works),
+                "multi_interactions": sum(row["multi_interaction_count"] for row in works),
+                "total_interactions": len(interactions),
+                "alignment_failures": len(failures),
+                "duplicate_groups": 0,
+                "metadata_characters_removed": sum(row["metadata_removed_character_count"] for row in works),
+                "metadata_blocks_removed": sum(row["metadata_removed_block_count"] for row in works),
+                "characters_changed_by_opencc": sum(row["opencc_changed_character_count"] for row in works),
+                "punctuation_non_han_boundaries_created": sum(row["boundary_sequence_count"] for row in works),
+            },
+        })
         _write_json(self.audit_root / "interaction_statistics.json", {
             "total": len(interactions),
             "short": sum(row["composition_type"] == "short" for row in interactions),
             "multi": sum(row["composition_type"] == "multi" for row in interactions),
             "authors": len({row["author_id"] for row in interactions}),
             "works": len({row["work_id"] for row in interactions}),
+            "all_gold_han_only": all(all(is_han(character) for character in row["gold"]) for row in interactions),
+            "all_context_han_only": all(all(is_han(character) for character in row["context"]) for row in interactions),
         })
-        _write_json(self.audit_root / "acquisition_summary.json", {
-            "discovered": len(records), "included": len(works), "excluded": len(records) - len(works),
-            "failed": sum(bool(row["acquisition_error"]) for row in records),
-            "exclusion_reasons": Counter(row["exclusion_reason"] for row in records if row["exclusion_reason"]),
-        })
-        _write_json(self.audit_root / "cleaning_summary.json", {
+        cleaning_summary = {
             "raw_characters": sum(row["raw_character_count"] for row in works),
             "cleaned_characters": sum(row["cleaned_character_count"] for row in works),
             "han_characters": sum(row["han_character_count"] for row in works),
             "removed_characters": sum(row["removed_character_count"] for row in works),
-            "script_distribution": Counter(row["script_distribution"] for row in works),
-            "traditional_conversion_applied": False,
-        })
+            "metadata_characters_removed": sum(row["metadata_removed_character_count"] for row in works),
+            "metadata_blocks_removed": sum(row["metadata_removed_block_count"] for row in works),
+            "original_script_distribution": Counter(row["original_script_distribution"] for row in works),
+            "final_script_distribution": Counter(row["script_distribution"] for row in works),
+            "works_changed_by_opencc": sum(row["opencc_changed_character_count"] > 0 for row in works),
+            "characters_changed_by_opencc": sum(row["opencc_changed_character_count"] for row in works),
+            "opencc_configuration": "t2s",
+            "opencc_package": "opencc-python-reimplemented",
+            "opencc_version": importlib.metadata.version("opencc-python-reimplemented"),
+            "boundaries": {
+                key: sum(row[f"{key}_boundary_count"] for row in works)
+                for key in ("punctuation", "latin_or_digit", "whitespace", "other_symbol")
+            },
+            "total_boundary_sequences": sum(row["boundary_sequence_count"] for row in works),
+        }
+        _write_json(self.audit_root / "normalisation_statistics.json", cleaning_summary)
         raw_groups: dict[str, list[str]] = defaultdict(list)
         clean_groups: dict[str, list[str]] = defaultdict(list)
         for work in works:
@@ -625,11 +909,32 @@ class DeepAuthorBuilder:
             "exact_raw_duplicates": [value for value in raw_groups.values() if len(value) > 1],
             "exact_cleaned_text_duplicates": [value for value in clean_groups.values() if len(value) > 1],
             "duplicate_work_ids": [key for key, count in Counter(row["work_id"] for row in works).items() if count > 1],
-            "repeated_sections_removed": False,
-            "note": "Normal literary repetition was not removed.",
+            "repeated_sections_removed": True,
+            "note": "Only source-confirmed non-author template blocks were removed; normal literary repetition was retained.",
         })
         failure_columns = ["work_id", "token_index", "text", "reason"]
         _write_csv(self.audit_root / "alignment_failures.csv", failures, failure_columns)
+
+        removed_columns = ["author", "work", "source_position_start", "source_position_end", "removal_rule", "removed_text", "before_context", "after_context", "removal_ok", "notes"]
+        removed_samples = []
+        for author in self.config["authors"]:
+            choices = [row for row in self.removed_metadata if row["author"] == author["name"]][:10]
+            removed_samples.extend({**row, "removal_ok": "", "notes": ""} for row in choices)
+        _write_csv(self.audit_root / "removed_metadata_review.csv", removed_samples, removed_columns)
+        uncertain_columns = ["author", "work", "source_position_start", "source_position_end", "block_text", "detected_structure_type", "reason_uncertain", "proposed_action"]
+        _write_csv(self.audit_root / "uncertain_blocks.csv", self.uncertain_blocks, uncertain_columns)
+
+        script_samples = []
+        for label in ("simplified", "mixed", "traditional", "shared_or_ambiguous"):
+            for work in [row for row in works if row["original_script_distribution"] == label][:8]:
+                script_samples.append({
+                    "author": work["author_name"], "work": work["page_title"],
+                    "original_excerpt": work["original_cleaned_text"][:240],
+                    "simplified_excerpt": work["simplified_cleaned_text"][:240],
+                    "changed_character_count": work["opencc_changed_character_count"],
+                    "conversion_ok": "", "notes": "",
+                })
+        _write_csv(self.audit_root / "script_normalisation_review.csv", script_samples, ["author", "work", "original_excerpt", "simplified_excerpt", "changed_character_count", "conversion_ok", "notes"])
 
         samples = []
         for author in self.config["authors"]:
@@ -637,11 +942,11 @@ class DeepAuthorBuilder:
             author_works = sorted(work_by_author[name], key=lambda row: row["work_id"])
             author_interactions = [row for row in interactions if row["author_name"] == name]
             for work in author_works[:2]:
-                samples.append({"author": name, "work": work["page_title"], "source_excerpt": work["cleaned_text"][:180], "context": "", "gold": "", "full_pinyin": "", "initial_pinyin": "", "composition_type": "cleaned_text", "text_clean": "", "segmentation_ok": "", "pinyin_ok": "", "composition_ok": "", "notes": ""})
+                samples.append({"author": name, "work": work["page_title"], "original_source_excerpt": work["original_cleaned_text"][:180], "cleaned_simplified_excerpt": work["simplified_cleaned_text"][:180], "normalized_han_context": "", "gold": "", "full_pinyin": "", "initial_pinyin": "", "composition_type": "cleaned_text", "metadata_clean": "", "simplification_ok": "", "segmentation_ok": "", "boundary_ok": "", "pinyin_ok": "", "composition_ok": "", "notes": ""})
             for kind in ("short", "multi"):
                 choices = [row for row in author_interactions if row["composition_type"] == kind][:3]
                 for row in choices:
-                    samples.append({"author": name, "work": row["work_title"], "source_excerpt": (row["context"][-80:] + row["gold"])[:180], "context": row["context"][-120:], "gold": row["gold"], "full_pinyin": row["full_pinyin"], "initial_pinyin": row["initial_pinyin"], "composition_type": kind, "text_clean": "", "segmentation_ok": "", "pinyin_ok": "", "composition_ok": "", "notes": ""})
+                    samples.append({"author": name, "work": row["work_title"], "original_source_excerpt": "", "cleaned_simplified_excerpt": (row["context"][-80:] + row["gold"])[:180], "normalized_han_context": row["context"][-120:], "gold": row["gold"], "full_pinyin": row["full_pinyin"], "initial_pinyin": row["initial_pinyin"], "composition_type": kind, "metadata_clean": "", "simplification_ok": "", "segmentation_ok": "", "boundary_ok": "", "pinyin_ok": "", "composition_ok": "", "notes": ""})
         _write_csv(self.audit_root / "manual_review.csv", samples, list(samples[0]) if samples else [])
 
         checksummed = [
@@ -651,11 +956,19 @@ class DeepAuthorBuilder:
             self.audit_root / "author_statistics.csv",
             self.audit_root / "corpus_statistics.csv",
             self.audit_root / "interaction_statistics.json",
+            self.audit_root / "cleaning_comparison.json",
+            self.audit_root / "normalisation_statistics.json",
+            self.audit_root / "alignment_failures.csv",
+            self.audit_root / "duplicate_audit.json",
+            self.audit_root / "removed_metadata_review.csv",
+            self.audit_root / "uncertain_blocks.csv",
+            self.audit_root / "script_normalisation_review.csv",
+            self.audit_root / "manual_review.csv",
         ]
         checksums = {path.relative_to(self.root).as_posix(): {"sha256": sha256_file(path), "bytes": path.stat().st_size} for path in checksummed}
         _write_json(self.audit_root / "checksums.json", checksums)
         _write_json(self.audit_root / "manifest.json", {
-            "dataset": "Deep Author Dataset V1",
+            "dataset": "Deep Author Dataset V1.1",
             "created_at": datetime.now(timezone.utc).isoformat(),
             "authors": [item["name"] for item in self.config["authors"]],
             "window": [self.config["window_start"], self.config["window_end"]],
@@ -669,14 +982,24 @@ class DeepAuthorBuilder:
                 ["git", "rev-parse", "HEAD"], cwd=self.root, text=True
             ).strip(),
             "run_command": ".\\.venv\\Scripts\\python.exe -m experiments.prepare_deep_author_dataset",
-            "dependencies": {name: importlib.metadata.version(name) for name in ("requests", "jieba", "pypinyin", "hanzidentifier")},
+            "opencc_configuration": "t2s",
+            "pipeline_order": ["immutable raw source", "extract", "remove confirmed metadata", "OpenCC t2s", "hard boundaries", "Jieba segmentation", "Pinyin", "interactions"],
+            "dependencies": {name: importlib.metadata.version(name) for name in ("requests", "jieba", "pypinyin", "hanzidentifier", "opencc-python-reimplemented")},
             "outputs": checksums,
         })
 
     def run(self) -> dict[str, Any]:
         jieba.initialize()
+        self.raw_checksums_before = {
+            path.relative_to(self.root).as_posix(): sha256_file(path)
+            for path in sorted(self.raw_root.rglob("*"))
+            if path.is_file()
+        }
         discoveries = self.discover()
         records = self.acquire(discoveries)
         works, interactions, failures = self.process(records)
+        changed_raw = [path for path, checksum in self.raw_checksums_before.items() if sha256_file(self.root / path) != checksum]
+        if changed_raw:
+            raise RuntimeError(f"immutable raw files changed: {changed_raw[:3]}")
         self.audit(records, works, interactions, failures)
         return {"discovered": len(records), "included": len(works), "interactions": len(interactions), "failures": len(failures)}

@@ -1,7 +1,7 @@
-schema_version: 1
-dataset: deep_author_dataset_v1
-base_commit: c594e2a641a757700a48e8a796deaf50becb0b65
-base_tag: livechat-generic-baseline-v1
+schema_version: 2
+dataset: deep_author_dataset_v1_1
+base_commit: d886b6558fab2898fe2deba5113b8490fd87ac04
+base_tag: deep-author-dataset-preparation-v1
 random_seed: 40408
 source:
   site: SCP-CN
@@ -19,14 +19,16 @@ window:
   end: 2021-12-31
 text:
   unicode_normalization: NFC
-  traditional_to_simplified: false
+  metadata_cleaning: source-confirmed credit/template blocks; ambiguous blocks retained for review
+  traditional_to_simplified: OpenCC 0.1.7 t2s
+  ime_representation: Han-only targets with non-Han hard boundaries
   segmentation: jieba 0.42.1 default mode, no custom dictionary
   pinyin: pypinyin 0.55.0 NORMAL strict tone-free lowercase
 interactions:
   short: one eligible Jieba token
   multi: two to four consecutive eligible tokens, same start/context as Short
   context_character_limit: 512
-  context_rule: preceding source text only; absolute source offsets retained
+  context_rule: preceding Han-only text; 512-character storage limit; absolute source offsets retained
 inference:
   model_loaded: false
   candidate_ranking_run: false

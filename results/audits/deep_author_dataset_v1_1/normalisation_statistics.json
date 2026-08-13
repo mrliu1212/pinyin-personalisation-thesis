@@ -1,0 +1,29 @@
+{
+  "boundaries": {
+    "latin_or_digit": 24346,
+    "other_symbol": 2027,
+    "punctuation": 113468,
+    "whitespace": 33472
+  },
+  "characters_changed_by_opencc": 46076,
+  "cleaned_characters": 1390920,
+  "final_script_distribution": {
+    "mixed": 11,
+    "simplified": 271
+  },
+  "han_characters": 1010544,
+  "metadata_blocks_removed": 63,
+  "metadata_characters_removed": 43037,
+  "opencc_configuration": "t2s",
+  "opencc_package": "opencc-python-reimplemented",
+  "opencc_version": "0.1.7",
+  "original_script_distribution": {
+    "mixed": 58,
+    "simplified": 205,
+    "traditional": 19
+  },
+  "raw_characters": 1461986,
+  "removed_characters": 71104,
+  "total_boundary_sequences": 127908,
+  "works_changed_by_opencc": 89
+}

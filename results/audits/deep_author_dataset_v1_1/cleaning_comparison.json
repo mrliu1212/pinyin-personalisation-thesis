@@ -1,0 +1,26 @@
+{
+  "v1": {
+    "alignment_failures": 26,
+    "duplicate_groups": 0,
+    "han_characters": 1016100,
+    "included_works": 282,
+    "multi_interactions": 472639,
+    "segmented_tokens": 883512,
+    "short_interactions": 601393,
+    "total_interactions": 1074032
+  },
+  "v1_1": {
+    "alignment_failures": 63,
+    "characters_changed_by_opencc": 46076,
+    "duplicate_groups": 0,
+    "han_characters": 1010544,
+    "included_works": 282,
+    "metadata_blocks_removed": 63,
+    "metadata_characters_removed": 43037,
+    "multi_interactions": 468901,
+    "punctuation_non_han_boundaries_created": 127908,
+    "segmented_tokens": 596958,
+    "short_interactions": 596650,
+    "total_interactions": 1065551
+  }
+}

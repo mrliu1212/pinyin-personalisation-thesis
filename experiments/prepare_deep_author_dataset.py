@@ -1,4 +1,4 @@
-"""Command-line entry point for Deep Author Dataset Preparation V1."""
+"""Command-line entry point for Deep Author Dataset Preparation V1.1."""
 
 from __future__ import annotations
 
