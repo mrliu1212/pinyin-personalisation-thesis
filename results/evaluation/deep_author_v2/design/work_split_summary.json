@@ -1,0 +1,84 @@
+{
+  "authors": {
+    "Agent Phage": {
+      "eligible_anchors": {
+        "dev": 10110,
+        "history": 69667,
+        "test": 19129
+      },
+      "sampled_test_anchors": 1000,
+      "works": {
+        "dev": 5,
+        "history": 45,
+        "test": 6
+      }
+    },
+    "Etinjat": {
+      "eligible_anchors": {
+        "dev": 4045,
+        "history": 40936,
+        "test": 17663
+      },
+      "sampled_test_anchors": 1000,
+      "works": {
+        "dev": 12,
+        "history": 63,
+        "test": 9
+      }
+    },
+    "MScarlet": {
+      "eligible_anchors": {
+        "dev": 6172,
+        "history": 42315,
+        "test": 11524
+      },
+      "sampled_test_anchors": 1000,
+      "works": {
+        "dev": 2,
+        "history": 24,
+        "test": 8
+      }
+    },
+    "QBLevi": {
+      "eligible_anchors": {
+        "dev": 2035,
+        "history": 15828,
+        "test": 4214
+      },
+      "sampled_test_anchors": 1000,
+      "works": {
+        "dev": 2,
+        "history": 28,
+        "test": 7
+      }
+    },
+    "Re_spectators": {
+      "eligible_anchors": {
+        "dev": 1282,
+        "history": 10997,
+        "test": 11442
+      },
+      "sampled_test_anchors": 1000,
+      "works": {
+        "dev": 2,
+        "history": 11,
+        "test": 3
+      }
+    },
+    "breaddddd": {
+      "eligible_anchors": {
+        "dev": 8568,
+        "history": 68339,
+        "test": 22677
+      },
+      "sampled_test_anchors": 1000,
+      "works": {
+        "dev": 5,
+        "history": 45,
+        "test": 5
+      }
+    }
+  },
+  "dataset_bytes": 2048557493,
+  "dataset_sha256": "8d1a98e18a5f7ed997930b65bbd1149c3d52daaa22ac2c59771256a966648da2"
+}

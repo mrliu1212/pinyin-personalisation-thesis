@@ -1,0 +1,20 @@
+{
+  "anchors": 6000,
+  "authors": {
+    "Agent Phage": 1000,
+    "Etinjat": 1000,
+    "MScarlet": 1000,
+    "QBLevi": 1000,
+    "Re_spectators": 1000,
+    "breaddddd": 1000
+  },
+  "by_condition": {
+    "full_multi3": 6000,
+    "full_short": 6000,
+    "initial_multi3": 6000,
+    "initial_short": 6000
+  },
+  "conditions": 24000,
+  "sampling": "deterministic round-robin work-balanced within Test",
+  "seed": 40408
+}

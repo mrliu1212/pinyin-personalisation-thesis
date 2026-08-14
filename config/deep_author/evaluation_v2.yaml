@@ -1,0 +1,51 @@
+schema_version: 2
+evaluation: deep_author_evaluation_v2
+dataset:
+  version: Deep Author Dataset V1
+  tag: deep-author-dataset-preparation-v1
+  commit: d886b6558fab2898fe2deba5113b8490fd87ac04
+  interaction_path: .build/dataset-v1-reconstruction/data/processed/deep_author/interactions_t1_ready.jsonl
+  works_path: .build/dataset-v1-reconstruction/data/processed/deep_author/works
+  sha256: 8d1a98e18a5f7ed997930b65bbd1149c3d52daaa22ac2c59771256a966648da2
+  bytes: 2048557493
+authors:
+  - Re_spectators
+  - MScarlet
+  - Etinjat
+  - Agent Phage
+  - QBLevi
+  - breaddddd
+split:
+  unit: work
+  order: creation_date_then_work_id
+  target_anchor_volume: [0.70, 0.10, 0.20]
+  minimum_works: {history: 5, dev: 2, test: 3}
+  minimum_test_anchors: 1000
+sampling:
+  seed: 40408
+  anchors_per_author: 1000
+  source_split: test
+  method: deterministic_round_robin_work_balanced
+  multi_tokens: 3
+conditions:
+  - full_short
+  - initial_short
+  - full_multi3
+  - initial_multi3
+model:
+  checkpoint: aihijo/transformers4ime-pinyingpt-concat
+  checkpoint_revision: 76dd20dc92d8236a350fb732e99dde6fa15e2263
+  official_code_revision: 8f1573ed0bd4d1f3d8d3f10a05f7e870725646f1
+  local_checkpoint: .build/pinyingpt2-concat
+  oracle_pinyin_segmentation: true
+  beam_size: 16
+  top_k: 10
+  context_truncation: most_recent_tokens_within_model_maximum
+inference:
+  author_identity: false
+  history: false
+  personalisation: false
+  dev_scoring: false
+outputs:
+  design: results/evaluation/deep_author_v2/design
+  t1: results/evaluation/deep_author_v2/t1

@@ -43,3 +43,11 @@ Gold use Han-only spans separated by hard non-Han boundaries. Its audit is under
 Frozen parameters are in `config/deep_author/run_config.yaml`.
 
 Do not proceed to T1 evaluation until the manual review sample has been checked.
+
+## Evaluation V2
+
+The development evaluation protocol is documented in
+[docs/reports/02_deep_author_evaluation_v2.md](docs/reports/02_deep_author_evaluation_v2.md).
+It deliberately uses the verified Dataset V1 artifact for the frozen
+chronological design and generic T1 baseline; it does not modify either dataset
+checkpoint or introduce personalisation.

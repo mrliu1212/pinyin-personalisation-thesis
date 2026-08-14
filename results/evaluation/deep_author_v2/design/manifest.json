@@ -1,0 +1,50 @@
+{
+  "anchors": 6000,
+  "authors": [
+    "Re_spectators",
+    "MScarlet",
+    "Etinjat",
+    "Agent Phage",
+    "QBLevi",
+    "breaddddd"
+  ],
+  "conditions": 24000,
+  "dataset": "Deep Author Dataset V1",
+  "dataset_sha256": "8d1a98e18a5f7ed997930b65bbd1149c3d52daaa22ac2c59771256a966648da2",
+  "model_inference": false,
+  "outputs": {
+    "t1_anchor_manifest.csv": {
+      "bytes": 9762356,
+      "sha256": "5aa44a497e6100d4e27fab09c27c317e2855ac992936eec3e2c5197644c9bb7a"
+    },
+    "t1_condition_manifest.jsonl": {
+      "bytes": 43935970,
+      "sha256": "45b9cafedd7a8269d1f0b66d3f7f135ee990140e4b5b3668c67645863ab00d39"
+    },
+    "t1_manual_review.csv": {
+      "bytes": 10761,
+      "sha256": "cb8da93d99b2ed3dc3ed3b896e0337bb2cbdb0c36628444d29094b72c41b6cbf"
+    },
+    "t1_sampling_summary.json": {
+      "bytes": 416,
+      "sha256": "1ee141fe58c63c64c201edff361dc3395a0ddfdb454e1bf070400aae388d35a4"
+    },
+    "t2_history_pool_summary.json": {
+      "bytes": 196,
+      "sha256": "532d3b26fc7cfacd935f178c5a4eb102e522d8455d242b3d9694ee72c9aa058e"
+    },
+    "t3_feasibility_summary.json": {
+      "bytes": 78,
+      "sha256": "d36309aa3b0cab66a1af572d6720ce025ec2565a125a4b1da7ad6f3f8663cd99"
+    },
+    "work_split_manifest.csv": {
+      "bytes": 67162,
+      "sha256": "85c05572d4a6cdacca428339f984cd83759e1293397029d0ad327383f07a1684"
+    },
+    "work_split_summary.json": {
+      "bytes": 1654,
+      "sha256": "cbfcd06de5de7fa1a19e51288d937c8edf5383d27b04f3dce655b9b9387dad69"
+    }
+  },
+  "seed": 40408
+}
