@@ -261,3 +261,72 @@ Get-Process -Id $status.worker_pid,$status.launcher_pid `
 
 The command is resumable. Valid BGE embeddings, T1 Generic predictions, and M2
 pair scores are reused; M1 result artifacts are read-only and hash-checked.
+
+## Running Personal Vocabulary H5000
+
+The detailed method is [Bounded Personal Vocabulary H5000](docs/research/personal_vocabulary.md).
+Outputs and resumable state caches are isolated under
+`results\personalisation\personal_vocabulary_h5000\`.
+
+Set common arguments once in PowerShell:
+
+```powershell
+Set-Location C:\Users\chiar\Desktop\LBH\thesis-personalisation
+$env:CUDA_PATH = 'C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.8'
+$python = 'C:\Users\chiar\Desktop\LBH\thesis\.venv\Scripts\python.exe'
+$common = @(
+  '--dataset-root', 'C:\Users\chiar\Desktop\LBH\thesis-deep-author\.build\dataset-v1-reconstruction',
+  '--pinyingpt-model', 'C:\Users\chiar\Desktop\LBH\thesis\.build\pinyingpt2-concat',
+  '--embedding-model', 'C:\Users\chiar\Desktop\LBH\thesis\.cache\phase_04f\models\bge-small-zh-v1.5-q8_0.gguf',
+  '--t1-predictions', 'C:\Users\chiar\Desktop\LBH\thesis-deep-author\results\evaluation\deep_author_v2\t1\predictions.jsonl'
+)
+```
+
+Run individual frozen phases:
+
+```powershell
+# Audit artifacts and BGE reuse
+& $python -m experiments.personal_vocabulary_h5000 --phase prepare @common
+
+# PV0 Test recoverability only; it does not select parameters
+& $python -m experiments.personal_vocabulary_h5000 --phase pv0 @common
+
+# Build/resume shared DEV states
+& $python -m experiments.personal_vocabulary_h5000 --phase dev-states @common
+
+# Select PV1 Kpv/lambda, then PV2 context lambda on DEV only
+& $python -m experiments.personal_vocabulary_h5000 --phase tune @common
+
+# One shared frozen Test pass for PV1/PV2
+& $python -m experiments.personal_vocabulary_h5000 --phase evaluate @common
+```
+
+The complete resumable workflow is:
+
+```powershell
+& $python -m experiments.personal_vocabulary_h5000 --phase all @common
+```
+
+Monitor an independently redirected run and inspect errors:
+
+```powershell
+Get-Content results\personalisation\personal_vocabulary_h5000\pv_stdout.log -Tail 30 -Wait
+Get-Content results\personalisation\personal_vocabulary_h5000\pv_stderr.log -Tail 50
+```
+
+Check completion:
+
+```powershell
+$result = Get-Content -Raw `
+  results\personalisation\personal_vocabulary_h5000\metrics_summary.json | ConvertFrom-Json
+$result.status
+$result.rows
+$result.generic_test_inference_rows
+$result.test_gold_used_for_tuning
+$result.gold_used_for_vocabulary_construction
+$result.previous_artifacts_unchanged
+```
+
+Expected values are `complete`, `6000`, `0`, `False`, `False`, and `True`.
+The shared BGE cache remains
+`results\personalisation\pilot_a_context_memory\cache\embedding_cache.sqlite3`.

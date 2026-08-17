@@ -88,6 +88,19 @@ def _generic_fallback(candidates: Sequence[Candidate]) -> tuple[dict[str, Any], 
     return _ranked(candidates, normalized, {}, 0.0)
 
 
+def frequency_support(
+    candidate_texts: Sequence[str],
+    history: Sequence[Mapping[str, Any]],
+) -> tuple[Counter[str], dict[str, float]]:
+    """Return F's exact normalized log(1+count) signal for a candidate surface."""
+
+    counts = Counter(str(record["target"]) for record in history)
+    raw = {text: math.log1p(counts[text]) for text in candidate_texts}
+    maximum = max(raw.values(), default=0.0)
+    support = {text: value / maximum for text, value in raw.items()} if maximum else {}
+    return counts, support
+
+
 def rank_frequency(
     query: PredictionQuery,
     candidates: Sequence[Candidate],
@@ -100,10 +113,7 @@ def rank_frequency(
     visible = visible_same_pinyin_history(query, history)
     if not visible:
         return _generic_fallback(candidates)
-    counts = Counter(str(record["target"]) for record in visible)
-    raw = {candidate.text: math.log1p(counts[candidate.text]) for candidate in candidates}
-    maximum = max(raw.values(), default=0.0)
-    support = {text: value / maximum for text, value in raw.items()} if maximum else {}
+    counts, support = frequency_support([candidate.text for candidate in candidates], visible)
     extra = {candidate.text: {"frequency_count": counts[candidate.text]} for candidate in candidates}
     return _ranked(candidates, normalize_generic_scores(candidates), support, lambda_frequency, extra=extra)
 
