@@ -331,3 +331,44 @@ $result.previous_artifacts_unchanged
 Expected values are `complete`, `6000`, `0`, `False`, `False`, and `True`.
 The shared BGE cache remains
 `results\personalisation\pilot_a_context_memory\cache\embedding_cache.sqlite3`.
+
+## Running the Reranking Personalisation Matrix
+
+The [matrix method](docs/research/reranking_personalisation_matrix.md) completes
+F/M1/M2 across four T1 conditions and H500/H5000/HFull. Its result root is
+`results\personalisation\reranking_matrix\`.
+
+```powershell
+Set-Location C:\Users\chiar\Desktop\LBH\thesis-personalisation
+$env:CUDA_PATH = 'C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.8'
+$python = 'C:\Users\chiar\Desktop\LBH\thesis\.venv\Scripts\python.exe'
+$common = @(
+  '--dataset-root', 'C:\Users\chiar\Desktop\LBH\thesis-deep-author\.build\dataset-v1-reconstruction',
+  '--pinyingpt-model', 'C:\Users\chiar\Desktop\LBH\thesis\.build\pinyingpt2-concat',
+  '--embedding-model', 'C:\Users\chiar\Desktop\LBH\thesis\.cache\phase_04f\models\bge-small-zh-v1.5-q8_0.gguf',
+  '--reranker-model', 'C:\Users\chiar\Desktop\LBH\thesis\.build\bge-reranker-base',
+  '--t1-predictions', 'C:\Users\chiar\Desktop\LBH\thesis-deep-author\results\evaluation\deep_author_v2\t1\predictions.jsonl'
+)
+
+# Audit only: no neural inference
+& $python -m experiments.reranking_personalisation_matrix --phase audit @common
+
+# Launch or resume the matrix
+& $python -m experiments.reranking_personalisation_matrix --phase run @common
+
+# Monitor and check completion
+Get-Content results\personalisation\reranking_matrix\matrix_stdout.log -Tail 30 -Wait
+Get-Content results\personalisation\reranking_matrix\matrix_stderr.log -Tail 50
+Get-Content -Raw results\personalisation\reranking_matrix\matrix_manifest.json
+Get-Content -Raw results\personalisation\reranking_matrix\COMPLETE.json
+```
+
+The same `--phase run` command resumes incomplete or failed cells. A detached
+worker can be stopped safely with the PID recorded in
+`results\personalisation\reranking_matrix\background_status.json`:
+
+```powershell
+$status = Get-Content -Raw results\personalisation\reranking_matrix\background_status.json | ConvertFrom-Json
+Get-Process -Id $status.worker_pid -ErrorAction SilentlyContinue
+Stop-Process -Id $status.worker_pid
+```

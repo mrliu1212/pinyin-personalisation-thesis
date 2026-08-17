@@ -4,6 +4,7 @@ This is a navigation index for frozen research and software checkpoints. Detaile
 
 | Checkpoint | Purpose and main change | Commit or tag | Detailed record |
 | --- | --- | --- | --- |
+| Reranking Personalisation Matrix implementation | Resumable F/M1/M2 matrix over four frozen T1 conditions and H500/H5000/HFull, with shared Generic/BGE/M2 caches and a focused wrong-user control; final long run pending | branch `work/reranking-matrix`; `reranking-personalisation-matrix-implementation-v1` | [Method](research/reranking_personalisation_matrix.md) · [Pending report](reports/07_reranking_personalisation_matrix.md) |
 | Personal Vocabulary H5000 completed result | Exact 6,000-anchor result; PV0 found 160/538 Generic-missing targets recoverable, PV1 reached `0.779` Macro-author Top-1 and `0.0661667` Missing@10, while PV2 context produced net Top-1 help `-5` | `personal-vocabulary-h5000-result-v1` | [Method](research/personal_vocabulary.md) · [Completed report](reports/06_personal_vocabulary_h5000.md) |
 | Deep Author Dataset V1 | Initial six-author corpus and interaction build used as the Evaluation V2 development source | `deep-author-dataset-preparation-v1` / `d886b65` | [Dataset preparation](reports/01_dataset_preparation.md) |
 | Deep Author Dataset V1.1 | Preserved targeted corpus-cleaning correction; not substituted into frozen T1 | `deep-author-dataset-preparation-v1.1` / `d871f1f` | [Dataset V1.1](reports/01b_dataset_preparation_v1_1.md) |

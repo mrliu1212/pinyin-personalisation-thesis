@@ -443,6 +443,12 @@ class HistoryIndex:
             grouped[str(record["author"])].append(record)
         self.records = {key: tuple(sorted(values, key=lambda row: int(row["chronological_position"]))) for key, values in grouped.items()}
         self.positions = {key: tuple(int(row["chronological_position"]) for row in values) for key, values in self.records.items()}
+        pinyin_records: dict[tuple[str, tuple[str, ...]], list[tuple[int, Mapping[str, Any]]]] = defaultdict(list)
+        for author, values in self.records.items():
+            for ordinal, record in enumerate(values):
+                pinyin_records[(author, tuple(record["pinyin_segments"]))].append((ordinal, record))
+        self.pinyin_records = {key: tuple(record for _, record in values) for key, values in pinyin_records.items()}
+        self.pinyin_ordinals = {key: tuple(ordinal for ordinal, _ in values) for key, values in pinyin_records.items()}
         self.history_budget = history_budget
 
     def visible(self, query: PredictionQuery) -> tuple[Mapping[str, Any], ...]:
@@ -450,8 +456,12 @@ class HistoryIndex:
         values = self.records.get(key, ())
         stop = bisect_left(self.positions.get(key, ()), query.chronological_position)
         start = max(0, stop - self.history_budget) if self.history_budget is not None else 0
-        budgeted = values[start:stop]
-        return tuple(row for row in budgeted if tuple(row["pinyin_segments"]) == query.pinyin)
+        pinyin_key = (key, query.pinyin)
+        ordinals = self.pinyin_ordinals.get(pinyin_key, ())
+        matching = self.pinyin_records.get(pinyin_key, ())
+        matching_start = bisect_left(ordinals, start)
+        matching_stop = bisect_left(ordinals, stop)
+        return matching[matching_start:matching_stop]
 
 
 @dataclass
