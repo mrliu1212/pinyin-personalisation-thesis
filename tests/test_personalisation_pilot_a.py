@@ -18,8 +18,11 @@ from src.personalisation.context_memory import (
     visible_same_pinyin_history,
 )
 from src.personalisation.pilot_a import (
+    BACKEND_INTEGRATION_REVISION,
+    BACKEND_SOURCE_REVISION,
     EMBEDDING_DIMENSION,
     EMBEDDING_MODEL_SHA256,
+    GENERIC_CONTEXT_SEMANTICS,
     EmbeddingCache,
     PilotRunner,
     split_dev_works,
@@ -161,6 +164,8 @@ def _dev_row() -> dict:
         "pinyin_segments": ["shi"],
         "gold": "是",
         "pilot_partition": "tune",
+        "source_split": "dev",
+        "target": "是",
     }
 
 
@@ -172,6 +177,9 @@ def _generic_row() -> dict:
         "beam_size": 16,
         "top_k": 10,
         "runtime_device": "cuda",
+        "backend_source_revision": BACKEND_SOURCE_REVISION,
+        "backend_integration_revision": BACKEND_INTEGRATION_REVISION,
+        "context_semantics": GENERIC_CONTEXT_SEMANTICS,
         "top10_candidates": [{"rank": 1, "text": "是", "log_probability": -1.0}],
     }
 
@@ -179,6 +187,8 @@ def _generic_row() -> dict:
 def test_generic_cache_resume_integrity_and_provenance(tmp_path: Path) -> None:
     output = tmp_path / "results"
     output.mkdir()
+    (output / "history_manifest.jsonl").write_text("", encoding="utf-8")
+    (output / "dev_manifest.jsonl").write_text(canonical_json(_dev_row()) + "\n", encoding="utf-8")
     cache = output / "generic_predictions.jsonl"
     cache.write_text(canonical_json(_generic_row()) + "\n", encoding="utf-8")
     runner = PilotRunner(tmp_path, tmp_path, tmp_path, tmp_path, output)
@@ -236,6 +246,9 @@ def test_tune_and_evaluate_pipeline_keeps_populations_separate(tmp_path: Path) -
                 **row, "checkpoint_revision": CHECKPOINT_REVISION,
                 "official_code_revision": OFFICIAL_CODE_REVISION, "beam_size": 16, "top_k": 10,
                 "runtime_device": "cuda", "top10_candidates": candidates_value, "gold_rank": 2,
+                "backend_source_revision": BACKEND_SOURCE_REVISION,
+                "backend_integration_revision": BACKEND_INTEGRATION_REVISION,
+                "context_semantics": GENERIC_CONTEXT_SEMANTICS,
             })
     (output / "history_manifest.jsonl").write_text("".join(canonical_json(row) + "\n" for row in history), encoding="utf-8")
     (output / "dev_manifest.jsonl").write_text("".join(canonical_json(row) + "\n" for row in dev), encoding="utf-8")
@@ -246,9 +259,9 @@ def test_tune_and_evaluate_pipeline_keeps_populations_separate(tmp_path: Path) -
         cache.put(row["context"], vector)
     cache.commit()
     cache.close()
+    runner = PilotRunner(tmp_path, tmp_path, tmp_path, tmp_path, output)
     (output / "generic_runtime.json").write_text("{}", encoding="utf-8")
     (output / "embedding_runtime.json").write_text("{}", encoding="utf-8")
-    runner = PilotRunner(tmp_path, tmp_path, tmp_path, tmp_path, output)
     selection = runner.tune()
     assert set(selection["tune_work_ids"]) == {"alice-tune-work", "bob-tune-work"}
     assert set(selection["evaluation_work_ids"]) == {"alice-evaluation-work", "bob-evaluation-work"}

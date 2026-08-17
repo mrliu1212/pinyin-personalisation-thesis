@@ -9,6 +9,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from functools import lru_cache
 import hashlib
+from importlib.metadata import PackageNotFoundError, version
 import json
 import math
 from pathlib import Path
@@ -58,6 +59,8 @@ EMBEDDING_MODEL_SHA256 = "5a88d266870fbd27c6f329df60de80e2d4cf3bbd5e6f080bd5c1b2
 EMBEDDING_DIMENSION = 512
 BACKEND_SOURCE_REVISION = "07a79f301a094d3db88780f00fcf85a4abf80d7f"
 BACKEND_INTEGRATION_REVISION = "8c608f106ee7bb49ca5573e72de3da5eeb2290af"
+GENERIC_CONTEXT_SEMANTICS = "evaluation-v2-full-preceding-context-v1"
+EMBEDDING_PREPROCESSING_VERSION = "bge-gguf-left-truncate-most-recent-510-v1"
 
 
 def read_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -331,6 +334,7 @@ class BGEContextEmbedder:
             "normalization": "L2",
             "maximum_model_tokens": 512,
             "context_truncation": "tokenizer-aware left truncation to the most recent 510 content tokens",
+            "preprocessing_version": EMBEDDING_PREPROCESSING_VERSION,
             "truncation_count": self.truncation_count,
             "runtime": "llama-cpp-python",
             "runtime_version": getattr(llama_cpp, "__version__", "unknown"),
@@ -351,7 +355,20 @@ class EmbeddingCache:
         self.connection.execute(
             "CREATE TABLE IF NOT EXISTS embeddings (cache_key TEXT PRIMARY KEY, context_sha256 TEXT NOT NULL, vector BLOB NOT NULL)"
         )
-        expected = {"model_sha256": model_sha256, "dimension": str(EMBEDDING_DIMENSION), "pooling": "mean", "normalization": "L2"}
+        try:
+            runtime_version = version("llama-cpp-python")
+        except PackageNotFoundError:
+            runtime_version = "unavailable"
+        expected = {
+            "model_id": EMBEDDING_MODEL_ID,
+            "model_sha256": model_sha256,
+            "dimension": str(EMBEDDING_DIMENSION),
+            "pooling": "mean",
+            "normalization": "L2",
+            "preprocessing_version": EMBEDDING_PREPROCESSING_VERSION,
+            "runtime": "llama-cpp-python",
+            "runtime_version": runtime_version,
+        }
         existing = dict(self.connection.execute("SELECT key, value FROM metadata"))
         if existing and existing != expected:
             raise RuntimeError("embedding cache provenance differs from the frozen configuration")
@@ -360,7 +377,16 @@ class EmbeddingCache:
             self.connection.commit()
 
     def key(self, context: str) -> str:
-        return hashlib.sha256((self.model_sha256 + "\0" + context).encode("utf-8")).hexdigest()
+        identity = "\0".join(
+            (
+                self.model_sha256,
+                EMBEDDING_PREPROCESSING_VERSION,
+                "mean",
+                "L2",
+                context,
+            )
+        )
+        return hashlib.sha256(identity.encode("utf-8")).hexdigest()
 
     def get(self, context: str) -> np.ndarray | None:
         row = self.connection.execute("SELECT vector FROM embeddings WHERE cache_key = ?", (self.key(context),)).fetchone()
@@ -407,18 +433,25 @@ class EmbeddingLookup:
 
 
 class HistoryIndex:
-    def __init__(self, records: Sequence[Mapping[str, Any]]) -> None:
-        grouped: dict[tuple[str, tuple[str, ...]], list[Mapping[str, Any]]] = defaultdict(list)
+    """Strictly-prior same-user history, optionally capped before Pinyin filtering."""
+
+    def __init__(self, records: Sequence[Mapping[str, Any]], history_budget: int | None = None) -> None:
+        if history_budget is not None and history_budget <= 0:
+            raise ValueError("history_budget must be positive")
+        grouped: dict[str, list[Mapping[str, Any]]] = defaultdict(list)
         for record in records:
-            grouped[(str(record["author"]), tuple(record["pinyin_segments"]))].append(record)
+            grouped[str(record["author"])].append(record)
         self.records = {key: tuple(sorted(values, key=lambda row: int(row["chronological_position"]))) for key, values in grouped.items()}
         self.positions = {key: tuple(int(row["chronological_position"]) for row in values) for key, values in self.records.items()}
+        self.history_budget = history_budget
 
     def visible(self, query: PredictionQuery) -> tuple[Mapping[str, Any], ...]:
-        key = (query.author, query.pinyin)
+        key = query.author
         values = self.records.get(key, ())
         stop = bisect_left(self.positions.get(key, ()), query.chronological_position)
-        return values[:stop]
+        start = max(0, stop - self.history_budget) if self.history_budget is not None else 0
+        budgeted = values[start:stop]
+        return tuple(row for row in budgeted if tuple(row["pinyin_segments"]) == query.pinyin)
 
 
 @dataclass
@@ -428,6 +461,28 @@ class PilotRunner:
     pinyingpt_model: Path
     embedding_model: Path
     output_root: Path
+    history_budget: int | None = None
+    prediction_partition: str | None = None
+
+    def __post_init__(self) -> None:
+        if self.prediction_partition not in {None, "tune", "evaluation"}:
+            raise ValueError("prediction_partition must be tune, evaluation, or None")
+
+    @property
+    def cache_root(self) -> Path:
+        return self.output_root / "cache"
+
+    @property
+    def generic_cache_path(self) -> Path:
+        legacy = self.output_root / "generic_predictions.jsonl"
+        canonical = self.cache_root / "generic_predictions.jsonl"
+        return legacy if legacy.exists() and not canonical.exists() else canonical
+
+    @property
+    def embedding_cache_path(self) -> Path:
+        legacy = self.output_root / "embedding_cache.sqlite3"
+        canonical = self.cache_root / "embedding_cache.sqlite3"
+        return legacy if legacy.exists() and not canonical.exists() else canonical
 
     def prepare(self) -> dict[str, Any]:
         return PilotManifestBuilder(self.root, self.dataset_root, self.pinyingpt_model, self.output_root).run()
@@ -464,17 +519,19 @@ class PilotRunner:
         )
 
     def _load_generic(self, dev: Sequence[Mapping[str, Any]], *, require_complete: bool) -> dict[str, dict[str, Any]]:
-        path = self.output_root / "generic_predictions.jsonl"
+        path = self.generic_cache_path
         if not path.exists():
             if require_complete:
                 raise RuntimeError("Generic Dev cache is absent; run --phase generic")
             return {}
-        expected = {str(row["row_id"]): row for row in dev}
-        completed: dict[str, dict[str, Any]] = {}
+        _, full_dev = self._manifests()
+        expected = {str(row["row_id"]): row for row in full_dev}
+        requested = {str(row["row_id"]) for row in dev}
+        all_completed: dict[str, dict[str, Any]] = {}
         for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
             row = json.loads(line)
             row_id = str(row.get("row_id", ""))
-            if row_id in completed or row_id not in expected:
+            if row_id in all_completed or row_id not in expected:
                 raise RuntimeError(f"invalid Generic cache ID at line {line_number}: {row_id}")
             frozen = expected[row_id]
             for key in ("author", "work_id", "chronological_position", "context", "pinyin_input", "pinyin_segments", "gold", "pilot_partition"):
@@ -484,6 +541,10 @@ class PilotRunner:
                 raise RuntimeError("Generic cache model provenance mismatch")
             if row.get("beam_size") != 16 or row.get("top_k") != 10 or row.get("runtime_device") != "cuda":
                 raise RuntimeError("Generic cache decoding/runtime provenance mismatch")
+            if row.get("backend_source_revision") != BACKEND_SOURCE_REVISION or row.get("backend_integration_revision") != BACKEND_INTEGRATION_REVISION:
+                raise RuntimeError("Generic cache backend provenance mismatch")
+            if row.get("context_semantics") != GENERIC_CONTEXT_SEMANTICS:
+                raise RuntimeError("Generic cache context-semantics provenance mismatch")
             candidates = row.get("top10_candidates")
             if not isinstance(candidates, list) or not 1 <= len(candidates) <= 10:
                 raise RuntimeError(f"invalid Generic candidate surface: {row_id}")
@@ -491,32 +552,43 @@ class PilotRunner:
                 raise RuntimeError(f"invalid Generic ranks: {row_id}")
             if len({candidate["text"] for candidate in candidates}) != len(candidates):
                 raise RuntimeError(f"duplicate Generic candidates: {row_id}")
-            completed[row_id] = row
-        if require_complete and set(completed) != set(expected):
-            raise RuntimeError(f"Generic cache is incomplete: {len(completed)}/{len(expected)}")
+            all_completed[row_id] = row
+        completed = {row_id: all_completed[row_id] for row_id in requested if row_id in all_completed}
+        if require_complete and set(completed) != requested:
+            raise RuntimeError(f"Generic cache is incomplete: {len(completed)}/{len(requested)}")
         return completed
 
     def generic(self) -> dict[str, Any]:
         from src.reference_backend_pinyingpt import PinyinGPTConcatBackend
 
         _, dev = self._manifests()
-        self.output_root.mkdir(parents=True, exist_ok=True)
+        if self.prediction_partition is not None:
+            dev = [row for row in dev if row["pilot_partition"] == self.prediction_partition]
+        self.cache_root.mkdir(parents=True, exist_ok=True)
         completed = self._load_generic(dev, require_complete=False)
         existing = len(completed)
-        load_started = time.perf_counter()
-        backend = PinyinGPTConcatBackend(self.pinyingpt_model, device="cuda")
-        load_seconds = time.perf_counter() - load_started
-        prediction_path = self.output_root / "generic_predictions.jsonl"
+        backend = None
+        load_seconds = 0.0
+        prediction_path = self.generic_cache_path
         pending = [row for row in dev if row["row_id"] not in completed]
+        print(
+            f"Generic Dev cache: requested={len(dev)} reused={existing} missing={len(pending)}",
+            flush=True,
+        )
+        if pending:
+            load_started = time.perf_counter()
+            backend = PinyinGPTConcatBackend(self.pinyingpt_model, device="cuda")
+            load_seconds = time.perf_counter() - load_started
         started = time.perf_counter()
         latencies = []
-        mode = "a" if completed else "w"
+        mode = "a" if prediction_path.exists() and prediction_path.stat().st_size else "w"
         with prediction_path.open(mode, encoding="utf-8", newline="\n") as destination:
             for window_start in range(0, len(pending), 16):
                 window = pending[window_start : window_start + 16]
                 prepared = []
                 for row in window:
                     segments = list(row["pinyin_segments"])
+                    assert backend is not None
                     used_context, original_tokens, used_tokens, truncated = backend.truncate_context_for_generation(row["context"], segments)
                     prompt, _ = backend._prompt(used_context, segments)
                     prepared.append((row, segments, used_context, original_tokens, used_tokens, truncated, len(prompt)))
@@ -549,6 +621,7 @@ class PilotRunner:
                                 "official_code_revision": OFFICIAL_CODE_REVISION,
                                 "backend_source_revision": BACKEND_SOURCE_REVISION,
                                 "backend_integration_revision": BACKEND_INTEGRATION_REVISION,
+                                "context_semantics": GENERIC_CONTEXT_SEMANTICS,
                             }
                             destination.write(canonical_json(output) + "\n")
                             completed[str(row["row_id"])] = output
@@ -563,35 +636,44 @@ class PilotRunner:
         elapsed = time.perf_counter() - started
         summary = {
             "status": "complete",
+            "requested_rows": len(dev),
             "rows": len(completed),
+            "cache_hits": existing,
             "resume_existing_rows": existing,
+            "missing_rows_at_start": len(pending),
             "rows_added": len(completed) - existing,
             "model_load_seconds": load_seconds,
             "inference_seconds": elapsed,
             "conditions_per_second": (len(completed) - existing) / elapsed if len(completed) > existing else 0.0,
             "per_condition_latency": timing_summary(latencies),
-            "runtime": backend.runtime_info(),
+            "runtime": backend.runtime_info() if backend is not None else None,
+            "cache_path": str(prediction_path),
             "cache_sha256": sha256_file(prediction_path),
         }
         write_json(self.output_root / "generic_runtime.json", summary)
         return summary
 
-    def _required_embedding_contexts(self, history: Sequence[Mapping[str, Any]], dev: Sequence[Mapping[str, Any]]) -> list[str]:
-        query_keys = {(str(row["author"]), tuple(row["pinyin_segments"])) for row in dev}
+    def _required_embedding_contexts(self, records: Sequence[Mapping[str, Any]], dev: Sequence[Mapping[str, Any]]) -> list[str]:
+        index = HistoryIndex(records, self.history_budget)
         contexts = {str(row["context"]) for row in dev}
-        contexts.update(
-            str(row["context"])
-            for row in history + list(dev)
-            if (str(row["author"]), tuple(row["pinyin_segments"])) in query_keys
-        )
+        for row in dev:
+            contexts.update(str(item["context"]) for item in index.visible(self._query(row)))
         return sorted(contexts, key=lambda value: hashlib.sha256(value.encode("utf-8")).hexdigest())
 
     def embeddings(self) -> dict[str, Any]:
         history, dev = self._manifests()
-        contexts = self._required_embedding_contexts(history, dev)
-        cache = EmbeddingCache(self.output_root / "embedding_cache.sqlite3")
+        if self.prediction_partition is not None:
+            dev = [row for row in dev if row["pilot_partition"] == self.prediction_partition]
+        contexts = self._required_embedding_contexts(history + dev, dev)
+        cache = EmbeddingCache(self.embedding_cache_path)
         embedder = BGEContextEmbedder(self.embedding_model)
         existing = cache.count()
+        requested_hits = sum(cache.get(context) is not None for context in contexts)
+        requested_missing = len(contexts) - requested_hits
+        print(
+            f"Embedding cache: requested={len(contexts)} cache_hits={requested_hits} missing={requested_missing}",
+            flush=True,
+        )
         latencies = []
         started = time.perf_counter()
         added = 0
@@ -612,7 +694,10 @@ class PilotRunner:
             cache.commit()
             summary = {
                 "status": "complete",
+                "history_budget": self.history_budget,
                 "required_unique_contexts": len(contexts),
+                "cache_hits": requested_hits,
+                "missing_at_start": requested_missing,
                 "existing_embeddings_at_start": existing,
                 "embeddings_added": added,
                 "final_cache_rows": cache.count(),
@@ -628,16 +713,16 @@ class PilotRunner:
 
     def _indexed_inputs(self) -> tuple[list[dict[str, Any]], list[dict[str, Any]], HistoryIndex]:
         history, dev = self._manifests()
-        return history, dev, HistoryIndex(history + dev)
+        return history, dev, HistoryIndex(history + dev, self.history_budget)
 
     def tune(self) -> dict[str, Any]:
         history, dev, index = self._indexed_inputs()
         del history
-        generic = self._load_generic(dev, require_complete=True)
         tune_rows = [row for row in dev if row["pilot_partition"] == "tune"]
         if not tune_rows or any(row["pilot_partition"] != "tune" for row in tune_rows):
             raise RuntimeError("Dev tune partition is absent or invalid")
-        cache = EmbeddingCache(self.output_root / "embedding_cache.sqlite3")
+        generic = self._load_generic(tune_rows, require_complete=True)
+        cache = EmbeddingCache(self.embedding_cache_path)
         lookup = EmbeddingLookup(cache)
         frequency_ranks: dict[float, list[dict[str, Any]]] = {value: [] for value in FREQUENCY_LAMBDAS}
         memory_ranks: dict[tuple[int, float], list[dict[str, Any]]] = {
@@ -686,6 +771,7 @@ class PilotRunner:
             write_csv(self.output_root / "memory_hyperparameter_search.csv", memory_search, list(memory_search[0]))
             selection = {
                 "status": "complete",
+                "history_budget": self.history_budget,
                 "selection_population": "chronologically earlier whole-work Dev tune partition",
                 "reported_population": "chronologically later whole-work Dev evaluation partition",
                 "selection_metric": "Macro-author Top-1",
@@ -722,7 +808,7 @@ class PilotRunner:
         evaluation_rows = [row for row in dev if row["pilot_partition"] == "evaluation"]
         if set(selection["evaluation_work_ids"]) != {row["work_id"] for row in evaluation_rows}:
             raise RuntimeError("evaluation work set differs from frozen hyperparameter selection")
-        cache = EmbeddingCache(self.output_root / "embedding_cache.sqlite3")
+        cache = EmbeddingCache(self.embedding_cache_path)
         lookup = EmbeddingLookup(cache)
         frequency_outputs = []
         memory_outputs = []
@@ -815,6 +901,7 @@ class PilotRunner:
             summary = {
                 "schema_version": 1,
                 "status": "complete",
+                "history_budget": self.history_budget,
                 "population": "Dev-evaluation Full+Short",
                 "rows": len(metric_rows),
                 "selected_hyperparameters": selection,
@@ -843,6 +930,7 @@ class PilotRunner:
                 "frequency_reranking": timing_summary(frequency_times),
                 "memory_retrieval": timing_summary(retrieval_times),
                 "memory_reranking": timing_summary(rerank_times),
+                "history_budget": self.history_budget,
                 "generic": json.loads((self.output_root / "generic_runtime.json").read_text(encoding="utf-8")),
                 "embeddings": json.loads((self.output_root / "embedding_runtime.json").read_text(encoding="utf-8")),
             }
@@ -870,72 +958,32 @@ class PilotRunner:
         smoke_root.mkdir(parents=True, exist_ok=True)
         backend = PinyinGPTConcatBackend(self.pinyingpt_model, device="cuda")
         embedder = BGEContextEmbedder(self.embedding_model)
-        cache = EmbeddingCache(smoke_root / "embedding_cache.sqlite3")
+        cache = EmbeddingCache(smoke_root / "embedding_cache_v2.sqlite3")
         outputs = []
         generic_outputs = []
-        generic_times = []
-        embedding_times = []
-        reranking_times = []
         started = time.perf_counter()
         try:
             for row in selected:
                 query = self._query(row)
-                generic_started = time.perf_counter()
                 result = backend.generate(row["context"], row["pinyin_segments"], top_k=10, beam_size=16)
-                generic_times.append((time.perf_counter() - generic_started) * 1000.0)
                 candidates = tuple(Candidate(candidate.text, candidate.rank, candidate.log_probability) for candidate in result.candidates)
-                if len(candidates) < 2:
-                    raise RuntimeError("smoke requires at least two Generic candidates")
                 synthetic_history = [
-                    {
-                        "row_id": f"smoke-{row['row_id']}-a",
-                        "author": row["author"],
-                        "work_id": "smoke-history",
-                        "chronological_position": row["chronological_position"] - 2,
-                        "context": row["context"] + "此前甲",
-                        "pinyin_segments": row["pinyin_segments"],
-                        "target": candidates[0].text,
-                    },
-                    {
-                        "row_id": f"smoke-{row['row_id']}-b",
-                        "author": row["author"],
-                        "work_id": "smoke-history",
-                        "chronological_position": row["chronological_position"] - 1,
-                        "context": row["context"] + "此前乙",
-                        "pinyin_segments": row["pinyin_segments"],
-                        "target": candidates[1].text,
-                    },
+                    {"row_id": f"smoke-{row['row_id']}-a", "author": row["author"], "work_id": "smoke-history", "chronological_position": row["chronological_position"] - 2, "context": row["context"] + "\n[smoke-prior-a]", "pinyin_segments": row["pinyin_segments"], "target": candidates[0].text},
+                    {"row_id": f"smoke-{row['row_id']}-b", "author": row["author"], "work_id": "smoke-history", "chronological_position": row["chronological_position"] - 1, "context": row["context"] + "\n[smoke-prior-b]", "pinyin_segments": row["pinyin_segments"], "target": candidates[1].text},
                 ]
                 for context in [row["context"], *(item["context"] for item in synthetic_history)]:
                     if cache.get(context) is None:
-                        embedding_started = time.perf_counter()
                         cache.put(context, embedder.embed(context))
-                        embedding_times.append((time.perf_counter() - embedding_started) * 1000.0)
                 cache.commit()
-                ranking_started = time.perf_counter()
                 frequency = rank_frequency(query, candidates, synthetic_history, lambda_frequency=0.5)
                 memory, evidence = rank_memory(query, candidates, synthetic_history, EmbeddingLookup(cache), top_n=2, lambda_memory=0.5)
-                reranking_times.append((time.perf_counter() - ranking_started) * 1000.0)
                 assert_candidate_pool(candidates, frequency, memory)
                 outputs.append({"row_id": row["row_id"], "author": row["author"], "generic_rank": rank_of([{"candidate": c.text, "rank": c.generic_rank} for c in candidates], row["gold"]), "frequency_rank": rank_of(frequency, row["gold"]), "memory_rank": rank_of(memory, row["gold"]), "retrieved": evidence})
                 generic_outputs.append({"row_id": row["row_id"], "candidates": [candidate.__dict__ for candidate in candidates]})
-            write_jsonl(smoke_root / "generic_predictions.jsonl", generic_outputs)
-            write_jsonl(smoke_root / "smoke_predictions.jsonl", outputs)
-            summary = {
-                "status": "passed",
-                "research_result": False,
-                "rows": len(outputs),
-                "cuda_device": backend.runtime_info()["device_name"],
-                "embedding_model": embedder.info(),
-                "embedding_cache_rows": cache.count(),
-                "candidate_pool_invariant": True,
-                "metrics_pipeline": macro_author_metrics(outputs, "memory_rank"),
-                "generic_latency": timing_summary(generic_times),
-                "embedding_latency": timing_summary(embedding_times),
-                "frequency_plus_memory_reranking_latency": timing_summary(reranking_times),
-                "elapsed_seconds": time.perf_counter() - started,
-            }
-            write_json(smoke_root / "smoke_summary.json", summary)
+            write_jsonl(smoke_root / "generic_predictions_v2.jsonl", generic_outputs)
+            write_jsonl(smoke_root / "smoke_predictions_v2.jsonl", outputs)
+            summary = {"status": "passed", "research_result": False, "rows": len(outputs), "cuda_device": backend.runtime_info()["device_name"], "embedding_model": embedder.info(), "embedding_cache_rows": cache.count(), "candidate_pool_invariant": True, "metrics_pipeline": macro_author_metrics(outputs, "memory_rank"), "elapsed_seconds": time.perf_counter() - started}
+            write_json(smoke_root / "smoke_summary_v2.json", summary)
             return summary
         finally:
             cache.close()
