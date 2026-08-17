@@ -108,7 +108,7 @@ Metric definitions:
 development results for proxy users and reconstructed input, not final
 cleaned-dataset thesis numbers.
 
-## Running Personalisation Pilot A Manually
+## Running Personalisation Pilot A M1-H5000 Manually
 
 Pilot A runs only in:
 
@@ -116,36 +116,37 @@ Pilot A runs only in:
 C:\Users\chiar\Desktop\LBH\thesis-personalisation
 ```
 
-It is Dev-only and Full + Short only. The recommended command validates or
-reuses the prepared manifests, resumes the durable Generic and embedding
-caches, tunes on earlier Dev works, evaluates on later Dev works, and writes
-all structured results. Run it from PowerShell; Codex does not need to remain
-active:
+This command tunes M1 on the frozen earlier Dev works, freezes the selected
+parameters, and evaluates the exact 6,000 T1 Full+Short Test anchors under the
+H5000 history budget. Test G0 candidates are reused from the completed T1
+cache; no Test Generic inference is performed. Run it from PowerShell; Codex
+does not need to remain active:
 
 ```powershell
 Set-Location C:\Users\chiar\Desktop\LBH\thesis-personalisation
 New-Item -ItemType Directory -Force `
   results\personalisation\pilot_a_context_memory | Out-Null
 & C:\Users\chiar\Desktop\LBH\thesis\.venv\Scripts\python.exe `
-  -m experiments.personalisation_pilot_a `
+  -m experiments.personalisation_pilot_a_h5000 `
   --phase all `
   --dataset-root C:\Users\chiar\Desktop\LBH\thesis-deep-author\.build\dataset-v1-reconstruction `
   --pinyingpt-model C:\Users\chiar\Desktop\LBH\thesis\.build\pinyingpt2-concat `
   --embedding-model C:\Users\chiar\Desktop\LBH\thesis\.cache\phase_04f\models\bge-small-zh-v1.5-q8_0.gguf `
-  1>> results\personalisation\pilot_a_context_memory\pilot_a_stdout.log `
-  2>> results\personalisation\pilot_a_context_memory\pilot_a_stderr.log
+  --t1-predictions C:\Users\chiar\Desktop\LBH\thesis-deep-author\results\evaluation\deep_author_v2\t1\predictions.jsonl `
+  1>> results\personalisation\pilot_a_context_memory\h5000_stdout.log `
+  2>> results\personalisation\pilot_a_context_memory\h5000_stderr.log
 ```
 
-The same command safely resumes: valid Generic JSONL rows and SQLite embeddings
-are reused, while mismatched cache provenance stops with an error. To run one
-phase, replace `all` with one of `prepare`, `generic`, `embeddings`, `tune`, or
-`evaluate`; keep every other argument identical.
+The same command safely resumes. Valid Dev Generic rows and compatible BGE
+embeddings are reused; provenance mismatches stop with an error. The phases are
+`prepare`, `dev-generic`, `dev-embeddings`, `tune`, `test-embeddings`,
+`evaluate`, `smoke`, and `all`.
 
 Monitor progress from a second PowerShell window:
 
 ```powershell
 Get-Content `
-  C:\Users\chiar\Desktop\LBH\thesis-personalisation\results\personalisation\pilot_a_context_memory\pilot_a_stdout.log `
+  C:\Users\chiar\Desktop\LBH\thesis-personalisation\results\personalisation\pilot_a_context_memory\h5000_stdout.log `
   -Tail 30 -Wait
 ```
 
@@ -153,14 +154,14 @@ Inspect errors:
 
 ```powershell
 Get-Content -Raw `
-  C:\Users\chiar\Desktop\LBH\thesis-personalisation\results\personalisation\pilot_a_context_memory\pilot_a_stderr.log
+  C:\Users\chiar\Desktop\LBH\thesis-personalisation\results\personalisation\pilot_a_context_memory\h5000_stderr.log
 ```
 
-Count completed Generic predictions:
+Count completed Dev-tune Generic predictions:
 
 ```powershell
 (Get-Content `
-  C:\Users\chiar\Desktop\LBH\thesis-personalisation\results\personalisation\pilot_a_context_memory\generic_predictions.jsonl |
+  C:\Users\chiar\Desktop\LBH\thesis-personalisation\results\personalisation\pilot_a_context_memory\cache\generic_predictions.jsonl |
   Measure-Object -Line).Lines
 ```
 
@@ -168,14 +169,16 @@ Verify full completion after the command exits:
 
 ```powershell
 $result = Get-Content -Raw `
-  C:\Users\chiar\Desktop\LBH\thesis-personalisation\results\personalisation\pilot_a_context_memory\metrics_summary.json |
+  C:\Users\chiar\Desktop\LBH\thesis-personalisation\results\personalisation\pilot_a_context_memory\h5000\metrics_summary.json |
   ConvertFrom-Json
 $result.status
 $result.rows
-$result.test_rows_used
+$result.generic_test_inference_rows
+$result.test_gold_used_for_tuning
 ```
 
-Expected completion values are `complete`, `16041`, and `0`. Final metrics will
-appear in `metrics_summary.json`, `metrics_by_author.csv`, and
-`metrics_by_subset.csv` under the same result directory. Large model, Generic,
-embedding, and prediction caches remain local and should not be committed.
+Expected values are `complete`, `6000`, `0`, and `False`. Final metrics appear
+under `results/personalisation/pilot_a_context_memory/h5000/`. The canonical
+BGE cache is `cache/embedding_cache.sqlite3`; its identity excludes the H5000
+label, so later H500 and HFull runs can reuse compatible vectors. Large caches
+remain local and should not be committed.
