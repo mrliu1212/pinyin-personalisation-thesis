@@ -209,6 +209,32 @@ class PinyinGPTConcatBackend:
             clean_up_tokenization_spaces=False,
         )
 
+    def truncate_context_for_generation(
+        self, context: str, typed_pinyin: str | Sequence[str]
+    ) -> tuple[str, int, int, bool]:
+        """Keep the most recent context that fits the complete Concat generation."""
+
+        pinyin = self.segment_pinyin(typed_pinyin)
+        original_ids = self.tokenizer.encode(context, add_special_tokens=False)
+        maximum = int(self.model.config.n_positions)
+        # [CLS], context, [SEP], Pinyin, [SEP], and generated target positions.
+        available = maximum - (2 + 2 * len(pinyin))
+        if available < 0:
+            raise ValueError("Pinyin target exceeds the model position limit")
+        if len(original_ids) <= available:
+            return context, len(original_ids), len(original_ids), False
+        low, high = 0, len(context)
+        while low < high:
+            middle = (low + high) // 2
+            length = len(self.tokenizer.encode(context[middle:], add_special_tokens=False))
+            if length <= available:
+                high = middle
+            else:
+                low = middle + 1
+        used = context[low:]
+        used_tokens = len(self.tokenizer.encode(used, add_special_tokens=False))
+        return used, len(original_ids), used_tokens, True
+
     def generate(
         self,
         context: str,
@@ -284,6 +310,99 @@ class PinyinGPTConcatBackend:
             beam_size=beam_size,
             runtime_device=str(self.device),
         )
+
+    def generate_batch(
+        self,
+        requests: Sequence[tuple[str, Sequence[str]]],
+        *,
+        top_k: int = 10,
+        beam_size: int = 16,
+    ) -> tuple[PinyinGPTResult, ...]:
+        """Decode independent requests in shared forwards without changing beams."""
+
+        if not requests:
+            return ()
+        if top_k < 1 or beam_size < top_k:
+            raise ValueError("beam_size must be at least top_k, and top_k must be positive")
+        prepared = []
+        for context, typed in requests:
+            pinyin = self.segment_pinyin(typed)
+            prompt_ids, prompt_positions = self._prompt(context, pinyin)
+            prepared.append((context, tuple(typed), pinyin, prompt_ids, prompt_positions))
+        lengths = {len(item[2]) for item in prepared}
+        sequence_lengths = {len(item[3]) for item in prepared}
+        if len(lengths) != 1 or len(sequence_lengths) != 1:
+            raise ValueError("batched requests must have equal target and prompt token lengths")
+        target_length = lengths.pop()
+        beams: list[list[tuple[list[int], float]]] = [[([], 0.0)] for _ in prepared]
+
+        with self.torch.inference_mode():
+            prompt_output = self.model(
+                input_ids=self.torch.tensor([item[3] for item in prepared], device=self.device),
+                position_ids=self.torch.tensor([item[4] for item in prepared], device=self.device),
+                use_cache=True,
+            )
+            logits = prompt_output.logits[:, -1]
+            past_key_values = prompt_output.past_key_values
+            for step in range(target_length):
+                log_probabilities = self.torch.log_softmax(logits.float(), dim=-1)
+                next_all = []
+                selected_rows = []
+                row_start = 0
+                for request_index, item_beams in enumerate(beams):
+                    segment = prepared[request_index][2][step]
+                    allowed = self.torch.tensor(self.allowed_token_ids[segment], device=self.device)
+                    row_indices = list(range(row_start, row_start + len(item_beams)))
+                    constrained = log_probabilities[row_indices].index_select(1, allowed)
+                    prior = self.torch.tensor([score for _, score in item_beams], device=self.device).unsqueeze(1)
+                    combined = constrained + prior
+                    keep = min(beam_size, combined.numel())
+                    values, flat_indices = combined.flatten().topk(keep)
+                    width = allowed.numel()
+                    next_beams = []
+                    for value, flat_index in zip(values.tolist(), flat_indices.tolist()):
+                        beam_index = flat_index // width
+                        token_index = flat_index % width
+                        next_beams.append((item_beams[beam_index][0] + [allowed[token_index].item()], value))
+                        selected_rows.append(row_start + beam_index)
+                    next_all.append(next_beams)
+                    row_start += len(item_beams)
+                beams = next_all
+                if step + 1 == target_length:
+                    break
+                selection = self.torch.tensor(selected_rows, device=self.device)
+                past_key_values.batch_select_indices(selection)
+                previous_tokens = [[generated[-1]] for item_beams in beams for generated, _ in item_beams]
+                next_positions = []
+                for request_index, item_beams in enumerate(beams):
+                    pinyin = prepared[request_index][2]
+                    prompt_positions = prepared[request_index][4]
+                    position = prompt_positions[-len(pinyin) - 1] + step
+                    next_positions.extend([position] for _ in item_beams)
+                incremental_output = self.model(
+                    input_ids=self.torch.tensor(previous_tokens, device=self.device),
+                    position_ids=self.torch.tensor(next_positions, device=self.device),
+                    past_key_values=past_key_values,
+                    use_cache=True,
+                )
+                logits = incremental_output.logits[:, -1]
+                past_key_values = incremental_output.past_key_values
+
+        results = []
+        for request_index, item_beams in enumerate(beams):
+            context, typed, pinyin, prompt_ids, _ = prepared[request_index]
+            candidates = []
+            seen = set()
+            for generated, score in item_beams:
+                value = "".join(self.tokenizer.convert_ids_to_tokens(generated))
+                if value in seen:
+                    continue
+                seen.add(value)
+                candidates.append(CandidateScore(text=value, rank=len(candidates) + 1, log_probability=score, mean_log_probability=score / len(pinyin)))
+                if len(candidates) == top_k:
+                    break
+            results.append(PinyinGPTResult(context=context, typed_pinyin=" ".join(typed), segmented_pinyin=pinyin, model_input_tokens=self._model_input_tokens(prompt_ids), candidates=tuple(candidates), beam_size=beam_size, runtime_device=str(self.device)))
+        return tuple(results)
 
     def score_candidates(
         self,
