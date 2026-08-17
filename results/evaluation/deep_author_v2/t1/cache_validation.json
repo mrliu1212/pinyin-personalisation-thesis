@@ -1,0 +1,15 @@
+{
+  "beam_size": 16,
+  "candidate_surfaces_below_top_k": 564,
+  "checkpoint_revision": "76dd20dc92d8236a350fb732e99dde6fa15e2263",
+  "inference_failures": 0,
+  "manifest_rows": 24000,
+  "manifest_sha256": "45b9cafedd7a8269d1f0b66d3f7f135ee990140e4b5b3668c67645863ab00d39",
+  "official_code_revision": "8f1573ed0bd4d1f3d8d3f10a05f7e870725646f1",
+  "prediction_rows": 24000,
+  "predictions_sha256": "764db39887f3db04b913d1739d9dbd46295f0e46e5a2bffa649f1563b56ee4e2",
+  "schema_version": 2,
+  "status": "valid",
+  "top_k": 10,
+  "unique_condition_ids": 24000
+}

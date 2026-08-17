@@ -1,0 +1,66 @@
+{
+  "cache_validation.json": {
+    "bytes": 558,
+    "sha256": "06eeec616f99af630f6ff2772a7242430f398c973ed118b3e981f6a23a30494d"
+  },
+  "diagnostics_context_length.csv": {
+    "bytes": 1639,
+    "sha256": "7e1b5928bebc36642816bd9cb43c66924c157d977f204c7ff82fc74e99726501"
+  },
+  "diagnostics_gold_length.csv": {
+    "bytes": 2728,
+    "sha256": "0015341fcf38c51bc1f95dff64deb06d0a514c8a921589a26840f283178914e7"
+  },
+  "failure_examples.csv": {
+    "bytes": 1634410,
+    "sha256": "5c692f4e4b2916331da2d208ffd74ef1ba6221ed9d1fb81c490d7c26e2e28215"
+  },
+  "metrics_by_author.csv": {
+    "bytes": 529,
+    "sha256": "ae977befdacecd19187b27d203098d10f10c736eabd2a9bb1657359500f9bdda"
+  },
+  "metrics_by_author.json": {
+    "bytes": 1243,
+    "sha256": "d89126edb002f5e03a6e1c3685fb6c5c33557c56dd984a681f3c263847684054"
+  },
+  "metrics_by_author_condition.csv": {
+    "bytes": 2094,
+    "sha256": "c79c0006850c2ca39920b6a3db240bae3ebd1f010a155b8e9e88e643d0331ed9"
+  },
+  "metrics_by_condition.csv": {
+    "bytes": 461,
+    "sha256": "e64b10b46be33ae32844213b70cc589452edb85bc656dbfd1b46d83ab5573a84"
+  },
+  "metrics_by_condition.json": {
+    "bytes": 886,
+    "sha256": "433aec050dc0ac6a6be2e2122cd7c37afb0f349a1f1707b538d68ac489d2c151"
+  },
+  "metrics_by_work.csv": {
+    "bytes": 19035,
+    "sha256": "e1634f8b50f56c2547c84aac5b00fc09aaeb4cdd768517f7e7bf4034c13a32e5"
+  },
+  "metrics_summary.json": {
+    "bytes": 9677,
+    "sha256": "ae6285443d1b01dd069f57952a20a6e2b1a756e0121f598b2c6c0ed4f041faee"
+  },
+  "paired_full_initial.csv": {
+    "bytes": 641,
+    "sha256": "588004068d618454b6c3e15a2b22082507b63e4fdaa1b6edf0ea03578b2119d2"
+  },
+  "predictions.jsonl": {
+    "bytes": 122698571,
+    "sha256": "764db39887f3db04b913d1739d9dbd46295f0e46e5a2bffa649f1563b56ee4e2"
+  },
+  "regression_summary.json": {
+    "bytes": 2211,
+    "sha256": "412a385f3e893852e72a0404aa4c075e62b7e93ad7fd9ce00866664f5f1413a2"
+  },
+  "runtime_summary.json": {
+    "bytes": 1616,
+    "sha256": "7a80dcdb1bb35f9924ae9484aa0e466f696cf1d53fdb3014aee1573475c0180f"
+  },
+  "t1_prediction_review.csv": {
+    "bytes": 38932,
+    "sha256": "c921c996cd286205d766097d48f153b925c6fd46a0bee0797505937d9e406074"
+  }
+}

@@ -1,0 +1,13 @@
+﻿target,author,n,both_correct,full_correct_initial_wrong,full_wrong_initial_correct,both_wrong,initial_minus_full_top1
+short,Re_spectators,1000,412,402,10,176,-0.392
+short,MScarlet,1000,171,231,3,595,-0.228
+short,Etinjat,1000,294,423,9,274,-0.414
+short,Agent Phage,1000,331,462,8,199,-0.454
+short,QBLevi,1000,360,456,8,176,-0.448
+short,breaddddd,1000,360,437,8,195,-0.429
+multi3,Re_spectators,1000,90,365,18,527,-0.347
+multi3,MScarlet,1000,4,57,1,938,-0.056
+multi3,Etinjat,1000,52,332,11,605,-0.321
+multi3,Agent Phage,1000,64,400,10,526,-0.39
+multi3,QBLevi,1000,88,383,11,518,-0.372
+multi3,breaddddd,1000,73,350,12,565,-0.338

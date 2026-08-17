@@ -1,0 +1,56 @@
+[
+  {
+    "author": "Re_spectators",
+    "mean_rank_given_top10": 1.8605787298008267,
+    "missing_at_10": 0.33475,
+    "mrr_at_10": 0.5258048611111111,
+    "n": 4000,
+    "top1": 0.44975,
+    "top3": 0.58475
+  },
+  {
+    "author": "MScarlet",
+    "mean_rank_given_top10": 2.624793388429752,
+    "missing_at_10": 0.6975,
+    "mrr_at_10": 0.20371061507936508,
+    "n": 4000,
+    "top1": 0.1605,
+    "top3": 0.23125
+  },
+  {
+    "author": "Etinjat",
+    "mean_rank_given_top10": 2.029655473179241,
+    "missing_at_10": 0.42675,
+    "mrr_at_10": 0.4362363095238095,
+    "n": 4000,
+    "top1": 0.36675,
+    "top3": 0.48725
+  },
+  {
+    "author": "Agent Phage",
+    "mean_rank_given_top10": 1.8936085748312823,
+    "missing_at_10": 0.37025,
+    "mrr_at_10": 0.49205367063492067,
+    "n": 4000,
+    "top1": 0.4175,
+    "top3": 0.551
+  },
+  {
+    "author": "QBLevi",
+    "mean_rank_given_top10": 1.9112240907313258,
+    "missing_at_10": 0.36075,
+    "mrr_at_10": 0.5053284722222222,
+    "n": 4000,
+    "top1": 0.4385,
+    "top3": 0.55525
+  },
+  {
+    "author": "breaddddd",
+    "mean_rank_given_top10": 1.9488792764451435,
+    "missing_at_10": 0.36425,
+    "mrr_at_10": 0.4933538690476191,
+    "n": 4000,
+    "top1": 0.41825,
+    "top3": 0.551
+  }
+]

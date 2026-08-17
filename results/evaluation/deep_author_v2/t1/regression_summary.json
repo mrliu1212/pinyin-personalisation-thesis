@@ -1,0 +1,55 @@
+{
+  "schema_version": 2,
+  "gate": "legacy reference decoder versus semantic-equivalent batched KV-cache decoder",
+  "performed_at": "2026-08-17",
+  "manifest_sha256": "45b9cafedd7a8269d1f0b66d3f7f135ee990140e4b5b3668c67645863ab00d39",
+  "cache_rows_at_gate": 3294,
+  "cache_sha256_at_gate": "5acb7f8420b2909ba0ab4d332514ec010b0ffee17f1c0d21a874d8c2734772",
+  "checkpoint_revision": "76dd20dc92d8236a350fb732e99dde6fa15e2263",
+  "official_code_revision": "8f1573ed0bd4d1f3d8d3f10a05f7e870725646f1",
+  "backend_source_revision": "07a79f301a094d3db88780f00fcf85a4abf80d7f",
+  "backend_integration_revision": "8c608f106ee7bb49ca5573e72de3da5eeb2290af",
+  "beam_size": 16,
+  "top_k": 10,
+  "examples": 12,
+  "examples_per_condition": {
+    "full_short": 3,
+    "initial_short": 3,
+    "full_multi3": 3,
+    "initial_multi3": 3
+  },
+  "maximum_context_tokens": 509,
+  "maximum_target_characters": 9,
+  "candidate_text_and_order_identical": true,
+  "candidate_order_mismatches": 0,
+  "maximum_absolute_cumulative_log_probability_delta": 0.0000324249267578125,
+  "accepted_score_tolerance": 0.00005,
+  "context_left_truncation_test": {
+    "status": "passed",
+    "original_tokens": 1100,
+    "used_tokens": 1018,
+    "retained_most_recent_suffix": true
+  },
+  "batching_probe": {
+    "selected_batch_size": 2,
+    "candidate_text_and_order_identical": true,
+    "maximum_score_delta": 0.00003814697265625,
+    "batch_size_4_rejected": true,
+    "reason": "Although candidate order remained equal, its 0.000091552734375 score delta exceeded the established four-decimal tolerance."
+  },
+  "sample_condition_ids": [
+    "da-v2-condition-5a4cf6578e83d16c08892c1f",
+    "da-v2-condition-63c1b8e9208f48d143f48f65",
+    "da-v2-condition-a90e6243e7260966000ecaff",
+    "da-v2-condition-59f4b3eb66c26bb960ad957c",
+    "da-v2-condition-4e2e15904596a1b9283e157f",
+    "da-v2-condition-57fa6c6803e8495f43222dd7",
+    "da-v2-condition-755fa723ade23472059be816",
+    "da-v2-condition-bce6d5dd11554018981b23b5",
+    "da-v2-condition-afda44e1807fd75b1bf2d249",
+    "da-v2-condition-e58bfbc51f8f27991540a692",
+    "da-v2-condition-b31ef68628b861e78af8d4d1",
+    "da-v2-condition-e3fd2a4e18969d69bd2e87ad"
+  ],
+  "status": "passed"
+}
