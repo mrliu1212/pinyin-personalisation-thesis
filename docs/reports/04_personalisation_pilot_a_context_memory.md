@@ -1,87 +1,85 @@
 # Personalisation Pilot A — Context-Aware Memory M1-H5000
 
-> **Implementation-stage report skeleton. M1-H5000 numerical results: PENDING MANUAL RUN.**
+## Purpose
 
-## 1. Research Question
+This experiment tested whether strictly prior same-user history improves the
+frozen Generic PinyinGPT candidate ranking. It compared Generic ordering
+(`G0`), same-Pinyin frequency (`F-H5000`), and Context-Aware Personal Memory
+(`M1-H5000`).
 
-Can strictly prior same-user contextual history improve Generic PinyinGPT candidate ranking beyond both frozen Generic ordering (`G0`) and a transparent same-Pinyin frequency baseline (`F`)?
+## H5000 Definition
 
-## 2. Scope
+The population is the exact 6,000 frozen T1 Full+Short Test anchors: 1,000 for
+each of six proxy authors. H5000 first selects the 5,000 most recent strictly
+prior legal History-split interactions for the same author and only then
+filters exact segmented Pinyin. Dev Gold selected parameters; Test Gold did
+not enter prediction or tuning.
 
-- Dataset V1 frozen Evaluation V2 split
-- Hyperparameter selection on Dev only
-- One evaluation on the exact 6,000 frozen T1 Test anchors
-- Full + Short only
-- H5000 personal-history budget
-- Six proxy authors
-- Ranking over the frozen Generic up-to-Top-10 surface
-- No vocabulary augmentation or internal PinyinGPT adaptation
+## Methods
 
-## 3. Frozen Method
+`F-H5000` aggregates normalized `log(1 + count)` support by historical target.
+`M1-H5000` uses the pinned `bge-small-zh-v1.5-q8_0.gguf` model to retrieve
+same-Pinyin histories by context cosine similarity, clips negative similarity
+to zero, and normalizes target support. Both combine personal support with the
+unchanged within-query Generic z-score and reorder only the frozen Generic
+Top-10 surface.
 
-`G0` is reused read-only from the completed T1 Full+Short cache. `F-H5000` adds normalized `log(1 + same-Pinyin target count)` support. `M1-H5000` first takes the 5,000 most recent strictly prior same-author History-split interactions, then filters exact same Pinyin, retrieves by pinned BGE cosine similarity, and adds normalized non-negative support. Generic scores use within-query population z-score normalization. Full details are in [Context-Aware Personal Memory](../research/context_aware_personal_memory.md).
+Dev-only selection chose:
 
-## 4. Dev Split
+- `lambda_frequency = 4.0`
+- `top_n = 5`
+- `lambda_memory = 4.0`
 
-The deterministic Dev manifest has 32,212 rows. Earlier whole Dev works form the 16,171-row tune population. Later Dev works are not used for parameter selection. After parameters are frozen, evaluation uses all 6,000 T1 Full+Short Test anchors, exactly 1,000 per author. Test Gold is never available to tuning or prediction.
+## Completed Results
 
-## 5. Frozen Hyperparameter Grid
+The values below are Macro-author metrics from
+`results/personalisation/pilot_a_context_memory/h5000/metrics_summary.json`.
 
-- `lambda_frequency`: `{0, 0.25, 0.5, 1, 2, 4}`
-- memory Top-N: `{1, 3, 5, 10, 20}`
-- `lambda_memory`: `{0, 0.25, 0.5, 1, 2, 4}`
-- Selection: tune Macro-author Top-1
-- Tie-breaking: lower lambda; for memory, then lower Top-N
+| Subset | Rows | Method | Top-1 | Top-3 | MRR@10 | Missing@10 | MeanRank\|Top10 |
+| --- | ---: | --- | ---: | ---: | ---: | ---: | ---: |
+| Overall | 6000 | G0 | 0.7231666666666667 | 0.8535 | 0.793428835978836 | 0.08966666666666667 | 1.5391761581065844 |
+| Overall | 6000 | F-H5000 | 0.7718333333333334 | 0.8723333333333333 | 0.8249612433862433 | 0.08966666666666667 | 1.366685554535331 |
+| Overall | 6000 | M1-H5000 | 0.7675000000000001 | 0.8713333333333333 | 0.8225744708994709 | 0.08966666666666667 | 1.3769072114411491 |
+| History available | 3904 | G0 | 0.7567131615581154 | 0.8895599009681594 | 0.8273955882250704 | 0.05919995737819245 | 1.4809319863299928 |
+| History available | 3904 | F-H5000 | 0.8290200604214916 | 0.9182803936124361 | 0.8743708114770946 | 0.05919995737819245 | 1.2391212591868312 |
+| History available | 3904 | M1-H5000 | 0.8190291288899766 | 0.9167333460939123 | 0.8691770267721989 | 0.05919995737819245 | 1.257078016239148 |
+| Ambiguous | 1661 | G0 | 0.7068355123795343 | 0.8784510968844751 | 0.7969496139616061 | 0.06143930268165531 | 1.5911274115759955 |
+| Ambiguous | 1661 | F-H5000 | 0.7712972990214865 | 0.9131769325891655 | 0.8419084656448366 | 0.06143930268165531 | 1.3133934278593462 |
+| Ambiguous | 1661 | M1-H5000 | 0.759040112296474 | 0.9093407138177344 | 0.8348421050458926 | 0.06143930268165531 | 1.3458619106140073 |
+| Conflict | 377 | G0 | 0.43811986933227537 | 0.741105329282021 | 0.5969967415555996 | 0.1486167336778239 | 2.1202114378537793 |
+| Conflict | 377 | F-H5000 | 0.18207160436483746 | 0.7671344464765517 | 0.47190672140319695 | 0.1486167336778239 | 2.2994045538351875 |
+| Conflict | 377 | M1-H5000 | 0.1944904309518971 | 0.7551393263564316 | 0.4747994928669271 | 0.1486167336778239 | 2.358416145024004 |
 
-Selected parameters: **PENDING MANUAL RUN**
+The candidate pool was invariant across all three methods. Missing counts were
+identical: 538 for `G0`, 538 for `F-H5000`, and 538 for `M1-H5000`.
 
-## 6. Metrics
+## Interpretation
 
-Primary: Macro-author Top-1. Secondary: Top-3, MRR@10, Missing@10, and MeanRank|Top10. Report `G0`, `F-H5000`, and `M1-H5000` overall and for history-available, Ambiguous, and Conflict subsets, plus per-author results.
+Personal history clearly improved `G0` overall and on rows with visible
+history. Frequency slightly outperformed M1 overall. M1 nevertheless showed
+contextual signal: it did not always reproduce the frequency result, and it
+slightly improved the Conflict Top-1 value relative to frequency. General BGE
+context cosine similarity was not sufficiently precise to outperform the
+strong frequency baseline. Conflict was the main failure case: both personal
+methods over-trusted the historical majority when the current intended target
+differed from it.
 
-## 7. M1-H5000 Results
+## Limitations and M2 Direction
 
-**PENDING MANUAL RUN**
+The six authors are proxies, Pinyin interactions are reconstructed, the
+candidate pool cannot recover personal vocabulary, and H5000 is only one
+history budget. M1 asks approximately, “Which previous contexts are
+semantically similar?” M2 retains the same legal H5000 and BGE retrieval but
+asks, “Does this historical interaction support this candidate in the current
+context?” with a pretrained candidate-aware Cross-Encoder. Personal vocabulary,
+other history budgets, wrong-user controls, and trained M3 scoring remain later
+work.
 
-Do not infer values from the isolated smoke test.
+## Provenance
 
-## 8. Runtime
-
-**PENDING MANUAL FULL RUN**
-
-The runtime report will separate Generic inference, embedding/cache work, memory retrieval, and reranking.
-
-## 9. Expected Result Artifacts
-
-Shared Dev/cache paths are below `results/personalisation/pilot_a_context_memory/`; H5000 outputs are below its `h5000/` child:
-
-- `dev_manifest.jsonl`, `history_manifest.jsonl`, `dev_split_summary.json`
-- `cache/generic_predictions.jsonl`, `generic_runtime.json` (Dev tune only)
-- `cache/embedding_cache.sqlite3` (shared across history budgets)
-- `frequency_hyperparameter_search.csv`, `memory_hyperparameter_search.csv`
-- `selected_hyperparameters.json`
-- `h5000/test_manifest.jsonl`, `h5000/manifest_summary.json`
-- `h5000/frozen_hyperparameters.json`
-- `h5000/frequency_predictions.jsonl`, `h5000/memory_predictions.jsonl`
-- `h5000/ambiguous_subset.jsonl`, `h5000/conflict_subset.jsonl`
-- `h5000/metrics_summary.json`, `h5000/metrics_by_author.csv`, `h5000/metrics_by_subset.csv`
-- `h5000/runtime_summary.json`, `h5000/artifact_checksums.json`
-
-## 10. Limitations
-
-Proxy authors, reconstructed input, Dataset V1, fixed Generic candidate pool, no vocabulary recovery, and no internal model adaptation remain limitations. H5000 alone is not the complete T2 history-size curve; H500, HFull, and wrong-user controls remain future work.
-
-## 11. Reproducibility
-
-- Branch: `work/personalisation-pilot-a`
-- Starting checkpoint: `deep-author-evaluation-v2-t1` / `14d584a17c4ae0a284b25bcdc892d3b12e439745`
-- Framework commit: `f335715`
-- Runner commit: `22eb1e0`
-- Implementation tag: `personalisation-pilot-a-implementation-v1`
-- PinyinGPT checkpoint revision: `76dd20dc92d8236a350fb732e99dde6fa15e2263`
-- Official code revision: `8f1573ed0bd4d1f3d8d3f10a05f7e870725646f1`
-- Embedding SHA-256: `5a88d266870fbd27c6f329df60de80e2d4cf3bbd5e6f080bd5c1b2e5abb12039`
-- T1 Full+Short manifest: 6,000 anchors / SHA-256 `45b9cafedd7a8269d1f0b66d3f7f135ee990140e4b5b3668c67645863ab00d39`
-- T1 completed predictions: SHA-256 `764db39887f3db04b913d1739d9dbd46295f0e46e5a2bffa649f1563b56ee4e2`
-- H5000 implementation tag: `personalisation-pilot-a-h5000-implementation-v1`
-- M1-H5000 numerical result completion: **PENDING MANUAL RUN**
+- M1 implementation tag: `personalisation-pilot-a-h5000-implementation-v1`
+- T1 prediction SHA-256: `764db39887f3db04b913d1739d9dbd46295f0e46e5a2bffa649f1563b56ee4e2`
+- BGE GGUF SHA-256: `5a88d266870fbd27c6f329df60de80e2d4cf3bbd5e6f080bd5c1b2e5abb12039`
+- Completed metrics SHA-256: `e35fb9efbe3bdd31d7f8354c227efbed2aa178855061955b3ac16a70137e424d`
+- `status = complete`, `rows = 6000`, `generic_test_inference_rows = 0`,
+  `test_gold_used_for_tuning = false`

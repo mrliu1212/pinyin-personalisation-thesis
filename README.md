@@ -182,3 +182,82 @@ under `results/personalisation/pilot_a_context_memory/h5000/`. The canonical
 BGE cache is `cache/embedding_cache.sqlite3`; its identity excludes the H5000
 label, so later H500 and HFull runs can reuse compatible vectors. Large caches
 remain local and should not be committed.
+
+## Running Personalisation M2-H5000
+
+M2 retains the completed M1 BGE retrieval and adds the pinned
+`BAAI/bge-reranker-base` candidate-aware second stage. See
+[the M2 method](docs/research/candidate_aware_personal_memory_m2.md) and the
+[pending result report](docs/reports/05_personalisation_m2_h5000.md).
+
+Download the exact official snapshot once (the runner verifies every required
+artifact hash):
+
+```powershell
+& C:\Users\chiar\Desktop\LBH\thesis\.venv\Scripts\python.exe -c `
+  "from huggingface_hub import snapshot_download; snapshot_download(repo_id='BAAI/bge-reranker-base', revision='2cfc18c9415c912f9d8155881c133215df768a70', local_dir=r'C:\Users\chiar\Desktop\LBH\thesis\.build\bge-reranker-base', allow_patterns=['*.json','*.txt','*.model','*.safetensors','README.md','LICENSE'])"
+```
+
+Inspect the method without running inference:
+
+```powershell
+Get-Content -Raw docs\research\candidate_aware_personal_memory_m2.md
+Get-Content -Raw results\personalisation\m2_h5000\manifest_summary.json
+```
+
+Launch or resume the final pipeline independently from PowerShell:
+
+```powershell
+Set-Location C:\Users\chiar\Desktop\LBH\thesis-personalisation
+$env:CUDA_PATH = 'C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.8'
+$python = 'C:\Users\chiar\Desktop\LBH\thesis\.venv\Scripts\python.exe'
+$stdout = 'results\personalisation\m2_h5000\m2_h5000_stdout.log'
+$stderr = 'results\personalisation\m2_h5000\m2_h5000_stderr.log'
+$arguments = @(
+  '-m', 'experiments.personalisation_m2_h5000',
+  '--phase', 'all',
+  '--dataset-root', 'C:\Users\chiar\Desktop\LBH\thesis-deep-author\.build\dataset-v1-reconstruction',
+  '--pinyingpt-model', 'C:\Users\chiar\Desktop\LBH\thesis\.build\pinyingpt2-concat',
+  '--embedding-model', 'C:\Users\chiar\Desktop\LBH\thesis\.cache\phase_04f\models\bge-small-zh-v1.5-q8_0.gguf',
+  '--reranker-model', 'C:\Users\chiar\Desktop\LBH\thesis\.build\bge-reranker-base',
+  '--t1-predictions', 'C:\Users\chiar\Desktop\LBH\thesis-deep-author\results\evaluation\deep_author_v2\t1\predictions.jsonl',
+  '--batch-size', '32'
+)
+$process = Start-Process -FilePath $python -ArgumentList $arguments `
+  -WorkingDirectory (Get-Location) -WindowStyle Hidden -PassThru `
+  -RedirectStandardOutput $stdout -RedirectStandardError $stderr
+$process.Id
+```
+
+Monitor stdout and inspect stderr:
+
+```powershell
+Get-Content results\personalisation\m2_h5000\m2_h5000_stdout.log -Tail 30 -Wait
+Get-Content results\personalisation\m2_h5000\m2_h5000_stderr.log -Tail 50
+```
+
+Check completion:
+
+```powershell
+$result = Get-Content -Raw `
+  results\personalisation\m2_h5000\metrics_summary.json | ConvertFrom-Json
+$result.status
+$result.rows
+$result.candidate_pool_invariant
+$result.test_gold_used_for_tuning
+$result.m1_artifacts_unchanged
+```
+
+Expected values after completion are `complete`, `6000`, `True`, `False`, and
+`True`. To stop safely, read the launcher and worker IDs from
+`results/personalisation/m2_h5000/background_status.json`, then run:
+
+```powershell
+$status = Get-Content -Raw `
+  results\personalisation\m2_h5000\background_status.json | ConvertFrom-Json
+Get-Process -Id $status.worker_pid,$status.launcher_pid `
+  -ErrorAction SilentlyContinue | Stop-Process
+```
+
+The command is resumable. Valid BGE embeddings, T1 Generic predictions, and M2
+pair scores are reused; M1 result artifacts are read-only and hash-checked.

@@ -129,6 +129,25 @@ The corrected six-row engineering smoke validated six T1 Full+Short cache hits, 
 - Context embedding quality and the pinned quantized model constrain retrieval.
 - This is only the H5000 point; H500, HFull, and wrong-user HFull are required for the complete controlled history-size curve.
 
+## M1 Result and M2 Motivation
+
+The completed 6,000-row H5000 evaluation produced Overall Macro-author Top-1
+values of `0.7231666666666667` for G0, `0.7718333333333334` for Frequency, and
+`0.7675000000000001` for M1. On 3,904 history-available rows the corresponding
+values were `0.7567131615581154`, `0.8290200604214916`, and
+`0.8190291288899766`. Frequency therefore slightly outperformed M1, while both
+personal methods improved G0. On the 377-row Conflict subset, both personal
+methods performed substantially below G0 because historical majority support
+was often misleading.
+
+M1 asks approximately: “Which previous contexts are semantically similar?” A
+general BGE cosine score does not directly test whether one historical
+selection supports a particular current candidate. M2 will instead ask: “Does
+this historical interaction support this candidate in the current context?”
+It keeps the same BGE Stage-1 retrieval and information boundary, then adds a
+pretrained candidate-aware Cross-Encoder as Stage 2. It does not expand the
+candidate pool.
+
 ## Implementation Version History
 
 | Date | Stage | Commit or tag | Status |
@@ -137,3 +156,4 @@ The corrected six-row engineering smoke validated six T1 Full+Short cache hits, 
 | 2026-08-17 | Dev Full+Short manifests, caches, runner, metrics, and smoke | `22eb1e0` | Implemented; 12-row isolated smoke passed |
 | 2026-08-17 | Implementation checkpoint | `personalisation-pilot-a-implementation-v1` | Full manual run pending |
 | 2026-08-17 | T1-aligned M1-H5000 implementation | `personalisation-pilot-a-h5000-implementation-v1` | 6,000-anchor manual run pending |
+| 2026-08-17 | Completed M1-H5000 result | local durable result artifact | 6,000 rows complete; Frequency slightly above M1 overall |
