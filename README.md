@@ -107,3 +107,75 @@ Metric definitions:
 **Macro-author Top-1 is the frozen primary T1 metric.** These are Dataset V1
 development results for proxy users and reconstructed input, not final
 cleaned-dataset thesis numbers.
+
+## Running Personalisation Pilot A Manually
+
+Pilot A runs only in:
+
+```text
+C:\Users\chiar\Desktop\LBH\thesis-personalisation
+```
+
+It is Dev-only and Full + Short only. The recommended command validates or
+reuses the prepared manifests, resumes the durable Generic and embedding
+caches, tunes on earlier Dev works, evaluates on later Dev works, and writes
+all structured results. Run it from PowerShell; Codex does not need to remain
+active:
+
+```powershell
+Set-Location C:\Users\chiar\Desktop\LBH\thesis-personalisation
+New-Item -ItemType Directory -Force `
+  results\personalisation\pilot_a_context_memory | Out-Null
+& C:\Users\chiar\Desktop\LBH\thesis\.venv\Scripts\python.exe `
+  -m experiments.personalisation_pilot_a `
+  --phase all `
+  --dataset-root C:\Users\chiar\Desktop\LBH\thesis-deep-author\.build\dataset-v1-reconstruction `
+  --pinyingpt-model C:\Users\chiar\Desktop\LBH\thesis\.build\pinyingpt2-concat `
+  --embedding-model C:\Users\chiar\Desktop\LBH\thesis\.cache\phase_04f\models\bge-small-zh-v1.5-q8_0.gguf `
+  1>> results\personalisation\pilot_a_context_memory\pilot_a_stdout.log `
+  2>> results\personalisation\pilot_a_context_memory\pilot_a_stderr.log
+```
+
+The same command safely resumes: valid Generic JSONL rows and SQLite embeddings
+are reused, while mismatched cache provenance stops with an error. To run one
+phase, replace `all` with one of `prepare`, `generic`, `embeddings`, `tune`, or
+`evaluate`; keep every other argument identical.
+
+Monitor progress from a second PowerShell window:
+
+```powershell
+Get-Content `
+  C:\Users\chiar\Desktop\LBH\thesis-personalisation\results\personalisation\pilot_a_context_memory\pilot_a_stdout.log `
+  -Tail 30 -Wait
+```
+
+Inspect errors:
+
+```powershell
+Get-Content -Raw `
+  C:\Users\chiar\Desktop\LBH\thesis-personalisation\results\personalisation\pilot_a_context_memory\pilot_a_stderr.log
+```
+
+Count completed Generic predictions:
+
+```powershell
+(Get-Content `
+  C:\Users\chiar\Desktop\LBH\thesis-personalisation\results\personalisation\pilot_a_context_memory\generic_predictions.jsonl |
+  Measure-Object -Line).Lines
+```
+
+Verify full completion after the command exits:
+
+```powershell
+$result = Get-Content -Raw `
+  C:\Users\chiar\Desktop\LBH\thesis-personalisation\results\personalisation\pilot_a_context_memory\metrics_summary.json |
+  ConvertFrom-Json
+$result.status
+$result.rows
+$result.test_rows_used
+```
+
+Expected completion values are `complete`, `16041`, and `0`. Final metrics will
+appear in `metrics_summary.json`, `metrics_by_author.csv`, and
+`metrics_by_subset.csv` under the same result directory. Large model, Generic,
+embedding, and prediction caches remain local and should not be committed.
