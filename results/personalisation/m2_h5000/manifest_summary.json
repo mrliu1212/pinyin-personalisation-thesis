@@ -1,0 +1,74 @@
+{
+  "candidate_pool": "unchanged frozen Generic Top-10 surface",
+  "experiment": "personalisation_m2_h5000",
+  "generic_score_normalization": "unchanged within-query population z-score",
+  "history_budget": 5000,
+  "history_budget_applied_before_pinyin_filter": true,
+  "lambda_m2_grid": [
+    0.5,
+    1.0,
+    2.0,
+    4.0
+  ],
+  "m1_artifact_sha256_before_m2": {
+    "frequency_predictions.jsonl": "71c5626b8318e125776c235dd3cccf45677c884deb2699fd8c1f82e907e0abf6",
+    "memory_predictions.jsonl": "75907c88f1d099c3dedc6dc71ee4811ca6258d5267c071bf28ef94d6b95e128b",
+    "metrics_summary.json": "e35fb9efbe3bdd31d7f8354c227efbed2aa178855061955b3ac16a70137e424d"
+  },
+  "per_author_rows": {
+    "Agent Phage": 1000,
+    "Etinjat": 1000,
+    "MScarlet": 1000,
+    "QBLevi": 1000,
+    "Re_spectators": 1000,
+    "breaddddd": 1000
+  },
+  "population": "exact frozen T1 Full+Short Test anchors",
+  "reranker": {
+    "artifacts": {
+      "config.json": {
+        "bytes": 799,
+        "sha256": "289adf7ada1eb6b4afa7589a48a032d45a076cf2e46dcdb3b4cabc33be14f708"
+      },
+      "model.safetensors": {
+        "bytes": 1112206140,
+        "sha256": "ced967c45fd1902eb92716c9ceeca7c95a936770ea9db611f5a841b926e33fbd"
+      },
+      "sentencepiece.bpe.model": {
+        "bytes": 5069051,
+        "sha256": "cfc8146abe2a0488e9e2a0c56de7952f7c11ab059eca145a0a727afce0db2865"
+      },
+      "special_tokens_map.json": {
+        "bytes": 279,
+        "sha256": "d5469a60db23249c7f8945013d78df30b44b6bf686c6bb4740f4223f77b1b535"
+      },
+      "tokenizer.json": {
+        "bytes": 17098107,
+        "sha256": "9eb652ac4e40cc093272bbbe0f55d521cf67570060227109b5cdc20945a4489e"
+      },
+      "tokenizer_config.json": {
+        "bytes": 443,
+        "sha256": "a1d6bc8734a6f635dc158508bef000f8e2e5a759c7d92f984b2c86e5ff53425b"
+      }
+    },
+    "device": "cuda",
+    "dtype": "float16",
+    "input_template_version": "candidate-aware-current-history-v1",
+    "license": "MIT",
+    "max_length": 512,
+    "model_path": "C:\\Users\\chiar\\Desktop\\LBH\\thesis\\.build\\bge-reranker-base",
+    "repository": "BAAI/bge-reranker-base",
+    "revision": "2cfc18c9415c912f9d8155881c133215df768a70",
+    "truncation_version": "paired-recent-context-balanced-v1"
+  },
+  "retrieval_k_grid": [
+    10,
+    20
+  ],
+  "rows": 6000,
+  "schema_version": 1,
+  "stage1": "pinned BGE context cosine retrieval from exact same-Pinyin H5000-visible history",
+  "status": "prepared",
+  "support_aggregation": "sigmoid(raw_logit), sum by historical target, divide by total retrieved sigmoid support",
+  "test_gold_used_for_tuning": false
+}

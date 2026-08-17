@@ -102,3 +102,23 @@ not observed IME users, reconstructed Pinyin remains a dataset limitation, and
 fixed candidates cannot recover personal vocabulary. M2 does not test H500,
 HFull, wrong-user history, temporal adaptation, M3 training, transparency, or
 user control.
+
+## Completed H5000 Result
+
+M2-H5000 completed on the exact 6,000 frozen T1 Full+Short Test anchors. Dev
+Macro-author Top-1 selected `retrieval_k = 20` and `lambda_m2 = 4.0` from the
+frozen grids. Selection used 16,171 chronological Dev-tune rows and zero Test
+rows.
+
+Overall Macro-author Top-1 was `0.765`, compared with
+`0.7231666666666667` for G0, `0.7718333333333334` for F-H5000, and
+`0.7675000000000001` for M1-H5000. M2 also remained below Frequency and M1 on
+History Available and Ambiguous rows, and achieved `0.1643947485347861` on
+Conflict. Candidate and Missing@10 invariance held: every ranking-only method
+had 538 missing targets.
+
+M2 is therefore a completed negative and diagnostic result. A stronger
+pretrained candidate-aware semantic scorer did not automatically learn a
+stronger personal preference signal. This supports the next additive research
+stage: candidate-set personalisation through bounded Personal Vocabulary. The
+completed report is [Personalisation M2-H5000](../reports/05_personalisation_m2_h5000.md).

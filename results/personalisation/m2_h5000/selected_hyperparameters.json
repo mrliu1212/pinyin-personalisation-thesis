@@ -1,0 +1,43 @@
+{
+  "experiment": "personalisation_m2_h5000",
+  "generic_score_normalization": "unchanged within-query population z-score",
+  "lambda_m2_grid": [
+    0.5,
+    1.0,
+    2.0,
+    4.0
+  ],
+  "pair_cache_path": "C:\\Users\\chiar\\Desktop\\LBH\\thesis-personalisation\\results\\personalisation\\m2_h5000\\cache\\pair_scores.sqlite3",
+  "retrieval_k_grid": [
+    10,
+    20
+  ],
+  "runtime_seconds": 134.30369859997882,
+  "selected": {
+    "lambda_m2": 4.0,
+    "retrieval_k": 20
+  },
+  "selection_metric": "Macro-author Top-1",
+  "selection_population": "chronologically earlier whole-work Dev tune partition",
+  "status": "complete",
+  "support_aggregation": "sigmoid(raw_logit), sum by historical target, divide by total retrieved sigmoid support",
+  "test_gold_used_for_selection": false,
+  "test_rows_seen_during_selection": 0,
+  "tie_break": "lower lambda_m2, then lower retrieval_k",
+  "tune_rows": 16171,
+  "tune_work_ids": [
+    "da-work-1260628233",
+    "da-work-1267725120",
+    "da-work-1278079946",
+    "da-work-1304974711",
+    "da-work-1305053919",
+    "da-work-1305762934",
+    "da-work-1306161187",
+    "da-work-1306311171",
+    "da-work-1306372902",
+    "da-work-1306943399",
+    "da-work-1306989753",
+    "da-work-527868251",
+    "da-work-96998778"
+  ]
+}

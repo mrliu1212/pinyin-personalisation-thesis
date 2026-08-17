@@ -1,0 +1,41 @@
+{
+  "bge_embedding_cache_path": "C:\\Users\\chiar\\Desktop\\LBH\\thesis-personalisation\\results\\personalisation\\pilot_a_context_memory\\cache\\embedding_cache.sqlite3",
+  "bge_embedding_cache_rows_reused": 39680,
+  "cache_hits": 0,
+  "cache_path": "C:\\Users\\chiar\\Desktop\\LBH\\thesis-personalisation\\results\\personalisation\\m2_h5000\\cache\\pair_scores.sqlite3",
+  "current_context_truncations_added": 40364,
+  "elapsed_seconds": 336.8242548999842,
+  "final_cache_rows": 178991,
+  "history_context_truncations_added": 42645,
+  "label": "test",
+  "missing_at_start": 45117,
+  "pair_latency_ms": {
+    "mean_ms": 4.65497965734506,
+    "median_ms": 4.619668750819983,
+    "n": 45117,
+    "p90_ms": 4.885634374659276
+  },
+  "pairs_added": 45117,
+  "queries": 6000,
+  "requested_unique_pairs": 45117,
+  "reranker": {
+    "batch_size": 32,
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "dtype": "float16",
+    "input_template_version": "candidate-aware-current-history-v1",
+    "license": "MIT",
+    "load_seconds": 1.3416154000442475,
+    "max_length": 512,
+    "model_path": "C:\\Users\\chiar\\Desktop\\LBH\\thesis\\.build\\bge-reranker-base",
+    "model_sha256": "ced967c45fd1902eb92716c9ceeca7c95a936770ea9db611f5a841b926e33fbd",
+    "repository": "BAAI/bge-reranker-base",
+    "revision": "2cfc18c9415c912f9d8155881c133215df768a70",
+    "tokenizer_sha256": "9eb652ac4e40cc093272bbbe0f55d521cf67570060227109b5cdc20945a4489e",
+    "torch_version": "2.11.0+cu128",
+    "transformers_version": "4.57.6",
+    "truncation_version": "paired-recent-context-balanced-v1"
+  },
+  "retrieval_k": 20,
+  "status": "complete"
+}
