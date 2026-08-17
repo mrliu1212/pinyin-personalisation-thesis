@@ -7,12 +7,15 @@ from src.evaluation.deep_author_v2 import (
     AUTHORS,
     CONDITIONS,
     DesignBuilder,
+    T1Runner,
     anchor_id,
     balanced_sample,
     choose_split,
     condition_id,
     conditions_for_anchor,
     valid_anchors_for_work,
+    metric_values,
+    aggregate_metrics,
 )
 import src.evaluation.deep_author_v2 as evaluation
 
@@ -62,9 +65,81 @@ def test_balanced_sampling_is_deterministic_and_work_balanced() -> None:
 
 
 def test_design_has_no_model_or_personalisation_inference() -> None:
-    source = inspect.getsource(evaluation).casefold()
+    source = inspect.getsource(DesignBuilder).casefold()
     assert "torch" not in source
     assert "transformers" not in source
     assert "pinyingptconcatbackend" not in source
     run_source = inspect.getsource(DesignBuilder.run).casefold()
     assert "model_inference\": false" in run_source
+
+
+def test_metrics_use_exact_rank_and_missing_definitions() -> None:
+    rows = [
+        {"gold_rank": 1, "top1_correct": True, "top3_correct": True, "reciprocal_rank": 1.0, "missing_at_10": False},
+        {"gold_rank": 3, "top1_correct": False, "top3_correct": True, "reciprocal_rank": 1 / 3, "missing_at_10": False},
+        {"gold_rank": None, "top1_correct": False, "top3_correct": False, "reciprocal_rank": 0.0, "missing_at_10": True},
+    ]
+    values = metric_values(rows)
+    assert values["top1"] == 1 / 3
+    assert values["top3"] == 2 / 3
+    assert values["missing_at_10"] == 1 / 3
+    assert values["mean_rank_given_top10"] == 2
+
+
+def test_primary_metric_averages_authors_equally() -> None:
+    rows = []
+    for author_index, author in enumerate(AUTHORS):
+        for condition in CONDITIONS:
+            repetitions = 20 if author_index == 0 else 1
+            for _ in range(repetitions):
+                correct = author_index == 0
+                rows.append({
+                    "author": author,
+                    "condition": condition,
+                    "gold_rank": 1 if correct else None,
+                    "top1_correct": correct,
+                    "top3_correct": correct,
+                    "reciprocal_rank": 1.0 if correct else 0.0,
+                    "missing_at_10": not correct,
+                })
+    metrics = aggregate_metrics(rows)
+    assert metrics["primary_macro_author"]["top1"] == 1 / 6
+    assert metrics["secondary_micro"]["overall"]["top1"] != 1 / 6
+
+
+def test_cached_prediction_must_match_frozen_provenance() -> None:
+    frozen = {
+        "condition_id": "condition",
+        "anchor_id": "anchor",
+        "author": AUTHORS[0],
+        "work_id": "work",
+        "condition": CONDITIONS[0],
+        "context": "context",
+        "pinyin_input": "pin yin",
+        "gold": "拼音",
+    }
+    cached = {
+        **frozen,
+        "checkpoint_revision": evaluation.CHECKPOINT_REVISION,
+        "official_code_revision": evaluation.OFFICIAL_CODE_REVISION,
+        "beam_size": 16,
+        "top_k": 10,
+        "top10_candidates": [
+            {"rank": 1, "text": frozen["gold"], "log_probability": -1.0}
+        ],
+        "gold_rank": 1,
+        "top1_correct": True,
+        "top3_correct": True,
+        "top10_present": True,
+        "missing_at_10": False,
+        "reciprocal_rank": 1.0,
+        "model_used_context": frozen["context"],
+    }
+    T1Runner.validate_cached_prediction(cached, frozen)
+    cached["beam_size"] = 15
+    try:
+        T1Runner.validate_cached_prediction(cached, frozen)
+    except RuntimeError as error:
+        assert "decoding parameters" in str(error)
+    else:
+        raise AssertionError("non-frozen cached decoding parameters were accepted")

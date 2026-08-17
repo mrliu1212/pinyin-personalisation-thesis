@@ -5,10 +5,15 @@ from __future__ import annotations
 from collections import Counter, defaultdict
 import csv
 from dataclasses import dataclass
+from datetime import datetime, timezone
 import hashlib
+from importlib.metadata import version as package_version
 import json
 from pathlib import Path
+import platform
 import random
+import statistics
+import time
 from typing import Any, Iterable, Mapping, Sequence
 
 from src.datasets.deep_author.pipeline import full_pinyin, initial_pinyin, is_han, stable_hash
@@ -19,6 +24,10 @@ DATASET_V1_BYTES = 2_048_557_493
 SEED = 40408
 AUTHORS = ("Re_spectators", "MScarlet", "Etinjat", "Agent Phage", "QBLevi", "breaddddd")
 CONDITIONS = ("full_short", "initial_short", "full_multi3", "initial_multi3")
+CHECKPOINT_REVISION = "76dd20dc92d8236a350fb732e99dde6fa15e2263"
+OFFICIAL_CODE_REVISION = "8f1573ed0bd4d1f3d8d3f10a05f7e870725646f1"
+BACKEND_SOURCE_REVISION = "07a79f301a094d3db88780f00fcf85a4abf80d7f"
+BACKEND_INTEGRATION_REVISION = "8c608f106ee7bb49ca5573e72de3da5eeb2290af"
 
 
 def sha256_file(path: Path) -> str:
@@ -293,3 +302,350 @@ class DesignBuilder:
                 pass  # valid natural repetition; leakage is checked by absolute source offsets instead
         if any(values != set(CONDITIONS) for values in grouped.values()):
             raise AssertionError("an anchor is missing a paired condition")
+
+
+def metric_values(rows: Sequence[Mapping[str, Any]]) -> dict[str, float | int | None]:
+    count = len(rows)
+    found = [int(row["gold_rank"]) for row in rows if row.get("gold_rank") not in (None, "")]
+    return {
+        "n": count,
+        "top1": sum(bool(row["top1_correct"]) for row in rows) / count,
+        "top3": sum(bool(row["top3_correct"]) for row in rows) / count,
+        "mrr_at_10": sum(float(row["reciprocal_rank"]) for row in rows) / count,
+        "missing_at_10": sum(bool(row["missing_at_10"]) for row in rows) / count,
+        "mean_rank_given_top10": statistics.fmean(found) if found else None,
+    }
+
+
+def aggregate_metrics(predictions: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    by_author: dict[str, list[Mapping[str, Any]]] = defaultdict(list)
+    by_author_condition: dict[tuple[str, str], list[Mapping[str, Any]]] = defaultdict(list)
+    by_condition: dict[str, list[Mapping[str, Any]]] = defaultdict(list)
+    for row in predictions:
+        by_author[str(row["author"])].append(row)
+        by_author_condition[(str(row["author"]), str(row["condition"]))].append(row)
+        by_condition[str(row["condition"])].append(row)
+    per_author = {author: metric_values(by_author[author]) for author in AUTHORS}
+    per_author_condition = {
+        f"{author}|{condition}": metric_values(by_author_condition[(author, condition)])
+        for author in AUTHORS
+        for condition in CONDITIONS
+    }
+    metric_names = ("top1", "top3", "mrr_at_10", "missing_at_10", "mean_rank_given_top10")
+    overall_macro = {
+        key: statistics.fmean(float(per_author[author][key]) for author in AUTHORS if per_author[author][key] is not None)
+        for key in metric_names
+    }
+    per_condition_macro = {}
+    per_condition_micro = {}
+    for condition in CONDITIONS:
+        author_values = [per_author_condition[f"{author}|{condition}"] for author in AUTHORS]
+        per_condition_macro[condition] = {
+            key: statistics.fmean(float(value[key]) for value in author_values if value[key] is not None)
+            for key in metric_names
+        }
+        per_condition_micro[condition] = metric_values(by_condition[condition])
+    return {
+        "primary_macro_author": overall_macro,
+        "per_condition_macro_author": per_condition_macro,
+        "secondary_micro": {
+            "overall": metric_values(predictions),
+            "per_condition": per_condition_micro,
+        },
+        "per_author": per_author,
+        "per_author_condition": per_author_condition,
+    }
+
+
+def paired_rows(predictions: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    by_anchor_condition = {(str(row["anchor_id"]), str(row["condition"])): row for row in predictions}
+    output = []
+    for target, full_name, initial_name in (("short", "full_short", "initial_short"), ("multi3", "full_multi3", "initial_multi3")):
+        for author in AUTHORS:
+            anchors = sorted({anchor for anchor, condition in by_anchor_condition if condition == full_name and by_anchor_condition[(anchor, condition)]["author"] == author})
+            counts = Counter()
+            for anchor in anchors:
+                full = bool(by_anchor_condition[(anchor, full_name)]["top1_correct"])
+                initial = bool(by_anchor_condition[(anchor, initial_name)]["top1_correct"])
+                counts[(full, initial)] += 1
+            output.append({
+                "target": target, "author": author, "n": len(anchors),
+                "both_correct": counts[(True, True)],
+                "full_correct_initial_wrong": counts[(True, False)],
+                "full_wrong_initial_correct": counts[(False, True)],
+                "both_wrong": counts[(False, False)],
+                "initial_minus_full_top1": (counts[(False, True)] - counts[(True, False)]) / len(anchors),
+            })
+    return output
+
+
+@dataclass
+class T1Runner:
+    root: Path
+
+    @property
+    def design_root(self) -> Path:
+        return self.root / "results/evaluation/deep_author_v2/design"
+
+    @property
+    def output_root(self) -> Path:
+        return self.root / "results/evaluation/deep_author_v2/t1"
+
+    def load_conditions(self) -> list[dict[str, Any]]:
+        return [json.loads(line) for line in (self.design_root / "t1_condition_manifest.jsonl").read_text(encoding="utf-8").splitlines()]
+
+    @staticmethod
+    def validate_cached_prediction(row: Mapping[str, Any], frozen: Mapping[str, Any]) -> None:
+        for key, frozen_value in frozen.items():
+            if row.get(key) != frozen_value:
+                raise RuntimeError(f"cached prediction differs from frozen manifest: {frozen['condition_id']} {key}")
+        if row.get("checkpoint_revision") != CHECKPOINT_REVISION or row.get("official_code_revision") != OFFICIAL_CODE_REVISION:
+            raise RuntimeError("cached prediction uses a non-frozen model or code revision")
+        if row.get("beam_size") != 16 or row.get("top_k") != 10:
+            raise RuntimeError("cached prediction uses non-frozen decoding parameters")
+        candidates = row.get("top10_candidates")
+        if not isinstance(candidates, list) or not 1 <= len(candidates) <= 10:
+            raise RuntimeError(f"cached prediction has an invalid candidate surface: {frozen['condition_id']}")
+        if [candidate.get("rank") for candidate in candidates] != list(range(1, len(candidates) + 1)):
+            raise RuntimeError(f"cached candidate ranks are invalid: {frozen['condition_id']}")
+        texts = [candidate.get("text") for candidate in candidates]
+        if any(not isinstance(text, str) or not text for text in texts) or len(set(texts)) != len(texts):
+            raise RuntimeError(f"cached candidate text is invalid: {frozen['condition_id']}")
+        if any(not isinstance(candidate.get("log_probability"), (int, float)) for candidate in candidates):
+            raise RuntimeError(f"cached candidate scores are invalid: {frozen['condition_id']}")
+        expected_rank = next((index for index, text in enumerate(texts, start=1) if text == frozen["gold"]), None)
+        expected_values = {
+            "gold_rank": expected_rank,
+            "top1_correct": expected_rank == 1,
+            "top3_correct": expected_rank is not None and expected_rank <= 3,
+            "top10_present": expected_rank is not None,
+            "missing_at_10": expected_rank is None,
+            "reciprocal_rank": 0.0 if expected_rank is None else 1.0 / expected_rank,
+        }
+        for key, expected_value in expected_values.items():
+            if row.get(key) != expected_value:
+                raise RuntimeError(f"cached derived result is invalid: {frozen['condition_id']} {key}")
+        used_context = row.get("model_used_context")
+        if not isinstance(used_context, str) or not str(frozen["context"]).endswith(used_context):
+            raise RuntimeError(f"cached model context is not a suffix of frozen context: {frozen['condition_id']}")
+
+    def load_completed(self, conditions: Sequence[Mapping[str, Any]]) -> dict[str, dict[str, Any]]:
+        prediction_path = self.output_root / "predictions.jsonl"
+        if not prediction_path.exists():
+            return {}
+        expected = {str(row["condition_id"]): row for row in conditions}
+        completed: dict[str, dict[str, Any]] = {}
+        for line_number, line in enumerate(prediction_path.read_text(encoding="utf-8").splitlines(), start=1):
+            row = json.loads(line)
+            condition_id_value = str(row.get("condition_id", ""))
+            if condition_id_value in completed:
+                raise RuntimeError(f"duplicate cached condition ID at line {line_number}: {condition_id_value}")
+            if condition_id_value not in expected:
+                raise RuntimeError(f"unknown cached condition ID at line {line_number}: {condition_id_value}")
+            self.validate_cached_prediction(row, expected[condition_id_value])
+            completed[condition_id_value] = row
+        return completed
+
+    def run(self) -> dict[str, Any]:
+        from src.reference_backend_pinyingpt import PinyinGPTConcatBackend
+
+        conditions = self.load_conditions()
+        if len(conditions) != 24000:
+            raise RuntimeError("frozen design does not contain exactly 24,000 conditions")
+        self.output_root.mkdir(parents=True, exist_ok=True)
+        prediction_path = self.output_root / "predictions.jsonl"
+        completed = self.load_completed(conditions)
+        existing_rows = len(completed)
+        model_load_started = time.perf_counter()
+        backend = PinyinGPTConcatBackend(self.root / ".build/pinyingpt2-concat")
+        model_load_seconds = time.perf_counter() - model_load_started
+        if backend.device.type == "cuda":
+            backend.torch.cuda.reset_peak_memory_stats(backend.device)
+        started_at = datetime.now(timezone.utc)
+        started = time.perf_counter()
+        added_rows = 0
+        next_progress = min(24000, ((existing_rows // 100) + 1) * 100)
+        mode = "a" if completed else "w"
+        with prediction_path.open(mode, encoding="utf-8", newline="\n") as destination:
+            pending = [condition for condition in conditions if condition["condition_id"] not in completed]
+            for batch_start in range(0, len(pending), 16):
+                raw_batch = pending[batch_start : batch_start + 16]
+                prepared_batch = []
+                for condition in raw_batch:
+                    oracle_segments = str(condition["pinyin_input"]).split()
+                    used_context, original_tokens, used_tokens, truncated = backend.truncate_context_for_generation(condition["context"], oracle_segments)
+                    prepared_batch.append((condition, oracle_segments, used_context, original_tokens, used_tokens, truncated))
+                # Equal prompt and target lengths allow exact padding-free shared forwards.
+                groups: dict[tuple[int, int], list[tuple[Any, ...]]] = defaultdict(list)
+                for item in prepared_batch:
+                    prompt_ids, _ = backend._prompt(item[2], item[1])
+                    groups[(len(item[1]), len(prompt_ids))].append(item)
+                for group in groups.values():
+                    results = backend.generate_batch([(item[2], item[1]) for item in group], top_k=10, beam_size=16)
+                    for item, result in zip(group, results):
+                        condition, _, used_context, original_tokens, used_tokens, truncated = item
+                        candidates = [candidate.to_dict() for candidate in result.candidates]
+                        gold_rank = next((candidate["rank"] for candidate in candidates if candidate["text"] == condition["gold"]), None)
+                        row = {
+                            **condition, "top10_candidates": candidates, "gold_rank": gold_rank,
+                            "top1_correct": gold_rank == 1, "top3_correct": gold_rank is not None and gold_rank <= 3,
+                            "top10_present": gold_rank is not None, "missing_at_10": gold_rank is None,
+                            "reciprocal_rank": 0.0 if gold_rank is None else 1.0 / gold_rank,
+                            "original_stored_context_length": len(condition["context"]), "original_stored_context_tokens": original_tokens,
+                            "model_used_context_length": len(used_context), "model_used_context_tokens": used_tokens,
+                            "context_truncated": truncated, "model_used_context": used_context,
+                            "beam_size": 16, "top_k": 10, "runtime_device": result.runtime_device,
+                            "checkpoint_revision": CHECKPOINT_REVISION, "official_code_revision": OFFICIAL_CODE_REVISION,
+                            "backend_source_revision": BACKEND_SOURCE_REVISION,
+                            "backend_integration_revision": BACKEND_INTEGRATION_REVISION,
+                            "inference_implementation": "semantic-equivalent KV-cache; independent beam-16 searches",
+                        }
+                        destination.write(canonical_json(row) + "\n")
+                        completed[row["condition_id"]] = row
+                        added_rows += 1
+                destination.flush()
+                if len(completed) >= next_progress:
+                    elapsed = time.perf_counter() - started
+                    throughput = added_rows / elapsed
+                    eta = (24000 - len(completed)) / throughput
+                    print(
+                        f"predictions {len(completed)}/24000; elapsed={elapsed:.1f}s; "
+                        f"throughput={throughput:.3f}/s; eta={eta:.1f}s",
+                        flush=True,
+                    )
+                    next_progress = min(24000, ((len(completed) // 100) + 1) * 100)
+        elapsed = time.perf_counter() - started
+        runtime = backend.runtime_info()
+        runtime.update({
+            "schema_version": 2,
+            "status": "complete",
+            "started_at_utc": started_at.isoformat(),
+            "completed_at_utc": datetime.now(timezone.utc).isoformat(),
+            "model_load_seconds": model_load_seconds,
+            "inference_seconds_latest_invocation": elapsed,
+            "resume_existing_rows": existing_rows,
+            "rows_added_latest_invocation": added_rows,
+            "final_rows": len(completed),
+            "conditions_per_second_latest_invocation": added_rows / elapsed if added_rows else 0.0,
+            "dtype": str(next(backend.model.parameters()).dtype),
+            "transformers_version": package_version("transformers"),
+            "python_version": platform.python_version(),
+            "backend_source_revision": BACKEND_SOURCE_REVISION,
+            "backend_integration_revision": BACKEND_INTEGRATION_REVISION,
+            "inference_implementation": "semantic-equivalent KV-cache; independent beam-16 searches; exact-length padding-free batch groups",
+            "batch_window": 16,
+            "beam_size": 16,
+            "top_k": 10,
+            "prediction_cache_sha256": sha256_file(prediction_path),
+        })
+        if backend.device.type == "cuda":
+            properties = backend.torch.cuda.get_device_properties(backend.device)
+            runtime["gpu_total_memory_bytes"] = properties.total_memory
+            runtime["gpu_peak_allocated_bytes_latest_invocation"] = backend.torch.cuda.max_memory_allocated(backend.device)
+            runtime["gpu_peak_reserved_bytes_latest_invocation"] = backend.torch.cuda.max_memory_reserved(backend.device)
+        write_json(self.output_root / "runtime_summary.json", runtime)
+        return self.metrics(runtime_seconds=elapsed, resumed_rows=existing_rows)
+
+    def metrics(self, runtime_seconds: float | None = None, resumed_rows: int | None = None) -> dict[str, Any]:
+        conditions = self.load_conditions()
+        completed = self.load_completed(conditions)
+        predictions = list(completed.values())
+        expected = {row["condition_id"]: row for row in conditions}
+        actual = {row["condition_id"]: row for row in predictions}
+        if len(predictions) != 24000 or len(actual) != 24000 or set(actual) != set(expected):
+            raise RuntimeError("predictions do not map one-to-one to the 24,000 frozen conditions")
+        metrics = aggregate_metrics(predictions)
+        runtime_path = self.output_root / "runtime_summary.json"
+        runtime = json.loads(runtime_path.read_text(encoding="utf-8")) if runtime_path.exists() else {}
+        metrics.update({
+            "schema_version": 2, "predictions": len(predictions),
+            "checkpoint": "aihijo/transformers4ime-pinyingpt-concat",
+            "checkpoint_revision": CHECKPOINT_REVISION, "official_code_revision": OFFICIAL_CODE_REVISION,
+            "beam_size": 16, "top_k": 10, "oracle_pinyin_segmentation": True,
+            "runtime_device": sorted({row["runtime_device"] for row in predictions}),
+            "context_truncation_count": sum(bool(row["context_truncated"]) for row in predictions),
+            "runtime_seconds_latest_invocation": runtime_seconds if runtime_seconds is not None else runtime.get("inference_seconds_latest_invocation"),
+            "resume_existing_rows": resumed_rows if resumed_rows is not None else runtime.get("resume_existing_rows"),
+            "backend_source_revision": BACKEND_SOURCE_REVISION,
+            "backend_integration_revision": BACKEND_INTEGRATION_REVISION,
+            "author_identity_used": False, "history_used": False, "personalisation_used": False, "dev_scored": False,
+        })
+        write_json(self.output_root / "metrics_summary.json", metrics)
+        author_rows = [{"author": author, **metrics["per_author"][author]} for author in AUTHORS]
+        write_csv(self.output_root / "metrics_by_author.csv", author_rows, list(author_rows[0]))
+        write_json(self.output_root / "metrics_by_author.json", author_rows)
+        author_condition_rows = []
+        for author in AUTHORS:
+            for condition in CONDITIONS:
+                author_condition_rows.append({"author": author, "condition": condition, **metrics["per_author_condition"][f"{author}|{condition}"]})
+        write_csv(self.output_root / "metrics_by_author_condition.csv", author_condition_rows, list(author_condition_rows[0]))
+        condition_rows = [
+            {"condition": condition, **metrics["per_condition_macro_author"][condition]}
+            for condition in CONDITIONS
+        ]
+        write_csv(self.output_root / "metrics_by_condition.csv", condition_rows, list(condition_rows[0]))
+        write_json(self.output_root / "metrics_by_condition.json", condition_rows)
+
+        grouped_work: dict[tuple[str, str, str], list[Mapping[str, Any]]] = defaultdict(list)
+        for row in predictions:
+            grouped_work[(row["author"], row["work_id"], row["condition"])].append(row)
+        work_rows = [{"author": key[0], "work_id": key[1], "condition": key[2], **metric_values(rows)} for key, rows in sorted(grouped_work.items())]
+        write_csv(self.output_root / "metrics_by_work.csv", work_rows, list(work_rows[0]))
+        paired = paired_rows(predictions)
+        write_csv(self.output_root / "paired_full_initial.csv", paired, list(paired[0]))
+
+        length_groups: dict[tuple[str, int], list[Mapping[str, Any]]] = defaultdict(list)
+        context_groups: dict[tuple[str, str, bool], list[Mapping[str, Any]]] = defaultdict(list)
+        for row in predictions:
+            length_groups[(row["condition"], int(row["gold_char_length"]))].append(row)
+            tokens = int(row["original_stored_context_tokens"])
+            bucket = "0-127" if tokens < 128 else "128-255" if tokens < 256 else "256-511" if tokens < 512 else "512+"
+            context_groups[(row["condition"], bucket, bool(row["context_truncated"]))].append(row)
+        length_rows = [{"condition": key[0], "gold_char_length": key[1], **metric_values(rows)} for key, rows in sorted(length_groups.items())]
+        context_rows = [{"condition": key[0], "context_token_bucket": key[1], "truncated": key[2], **metric_values(rows)} for key, rows in sorted(context_groups.items())]
+        write_csv(self.output_root / "diagnostics_gold_length.csv", length_rows, list(length_rows[0]))
+        write_csv(self.output_root / "diagnostics_context_length.csv", context_rows, list(context_rows[0]))
+
+        failures = [row for row in predictions if row["missing_at_10"]]
+        failure_rows = [{key: row[key] for key in ("condition_id", "anchor_id", "author", "work_id", "condition", "context", "pinyin_input", "gold", "gold_rank")} | {"top10": "|".join(item["text"] for item in row["top10_candidates"])} for row in failures[:1000]]
+        write_csv(self.output_root / "failure_examples.csv", failure_rows, list(failure_rows[0]) if failure_rows else ["condition_id"])
+
+        review = []
+        categories = (
+            ("correct_top1", lambda row: row["gold_rank"] == 1),
+            ("gold_rank_2_3", lambda row: row["gold_rank"] in (2, 3)),
+            ("gold_rank_4_10", lambda row: row["gold_rank"] is not None and 4 <= row["gold_rank"] <= 10),
+            ("missing_at_10", lambda row: row["missing_at_10"]),
+        )
+        for author in AUTHORS:
+            author_rows_all = [row for row in predictions if row["author"] == author]
+            for category, predicate in categories:
+                choice = next((row for row in author_rows_all if predicate(row)), None)
+                if choice:
+                    review.append({"category": category, **{key: choice[key] for key in ("condition_id", "anchor_id", "author", "work_id", "condition", "context", "pinyin_input", "gold", "gold_rank")}, "top10": "|".join(item["text"] for item in choice["top10_candidates"]), "review_ok": "", "notes": ""})
+        write_csv(self.output_root / "t1_prediction_review.csv", review, list(review[0]))
+        cache_validation = {
+            "schema_version": 2,
+            "status": "valid",
+            "manifest_rows": len(conditions),
+            "prediction_rows": len(predictions),
+            "unique_condition_ids": len(actual),
+            "manifest_sha256": sha256_file(self.design_root / "t1_condition_manifest.jsonl"),
+            "predictions_sha256": sha256_file(self.output_root / "predictions.jsonl"),
+            "candidate_surfaces_below_top_k": sum(len(row["top10_candidates"]) < 10 for row in predictions),
+            "inference_failures": 0,
+            "checkpoint_revision": CHECKPOINT_REVISION,
+            "official_code_revision": OFFICIAL_CODE_REVISION,
+            "beam_size": 16,
+            "top_k": 10,
+        }
+        write_json(self.output_root / "cache_validation.json", cache_validation)
+        artifact_paths = [
+            path for path in sorted(self.output_root.iterdir())
+            if path.is_file() and path.name != "artifact_checksums.json" and path.suffix in {".json", ".jsonl", ".csv"}
+        ]
+        write_json(
+            self.output_root / "artifact_checksums.json",
+            {path.name: {"bytes": path.stat().st_size, "sha256": sha256_file(path)} for path in artifact_paths},
+        )
+        return metrics
