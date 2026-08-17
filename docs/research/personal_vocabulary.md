@@ -1,5 +1,10 @@
 # Bounded Personal Vocabulary H5000
 
+> **Completed 2026-08-17.** PV0 found 160 of 538 Generic-missing targets
+> recoverable. Dev-selected PV1 reached 0.779 Macro-author Top-1 and 0.0661667
+> Missing@10; PV2 preserved recovery but did not improve PV1. See the
+> [completed result report](../reports/06_personal_vocabulary_h5000.md).
+
 ## Motivation
 
 Completed `F-H5000`, `M1-H5000`, and `M2-H5000` are ranking-personalisation

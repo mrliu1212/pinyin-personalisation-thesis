@@ -264,7 +264,8 @@ pair scores are reused; M1 result artifacts are read-only and hash-checked.
 
 ## Running Personal Vocabulary H5000
 
-The detailed method is [Bounded Personal Vocabulary H5000](docs/research/personal_vocabulary.md).
+The detailed method is [Bounded Personal Vocabulary H5000](docs/research/personal_vocabulary.md),
+with results in the [completed H5000 report](docs/reports/06_personal_vocabulary_h5000.md).
 Outputs and resumable state caches are isolated under
 `results\personalisation\personal_vocabulary_h5000\`.
 

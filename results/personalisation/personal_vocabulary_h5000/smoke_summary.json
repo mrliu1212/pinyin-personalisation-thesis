@@ -1,0 +1,65 @@
+{
+  "authors": [
+    "Agent Phage",
+    "Etinjat",
+    "MScarlet",
+    "QBLevi",
+    "Re_spectators",
+    "breaddddd"
+  ],
+  "bge_cache_rows": 39680,
+  "current_gold_in_state": false,
+  "elapsed_seconds": 0.00978000002214685,
+  "frequency_semantics_reused": true,
+  "generic_cache_rows_reused": 6,
+  "generic_inference_rows": 0,
+  "m2_cross_encoder_used": false,
+  "new_embeddings_computed": 0,
+  "outputs": [
+    {
+      "author": "Re_spectators",
+      "lexicon_size": 1,
+      "pv1_candidates": 7,
+      "pv2_candidates": 7,
+      "row_id": "pilot-a-af3601b90f67c79a4e7de700"
+    },
+    {
+      "author": "MScarlet",
+      "lexicon_size": 1,
+      "pv1_candidates": 10,
+      "pv2_candidates": 10,
+      "row_id": "pilot-a-4e0474eff1454d979c7c02f0"
+    },
+    {
+      "author": "Etinjat",
+      "lexicon_size": 0,
+      "pv1_candidates": 10,
+      "pv2_candidates": 10,
+      "row_id": "pilot-a-f57faa4671bdc94a3dc709ba"
+    },
+    {
+      "author": "Agent Phage",
+      "lexicon_size": 1,
+      "pv1_candidates": 10,
+      "pv2_candidates": 10,
+      "row_id": "pilot-a-be76c2f2aa340a2bf63d1758"
+    },
+    {
+      "author": "QBLevi",
+      "lexicon_size": 1,
+      "pv1_candidates": 10,
+      "pv2_candidates": 10,
+      "row_id": "pilot-a-662387c0a82bb84c8c4b6135"
+    },
+    {
+      "author": "breaddddd",
+      "lexicon_size": 0,
+      "pv1_candidates": 10,
+      "pv2_candidates": 10,
+      "row_id": "pilot-a-812d84583c165ceda18dcf0f"
+    }
+  ],
+  "research_result": false,
+  "rows": 6,
+  "status": "passed"
+}

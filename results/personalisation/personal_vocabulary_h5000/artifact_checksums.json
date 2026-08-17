@@ -1,0 +1,46 @@
+{
+  "embedding_reuse.json": {
+    "bytes": 444,
+    "sha256": "3459769c6616063f9df53e51c2090a2e7a2c9f2529fc81f0a9b84678966f0325"
+  },
+  "manifest_summary.json": {
+    "bytes": 2319,
+    "sha256": "78422344f540936f6b54420d28c565ad2b9febb640d791d2f9f6c72734ffbc00"
+  },
+  "metrics_by_author.csv": {
+    "bytes": 2888,
+    "sha256": "0d0a6cca9caad81c3b5c4e0b1b5880f9bc16b1ac5821636792cdce6e9926a432"
+  },
+  "metrics_summary.json": {
+    "bytes": 18147,
+    "sha256": "ab5566991f85474ecc1dc6f3f6ab7216ee25a02515cad76fb7958218c0e6f29c"
+  },
+  "predictions.jsonl": {
+    "bytes": 33804337,
+    "sha256": "cb39d210c2c35453aa40ac250188f237742f0a3c7837c5945bc86721765ff3d7"
+  },
+  "pv0_recoverability.json": {
+    "bytes": 1948,
+    "sha256": "5cb4430e0120e3b8ce89492d281309f777e2cbabd2e697e4f535ee4a54a46213"
+  },
+  "pv0_rows.jsonl": {
+    "bytes": 1403400,
+    "sha256": "2488e20c9e8bb8c30b780f67888054d22912d53d49c86a7634a23bf7fd9ad83d"
+  },
+  "pv1_hyperparameter_search.csv": {
+    "bytes": 1421,
+    "sha256": "bcf0bbb115abad4df209cec0f8afbca238fc88e7e66365eaae686fed5882d9fc"
+  },
+  "pv2_hyperparameter_search.csv": {
+    "bytes": 579,
+    "sha256": "d23a71d5e921b07297643298c5aaa17bc4cd502fc36779144d3a6da305184450"
+  },
+  "selected_hyperparameters.json": {
+    "bytes": 856,
+    "sha256": "56caf3842d2b0a843f53b4bcb35daaa00fb2125fe26413a4b41541812b5400e3"
+  },
+  "smoke_summary.json": {
+    "bytes": 1520,
+    "sha256": "8a510a091d5fe168ebc344909e3f057106ee5d752864cb90e9ef12b9bd5142ba"
+  }
+}

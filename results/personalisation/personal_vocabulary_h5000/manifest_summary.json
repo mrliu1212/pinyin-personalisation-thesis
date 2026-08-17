@@ -1,0 +1,71 @@
+{
+  "dev_tune_rows": 16171,
+  "embedding_reuse": {
+    "elapsed_seconds": 0.0033499000128358603,
+    "embedding_cache_hits": 39680,
+    "embedding_cache_misses": 0,
+    "embedding_cache_path": "C:\\Users\\chiar\\Desktop\\LBH\\thesis-personalisation\\results\\personalisation\\pilot_a_context_memory\\cache\\embedding_cache.sqlite3",
+    "embedding_model_loaded": false,
+    "final_embedding_cache_rows": 39680,
+    "new_embeddings_computed": 0,
+    "required_unique_contexts": 39680,
+    "status": "complete"
+  },
+  "exact_segmented_pinyin": true,
+  "experiment": "personal_vocabulary_h5000",
+  "frequency_lambda_reused": 4.0,
+  "generic_missing_denominator": 538,
+  "generic_test_inference_rows": 0,
+  "gold_used_for_vocabulary_construction": false,
+  "history_budget": 5000,
+  "history_budget_applied_before_pinyin_filter": true,
+  "m1_top_n_reused": 5,
+  "m2_cross_encoder_used": false,
+  "per_author_test_rows": {
+    "Agent Phage": 1000,
+    "Etinjat": 1000,
+    "MScarlet": 1000,
+    "QBLevi": 1000,
+    "Re_spectators": 1000,
+    "breaddddd": 1000
+  },
+  "personal_vocabulary_version": "bounded-h5000-exact-pinyin-v1",
+  "previous_artifact_sha256": {
+    "M1": {
+      "frequency_predictions.jsonl": "71c5626b8318e125776c235dd3cccf45677c884deb2699fd8c1f82e907e0abf6",
+      "memory_predictions.jsonl": "75907c88f1d099c3dedc6dc71ee4811ca6258d5267c071bf28ef94d6b95e128b",
+      "metrics_summary.json": "e35fb9efbe3bdd31d7f8354c227efbed2aa178855061955b3ac16a70137e424d"
+    },
+    "M2": {
+      "m2_predictions.jsonl": "0a199c31e9fc7b9a35c39aef1cdf48f8a8514b1663fb37416844657eacac79fb",
+      "metrics_summary.json": "9ad6acecf41b9f36aa1a1bf1bd702cfc729322c4226a4a6a9e3fde4082c6f6d8",
+      "selected_hyperparameters.json": "e47e765b950804ceaed2d2fff5a4d2d1dba0ddeb652ac9bf20ccd89a42a182f4"
+    },
+    "T1": {
+      "predictions.jsonl": "764db39887f3db04b913d1739d9dbd46295f0e46e5a2bffa649f1563b56ee4e2"
+    }
+  },
+  "pv1_k_grid": [
+    1,
+    3,
+    5
+  ],
+  "pv1_lambda_grid": [
+    0.5,
+    1.0,
+    2.0,
+    4.0
+  ],
+  "pv2_context_lambda_grid": [
+    0.5,
+    1.0,
+    2.0,
+    4.0
+  ],
+  "pv2_context_version": "target-conditioned-positive-cosine-top5-normalized-v1",
+  "schema_version": 1,
+  "status": "prepared",
+  "t1_generic_rows_reused": 6000,
+  "test_gold_used_for_tuning": false,
+  "test_rows": 6000
+}

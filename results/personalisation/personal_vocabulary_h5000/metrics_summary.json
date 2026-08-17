@@ -1,0 +1,637 @@
+{
+  "covered_case_harm_rate": 0.009703405346027096,
+  "covered_case_harmed": 53,
+  "embedding_reuse": {
+    "elapsed_seconds": 0.0033499000128358603,
+    "embedding_cache_hits": 39680,
+    "embedding_cache_misses": 0,
+    "embedding_cache_path": "C:\\Users\\chiar\\Desktop\\LBH\\thesis-personalisation\\results\\personalisation\\pilot_a_context_memory\\cache\\embedding_cache.sqlite3",
+    "embedding_model_loaded": false,
+    "final_embedding_cache_rows": 39680,
+    "new_embeddings_computed": 0,
+    "required_unique_contexts": 39680,
+    "status": "complete"
+  },
+  "experiment": "personal_vocabulary_h5000",
+  "f_to_pv1_transitions": {
+    "harmed": 53,
+    "helped": 96,
+    "net_help": 43,
+    "unchanged_correct": 4578,
+    "unchanged_wrong": 1273
+  },
+  "frequency_semantics_reused": true,
+  "generic_covered_rows": 5462,
+  "generic_test_inference_rows": 0,
+  "gold_used_for_vocabulary_construction": false,
+  "m1_top_n_reused": 5,
+  "m2_cross_encoder_used": false,
+  "metrics": {
+    "F-H5000": {
+      "macro_author": {
+        "authors_with_rows": 6,
+        "mean_rank_given_top10": 1.366685554535331,
+        "missing_at_10": 0.08966666666666667,
+        "mrr_at_10": 0.8249612433862433,
+        "n": 6000,
+        "top1": 0.7718333333333334,
+        "top3": 0.8723333333333333
+      },
+      "per_author": {
+        "Agent Phage": {
+          "mean_rank_given_top10": 1.2471561530506723,
+          "missing_at_10": 0.033,
+          "mrr_at_10": 0.8935563492063492,
+          "n": 1000,
+          "top1": 0.844,
+          "top3": 0.941
+        },
+        "Etinjat": {
+          "mean_rank_given_top10": 1.4654427645788337,
+          "missing_at_10": 0.074,
+          "mrr_at_10": 0.8008980158730159,
+          "n": 1000,
+          "top1": 0.722,
+          "top3": 0.874
+        },
+        "MScarlet": {
+          "mean_rank_given_top10": 1.8,
+          "missing_at_10": 0.335,
+          "mrr_at_10": 0.5491027777777777,
+          "n": 1000,
+          "top1": 0.493,
+          "top3": 0.588
+        },
+        "QBLevi": {
+          "mean_rank_given_top10": 1.2214137214137215,
+          "missing_at_10": 0.038,
+          "mrr_at_10": 0.90155,
+          "n": 1000,
+          "top1": 0.862,
+          "top3": 0.939
+        },
+        "Re_spectators": {
+          "mean_rank_given_top10": 1.2033195020746887,
+          "missing_at_10": 0.036,
+          "mrr_at_10": 0.8972718253968254,
+          "n": 1000,
+          "top1": 0.846,
+          "top3": 0.947
+        },
+        "breaddddd": {
+          "mean_rank_given_top10": 1.2627811860940694,
+          "missing_at_10": 0.022,
+          "mrr_at_10": 0.9073884920634921,
+          "n": 1000,
+          "top1": 0.864,
+          "top3": 0.945
+        }
+      }
+    },
+    "G0": {
+      "macro_author": {
+        "authors_with_rows": 6,
+        "mean_rank_given_top10": 1.5391761581065844,
+        "missing_at_10": 0.08966666666666667,
+        "mrr_at_10": 0.793428835978836,
+        "n": 6000,
+        "top1": 0.7231666666666667,
+        "top3": 0.8535
+      },
+      "per_author": {
+        "Agent Phage": {
+          "mean_rank_given_top10": 1.3722854188210962,
+          "missing_at_10": 0.033,
+          "mrr_at_10": 0.861279761904762,
+          "n": 1000,
+          "top1": 0.793,
+          "top3": 0.922
+        },
+        "Etinjat": {
+          "mean_rank_given_top10": 1.5,
+          "missing_at_10": 0.074,
+          "mrr_at_10": 0.7972261904761905,
+          "n": 1000,
+          "top1": 0.717,
+          "top3": 0.867
+        },
+        "MScarlet": {
+          "mean_rank_given_top10": 2.3248120300751878,
+          "missing_at_10": 0.335,
+          "mrr_at_10": 0.4847964285714286,
+          "n": 1000,
+          "top1": 0.402,
+          "top3": 0.539
+        },
+        "QBLevi": {
+          "mean_rank_given_top10": 1.3097713097713097,
+          "missing_at_10": 0.038,
+          "mrr_at_10": 0.8751011904761905,
+          "n": 1000,
+          "top1": 0.816,
+          "top3": 0.931
+        },
+        "Re_spectators": {
+          "mean_rank_given_top10": 1.2977178423236515,
+          "missing_at_10": 0.036,
+          "mrr_at_10": 0.8759412698412697,
+          "n": 1000,
+          "top1": 0.814,
+          "top3": 0.934
+        },
+        "breaddddd": {
+          "mean_rank_given_top10": 1.4304703476482619,
+          "missing_at_10": 0.022,
+          "mrr_at_10": 0.8662281746031746,
+          "n": 1000,
+          "top1": 0.797,
+          "top3": 0.928
+        }
+      }
+    },
+    "M1-H5000": {
+      "macro_author": {
+        "authors_with_rows": 6,
+        "mean_rank_given_top10": 1.3769072114411491,
+        "missing_at_10": 0.08966666666666667,
+        "mrr_at_10": 0.8225744708994709,
+        "n": 6000,
+        "top1": 0.7675000000000001,
+        "top3": 0.8713333333333333
+      },
+      "per_author": {
+        "Agent Phage": {
+          "mean_rank_given_top10": 1.2512926577042398,
+          "missing_at_10": 0.033,
+          "mrr_at_10": 0.8943063492063492,
+          "n": 1000,
+          "top1": 0.847,
+          "top3": 0.939
+        },
+        "Etinjat": {
+          "mean_rank_given_top10": 1.5010799136069115,
+          "missing_at_10": 0.074,
+          "mrr_at_10": 0.7832388888888889,
+          "n": 1000,
+          "top1": 0.684,
+          "top3": 0.873
+        },
+        "MScarlet": {
+          "mean_rank_given_top10": 1.806015037593985,
+          "missing_at_10": 0.335,
+          "mrr_at_10": 0.5527373015873015,
+          "n": 1000,
+          "top1": 0.502,
+          "top3": 0.588
+        },
+        "QBLevi": {
+          "mean_rank_given_top10": 1.2266112266112266,
+          "missing_at_10": 0.038,
+          "mrr_at_10": 0.9004666666666667,
+          "n": 1000,
+          "top1": 0.861,
+          "top3": 0.938
+        },
+        "Re_spectators": {
+          "mean_rank_given_top10": 1.2116182572614107,
+          "missing_at_10": 0.036,
+          "mrr_at_10": 0.8977757936507936,
+          "n": 1000,
+          "top1": 0.848,
+          "top3": 0.946
+        },
+        "breaddddd": {
+          "mean_rank_given_top10": 1.2648261758691206,
+          "missing_at_10": 0.022,
+          "mrr_at_10": 0.9069218253968254,
+          "n": 1000,
+          "top1": 0.863,
+          "top3": 0.944
+        }
+      }
+    },
+    "M2-H5000": {
+      "macro_author": {
+        "authors_with_rows": 6,
+        "mean_rank_given_top10": 1.3823712353345725,
+        "missing_at_10": 0.08966666666666667,
+        "mrr_at_10": 0.8209834656084656,
+        "n": 6000,
+        "top1": 0.765,
+        "top3": 0.8716666666666666
+      },
+      "per_author": {
+        "Agent Phage": {
+          "mean_rank_given_top10": 1.2554291623578075,
+          "missing_at_10": 0.033,
+          "mrr_at_10": 0.8919730158730159,
+          "n": 1000,
+          "top1": 0.842,
+          "top3": 0.939
+        },
+        "Etinjat": {
+          "mean_rank_given_top10": 1.4892008639308856,
+          "missing_at_10": 0.074,
+          "mrr_at_10": 0.786438492063492,
+          "n": 1000,
+          "top1": 0.69,
+          "top3": 0.874
+        },
+        "MScarlet": {
+          "mean_rank_given_top10": 1.849624060150376,
+          "missing_at_10": 0.335,
+          "mrr_at_10": 0.5427373015873015,
+          "n": 1000,
+          "top1": 0.486,
+          "top3": 0.586
+        },
+        "QBLevi": {
+          "mean_rank_given_top10": 1.2266112266112266,
+          "missing_at_10": 0.038,
+          "mrr_at_10": 0.899925,
+          "n": 1000,
+          "top1": 0.859,
+          "top3": 0.94
+        },
+        "Re_spectators": {
+          "mean_rank_given_top10": 1.2105809128630705,
+          "missing_at_10": 0.036,
+          "mrr_at_10": 0.8971051587301587,
+          "n": 1000,
+          "top1": 0.848,
+          "top3": 0.946
+        },
+        "breaddddd": {
+          "mean_rank_given_top10": 1.2627811860940694,
+          "missing_at_10": 0.022,
+          "mrr_at_10": 0.9077218253968253,
+          "n": 1000,
+          "top1": 0.865,
+          "top3": 0.945
+        }
+      }
+    },
+    "PV1-H5000": {
+      "macro_author": {
+        "authors_with_rows": 6,
+        "mean_rank_given_top10": 1.3801874980315834,
+        "missing_at_10": 0.06616666666666667,
+        "mrr_at_10": 0.8387854497354498,
+        "n": 6000,
+        "top1": 0.7789999999999999,
+        "top3": 0.8915000000000001
+      },
+      "per_author": {
+        "Agent Phage": {
+          "mean_rank_given_top10": 1.2615384615384615,
+          "missing_at_10": 0.025,
+          "mrr_at_10": 0.895609126984127,
+          "n": 1000,
+          "top1": 0.841,
+          "top3": 0.949
+        },
+        "Etinjat": {
+          "mean_rank_given_top10": 1.5357524012806831,
+          "missing_at_10": 0.063,
+          "mrr_at_10": 0.7920488095238095,
+          "n": 1000,
+          "top1": 0.701,
+          "top3": 0.868
+        },
+        "MScarlet": {
+          "mean_rank_given_top10": 1.7721354166666667,
+          "missing_at_10": 0.232,
+          "mrr_at_10": 0.6295515873015873,
+          "n": 1000,
+          "top1": 0.558,
+          "top3": 0.685
+        },
+        "QBLevi": {
+          "mean_rank_given_top10": 1.2291021671826625,
+          "missing_at_10": 0.031,
+          "mrr_at_10": 0.90525,
+          "n": 1000,
+          "top1": 0.863,
+          "top3": 0.945
+        },
+        "Re_spectators": {
+          "mean_rank_given_top10": 1.2184265010351967,
+          "missing_at_10": 0.034,
+          "mrr_at_10": 0.8940551587301587,
+          "n": 1000,
+          "top1": 0.839,
+          "top3": 0.947
+        },
+        "breaddddd": {
+          "mean_rank_given_top10": 1.26417004048583,
+          "missing_at_10": 0.012,
+          "mrr_at_10": 0.9161980158730159,
+          "n": 1000,
+          "top1": 0.872,
+          "top3": 0.955
+        }
+      }
+    },
+    "PV2-H5000": {
+      "macro_author": {
+        "authors_with_rows": 6,
+        "mean_rank_given_top10": 1.3809110573033652,
+        "missing_at_10": 0.06616666666666667,
+        "mrr_at_10": 0.8383743386243386,
+        "n": 6000,
+        "top1": 0.7781666666666666,
+        "top3": 0.8916666666666666
+      },
+      "per_author": {
+        "Agent Phage": {
+          "mean_rank_given_top10": 1.2605128205128204,
+          "missing_at_10": 0.025,
+          "mrr_at_10": 0.896109126984127,
+          "n": 1000,
+          "top1": 0.842,
+          "top3": 0.949
+        },
+        "Etinjat": {
+          "mean_rank_given_top10": 1.536819637139808,
+          "missing_at_10": 0.063,
+          "mrr_at_10": 0.7911321428571428,
+          "n": 1000,
+          "top1": 0.699,
+          "top3": 0.869
+        },
+        "MScarlet": {
+          "mean_rank_given_top10": 1.7682291666666667,
+          "missing_at_10": 0.232,
+          "mrr_at_10": 0.6286349206349207,
+          "n": 1000,
+          "top1": 0.554,
+          "top3": 0.686
+        },
+        "QBLevi": {
+          "mean_rank_given_top10": 1.2311661506707947,
+          "missing_at_10": 0.031,
+          "mrr_at_10": 0.9049166666666666,
+          "n": 1000,
+          "top1": 0.863,
+          "top3": 0.945
+        },
+        "Re_spectators": {
+          "mean_rank_given_top10": 1.2215320910973084,
+          "missing_at_10": 0.034,
+          "mrr_at_10": 0.8937551587301588,
+          "n": 1000,
+          "top1": 0.839,
+          "top3": 0.946
+        },
+        "breaddddd": {
+          "mean_rank_given_top10": 1.2672064777327936,
+          "missing_at_10": 0.012,
+          "mrr_at_10": 0.9156980158730158,
+          "n": 1000,
+          "top1": 0.872,
+          "top3": 0.955
+        }
+      }
+    }
+  },
+  "per_author_rows": {
+    "Agent Phage": 1000,
+    "Etinjat": 1000,
+    "MScarlet": 1000,
+    "QBLevi": 1000,
+    "Re_spectators": 1000,
+    "breaddddd": 1000
+  },
+  "previous_artifact_sha256": {
+    "M1": {
+      "frequency_predictions.jsonl": "71c5626b8318e125776c235dd3cccf45677c884deb2699fd8c1f82e907e0abf6",
+      "memory_predictions.jsonl": "75907c88f1d099c3dedc6dc71ee4811ca6258d5267c071bf28ef94d6b95e128b",
+      "metrics_summary.json": "e35fb9efbe3bdd31d7f8354c227efbed2aa178855061955b3ac16a70137e424d"
+    },
+    "M2": {
+      "m2_predictions.jsonl": "0a199c31e9fc7b9a35c39aef1cdf48f8a8514b1663fb37416844657eacac79fb",
+      "metrics_summary.json": "9ad6acecf41b9f36aa1a1bf1bd702cfc729322c4226a4a6a9e3fde4082c6f6d8",
+      "selected_hyperparameters.json": "e47e765b950804ceaed2d2fff5a4d2d1dba0ddeb652ac9bf20ccd89a42a182f4"
+    },
+    "T1": {
+      "predictions.jsonl": "764db39887f3db04b913d1739d9dbd46295f0e46e5a2bffa649f1563b56ee4e2"
+    }
+  },
+  "previous_artifacts_unchanged": true,
+  "pv0": {
+    "generic_missing": 538,
+    "gold_used_after_vocabulary_construction_only": true,
+    "gold_used_for_vocabulary_construction": false,
+    "per_author": {
+      "Agent Phage": {
+        "generic_missing": 33,
+        "recoverability_rate": 0.24242424242424243,
+        "recoverable_missing": 8,
+        "unrecoverable_missing": 25
+      },
+      "Etinjat": {
+        "generic_missing": 74,
+        "recoverability_rate": 0.17567567567567569,
+        "recoverable_missing": 13,
+        "unrecoverable_missing": 61
+      },
+      "MScarlet": {
+        "generic_missing": 335,
+        "recoverability_rate": 0.3582089552238806,
+        "recoverable_missing": 120,
+        "unrecoverable_missing": 215
+      },
+      "QBLevi": {
+        "generic_missing": 38,
+        "recoverability_rate": 0.18421052631578946,
+        "recoverable_missing": 7,
+        "unrecoverable_missing": 31
+      },
+      "Re_spectators": {
+        "generic_missing": 36,
+        "recoverability_rate": 0.05555555555555555,
+        "recoverable_missing": 2,
+        "unrecoverable_missing": 34
+      },
+      "breaddddd": {
+        "generic_missing": 22,
+        "recoverability_rate": 0.45454545454545453,
+        "recoverable_missing": 10,
+        "unrecoverable_missing": 12
+      }
+    },
+    "personal_lexicon_size": {
+      "max": 14,
+      "mean": 1.215,
+      "median": 1.0,
+      "p90": 3.0
+    },
+    "recoverability_rate": 0.29739776951672864,
+    "recoverable_gold_occurrence_count_distribution": {
+      "1": 38,
+      "10": 8,
+      "11": 4,
+      "12": 1,
+      "13": 5,
+      "14": 5,
+      "17": 1,
+      "19": 1,
+      "2": 25,
+      "22": 2,
+      "23": 2,
+      "27": 1,
+      "3": 19,
+      "30": 6,
+      "33": 1,
+      "37": 1,
+      "4": 5,
+      "40": 2,
+      "43": 9,
+      "45": 1,
+      "5": 10,
+      "53": 2,
+      "6": 5,
+      "7": 4,
+      "74": 1,
+      "8": 1
+    },
+    "recoverable_missing": 160,
+    "research_type": "candidate availability / recoverability, not ranking",
+    "rows": 6000,
+    "schema_version": 1,
+    "status": "complete",
+    "unrecoverable_missing": 378,
+    "variant": "PV0"
+  },
+  "pv1_recovery": {
+    "missing_recovery_rate": 0.26579925650557623,
+    "per_author": {
+      "Agent Phage": {
+        "generic_missing": 33,
+        "missing_recovery_rate": 0.24242424242424243,
+        "recovered_to_top10": 8
+      },
+      "Etinjat": {
+        "generic_missing": 74,
+        "missing_recovery_rate": 0.16216216216216217,
+        "recovered_to_top10": 12
+      },
+      "MScarlet": {
+        "generic_missing": 335,
+        "missing_recovery_rate": 0.31044776119402984,
+        "recovered_to_top10": 104
+      },
+      "QBLevi": {
+        "generic_missing": 38,
+        "missing_recovery_rate": 0.18421052631578946,
+        "recovered_to_top10": 7
+      },
+      "Re_spectators": {
+        "generic_missing": 36,
+        "missing_recovery_rate": 0.05555555555555555,
+        "recovered_to_top10": 2
+      },
+      "breaddddd": {
+        "generic_missing": 22,
+        "missing_recovery_rate": 0.45454545454545453,
+        "recovered_to_top10": 10
+      }
+    },
+    "recoverable_recovery_rate": 0.89375,
+    "recovered_to_top1": 96,
+    "recovered_to_top10": 143,
+    "recovered_to_top3": 140
+  },
+  "pv1_to_pv2_transitions": {
+    "harmed_by_context": 10,
+    "helped_by_context": 5,
+    "net_context_help": -5,
+    "unchanged_correct": 4664,
+    "unchanged_wrong": 1321
+  },
+  "pv2_recovery": {
+    "missing_recovery_rate": 0.26579925650557623,
+    "per_author": {
+      "Agent Phage": {
+        "generic_missing": 33,
+        "missing_recovery_rate": 0.24242424242424243,
+        "recovered_to_top10": 8
+      },
+      "Etinjat": {
+        "generic_missing": 74,
+        "missing_recovery_rate": 0.16216216216216217,
+        "recovered_to_top10": 12
+      },
+      "MScarlet": {
+        "generic_missing": 335,
+        "missing_recovery_rate": 0.31044776119402984,
+        "recovered_to_top10": 104
+      },
+      "QBLevi": {
+        "generic_missing": 38,
+        "missing_recovery_rate": 0.18421052631578946,
+        "recovered_to_top10": 7
+      },
+      "Re_spectators": {
+        "generic_missing": 36,
+        "missing_recovery_rate": 0.05555555555555555,
+        "recovered_to_top10": 2
+      },
+      "breaddddd": {
+        "generic_missing": 22,
+        "missing_recovery_rate": 0.45454545454545453,
+        "recovered_to_top10": 10
+      }
+    },
+    "recoverable_recovery_rate": 0.89375,
+    "recovered_to_top1": 101,
+    "recovered_to_top10": 143,
+    "recovered_to_top3": 143
+  },
+  "rows": 6000,
+  "runtime_seconds": 0.7690150000271387,
+  "schema_version": 1,
+  "selection": {
+    "experiment": "personal_vocabulary_h5000",
+    "pv1": {
+      "k_grid": [
+        1,
+        3,
+        5
+      ],
+      "lambda_pv_grid": [
+        0.5,
+        1.0,
+        2.0,
+        4.0
+      ],
+      "selected_k_pv": 1,
+      "selected_lambda_pv": 4.0,
+      "tie_break": "lower lambda_pv, then lower k_pv"
+    },
+    "pv2": {
+      "frozen_m1_top_n": 5,
+      "frozen_pv1_k_pv": 1,
+      "frozen_pv1_lambda_pv": 4.0,
+      "lambda_ctx_grid": [
+        0.5,
+        1.0,
+        2.0,
+        4.0
+      ],
+      "selected_lambda_ctx": 1.0,
+      "tie_break": "lower lambda_ctx"
+    },
+    "runtime_seconds": 1.6558614000095986,
+    "schema_version": 1,
+    "selection_metric": "Macro-author Top-1",
+    "selection_population": "chronologically earlier whole-work Dev tune partition",
+    "status": "complete",
+    "test_gold_used_for_selection": false,
+    "test_rows_seen_during_selection": 0,
+    "tune_rows": 16171
+  },
+  "status": "complete",
+  "t1_generic_rows_reused": 6000,
+  "test_gold_used_for_tuning": false
+}
