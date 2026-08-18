@@ -40,13 +40,21 @@ History semantics remain:
 
 The Phase 1 exploratory subset is fixed to:
 
-- MScarlet
 - Etinjat
 - Re_spectators
+- breaddddd
 
 These authors are used only for exploratory diagnostics and method development.
 
-Final evaluation must return to all six authors.
+MScarlet is temporarily excluded from Phase 1 because a dataset-level script audit identified a strong author-specific Chinese-script confound:
+
+- MScarlet Gold t2s-change rate: 57.6702%;
+- MScarlet context t2s-change rate: 98.6360%;
+- the other five authors have much lower Gold t2s-change rates (0.0107%?1.7771%).
+
+This exclusion is based on preprocessing properties of the dataset, not on Test accuracy or method performance.
+
+Final formal evaluation must return to all six authors after the script-normalisation issue is resolved.
 
 ### Conditions
 
@@ -203,6 +211,33 @@ Among Generic Missing@10 cases:
 Determine whether Personal Vocabulary candidate recovery should be extended to Initial conditions.
 
 This is an extension of the previously completed PV0 recoverability analysis, not a new candidate-recovery concept.
+
+---
+
+# Known Dataset Issue ? Mixed Chinese Script
+
+A read-only audit of frozen Dataset V1 found substantial Simplified/Traditional Chinese inconsistency:
+
+- 1,074,032 interactions audited;
+- 102,982 Gold targets (9.5884%) change under OpenCC t2s;
+- 226,817 contexts (21.1183%) change under OpenCC t2s;
+- the issue is strongly author-dependent, with MScarlet accounting for most affected Gold targets.
+
+A separate audit of the existing Full + Short Generic candidate pool found that 186 of 538 exact Missing@10 cases (34.57%) contain a candidate that becomes equivalent to Gold after t2s canonicalisation.
+
+Therefore, the current mixed-script Dataset V1 and its existing results are retained as historical baselines, but they should not be treated as the final formal dataset configuration.
+
+The planned formal repair is:
+
+1. derive a new version from frozen Dataset V1;
+2. apply OpenCC t2s canonicalisation to context, Gold, and history targets;
+3. do not reintroduce the earlier Dataset V1.1 metadata-deletion changes;
+4. canonicalise PinyinGPT candidate surfaces with the same t2s policy;
+5. deduplicate canonical candidates while preserving ranking information;
+6. retain the Top-K unique Simplified-Chinese candidates;
+7. rerun the final formal six-author evaluation under the new dataset version.
+
+Until that repair is implemented, Phase 1 remains an exploratory diagnostic using existing frozen artifacts and avoids MScarlet to reduce the known script confound.
 
 ---
 
