@@ -103,6 +103,53 @@ def _read_jsonl(path: Path) -> list[dict[str, Any]]:
     return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()]
 
 
+@dataclass(frozen=True)
+class PreparedDevGenericRequest:
+    row: Mapping[str, Any]
+    segments: tuple[str, ...]
+    context: str
+    original_context_tokens: int
+    used_context_tokens: int
+    context_truncated: bool
+    prompt_token_length: int
+
+
+def _generate_compatible_dev_batches(
+    backend: Any,
+    prepared: Sequence[PreparedDevGenericRequest],
+    *,
+    batch_size: int = 2,
+    on_batch: Any | None = None,
+) -> list[tuple[PreparedDevGenericRequest, Any]]:
+    """Batch equal model shapes, then restore the caller's stable row order."""
+
+    if batch_size < 1:
+        raise ValueError("batch_size must be positive")
+    buckets: dict[tuple[int, int], list[tuple[int, PreparedDevGenericRequest]]] = defaultdict(list)
+    for index, request in enumerate(prepared):
+        buckets[(request.prompt_token_length, len(request.segments))].append((index, request))
+    restored: list[tuple[PreparedDevGenericRequest, Any] | None] = [None] * len(prepared)
+    for bucket in buckets.values():
+        for start in range(0, len(bucket), batch_size):
+            batch = bucket[start : start + batch_size]
+            results = backend.generate_batch(
+                [(request.context, request.segments) for _, request in batch],
+                top_k=10,
+                beam_size=16,
+            )
+            if len(results) != len(batch):
+                raise RuntimeError("Dev Generic backend returned an unexpected result count")
+            completed_batch = []
+            for (index, request), result in zip(batch, results):
+                restored[index] = (request, result)
+                completed_batch.append((request, result))
+            if on_batch is not None:
+                on_batch(completed_batch)
+    if any(value is None for value in restored):
+        raise AssertionError("Dev Generic batch restoration is incomplete")
+    return [value for value in restored if value is not None]
+
+
 def deterministic_wrong_user_mapping(authors: Sequence[str] = AUTHORS) -> dict[str, str]:
     ordered = tuple(authors)
     if len(ordered) < 2 or len(set(ordered)) != len(ordered):
@@ -282,17 +329,26 @@ class RerankingMatrixRunner:
     def _generic_dev_path(self, condition: str) -> Path:
         return self.output_root / "cache/dev_generic" / f"{condition}.jsonl"
 
+    def _generic_dev_partial_path(self, condition: str) -> Path:
+        return self.output_root / "cache/dev_generic" / f"{condition}.partial.jsonl"
+
     def _load_dev_generic(self, condition: str) -> dict[str, dict[str, Any]]:
-        path = self._generic_dev_path(condition)
-        if not path.is_file():
-            return {}
         result = {}
         expected = {str(row["row_id"]): row for row in self._dev(condition) if row["pilot_partition"] == "tune"}
-        for value in _read_jsonl(path):
-            key = str(value["row_id"])
-            if key not in expected or key in result:
-                raise RuntimeError(f"invalid matrix Dev Generic row: {key}")
-            result[key] = value
+        for path in (self._generic_dev_path(condition), self._generic_dev_partial_path(condition)):
+            if not path.is_file():
+                continue
+            for value in _read_jsonl(path):
+                key = str(value["row_id"])
+                if key not in expected:
+                    raise RuntimeError(f"invalid matrix Dev Generic row: {key}")
+                if key in result:
+                    if result[key] != value:
+                        raise RuntimeError(f"conflicting matrix Dev Generic row: {key}")
+                    continue
+                result[key] = value
+            if len(result) == len(expected):
+                break
         return result
 
     def _seed_full_short_dev(self) -> int:
@@ -312,36 +368,49 @@ class RerankingMatrixRunner:
         write_jsonl(path, seeded)
         return len(seeded)
 
-    def ensure_dev_generic(self, condition: str) -> dict[str, Any]:
+    def ensure_dev_generic(self, condition: str, *, backend: Any | None = None) -> dict[str, Any]:
         if condition == "full_short":
             self._seed_full_short_dev()
         rows = [row for row in self._dev(condition) if row["pilot_partition"] == "tune"]
         completed = self._load_dev_generic(condition)
+        primary_path = self._generic_dev_path(condition)
+        primary_rows = _read_jsonl(primary_path) if primary_path.is_file() else []
+        primary_ids = [str(row["row_id"]) for row in primary_rows]
+        if primary_ids != [str(row["row_id"]) for row in rows[: len(primary_ids)]]:
+            raise RuntimeError("Dev Generic cache rows are not in frozen Dev order")
         pending = [row for row in rows if row["row_id"] not in completed]
         print(f"matrix Dev Generic {condition}: required={len(rows)} reused={len(completed)} missing={len(pending)}", flush=True)
         if pending:
-            from src.reference_backend_pinyingpt import PinyinGPTConcatBackend
-            backend = PinyinGPTConcatBackend(self.pinyingpt_model, device="cuda")
-            path = self._generic_dev_path(condition)
-            path.parent.mkdir(parents=True, exist_ok=True)
-            with path.open("a", encoding="utf-8", newline="\n") as destination:
-                for start in range(0, len(pending), 2):
-                    batch = pending[start : start + 2]
-                    prepared = []
-                    for row in batch:
-                        segments = list(row["pinyin_segments"])
-                        context, original, used, truncated = backend.truncate_context_for_generation(row["context"], segments)
-                        prepared.append((row, segments, context, original, used, truncated))
-                    results = backend.generate_batch([(value[2], value[1]) for value in prepared], top_k=10, beam_size=16)
-                    for value, result in zip(prepared, results):
-                        row, _, context, original, used, truncated = value
+            if backend is None:
+                from src.reference_backend_pinyingpt import PinyinGPTConcatBackend
+                backend = PinyinGPTConcatBackend(self.pinyingpt_model, device="cuda")
+            primary_path.parent.mkdir(parents=True, exist_ok=True)
+            partial_path = self._generic_dev_partial_path(condition)
+            prepared: list[PreparedDevGenericRequest] = []
+            for row in pending:
+                segments = list(row["pinyin_segments"])
+                context, original, used, truncated = backend.truncate_context_for_generation(row["context"], segments)
+                prompt, _ = backend._prompt(context, segments)
+                prepared.append(PreparedDevGenericRequest(row, tuple(segments), context, original, used, truncated, len(prompt)))
+
+            with partial_path.open("a", encoding="utf-8", newline="\n") as destination:
+                def persist_batch(batch: Sequence[tuple[PreparedDevGenericRequest, Any]]) -> None:
+                    for value, result in batch:
+                        row = value.row
                         candidates = [candidate.to_dict() for candidate in result.candidates]
-                        output = {**row, "model_used_context": context, "original_stored_context_tokens": original, "model_used_context_tokens": used, "context_truncated": truncated, "top10_candidates": candidates, "gold_rank": next((candidate["rank"] for candidate in candidates if candidate["text"] == row["gold"]), None), "beam_size": 16, "top_k": 10, "runtime_device": result.runtime_device, "checkpoint_revision": CHECKPOINT_REVISION, "official_code_revision": OFFICIAL_CODE_REVISION, "backend_source_revision": BACKEND_SOURCE_REVISION, "backend_integration_revision": BACKEND_INTEGRATION_REVISION}
+                        output = {**row, "model_used_context": value.context, "original_stored_context_tokens": value.original_context_tokens, "model_used_context_tokens": value.used_context_tokens, "context_truncated": value.context_truncated, "top10_candidates": candidates, "gold_rank": next((candidate["rank"] for candidate in candidates if candidate["text"] == row["gold"]), None), "beam_size": 16, "top_k": 10, "runtime_device": result.runtime_device, "checkpoint_revision": CHECKPOINT_REVISION, "official_code_revision": OFFICIAL_CODE_REVISION, "backend_source_revision": BACKEND_SOURCE_REVISION, "backend_integration_revision": BACKEND_INTEGRATION_REVISION}
                         destination.write(canonical_json(output) + "\n")
                         completed[str(row["row_id"])] = output
                     destination.flush()
                     if len(completed) % 100 < len(batch) or len(completed) == len(rows):
                         print(f"matrix Dev Generic {condition}: {len(completed)}/{len(rows)}", flush=True)
+                _generate_compatible_dev_batches(backend, prepared, on_batch=persist_batch)
+        if len(completed) == len(rows) and (pending or len(primary_rows) != len(rows)):
+            temporary = primary_path.with_suffix(primary_path.suffix + ".tmp")
+            with temporary.open("w", encoding="utf-8", newline="\n") as destination:
+                for row in rows:
+                    destination.write(canonical_json(completed[str(row["row_id"])]) + "\n")
+            temporary.replace(primary_path)
         return {"required": len(rows), "reused_at_start": len(rows) - len(pending), "added": len(pending), "complete": len(completed) == len(rows)}
 
     def _condition_required_contexts(self, condition: str) -> set[str]:
