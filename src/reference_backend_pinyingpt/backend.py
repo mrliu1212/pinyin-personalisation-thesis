@@ -210,13 +210,22 @@ class PinyinGPTConcatBackend:
         )
 
     def truncate_context_for_generation(
-        self, context: str, typed_pinyin: str | Sequence[str]
+        self,
+        context: str,
+        typed_pinyin: str | Sequence[str],
+        *,
+        maximum_positions: int | None = None,
     ) -> tuple[str, int, int, bool]:
         """Keep the most recent context that fits the complete Concat generation."""
 
         pinyin = self.segment_pinyin(typed_pinyin)
         original_ids = self.tokenizer.encode(context, add_special_tokens=False)
-        maximum = int(self.model.config.n_positions)
+        model_maximum = int(self.model.config.n_positions)
+        maximum = model_maximum if maximum_positions is None else min(
+            model_maximum, int(maximum_positions)
+        )
+        if maximum < 1:
+            raise ValueError("maximum_positions must be positive")
         # [CLS], context, [SEP], Pinyin, [SEP], and generated target positions.
         available = maximum - (2 + 2 * len(pinyin))
         if available < 0:
