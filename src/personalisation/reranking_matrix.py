@@ -103,6 +103,20 @@ def _read_jsonl(path: Path) -> list[dict[str, Any]]:
     return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()]
 
 
+def _release_torch_cuda_cache() -> None:
+    """Release PyTorch's inactive CUDA blocks before entering llama.cpp."""
+
+    import gc
+
+    gc.collect()
+    try:
+        import torch
+    except ImportError:
+        return
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+
+
 @dataclass(frozen=True)
 class PreparedDevGenericRequest:
     row: Mapping[str, Any]
@@ -379,11 +393,13 @@ class RerankingMatrixRunner:
         if primary_ids != [str(row["row_id"]) for row in rows[: len(primary_ids)]]:
             raise RuntimeError("Dev Generic cache rows are not in frozen Dev order")
         pending = [row for row in rows if row["row_id"] not in completed]
+        owns_backend = False
         print(f"matrix Dev Generic {condition}: required={len(rows)} reused={len(completed)} missing={len(pending)}", flush=True)
         if pending:
             if backend is None:
                 from src.reference_backend_pinyingpt import PinyinGPTConcatBackend
                 backend = PinyinGPTConcatBackend(self.pinyingpt_model, device="cuda")
+                owns_backend = True
             primary_path.parent.mkdir(parents=True, exist_ok=True)
             partial_path = self._generic_dev_partial_path(condition)
             prepared: list[PreparedDevGenericRequest] = []
@@ -411,6 +427,9 @@ class RerankingMatrixRunner:
                 for row in rows:
                     destination.write(canonical_json(completed[str(row["row_id"])]) + "\n")
             temporary.replace(primary_path)
+        if owns_backend:
+            backend = None
+            _release_torch_cuda_cache()
         return {"required": len(rows), "reused_at_start": len(rows) - len(pending), "added": len(pending), "complete": len(completed) == len(rows)}
 
     def _condition_required_contexts(self, condition: str) -> set[str]:

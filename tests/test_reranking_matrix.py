@@ -114,6 +114,22 @@ def test_dev_generic_resume_preserves_exact_count_order_and_does_not_recompute(t
     assert resumed == {"required": 7, "reused_at_start": 7, "added": 0, "complete": True}
 
 
+def test_owned_dev_backend_releases_torch_cuda_cache_before_next_stage(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    row = {"row_id": "r0", "pilot_partition": "tune", "context": "c0", "pinyin_segments": ["a"], "gold": "g0"}
+    runner = object.__new__(RerankingMatrixRunner)
+    runner.output_root = tmp_path
+    runner.pinyingpt_model = tmp_path / "model"
+    monkeypatch.setattr(runner, "_dev", lambda condition: [row])
+    monkeypatch.setattr("src.reference_backend_pinyingpt.PinyinGPTConcatBackend", lambda *args, **kwargs: ShapeCheckingBackend({"c0": 4}))
+    released = []
+    monkeypatch.setattr("src.personalisation.reranking_matrix._release_torch_cuda_cache", lambda: released.append(True))
+
+    result = runner.ensure_dev_generic("initial_multi3")
+
+    assert result["complete"] is True
+    assert released == [True]
+
+
 def test_exact_frozen_matrix_identities() -> None:
     assert CONDITIONS == ("full_short", "initial_short", "full_multi3", "initial_multi3")
     assert set(CONDITION_LABELS) == set(CONDITIONS)
