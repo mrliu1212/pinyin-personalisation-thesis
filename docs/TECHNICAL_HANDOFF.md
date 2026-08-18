@@ -1,5 +1,11 @@
 # Technical Handoff: Deep Author Pinyin Personalisation
 
+> **Historical scope notice (2026-08-19):** this handoff is a frozen operator
+> snapshot of the old `work/reranking-matrix` worktree. It is not the current
+> Context Lab / External Memory handoff. Use [FILE_INDEX.md](FILE_INDEX.md) and
+> [REPRODUCIBILITY_INDEX.md](REPRODUCIBILITY_INDEX.md) for current repository
+> navigation and checkpoint reproduction.
+
 This is the operator/developer handoff for continuing the thesis repository without Codex. It records the implementation and local Windows environment as inspected on **2026-08-18**. Research intent remains governed by [`RESEARCH_TARGETS.md`](../RESEARCH_TARGETS.md); the frozen matrix protocol is [`docs/research/reranking_personalisation_matrix.md`](research/reranking_personalisation_matrix.md).
 
 ## Cheat sheet

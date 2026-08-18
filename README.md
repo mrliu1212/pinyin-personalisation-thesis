@@ -1,9 +1,19 @@
 # Deep Author Contextual Pinyin Research
 
 The authoritative thesis direction is [RESEARCH_TARGETS.md](RESEARCH_TARGETS.md).
-This branch contains the frozen Deep Author Evaluation V2 design and completed
-T1 Generic PinyinGPT baseline on Dataset V1. It does not implement
-personalisation.
+
+> **Current worktree note (2026-08-19):** this Context Lab branch now also
+> contains frozen personalisation diagnostics and Context Strengthening work.
+> The paragraph below describes the earlier Deep Author baseline checkpoint,
+> not the complete current branch state.
+
+Repository navigation: [file-management policy](docs/FILE_MANAGEMENT_RULES.md),
+[file index](docs/FILE_INDEX.md), [reproducibility index](docs/REPRODUCIBILITY_INDEX.md),
+and [version history](docs/VERSION_HISTORY.md).
+
+The earlier baseline checkpoint contains the frozen Deep Author Evaluation V2
+design and completed T1 Generic PinyinGPT baseline on Dataset V1. At that
+checkpoint, personalisation was not implemented.
 
 ## Retained generic backend
 
