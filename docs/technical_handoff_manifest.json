@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "inspected_at": "2026-08-18T12:08:53+02:00",
+  "repository_root": "C:\\Users\\chiar\\Desktop\\LBH\\thesis-personalisation",
+  "branch": "work/reranking-matrix",
+  "head_commit": "4c95c54ef8c95e9b08c37cc17eeef154462a908b",
+  "python_executable": "C:\\Users\\chiar\\Desktop\\LBH\\thesis\\.venv\\Scripts\\python.exe",
+  "entry_points": {
+    "dataset": "experiments.prepare_deep_author_dataset",
+    "evaluation_v2": "experiments.deep_author_evaluation_v2",
+    "matrix": "experiments.reranking_personalisation_matrix"
+  },
+  "frozen_inputs": {
+    "dataset_root": "C:\\Users\\chiar\\Desktop\\LBH\\thesis-deep-author\\.build\\dataset-v1-reconstruction",
+    "t1_condition_manifest": "results/evaluation/deep_author_v2/design/t1_condition_manifest.jsonl",
+    "t1_condition_manifest_normalized_sha256": "45b9cafedd7a8269d1f0b66d3f7f135ee990140e4b5b3668c67645863ab00d39",
+    "t1_predictions": "C:\\Users\\chiar\\Desktop\\LBH\\thesis-deep-author\\results\\evaluation\\deep_author_v2\\t1\\predictions.jsonl",
+    "t1_predictions_sha256": "764db39887f3db04b913d1739d9dbd46295f0e46e5a2bffa649f1563b56ee4e2"
+  },
+  "models": {
+    "pinyingpt": {
+      "id": "aihijo/transformers4ime-pinyingpt-concat",
+      "revision": "76dd20dc92d8236a350fb732e99dde6fa15e2263",
+      "path": "C:\\Users\\chiar\\Desktop\\LBH\\thesis\\.build\\pinyingpt2-concat",
+      "n_positions": 1024
+    },
+    "bge_embedding": {
+      "id": "bge-small-zh-v1.5",
+      "path": "C:\\Users\\chiar\\Desktop\\LBH\\thesis\\.cache\\phase_04f\\models\\bge-small-zh-v1.5-q8_0.gguf",
+      "sha256": "5a88d266870fbd27c6f329df60de80e2d4cf3bbd5e6f080bd5c1b2e5abb12039",
+      "dimension": 512
+    },
+    "m2_reranker": {
+      "id": "BAAI/bge-reranker-base",
+      "revision": "2cfc18c9415c912f9d8155881c133215df768a70",
+      "path": "C:\\Users\\chiar\\Desktop\\LBH\\thesis\\.build\\bge-reranker-base",
+      "max_length": 512
+    }
+  },
+  "caches": {
+    "dev_generic": "results/personalisation/reranking_matrix/cache/dev_generic",
+    "bge": "results/personalisation/pilot_a_context_memory/cache/embedding_cache.sqlite3",
+    "m2_pairs": "results/personalisation/m2_h5000/cache/pair_scores.sqlite3"
+  },
+  "matrix": {
+    "result_root": "results/personalisation/reranking_matrix",
+    "manifest": "results/personalisation/reranking_matrix/matrix_manifest.json",
+    "completion_marker": "results/personalisation/reranking_matrix/COMPLETE.json",
+    "stdout": "results/personalisation/reranking_matrix/matrix_resume_stdout.log",
+    "stderr": "results/personalisation/reranking_matrix/matrix_resume_stderr.log",
+    "generic_test_inference_rows": 0
+  },
+  "documentation": {
+    "research_targets": "RESEARCH_TARGETS.md",
+    "matrix_protocol": "docs/research/reranking_personalisation_matrix.md",
+    "matrix_report": "docs/reports/07_reranking_personalisation_matrix.md",
+    "version_history": "docs/VERSION_HISTORY.md",
+    "handoff": "docs/TECHNICAL_HANDOFF.md"
+  }
+}
