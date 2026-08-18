@@ -4,6 +4,23 @@
 
 This branch is an exploratory diagnostic and method-development branch for understanding why contextual personalisation has not consistently outperformed the frequency baseline, and for testing structured alternatives before further expensive model development.
 
+## Current Priority Override ? Short Focus
+
+As of 2026-08-18, active Context Lab method development is restricted to:
+
+- Full + Short
+- Initial + Short
+
+Multi3 remains preserved but is deferred from active method development after Diagnostic A1 showed extremely low exact-history coverage under the current H5000 memory definition.
+
+See:
+
+`docs/context_lab/SHORT_FOCUS_DECISION_2026-08-18.md`
+
+This is a prioritisation decision, not a claim that Multi3 is impossible to personalise and not a deletion of the original four-condition research scope.
+
+---
+
 ## Baseline
 
 Base commit:
