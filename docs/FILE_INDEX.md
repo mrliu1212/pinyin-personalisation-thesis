@@ -193,3 +193,70 @@ GENERATED / LOCAL:
 - `results/personalisation/external_memory/`
 
 Do not treat generated result files as the sole source of truth.
+
+<!-- EM2-2026-08-19-INDEX -->
+## External Memory EM-2 -2026-08-19
+
+Canonical stage report:
+
+- `docs/external_memory/em2/stages/EM2_PROGRESS_REPORT_2026-08-19.md` -ACTIVE stage report covering hidden-state engineering validation, hidden kNN retrieval, Hidden-M1, Hidden-M2, and fixed G+F+C.
+
+Formal experiment runners:
+
+- `experiments/external_memory/em2_hidden_state_gate.py`
+- `experiments/external_memory/em2_cache_hidden_dev.py`
+- `experiments/external_memory/em2_hidden_knn_dev.py`
+- `experiments/external_memory/em2_hidden_m1_dev.py`
+- `experiments/external_memory/em2_hidden_m1_dev_boundary8.py`
+- `experiments/external_memory/em2_hidden_m2_dev.py`
+- `experiments/external_memory/em2_original_m2_same_surface_dev.py`
+- `experiments/external_memory/em2_fixed_gfc_dev.py`
+
+Helper/comparison:
+
+- `experiments/external_memory/em2_four_way_dev_compare.py` -HELPER / comparison-only.
+
+Generated local result roots:
+
+- `results/personalisation/external_memory/em2_hidden_dev/`
+- `results/personalisation/external_memory/em2_hidden_m1_dev/`
+- `results/personalisation/external_memory/em2_hidden_m1_dev_boundary8/`
+- `results/personalisation/external_memory/em2_original_m2_dev/`
+- `results/personalisation/external_memory/em2_hidden_m2_dev/`
+- `results/personalisation/external_memory/em2_fixed_gfc_dev/`
+
+Generated result trees and SQLite caches are GENERATED / LOCAL-ONLY and should not be Git-added as normal source artifacts.
+
+
+
+<!-- EM2-FINAL-CLOSE-2026-08-19 -->
+## EM-2 final closure
+
+Status: **FROZEN / CLOSED**
+
+Canonical EM-2 files:
+
+- `docs/external_memory/em2/EM2_FINAL_REPORT_2026-08-19.md` - final Dev-stage scientific report and closure.
+- `docs/external_memory/em2/EM2_REPRODUCIBILITY_2026-08-19.md` - canonical commands, dependencies, hashes, and expected checkpoints.
+- `docs/external_memory/em2/EM2_TO_EM3_HANDOFF_2026-08-19.md` - handoff to EM-3.
+- `docs/external_memory/em2/stages/` - retained process/design/diagnostic documentation.
+
+Formal runners:
+
+- `experiments/external_memory/em2_hidden_state_gate.py`
+- `experiments/external_memory/em2_cache_hidden_dev.py`
+- `experiments/external_memory/em2_hidden_knn_dev.py`
+- `experiments/external_memory/em2_hidden_m1_dev.py`
+- `experiments/external_memory/em2_hidden_m1_dev_boundary8.py`
+- `experiments/external_memory/em2_original_m2_same_surface_dev.py`
+- `experiments/external_memory/em2_hidden_m2_dev.py`
+- `experiments/external_memory/em2_fixed_gfc_dev.py`
+- `experiments/external_memory/em2_adaptive_gfc_dev.py`
+
+Helper/comparison:
+
+- `experiments/external_memory/em2_four_way_dev_compare.py` - HELPER / same-surface comparison.
+
+Generated result/caches remain under `results/personalisation/external_memory/` and are GENERATED / LOCAL-ONLY.
+
+No new EM-2 Test result was opened.

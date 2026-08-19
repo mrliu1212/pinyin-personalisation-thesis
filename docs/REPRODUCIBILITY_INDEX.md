@@ -84,7 +84,7 @@ Set-Location C:\Users\chiar\Desktop\LBH\thesis-reproduce-dataset-v1-1
 
 ## 3. Evaluation V2 Design
 
-- **Purpose:** freeze six-author chronological History/Dev/Test works and 6,000 anchors expanded to 24,000 Full/Initial × Short/Multi3 conditions.
+- **Purpose:** freeze six-author chronological History/Dev/Test works and 6,000 anchors expanded to 24,000 Full/Initial 脳 Short/Multi3 conditions.
 - **Required input:** exact Dataset V1 artifact, 2,048,557,493 bytes, SHA-256 `8d1a98e18a5f7ed997930b65bbd1149c3d52daaa22ac2c59771256a966648da2`.
 - **Implementation/config:** `src/evaluation/deep_author_v2.py`, `config/deep_author/evaluation_v2.yaml`, tag-specific CLI that enables only design.
 - **Exact command:**
@@ -118,11 +118,11 @@ Set-Location C:\Users\chiar\Desktop\LBH\thesis-reproduce-t1
 
 ## 5. Personalisation Pilot A and formal F/M1 H5000
 
-### Pilot A implementation — LEGACY
+### Pilot A implementation -LEGACY
 
 The exploratory Dev-only runner is `experiments/personalisation_pilot_a.py`; it established strict chronology, F, M1, BGE caching, and Dev separation. It is superseded for formal T1 comparison by the H5000 runner. The CLI phases are preserved, but this checkpoint should not be presented as the completed H5000 Test result.
 
-### F/M1 H5000 completed local result — LOCAL-ARTIFACT-DEPENDENT
+### F/M1 H5000 completed local result -LOCAL-ARTIFACT-DEPENDENT
 
 - **Purpose:** reuse 6,000 frozen Full+Short Test Generic rows, tune F/M1 on earlier Dev, and evaluate H5000.
 - **Inputs/models:** `$dataset`, `$pinyingpt`, `$bge`, `$t1`.
@@ -143,11 +143,11 @@ Set-Location C:\Users\chiar\Desktop\LBH\thesis-personalisation
 
 ## 6. M2 H5000
 
-### Implementation checkpoint — LEGACY
+### Implementation checkpoint -LEGACY
 
 `personalisation-m2-h5000-implementation-v1` preserves the pre-result implementation. Use the completed-result tag for reproduction of the reported checkpoint.
 
-### Completed result — LOCAL-ARTIFACT-DEPENDENT
+### Completed result -LOCAL-ARTIFACT-DEPENDENT
 
 - **Purpose:** candidate-aware pretrained cross-encoder reranking after unchanged BGE Stage-1 retrieval.
 - **Inputs/models:** completed M1 artifacts, `$dataset`, `$pinyingpt`, `$bge`, `$reranker`, `$t1`.
@@ -167,11 +167,11 @@ Set-Location C:\Users\chiar\Desktop\LBH\thesis-personalisation
 
 ## 7. Personal Vocabulary H5000
 
-### Implementation checkpoint — LEGACY
+### Implementation checkpoint -LEGACY
 
 `personal-vocabulary-h5000-implementation-v1` is superseded by the completed-result tag.
 
-### Completed result — LOCAL-ARTIFACT-DEPENDENT
+### Completed result -LOCAL-ARTIFACT-DEPENDENT
 
 - **Purpose:** PV0 recoverability plus PV1 frequency injection and PV2 context support over frozen prior results.
 - **Inputs:** completed T1/M1/M2 artifacts and their hashes; `$dataset`, `$pinyingpt`, `$bge`, `$t1`.
@@ -189,9 +189,9 @@ Set-Location C:\Users\chiar\Desktop\LBH\thesis-personalisation
 - **Headline:** 160/538 Generic-missing targets PV0-recoverable; PV1 Macro-author Top-1 `0.779`, Missing@10 `0.0661667`; PV2 context net Top-1 help `-5` versus PV1.
 - **Cache:** prior results and BGE cache are reusable; local-only states/predictions must be preserved.
 
-## 8. Reranking Personalisation Matrix — PARTIAL
+## 8. Reranking Personalisation Matrix -PARTIAL
 
-- **Purpose:** planned 4 conditions × H500/H5000/HFull × F/M1/M2 matrix with Dev selection and cache reuse.
+- **Purpose:** planned 4 conditions 脳 H500/H5000/HFull 脳 F/M1/M2 matrix with Dev selection and cache reuse.
 - **Identity:** implementation tag above; later fixes at `2318dbb`, `4c95c54`, and operator docs at `617a20f`. Archival tag `personalisation-v1-long-context-matrix` points to `617a20f`.
 - **Implementation/CLI:** `src/personalisation/reranking_matrix.py`; `experiments/reranking_personalisation_matrix.py`.
 - **Preserved command:**
@@ -208,7 +208,7 @@ $common = @('--dataset-root',$dataset,'--pinyingpt-model',$pinyingpt,
 - **Status rationale:** the 36-cell result did not complete and was intentionally stopped. Do not infer aggregate results from partial cells and do not resume it as the current research direction.
 - **Cache:** all Generic/BGE/M2 caches and partial cells are important local-only evidence.
 
-## 9. Context Diagnostic A — LOCAL-ARTIFACT-DEPENDENT
+## 9. Context Diagnostic A -LOCAL-ARTIFACT-DEPENDENT
 
 - **Purpose:** determine whether contextual failure arises from missing history, retrieval, or evidence/decision competition.
 - **Population:** Full+Short/H5000, 3 exploratory authors, 3,000 Test anchors for the consolidated A2/A2b analysis; A1 also recorded the other three conditions.
@@ -229,7 +229,7 @@ Set-Location C:\Users\chiar\Desktop\LBH\thesis-context-lab
 - **Local provenance:** inspected A1 summary SHA-256 `bd22268f9f32bb4e6b7a181a0d9cc6e79565b33f6a9c69ee5abbc9fceac50704`.
 - **Cache:** the A1 audit does not generate missing vectors; the original local BGE cache is required.
 
-## 10. Context Strengthening — LOCAL-ARTIFACT-DEPENDENT
+## 10. Context Strengthening -LOCAL-ARTIFACT-DEPENDENT
 
 - **Purpose:** test local personal-memory context windows, select representation on Dev, retune M1, and run the frozen 3-author Test configuration.
 - **Population:** Full+Short/H5000; Etinjat, Re_spectators, breaddddd.
@@ -269,7 +269,7 @@ foreach ($window in 'full','64','16','8') {
 - **Critical cache/input status:** local ctx64 SQLite caches are reusable. The final Test script also requires `pilot_a_context_memory/h5000/test_manifest.jsonl`, `history_manifest.jsonl`, and `reranking_matrix/cells/full_short/HFull/M1/predictions.jsonl`. The last file is an untracked partial-matrix artifact, hash `2fb51352...bcab`, and must be preserved.
 - **Discrepancy:** the completed report contains no reproduction section; the sequence above is derived from the tagged frozen CLIs. The helper `generate_dev_evaluation_generic.py` writes an alternate namespace not referenced by the frozen runners, so it is not included in the canonical sequence.
 
-## 11. External Memory Completion — PARTIAL
+## 11. External Memory Completion -PARTIAL
 
 - **Purpose:** active planned sequence EM-1 recovery+F, EM-2 PinyinGPT hidden-state kNN, EM-3 IME-specific cross-encoder, EM-4 final fusion/freeze.
 - **Evidence:** untracked `docs/external_memory/EXTERNAL_MEMORY_COMPLETION_PLAN_2026-08-19.md`.
@@ -284,7 +284,7 @@ These tags are genuine preserved checkpoints but are not the current research li
 | --- | --- | --- | --- |
 | IME Simulator v0.1/v0.2 | `ime-simulator-v0.1` (`6750bee`), `ime-simulator-v0.2` (`ad69543`) | PARTIAL | Use separate tagged worktrees; tag-specific tool/research docs and code are preserved, but this audit did not establish one exact end-to-end launch/reproduction command. |
 | LiveChat Generic Baseline v1 | `livechat-generic-baseline-v1` (`c594e2a`) | LOCAL-ARTIFACT-DEPENDENT | Frozen baseline code/tag exists; large LiveChat data/predictions are local. Inspect the tag in a separate worktree before running. |
-| Historical HuoziIME Phases 3–4E | `phase-03`, `phase-04a`, `phase-04b`, `phase-04b6`, `phase-04b7`, `phase-04c-setup`, `phase-04c`, `phase-04c-complete`, `phase-04d-setup`, `phase-04d`, `phase-04e-implementation` | LEGACY | Superseded thesis direction. Tag-specific `docs/phases/`, configs, runners and reports must be used; current PinyinGPT/personalisation code must not reinterpret them. |
+| Historical HuoziIME Phases 3-E | `phase-03`, `phase-04a`, `phase-04b`, `phase-04b6`, `phase-04b7`, `phase-04c-setup`, `phase-04c`, `phase-04c-complete`, `phase-04d-setup`, `phase-04d`, `phase-04e-implementation` | LEGACY | Superseded thesis direction. Tag-specific `docs/phases/`, configs, runners and reports must be used; current PinyinGPT/personalisation code must not reinterpret them. |
 | HuoziIME Phase 4F | `phase-04f` (`3e0cde2`) | PARTIAL | The tag contains implementation, audit artifacts, backend manifest and smoke test, but the code-defined final `results/experiments/phase_04f/evaluation.json` is absent from the tag/current history. Do not infer final benchmark numbers from smoke output. |
 | Phase 4F Windows compatibility | `phase-04f-windows-compat` (`d23e9a7`) | LEGACY | Platform/build compatibility checkpoint. It preserves Windows smoke output separately and does not create the missing Phase 4F final evaluation artifact. |
 
@@ -312,7 +312,7 @@ Do not delete the following before a separate archival review:
 - `reranking_matrix/cells/full_short/HFull/M1/predictions.jsonl`, because Context Strengthening reproduction currently depends on it.
 
 
-## EM-1 — Exact-Scored Personal Candidate Recovery
+## EM-1 -Exact-Scored Personal Candidate Recovery
 
 Status: FROZEN
 
@@ -356,3 +356,53 @@ Generated outputs live under:
 
 Generated result files are not the sole source of truth. Use the frozen
 method/configuration, provenance hashes, and reproduction record above.
+
+<!-- EM2-2026-08-19-INDEX -->
+## External Memory EM-2 -2026-08-19
+
+Status: **SUPERSEDED by the final EM-2 closure record below.**
+
+Primary report:
+
+- `docs/external_memory/em2/stages/EM2_PROGRESS_REPORT_2026-08-19.md`
+
+Critical dependencies:
+
+- frozen PinyinGPT2-Concat checkpoint under `C:\Users\chiar\Desktop\LBH\thesis\.build\pinyingpt2-concat`
+- frozen Pilot/Dev manifests and Generic cache under `C:\Users\chiar\Desktop\LBH\thesis-personalisation\results\personalisation\pilot_a_context_memory`
+- frozen Original M2 pair cache under `C:\Users\chiar\Desktop\LBH\thesis-personalisation\results\personalisation\m2_h5000\cache\pair_scores.sqlite3`
+- frozen `bge-reranker-base` checkpoint under `C:\Users\chiar\Desktop\LBH\thesis\.build\bge-reranker-base`
+- EM-2 hidden cache `results/personalisation/external_memory/em2_hidden_dev/hidden_states.sqlite3`
+
+Important hashes:
+
+- Generic Dev cache: `588aa84c6397e8cb1a13576c0d5dfecd9dd2c4305b45be351328dd83ef62007d`
+- EM-2 hidden cache: `9a80a3314c184ccf3f0540916203c651474fad162dc3dab1fc97f7451f441df1`
+
+Exact verified commands for Hidden cache, Hidden-M1, four-way comparison, Original M2 control, Hidden-M2, and Fixed G+F+C are preserved in the stage report.
+
+
+
+
+<!-- EM2-FINAL-CLOSE-2026-08-19 -->
+## EM-2 final closure
+
+Status: **COMPLETE / LOCAL-ARTIFACT-DEPENDENT**
+
+Canonical reproduction record:
+
+- `docs/external_memory/em2/EM2_REPRODUCIBILITY_2026-08-19.md`
+
+Canonical scientific report:
+
+- `docs/external_memory/em2/EM2_FINAL_REPORT_2026-08-19.md`
+
+Stage checkpoint tag:
+
+- `external-memory-em2-closed-20260819`
+
+The canonical record contains runner commands, required model/data/cache paths, frozen hashes, expected Dev checkpoints, and the recovered EM-2A / EM-2C invocations.
+
+Large generated caches/results remain local evidence and are not committed as normal source files.
+
+EM-2 is frozen at Dev stage. No new EM-2 Test was opened.

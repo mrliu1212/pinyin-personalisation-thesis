@@ -39,13 +39,13 @@ At inspection, `work/reranking-matrix` was 18 commits ahead of local `main` and 
 
 Recent relevant commits, newest first:
 
-- `4c95c54` — release inactive PyTorch CUDA blocks after owned PinyinGPT Dev inference, before llama.cpp/BGE.
-- `2318dbb` — bucket variable-length Dev Generic requests by prompt/target token shape; preserve frozen row order and crash-safe journals.
-- `4e2c6ea` — implement the 36-cell resumable reranking matrix.
-- `a83757e` / `483aa73` — Personal Vocabulary H5000 result / implementation.
-- `fb7abca` / `dd0753b` — M2 H5000 result / implementation.
-- `8e26cdb` and earlier Pilot A commits — M1/F H5000 and Dev pilot.
-- `14d584a`, `5d270cd`, `8c608f1`, `b145f2d` — T1 result, resumable inference, backend integration, Evaluation V2 design.
+- `4c95c54` - release inactive PyTorch CUDA blocks after owned PinyinGPT Dev inference, before llama.cpp/BGE.
+- `2318dbb` - bucket variable-length Dev Generic requests by prompt/target token shape; preserve frozen row order and crash-safe journals.
+- `4e2c6ea` - implement the 36-cell resumable reranking matrix.
+- `a83757e` / `483aa73` - Personal Vocabulary H5000 result / implementation.
+- `fb7abca` / `dd0753b` - M2 H5000 result / implementation.
+- `8e26cdb` and earlier Pilot A commits - M1/F H5000 and Dev pilot.
+- `14d584a`, `5d270cd`, `8c608f1`, `b145f2d` - T1 result, resumable inference, backend integration, Evaluation V2 design.
 
 Relevant tags are `reranking-personalisation-matrix-implementation-v1`, `personal-vocabulary-h5000-result-v1`, `personalisation-m2-h5000-result-v1`, `personalisation-pilot-a-h5000-implementation-v1`, `deep-author-evaluation-v2-t1`, `deep-author-evaluation-v2-design`, and the Dataset V1/V1.1 tags. Use `git show <tag>` to resolve annotated tags to commits.
 
@@ -53,9 +53,9 @@ The tracked tree was clean before this handoff; large local result/cache directo
 
 Other worktrees/branches:
 
-- `C:\Users\chiar\Desktop\LBH\thesis` — `work/livechat-multitoken-abbreviation-audit`.
-- `C:\Users\chiar\Desktop\LBH\thesis-deep-author` — `work/deep-author-evaluation-v2`; owns the frozen T1 prediction cache used by the matrix.
-- `C:\Users\chiar\Desktop\LBH\thesis-ime-simulator` — `work/ime-simulator`.
+- `C:\Users\chiar\Desktop\LBH\thesis` - `work/livechat-multitoken-abbreviation-audit`.
+- `C:\Users\chiar\Desktop\LBH\thesis-deep-author` - `work/deep-author-evaluation-v2`; owns the frozen T1 prediction cache used by the matrix.
+- `C:\Users\chiar\Desktop\LBH\thesis-ime-simulator` - `work/ime-simulator`.
 - Historical personalisation branches remain navigable by tags and `work/personalisation-pilot-a`, `work/personal-vocabulary`.
 
 Safe Git commands:
@@ -87,52 +87,52 @@ Do not switch this worktree while its worker is alive. A new experimental branch
 
 ### Dataset and Evaluation V2
 
-- `experiments/prepare_deep_author_dataset.py` — CLI for dataset acquisition/preparation.
-- `src/datasets/deep_author/pipeline.py` — provenance, cleaning, tokenization, Pinyin conversion, Dataset V1.1 interactions, and the `CONTEXT_CHARACTER_LIMIT`.
-- `config/deep_author/run_config.yaml` — Dataset V1.1 frozen preparation parameters.
-- `experiments/deep_author_evaluation_v2.py` — Evaluation V2 design/T1 CLI.
-- `src/evaluation/deep_author_v2.py` — frozen anchors, Full/Initial and Short/Multi3 conditions, chronological split, T1 inference, validation, and generic metrics.
-- `config/deep_author/evaluation_v2.yaml` — authoritative Dataset V1 source/hash, six authors, split/sampling rules, model revisions, beam 16, Top-10.
-- `results/evaluation/deep_author_v2/design/work_split_manifest.csv` — per-work chronological History/Dev/Test assignment.
-- `results/evaluation/deep_author_v2/design/t1_anchor_manifest.csv` — 6,000 frozen Test anchors.
-- `results/evaluation/deep_author_v2/design/t1_condition_manifest.jsonl` — 24,000 paired Test conditions (four per anchor), normalized SHA-256 `45b9caf...0d39`.
-- `C:\...\thesis-deep-author\results\evaluation\deep_author_v2\t1\predictions.jsonl` — immutable 24,000 Generic Test predictions, SHA-256 `764db398...ee4e2`.
+- `experiments/prepare_deep_author_dataset.py` - CLI for dataset acquisition/preparation.
+- `src/datasets/deep_author/pipeline.py` - provenance, cleaning, tokenization, Pinyin conversion, Dataset V1.1 interactions, and the `CONTEXT_CHARACTER_LIMIT`.
+- `config/deep_author/run_config.yaml` - Dataset V1.1 frozen preparation parameters.
+- `experiments/deep_author_evaluation_v2.py` - Evaluation V2 design/T1 CLI.
+- `src/evaluation/deep_author_v2.py` - frozen anchors, Full/Initial and Short/Multi3 conditions, chronological split, T1 inference, validation, and generic metrics.
+- `config/deep_author/evaluation_v2.yaml` - authoritative Dataset V1 source/hash, six authors, split/sampling rules, model revisions, beam 16, Top-10.
+- `results/evaluation/deep_author_v2/design/work_split_manifest.csv` - per-work chronological History/Dev/Test assignment.
+- `results/evaluation/deep_author_v2/design/t1_anchor_manifest.csv` - 6,000 frozen Test anchors.
+- `results/evaluation/deep_author_v2/design/t1_condition_manifest.jsonl` - 24,000 paired Test conditions (four per anchor), normalized SHA-256 `45b9caf...0d39`.
+- `C:\...\thesis-deep-author\results\evaluation\deep_author_v2\t1\predictions.jsonl` - immutable 24,000 Generic Test predictions, SHA-256 `764db398...ee4e2`.
 
 ### Generic PinyinGPT
 
-- `src/reference_backend_pinyingpt/backend.py` — checkpoint/tokenizer loading, Pinyin segmentation, Concat prompt, fit-to-position truncation, single/batched beam decoding, fixed-candidate scoring.
-- `experiments/exp_pinyingpt_reference.py` — small reference-backend experiment/smoke CLI.
-- `docs/third_party/pinyingpt.md` — checkpoint/paper/code provenance and reproduction audit.
-- `src/evaluation/deep_author_v2.py:T1Runner` — durable frozen T1 cache and metrics.
-- `src/personalisation/pilot_a.py:PilotRunner.generic` — Dev-only Generic generation for Pilot A.
-- `src/personalisation/reranking_matrix.py:ensure_dev_generic` — condition-specific Dev Generic cache/journal, length-compatible batching, row-order materialization, CUDA transition cleanup.
+- `src/reference_backend_pinyingpt/backend.py` - checkpoint/tokenizer loading, Pinyin segmentation, Concat prompt, fit-to-position truncation, single/batched beam decoding, fixed-candidate scoring.
+- `experiments/exp_pinyingpt_reference.py` - small reference-backend experiment/smoke CLI.
+- `docs/third_party/pinyingpt.md` - checkpoint/paper/code provenance and reproduction audit.
+- `src/evaluation/deep_author_v2.py:T1Runner` - durable frozen T1 cache and metrics.
+- `src/personalisation/pilot_a.py:PilotRunner.generic` - Dev-only Generic generation for Pilot A.
+- `src/personalisation/reranking_matrix.py:ensure_dev_generic` - condition-specific Dev Generic cache/journal, length-compatible batching, row-order materialization, CUDA transition cleanup.
 
 ### Personalisation
 
-- `src/personalisation/context_memory.py` — shared F and M1 formulas, exact visible-history logic, subset labels, rank metrics, and macro-author aggregation.
-- `src/personalisation/pilot_a.py` — BGE GGUF embedder/cache, budget-before-Pinyin `HistoryIndex`, Pilot A manifests and orchestration.
-- `src/personalisation/h5000.py` — frozen Full+Short H5000 M1/F runner and T1 hash validation.
-- `src/personalisation/candidate_memory_m2.py` — M2 pair identity/template, balanced recent-context truncation, Cross-Encoder runtime, pair cache, and final M2 support formula.
-- `src/personalisation/m2_h5000.py` — M2 grids, Stage-1 BGE retrieval, pair scoring and completed H5000 runner.
-- `src/personalisation/pv_h5000.py` — separate completed Personal Vocabulary experiment; not part of the matrix candidate fusion.
+- `src/personalisation/context_memory.py` - shared F and M1 formulas, exact visible-history logic, subset labels, rank metrics, and macro-author aggregation.
+- `src/personalisation/pilot_a.py` - BGE GGUF embedder/cache, budget-before-Pinyin `HistoryIndex`, Pilot A manifests and orchestration.
+- `src/personalisation/h5000.py` - frozen Full+Short H5000 M1/F runner and T1 hash validation.
+- `src/personalisation/candidate_memory_m2.py` - M2 pair identity/template, balanced recent-context truncation, Cross-Encoder runtime, pair cache, and final M2 support formula.
+- `src/personalisation/m2_h5000.py` - M2 grids, Stage-1 BGE retrieval, pair scoring and completed H5000 runner.
+- `src/personalisation/pv_h5000.py` - separate completed Personal Vocabulary experiment; not part of the matrix candidate fusion.
 
 ### Matrix
 
-- `experiments/reranking_personalisation_matrix.py` — CLI phases: `audit`, `smoke`, `run`, `finalize`.
-- `src/personalisation/reranking_matrix.py` — 36-cell runner, manifests, shared caches, Dev selection, evaluation, diagnostics, resume and finalization.
-- `results/personalisation/reranking_matrix/matrix_manifest.json` — authoritative cell state.
-- `.../cells/<condition>/<budget>/<method>/` — row predictions plus `result.json` for each completed new cell.
-- `.../selections/<condition>/<budget>/` — Dev grid CSVs and selected parameters.
-- `.../COMPLETE.json` — authoritative aggregate completion marker; `incomplete` until all cells finish.
-- `matrix_resume_stdout.log` / `matrix_resume_stderr.log` — current detached worker logs. Detached launching is operational PowerShell, not a repository service.
+- `experiments/reranking_personalisation_matrix.py` - CLI phases: `audit`, `smoke`, `run`, `finalize`.
+- `src/personalisation/reranking_matrix.py` - 36-cell runner, manifests, shared caches, Dev selection, evaluation, diagnostics, resume and finalization.
+- `results/personalisation/reranking_matrix/matrix_manifest.json` - authoritative cell state.
+- `.../cells/<condition>/<budget>/<method>/` - row predictions plus `result.json` for each completed new cell.
+- `.../selections/<condition>/<budget>/` - Dev grid CSVs and selected parameters.
+- `.../COMPLETE.json` - authoritative aggregate completion marker; `incomplete` until all cells finish.
+- `matrix_resume_stdout.log` / `matrix_resume_stderr.log` - current detached worker logs. Detached launching is operational PowerShell, not a repository service.
 
 ### Documentation record
 
-- `RESEARCH_TARGETS.md` — current thesis direction and non-goals.
-- `docs/VERSION_HISTORY.md` — chronological checkpoint index.
-- `docs/research/*.md` — method/protocol definitions.
-- `docs/reports/01...07_*.md` — chronological dataset, evaluation, baseline, and experiment reports.
-- `README.md` — manual commands and operator workflow.
+- `RESEARCH_TARGETS.md` - current thesis direction and non-goals.
+- `docs/VERSION_HISTORY.md` - chronological checkpoint index.
+- `docs/research/*.md` - method/protocol definitions.
+- `docs/reports/01...07_*.md` - chronological dataset, evaluation, baseline, and experiment reports.
+- `README.md` - manual commands and operator workflow.
 
 ## 3. High-risk functions and classes
 
@@ -364,10 +364,10 @@ For detached execution, use `Start-Process` as documented in `docs/research/rera
 
 At **2026-08-18 12:08 CEST**, worker PID 16396 (venv launcher 20444) was alive. `COMPLETE.json` was `incomplete`; stderr contained llama.cpp informational embedding messages but zero `Traceback` entries.
 
-- complete: 12 — Full+Short H500/HFull F/M1/M2 and Initial+Short H500/H5000 F/M1/M2.
-- reused_complete: 3 — Full+Short H5000 F/M1/M2.
-- running: 3 — Initial+Short HFull F/M1/M2.
-- failed: 18 — Full+Multi3 and Initial+Multi3 groups; these are historical BGE-load failure states awaiting deterministic retry, not current active errors.
+- complete: 12 - Full+Short H500/HFull F/M1/M2 and Initial+Short H500/H5000 F/M1/M2.
+- reused_complete: 3 - Full+Short H5000 F/M1/M2.
+- running: 3 - Initial+Short HFull F/M1/M2.
+- failed: 18 - Full+Multi3 and Initial+Multi3 groups; these are historical BGE-load failure states awaiting deterministic retry, not current active errors.
 
 Latest inspected stdout had finished `test-initial_short-H5000` M2 pair scoring (43,514/43,514) and entered Initial+Short HFull with Dev Generic 16,171/16,171 reused. Re-read the manifest/log for current truth.
 
@@ -377,7 +377,7 @@ Launch command is the `--phase run` command above, detached with stdout/stderr a
 
 1. **Windows Phase 4F infrastructure:** Unix-only telemetry, offline model reuse, Windows librime/adapter paths and platform-specific smoke results were handled before this branch; tags `phase-04f-windows-compat` and `phase-04f` preserve that history.
 2. **Dev Generic variable-length batch failure:** adjacent Dev rows had different prompt/target token lengths. Commit `2318dbb` groups by both lengths, batches compatible rows, journals results and restores frozen row order. Tests cover mixed lengths, resume and no recomputation.
-3. **PinyinGPT→BGE transition:** after full Dev Generic CUDA work, llama.cpp reported a generic model-load failure although the pinned GGUF was healthy. Standalone CUDA loading and embedding succeeded. Commit `4c95c54` drops the owned PinyinGPT backend and calls garbage collection plus `torch.cuda.empty_cache()` before llama.cpp. The bounded real cache path and detached resume passed; BGE progressed beyond the old failure.
+3. **PinyinGPT->BGE transition:** after full Dev Generic CUDA work, llama.cpp reported a generic model-load failure although the pinned GGUF was healthy. Standalone CUDA loading and embedding succeeded. Commit `4c95c54` drops the owned PinyinGPT backend and calls garbage collection plus `torch.cuda.empty_cache()` before llama.cpp. The bounded real cache path and detached resume passed; BGE progressed beyond the old failure.
 4. **`LlamaModel.sampler` cleanup AttributeError:** this occurred after failed constructor cleanup in llama-cpp-python 0.3.16. It was secondary noise, not evidence of GGUF damage. A current traceback or failed load still requires diagnosis.
 5. **llama.cpp `init: embeddings required...` messages:** repeated informational stderr output during BGE embedding, not a Python exception.
 6. **SQLite under sandbox:** read-only tooling may fail to open a live WAL database if it cannot create/access shared state. Manual local PowerShell outside a sandbox does not have this Codex restriction.
@@ -399,8 +399,8 @@ Generic T1 metrics are in `deep_author_v2.metric_values/aggregate_metrics`; pers
 
 Per-author metrics live within each cell `result.json` and completed historical CSVs. Row-level predictions are `cells/.../predictions.jsonl`. Join F/M1/M2 by `condition_id` to compute transitions:
 
-- F wrong → M2 correct: `F.gold_rank != 1 and M2.gold_rank == 1`.
-- F correct → M2 wrong: inverse.
+- F wrong -> M2 correct: `F.gold_rank != 1 and M2.gold_rank == 1`.
+- F correct -> M2 wrong: inverse.
 - Oracle headroom: Gold rank 1 in any candidate method versus the chosen system. Missing@10 cannot change in this matrix because candidate surfaces are identical.
 
 Do not derive final matrix values from smoke results. Final aggregate files are written only by successful `finalize`.
@@ -500,7 +500,7 @@ under `docs/data_quality/KNOWN_ISSUES.md`.
 
 Next research stage:
 
-EM-2 — Frozen PinyinGPT hidden-state kNN retrieval.
+EM-2 - Frozen PinyinGPT hidden-state kNN retrieval.
 
 EM-2 should begin as a retrieval diagnostic rather than immediate
 end-to-end reranking. Compare the frozen task-native PinyinGPT
@@ -510,3 +510,23 @@ especially on Ambiguous and Conflict subsets.
 Reproduction:
 
 `docs/external_memory/EM1_REPRODUCIBILITY_2026-08-19.md`
+
+<!-- EM2-FINAL-CLOSE-2026-08-19 -->
+## Active-stage update - EM-2 closed, EM-3 next
+
+EM-2 External Memory is frozen and closed.
+
+Canonical closure:
+
+- `docs/external_memory/em2/EM2_FINAL_REPORT_2026-08-19.md`
+- `docs/external_memory/em2/EM2_REPRODUCIBILITY_2026-08-19.md`
+
+Next active research stage:
+
+**EM-3 - task-specific learned historical relevance.**
+
+Start from:
+
+`docs/external_memory/em2/EM2_TO_EM3_HANDOFF_2026-08-19.md`
+
+Do not reopen EM-2 for hidden-layer sweeps, further M1/M2 tuning, new adaptive-gate engineering, or Test-driven redesign.

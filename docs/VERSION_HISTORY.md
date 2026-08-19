@@ -14,14 +14,14 @@ This is a navigation index for frozen research and software checkpoints. Detaile
 | IME Simulator v0.1 | Full-Pinyin-only interactive CUDA simulator checkpoint | `ime-simulator-v0.1` / `6750bee` | `ime-simulator-v0.1:docs/tools/ime_simulator.md` |
 | IME Simulator v0.2 | Unified mixed Full/Abbreviated Pinyin constraints, parsing, and one-search simulator integration | `ime-simulator-v0.2` / `ad69543` | `ime-simulator-v0.2:docs/research/mixed_pinyin_extension.md` |
 | Evaluation V2 T1 Generic Baseline | Completed 24,000-condition Dataset V1 development baseline using semantic-equivalent KV-cache inference | `deep-author-evaluation-v2-t1`; implementation `8c608f1`, `5d270cd` | [T1 Generic PinyinGPT Baseline](reports/03_t1_generic_pinyingpt_baseline.md) |
-| Personalisation Pilot A — Context-Aware Memory Implementation | Dev-only Full+Short chronological frequency/context-memory ranking, resumable caches, and manual runner | branch `work/personalisation-pilot-a`; `f335715`, `22eb1e0`; `personalisation-pilot-a-implementation-v1` | [Method](research/context_aware_personal_memory.md) · [Report](reports/04_personalisation_pilot_a_context_memory.md) |
-| Personalisation Pilot A — Completed M1 H5000 result | Exact 6,000-anchor T1 Full+Short evaluation; G0 `0.7231666666666667`, Frequency `0.7718333333333334`, M1 `0.7675000000000001` Overall Macro-author Top-1 | implementation `personalisation-pilot-a-h5000-implementation-v1`; durable local result completed 2026-08-17 | [Method](research/context_aware_personal_memory.md) · [Completed report](reports/04_personalisation_pilot_a_context_memory.md) |
+| Personalisation Pilot A - Context-Aware Memory Implementation | Dev-only Full+Short chronological frequency/context-memory ranking, resumable caches, and manual runner | branch `work/personalisation-pilot-a`; `f335715`, `22eb1e0`; `personalisation-pilot-a-implementation-v1` | [Method](research/context_aware_personal_memory.md) · [Report](reports/04_personalisation_pilot_a_context_memory.md) |
+| Personalisation Pilot A - Completed M1 H5000 result | Exact 6,000-anchor T1 Full+Short evaluation; G0 `0.7231666666666667`, Frequency `0.7718333333333334`, M1 `0.7675000000000001` Overall Macro-author Top-1 | implementation `personalisation-pilot-a-h5000-implementation-v1`; durable local result completed 2026-08-17 | [Method](research/context_aware_personal_memory.md) · [Completed report](reports/04_personalisation_pilot_a_context_memory.md) |
 | Personalisation M2 H5000 implementation | Pretrained candidate-aware BGE reranker over unchanged BGE Stage-1 retrieval, frozen T1/M1 population and candidate surface; final result pending background run | branch `work/personalisation-pilot-a`; `personalisation-m2-h5000-implementation-v1` | [M2 method](research/candidate_aware_personal_memory_m2.md) · [Pending report](reports/05_personalisation_m2_h5000.md) |
 | Personalisation M2 H5000 completed result | Exact 6,000-anchor result; M2 Overall Macro-author Top-1 `0.765`; unchanged candidate pool and 538 Missing@10; Test did not select parameters | `personalisation-m2-h5000-result-v1` | [M2 method](research/candidate_aware_personal_memory_m2.md) · [Completed report](reports/05_personalisation_m2_h5000.md) |
 | Personal Vocabulary H5000 implementation | Bounded PV0 recoverability, PV1 frequency injection, and PV2 reused-BGE context injection over frozen T1/M1/M2; final result pending at this checkpoint | branch `work/personal-vocabulary`; `personal-vocabulary-h5000-implementation-v1` | [Method](research/personal_vocabulary.md) · [Report](reports/06_personal_vocabulary_h5000.md) |
 
 
-## 2026-08-19 — EM-1 completed
+## 2026-08-19 - EM-1 completed
 
 Completed EM-1 External Memory Recovery + Frequency Fusion.
 
@@ -90,3 +90,30 @@ Detailed records:
 - `docs/external_memory/EM1_DEV_SELECTION_2026-08-19.md`
 - `docs/external_memory/EM1_TEST_RESULT_2026-08-19.md`
 - `docs/external_memory/EM1_REPRODUCIBILITY_2026-08-19.md`
+
+<!-- EM2-2026-08-19-INDEX -->
+## 2026-08-19 - External Memory EM-2 progress
+
+- validated Frozen PinyinGPT final-layer final-[SEP] hidden state as a task-native 768-d retrieval key;
+- cached 11,475 required Dev hidden states with zero additional context truncation;
+- showed stronger same-surface hidden-state retrieval than BGE Full and BGE ctx64;
+- found that Hidden-M1 was almost identical to Original M1 end-to-end despite stronger retrieval;
+- found that Hidden-M2 improved slightly over Original M2 but did not beat the M1 family;
+- tested fixed `G + F + C_hidden` fusion; selected `lambda_F=0.5`, `lambda_C=4`, but obtained essentially no gain over Hidden-M1;
+- preserved Test closure for the new EM-2 methods;
+- next planned step: transparent prediction-visible Adaptive Fusion on Dev.
+
+
+<!-- EM2-FINAL-CLOSE-2026-08-19 -->
+## 2026-08-19 - EM-2 External Memory closed
+
+- validated and froze the PinyinGPT final-layer final-[SEP] 768-d hidden representation;
+- cached the required causal H5000 Dev hidden states with zero additional model-limit truncation;
+- showed stronger same-surface hidden-state retrieval than BGE Full and BGE ctx64;
+- found Hidden-M1 approximately tied with Original M1 end-to-end despite stronger retrieval;
+- found Hidden-M2 slightly stronger than Original M2 but still below the M1 family;
+- found fixed G+F+C approximately tied with Hidden-M1;
+- found the registered count-aware Adaptive Fusion worse than Hidden-M1/Fixed GFC;
+- retained the no-count adaptive variant as a diagnostic only;
+- closed EM-2 without opening new Test results;
+- handed the unresolved history-to-candidate-decision problem to EM-3.

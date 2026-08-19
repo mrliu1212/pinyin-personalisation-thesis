@@ -1,4 +1,4 @@
-﻿# External Memory Completion Plan — 2026-08-19
+# External Memory Completion Plan - 2026-08-19
 
 ## Scope
 
@@ -11,7 +11,7 @@ Development scope:
 
 The purpose of this stage is to complete the non-parametric External Memory system before starting model-level Adapter/LoRA personalisation.
 
-## EM-1 — Candidate Recovery + Reranking
+## EM-1 - Candidate Recovery + Reranking
 
 Primary question:
 
@@ -103,7 +103,7 @@ This experiment must distinguish:
 1. candidate coverage improvement;
 2. conversion of recovered candidates into ranking improvement.
 
-## EM-2 — PinyinGPT Hidden-State kNN
+## EM-2 - PinyinGPT Hidden-State kNN
 
 Primary question:
 
@@ -128,7 +128,7 @@ Secondary diagnostics:
 First evaluate retrieval quality.
 Only run end-to-end reranking if the task-native representation provides useful retrieval evidence.
 
-## EM-3 — IME-Specific Cross-Encoder
+## EM-3 - IME-Specific Cross-Encoder
 
 Primary question:
 
@@ -163,7 +163,7 @@ Focus especially on:
 - Ambiguous
 - Conflict
 
-## EM-4 — Final External Memory Fusion
+## EM-4 - Final External Memory Fusion
 
 After EM-1 to EM-3, combine only signals that are supported by Dev evidence.
 
@@ -189,3 +189,22 @@ Not part of this stage:
 - Hypernetwork
 - six-author script-normalised formal evaluation
 
+
+<!-- EM2-FINAL-CLOSE-2026-08-19 -->
+## Status update - EM-2 closed
+
+EM-2 is complete and frozen at Dev stage.
+
+Key conclusion:
+
+> Frozen PinyinGPT hidden states improve personal-history retrieval, but the stronger retrieval signal does not materially improve the existing M1/M2 candidate-decision rules. Fixed and transparent adaptive Frequency/Context fusion also produced no meaningful Overall gain.
+
+EM-2 will not be reopened.
+
+Next active stage:
+
+**EM-3 - IME-specific task-trained historical relevance model.**
+
+Canonical handoff:
+
+`docs/external_memory/em2/EM2_TO_EM3_HANDOFF_2026-08-19.md`
