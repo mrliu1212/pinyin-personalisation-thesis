@@ -463,3 +463,50 @@ Wait for or separately isolate the current worker. Create a new worktree/branch,
 - The matrix is active, so cell states and BGE/M2 counts in this document are snapshots.
 - The exact peak CUDA allocation that caused the original transition failure was not captured before that process exited. The diagnosis is supported by a healthy pinned GGUF, successful standalone and short same-process transitions, the long-run boundary, and successful allocator-release resume; it is an infrastructure diagnosis, not a model-content change.
 - The CLI has no cell-only or metrics-only phase. Add one only as a separately reviewed orchestration feature if genuinely needed.
+
+
+## EM-1 frozen conclusion
+
+EM-1 is complete.
+
+Current frozen EM-1 configuration:
+
+- condition: Full+Short
+- history: H5000
+- authors: Etinjat, Re_spectators, breaddddd
+- recovery K: 1
+- frequency lambda: 4
+
+R now means exact-scored recovery-only, not the older PV1 approximate
+boundary-score recovery.
+
+R+F uses the same exact-scored unified candidate pool plus frequency.
+
+Frozen Test:
+
+- G0 Top1 77.600%
+- F Top1 81.067%
+- R Top1 77.700%
+- R+F Top1 81.033%
+
+EM-1 improves candidate coverage/ranking depth but not overall Top1 beyond
+F. Do not retune K or lambda using Test.
+
+Recovery analysis must distinguish raw Generic Missing from
+backend-reachable Generic Missing.
+
+Backend-unreachable Gold rows remain in primary metrics and are documented
+under `docs/data_quality/KNOWN_ISSUES.md`.
+
+Next research stage:
+
+EM-2 — Frozen PinyinGPT hidden-state kNN retrieval.
+
+EM-2 should begin as a retrieval diagnostic rather than immediate
+end-to-end reranking. Compare the frozen task-native PinyinGPT
+representation against the existing BGE cosine retrieval baseline,
+especially on Ambiguous and Conflict subsets.
+
+Reproduction:
+
+`docs/external_memory/EM1_REPRODUCIBILITY_2026-08-19.md`

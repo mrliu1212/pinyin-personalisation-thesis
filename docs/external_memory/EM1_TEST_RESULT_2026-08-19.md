@@ -1,9 +1,9 @@
-﻿# EM-1 Frozen Test Result
+# EM-1 Frozen Test Result
 
 Status: FROZEN TEST RESULT
 
-Condition: Full+Short
-History: H5000
+Condition: Full+Short  
+History semantics: H5000
 
 Authors:
 - Etinjat
@@ -16,38 +16,74 @@ Dev-frozen configuration:
 
 No Test parameter tuning was performed.
 
-## Overall Test results
+## Why EM-1 was run
+
+Frequency reranking can only reorder candidates already present in the
+Frozen Generic Top10.
+
+EM-1 tests whether strictly-prior personal history can also recover
+Pinyin-compatible personal targets that are absent from the Generic
+candidate surface.
+
+The method deliberately separates candidate recovery from reranking.
+
+## Method definitions
 
 G0:
-- Top1: 77.600%
-- Top3: 90.967%
-- MRR@10: 0.8465
-- Missing@10: 4.400%
+Frozen Generic PinyinGPT Top10.
 
 F:
-- Top1: 81.067%
-- Top3: 92.200%
-- MRR@10: 0.8685
-- Missing@10: 4.400%
+Frozen frequency-only reranking over the original Generic candidate set.
 
 R:
-- Top1: 77.700%
-- Top3: 91.067%
-- MRR@10: 0.8476
-- Missing@10: 4.200%
+Add the first backend-compatible personal-only candidate from H5000 history,
+score it exactly with the same Frozen PinyinGPT backend, and rank the unified
+candidate pool by exact PinyinGPT log probability.
 
 R+F:
-- Top1: 81.033%
-- Top3: 92.700%
-- MRR@10: 0.8708
-- Missing@10: 3.733%
+Use the same exact-scored unified candidate pool as R and add the frozen
+frequency signal.
 
-## Incremental R+F effect over F
+This R is the EM-1 exact-scored recovery method and is not the older PV1
+approximate-boundary recovery.
+
+## Frozen Test results
+
+| Method | Top1 | Top3 | MRR@10 | Missing@10 |
+|---|---:|---:|---:|---:|
+| G0 | 77.600% | 90.967% | 0.8465 | 4.400% |
+| F | 81.067% | 92.200% | 0.8685 | 4.400% |
+| R | 77.700% | 91.067% | 0.8476 | 4.200% |
+| R+F | 81.033% | 92.700% | 0.8708 | 3.733% |
+
+## Per-author Top1
+
+G0:
+- Etinjat: 71.700%
+- Re_spectators: 81.400%
+- breaddddd: 79.700%
+
+F:
+- Etinjat: 72.200%
+- Re_spectators: 84.600%
+- breaddddd: 86.400%
+
+R:
+- Etinjat: 71.900%
+- Re_spectators: 81.400%
+- breaddddd: 79.800%
+
+R+F:
+- Etinjat: 71.700%
+- Re_spectators: 84.600%
+- breaddddd: 86.800%
+
+## Incremental F -> R+F
 
 Overall:
 - Rescue: 10
 - Harm: 11
-- Net Top1: -1
+- Net Top1 change: -1
 
 History Available:
 - Rescue: 10
@@ -67,37 +103,36 @@ Conflict:
 ## Recovery analysis
 
 Raw Generic Missing:
-132
+- 132
 
 Backend-reachable Generic Missing:
-122
+- 122
 
 Backend-unreachable Generic Missing:
-10
+- 10
 
-Recovered into unified candidate pool:
-23
+Recovered into the unified candidate pool:
+- 23
 
-Of the 23 recovered Gold targets:
+Of these recovered Gold targets:
 - Final Top10: 21
 - Final Top3: 15
 - Final Top1: 10
 
 ## Interpretation
 
-EM-1 validates personal-history candidate recovery as a candidate-coverage
-mechanism.
+EM-1 validates personal-history recovery as a candidate-coverage mechanism.
 
-Recovery successfully restores Gold targets that are absent from the Frozen
-Generic Top10 and improves Top3, MRR@10, and Missing@10.
+It improves Top3, MRR@10, and Missing@10 by restoring targets omitted from
+the Frozen Generic Top10.
 
-However, on the frozen Test set, R+F does not improve overall Top1 beyond
-the frequency-only F baseline. The incremental F -> R+F Top1 change is
-10 rescues versus 11 harms, for a net change of -1 example.
+It does not improve overall Test Top1 beyond the frequency-only F baseline:
+R+F has 10 rescues and 11 harms relative to F, giving a net Top1 change of
+-1 example.
 
-Therefore EM-1 should not be claimed as a Top1 improvement over F.
+Therefore EM-1 must not be described as a Top1 improvement over F.
 
-Its main contribution is improved candidate availability and ranking depth.
+Its main demonstrated value is candidate availability and ranking depth.
 
 The lack of improvement on Conflict examples also shows that candidate
 recovery alone does not solve context-sensitive personal preference

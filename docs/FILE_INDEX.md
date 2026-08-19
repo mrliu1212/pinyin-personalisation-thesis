@@ -148,3 +148,48 @@ Statuses are `ACTIVE`, `FROZEN`, `HELPER`, `LEGACY`, `DEFERRED`, `GENERATED`, an
 ## Placement recommendations for later review
 
 No files were moved during this audit. Under the policy, `find_full_short_test_manifest.py`, `generate_dev_evaluation_generic.py`, and probably `audit_dataset_v1_script.py` belong under `experiments/helpers/`. The helper-generated Generic directories should remain untouched until their provenance and consumers are reviewed. `TECHNICAL_HANDOFF.md` should eventually be replaced or clearly scoped to the matrix worktree; this audit does not rewrite it.
+
+
+### EM-1 external memory completion
+
+FROZEN / ACTIVE REFERENCE:
+
+- `src/personalisation/external_memory.py`
+  Reusable exact-scored recovery and recovery+frequency fusion logic.
+
+- `experiments/external_memory/em1_score_compatibility.py`
+  Fixed-score vs cached Generic score engineering compatibility gate.
+
+- `experiments/external_memory/em1_recovery_coverage.py`
+  Backend-compatible H5000 recovery coverage diagnostic.
+
+- `experiments/external_memory/em1_gold_reachability.py`
+  Dev Gold/backend reachability audit.
+
+- `experiments/external_memory/em1_gold_reachability_test.py`
+  Test-only aggregate Gold/backend reachability audit; not parameter tuning.
+
+- `experiments/external_memory/em1_score_recovered_dev.py`
+  Exact scoring of Dev recovered candidates.
+
+- `experiments/external_memory/em1_dev_comparison.py`
+  Dev G0/F/R/R+F comparison and frozen parameter selection.
+
+- `experiments/external_memory/em1_score_recovered_test.py`
+  Frozen K=1 three-author Test recovered-candidate exact scoring.
+
+- `experiments/external_memory/em1_test_evaluation.py`
+  Frozen three-author Test evaluation.
+
+Documentation:
+
+- `docs/external_memory/EM1_DEV_SELECTION_2026-08-19.md`
+- `docs/external_memory/EM1_TEST_RESULT_2026-08-19.md`
+- `docs/external_memory/EM1_REPRODUCIBILITY_2026-08-19.md`
+- `docs/data_quality/KNOWN_ISSUES.md`
+
+GENERATED / LOCAL:
+
+- `results/personalisation/external_memory/`
+
+Do not treat generated result files as the sole source of truth.

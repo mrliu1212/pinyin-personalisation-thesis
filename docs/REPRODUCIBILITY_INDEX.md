@@ -310,3 +310,49 @@ Do not delete the following before a separate archival review:
 - all partial long-context matrix cells/manifests/logs/caches;
 - all Context Lab result directories, especially corrected A2b v2, Dev ctx64 caches, frozen selections, final predictions/result;
 - `reranking_matrix/cells/full_short/HFull/M1/predictions.jsonl`, because Context Strengthening reproduction currently depends on it.
+
+
+## EM-1 — Exact-Scored Personal Candidate Recovery
+
+Status: FROZEN
+
+Condition:
+Full+Short / H5000 / Etinjat + Re_spectators + breaddddd.
+
+Dev-frozen configuration:
+- K = 1
+- frequency lambda = 4
+
+Primary detailed reproduction record:
+
+`docs/external_memory/EM1_REPRODUCIBILITY_2026-08-19.md`
+
+Dev selection record:
+
+`docs/external_memory/EM1_DEV_SELECTION_2026-08-19.md`
+
+Frozen Test result:
+
+`docs/external_memory/EM1_TEST_RESULT_2026-08-19.md`
+
+Reusable implementation:
+
+`src/personalisation/external_memory.py`
+
+Formal runners:
+
+- `experiments/external_memory/em1_score_compatibility.py`
+- `experiments/external_memory/em1_recovery_coverage.py`
+- `experiments/external_memory/em1_gold_reachability.py`
+- `experiments/external_memory/em1_gold_reachability_test.py`
+- `experiments/external_memory/em1_score_recovered_dev.py`
+- `experiments/external_memory/em1_dev_comparison.py`
+- `experiments/external_memory/em1_score_recovered_test.py`
+- `experiments/external_memory/em1_test_evaluation.py`
+
+Generated outputs live under:
+
+`results/personalisation/external_memory/`
+
+Generated result files are not the sole source of truth. Use the frozen
+method/configuration, provenance hashes, and reproduction record above.

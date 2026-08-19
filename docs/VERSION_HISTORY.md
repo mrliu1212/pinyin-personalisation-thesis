@@ -19,3 +19,74 @@ This is a navigation index for frozen research and software checkpoints. Detaile
 | Personalisation M2 H5000 implementation | Pretrained candidate-aware BGE reranker over unchanged BGE Stage-1 retrieval, frozen T1/M1 population and candidate surface; final result pending background run | branch `work/personalisation-pilot-a`; `personalisation-m2-h5000-implementation-v1` | [M2 method](research/candidate_aware_personal_memory_m2.md) · [Pending report](reports/05_personalisation_m2_h5000.md) |
 | Personalisation M2 H5000 completed result | Exact 6,000-anchor result; M2 Overall Macro-author Top-1 `0.765`; unchanged candidate pool and 538 Missing@10; Test did not select parameters | `personalisation-m2-h5000-result-v1` | [M2 method](research/candidate_aware_personal_memory_m2.md) · [Completed report](reports/05_personalisation_m2_h5000.md) |
 | Personal Vocabulary H5000 implementation | Bounded PV0 recoverability, PV1 frequency injection, and PV2 reused-BGE context injection over frozen T1/M1/M2; final result pending at this checkpoint | branch `work/personal-vocabulary`; `personal-vocabulary-h5000-implementation-v1` | [Method](research/personal_vocabulary.md) · [Report](reports/06_personal_vocabulary_h5000.md) |
+
+
+## 2026-08-19 — EM-1 completed
+
+Completed EM-1 External Memory Recovery + Frequency Fusion.
+
+### Why
+
+Earlier frequency and context-memory methods could only rerank the Frozen
+Generic candidate surface. EM-1 tested whether strictly-prior personal
+history could recover valid personal targets omitted from Generic Top10.
+
+### What changed
+
+Added exact-scored personal candidate recovery.
+
+Personal-only candidates are taken from H5000 history, filtered against the
+Frozen PinyinGPT constrained vocabulary, and scored using the same Frozen
+PinyinGPT backend through fixed-candidate teacher-forced scoring.
+
+A compatibility gate first confirmed that fixed-candidate scores match
+cached Generic beam scores within the frozen 1e-4 engineering tolerance.
+
+### Dev selection
+
+Three-author Full+Short Dev selected:
+
+- recovery K = 1
+- frequency lambda = 4
+
+Selection metric:
+Macro-author Overall Top1.
+
+The selection was frozen before formal Test evaluation.
+
+### Frozen Test result
+
+Three-author Test:
+
+- G0 Top1: 77.600%
+- F Top1: 81.067%
+- R Top1: 77.700%
+- R+F Top1: 81.033%
+
+R+F improves candidate depth over F:
+
+- Top3: 92.200% -> 92.700%
+- MRR@10: 0.8685 -> 0.8708
+- Missing@10: 4.400% -> 3.733%
+
+But R+F does not improve overall Top1 over F:
+
+- rescue: 10
+- harm: 11
+- net: -1
+
+Recovery restored 23 backend-reachable Generic-missing Gold targets into
+the unified pool; 21 reached Top10, 15 Top3, and 10 Top1.
+
+### Interpretation
+
+EM-1 validates recovery as a candidate-coverage mechanism, not as a
+context-sensitive conflict resolver.
+
+This motivates EM-2 and EM-3.
+
+Detailed records:
+
+- `docs/external_memory/EM1_DEV_SELECTION_2026-08-19.md`
+- `docs/external_memory/EM1_TEST_RESULT_2026-08-19.md`
+- `docs/external_memory/EM1_REPRODUCIBILITY_2026-08-19.md`
