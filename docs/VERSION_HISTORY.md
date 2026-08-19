@@ -117,3 +117,24 @@ Detailed records:
 - retained the no-count adaptive variant as a diagnostic only;
 - closed EM-2 without opening new Test results;
 - handed the unresolved history-to-candidate-decision problem to EM-3.
+
+<!-- EM1_PV_AUDIT_20260819_START -->
+## 2026-08-19 - PV1/PV2 vs EM-1 same-surface explanatory audit
+
+A post-hoc aligned three-author audit connected the earlier Personal Vocabulary
+prototype with EM-1 without changing either frozen result.
+
+- 3,000 aligned Full+Short H5000 Test rows.
+- G and F rank vectors exactly matched between artifacts.
+- Macro Top-1: PV1 `0.804000`, PV2 `0.803333`, EM1-R+F `0.810333`.
+- PV1 -> EM1-R+F paired Top-1: 26 helped, 7 harmed, net `+19`.
+- EM-1 exact-scored 306 recovery rows: 290 same candidate, 16 different.
+- Same-candidate subset contributed net `+17` of the total `+19`.
+- Interpretation: exact recovered-candidate scoring is strongly supported as the
+  principal source of the safer EM-1 behaviour, but this is not a formal
+  single-variable causal ablation because candidate selection differs in 16 rows
+  and other implementation details may also differ.
+
+Detailed record:
+`docs/external_memory/EM1_PV_COMPARISON_ADDENDUM_2026-08-19.md`.
+<!-- EM1_PV_AUDIT_20260819_END -->

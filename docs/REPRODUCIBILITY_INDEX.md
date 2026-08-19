@@ -406,3 +406,64 @@ The canonical record contains runner commands, required model/data/cache paths, 
 Large generated caches/results remain local evidence and are not committed as normal source files.
 
 EM-2 is frozen at Dev stage. No new EM-2 Test was opened.
+
+<!-- EM1_PV_AUDIT_20260819_START -->
+## PV1/PV2 vs EM-1 same-surface audit - 2026-08-19
+
+Status: CLOSED POST-HOC EXPLANATORY AUDIT.
+
+Runner:
+
+```text
+experiments/external_memory/em1_pv_same_surface_audit.py
+```
+
+Primary inputs:
+
+```text
+C:\Users\chiar\Desktop\LBH\thesis-personalisation\
+results\personalisation\personal_vocabulary_h5000\predictions.jsonl
+
+results\personalisation\external_memory\
+em1_test_evaluation\rows.jsonl
+```
+
+Primary generated outputs:
+
+```text
+results\personalisation\external_memory\em1_pv_same_surface_audit\
+    summary.json
+    rows.jsonl
+    candidate_identity_split.json
+```
+
+Key provenance:
+
+```text
+Generic predictions SHA256:
+764db39887f3db04b913d1739d9dbd46295f0e46e5a2bffa649f1563b56ee4e2
+
+Recovered candidate scores SHA256:
+5151d462bd3594fe63d81b244083ec557886d2018f286a92a105c334b307185d
+
+PV / EM-1 Test-state SHA256:
+2912d32b8cd88843e825cb5592dfbc0a06e88e4a58831c632a126d2b8452b061
+```
+
+Observed audit invariants:
+
+```text
+rows = 3000
+authors = Etinjat, Re_spectators, breaddddd
+PV.condition_id == EM1.row_id
+G_rank_exact_equal = True
+F_rank_exact_equal = True
+new Test tuning = False
+new PinyinGPT Test inference = False
+```
+
+Scientific result is recorded in
+`docs/external_memory/EM1_PV_COMPARISON_ADDENDUM_2026-08-19.md`.
+
+Generated result artifacts remain LOCAL-ONLY.
+<!-- EM1_PV_AUDIT_20260819_END -->

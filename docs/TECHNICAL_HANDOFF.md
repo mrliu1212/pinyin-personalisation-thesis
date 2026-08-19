@@ -530,3 +530,42 @@ Start from:
 `docs/external_memory/em2/EM2_TO_EM3_HANDOFF_2026-08-19.md`
 
 Do not reopen EM-2 for hidden-layer sweeps, further M1/M2 tuning, new adaptive-gate engineering, or Test-driven redesign.
+
+<!-- EM1_PV_AUDIT_20260819_START -->
+## Closed explanatory audit before EM-3
+
+The PV1/PV2 -> EM-1 relationship has been audited and is now closed.
+
+Do not describe PV1 -> EM-1 as a pure scoring-only substitution.
+
+Frozen explanatory facts:
+
+```text
+same Test rows: 3000
+same-candidate scored recovery rows: 290 / 306 = 94.77%
+different-candidate scored recovery rows: 16 / 306 = 5.23%
+
+PV1 -> EM1-R+F overall:
+helped 26
+harmed 7
+net +19
+
+same-candidate subset:
+helped 24
+harmed 7
+net +17
+```
+
+PV1 recovered more Generic-missing Gold targets, while EM1-R+F achieved better
+overall Top-1. The evidence strongly suggests that exact PinyinGPT recovered-
+candidate scoring is the principal source of EM-1's safer behaviour, but not
+the sole formally isolated causal difference.
+
+The audit changed no frozen PV or EM-1 result, performed no tuning, and ran no
+new Test PinyinGPT inference.
+
+Detailed record:
+`docs/external_memory/EM1_PV_COMPARISON_ADDENDUM_2026-08-19.md`.
+
+Next research stage: EM-3.
+<!-- EM1_PV_AUDIT_20260819_END -->

@@ -260,3 +260,18 @@ Helper/comparison:
 Generated result/caches remain under `results/personalisation/external_memory/` and are GENERATED / LOCAL-ONLY.
 
 No new EM-2 Test result was opened.
+
+<!-- EM1_PV_AUDIT_20260819_START -->
+## Post-hoc PV1/PV2 vs EM-1 same-surface audit
+
+- `docs/external_memory/EM1_PV_COMPARISON_ADDENDUM_2026-08-19.md`
+  - Status: FROZEN / POST-HOC EXPLANATORY AUDIT.
+  - Records the aligned 3,000-row PV1/PV2 vs EM-1 comparison, candidate-identity audit,
+    interpretation boundary, and provenance.
+- `experiments/external_memory/em1_pv_same_surface_audit.py`
+  - Status: ACTIVE REPRODUCIBILITY HELPER.
+  - Read-only audit runner. No parameter tuning, model training, or new Test inference.
+- Generated evidence under
+  `results/personalisation/external_memory/em1_pv_same_surface_audit/`
+  is GENERATED / LOCAL-ONLY and must not be committed as normal source.
+<!-- EM1_PV_AUDIT_20260819_END -->
