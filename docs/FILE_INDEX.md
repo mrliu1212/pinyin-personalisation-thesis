@@ -275,3 +275,47 @@ No new EM-2 Test result was opened.
   `results/personalisation/external_memory/em1_pv_same_surface_audit/`
   is GENERATED / LOCAL-ONLY and must not be committed as normal source.
 <!-- EM1_PV_AUDIT_20260819_END -->
+
+<!-- EM3-DEV-CHECKPOINT-20260820 -->
+## EM3 Dev-analysis checkpoint — 2026-08-20
+
+Status: **ACTIVE DEV CHECKPOINT / PAUSED BEFORE HEAVY TRAINING**. This is not a
+final EM3 method freeze. Benchmark Test remains closed.
+
+### Canonical navigation and documentation
+
+| Path | Role | Status |
+|---|---|---|
+| `docs/CURRENT_RESEARCH_INDEX_2026-08-20.md` | Canonical first-read worktree, state, provenance, and resume index | ACTIVE |
+| `docs/external_memory/em3/EM3_PROGRESS_2026-08-20.md` | Concise EM3-BCE and final Dev-audit progress checkpoint | ACTIVE |
+| `docs/external_memory/em3/EM3_V2_EXECUTION_PLAN_2026-08-20.md` | Preserved v2 execution plan; closeout controls current resume order | ACTIVE PLANNING |
+| `docs/external_memory/em3/EM3_V2_METHOD_OPTIONS_2026-08-20.md` | Literature-backed method options; not a frozen method | ACTIVE RESEARCH NOTE |
+| `docs/external_memory/em3/EM3_V2_DATA_PREPARATION_2026-08-20.md` | Frozen clean3 author/data policy | ACTIVE |
+| `docs/external_memory/em3/EM3_V2_FAILURE_AUDIT_2026-08-20.md` | Preliminary and final full-surface failure taxonomy | ACTIVE |
+| `docs/external_memory/em3/EM3_ALL_OUTCOME_DISTRIBUTION_RECORD_2026-08-20.md` | Complete 5,608-row G/F/Hidden-M1 distributions and provenance | CANONICAL DIAGNOSTIC |
+| `docs/external_memory/em3/EM3_DEV_CLOSEOUT_2026-08-20.md` | Canonical pause/handoff note and exact resume order | ACTIVE |
+
+### Canonical and provenance runners
+
+| Path | Role | Status |
+|---|---|---|
+| `experiments/external_memory/em3_generate_train_pairs.py` | Deterministic causal pair generator; old-v1 count regression and future clean3 generation | ACTIVE |
+| `experiments/external_memory/em3_all_outcome_audit.py` | Consolidated 5,608-row G/F/Hidden-M1 audit | CANONICAL DIAGNOSTIC |
+| `experiments/external_memory/em3_context_failure_examples.py` | Preliminary 124/59 example extraction | PROVENANCE HELPER |
+| `experiments/external_memory/em3_context_failure_cluster_audit.py` | Failure clustering/diversity audit | PROVENANCE HELPER |
+| `experiments/external_memory/em3_context_outcome_examples.py` | Focused outcome-group examples | PROVENANCE HELPER |
+
+### Generated local-only evidence
+
+- `results/personalisation/external_memory/em3_all_outcome_audit/`
+- `results/personalisation/external_memory/em3_train_pairs_v1/`
+- `results/personalisation/external_memory/em3_train_pairs_v1_regression_audit/`
+- `results/personalisation/external_memory/em3_train_population_audit/`
+- `results/personalisation/external_memory/em3_dev_population_audit/`
+- `results/personalisation/external_memory/em3_bce_v1_final_dev_tune/`
+- `results/personalisation/external_memory/em3_hidden_dev/`
+
+All result trees, JSONL, SQLite, logs, caches, embeddings, checkpoints, and
+generated models remain GENERATED / LOCAL-ONLY and must not be staged as normal
+source artifacts.
+<!-- EM3-DEV-CHECKPOINT-20260820-END -->

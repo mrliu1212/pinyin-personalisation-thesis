@@ -467,3 +467,95 @@ Scientific result is recorded in
 
 Generated result artifacts remain LOCAL-ONLY.
 <!-- EM1_PV_AUDIT_20260819_END -->
+
+<!-- EM3-DEV-CHECKPOINT-20260820 -->
+## EM3 Dev-analysis checkpoint — 2026-08-20
+
+Status: **DEV-STAGE CHECKPOINT / LOCAL-ARTIFACT-DEPENDENT**. EM3 is paused
+before new heavy training; this is not a final method freeze. Test used: **No**.
+
+Canonical records:
+
+- `docs/CURRENT_RESEARCH_INDEX_2026-08-20.md`;
+- `docs/external_memory/em3/EM3_DEV_CLOSEOUT_2026-08-20.md`;
+- `docs/external_memory/em3/EM3_ALL_OUTCOME_DISTRIBUTION_RECORD_2026-08-20.md`;
+- `docs/external_memory/em3/EM3_V2_FAILURE_AUDIT_2026-08-20.md`.
+
+### Consolidated outcome audit
+
+Runner:
+
+```text
+experiments\external_memory\em3_all_outcome_audit.py
+```
+
+Output root:
+
+```text
+results\personalisation\external_memory\em3_all_outcome_audit\
+```
+
+Expected outputs: `summary.json`, `provenance.json`, `report.txt`,
+`all_rows.jsonl`, `groups\`, and `focused_subsets\`.
+
+```powershell
+$python = 'C:\Users\chiar\Desktop\LBH\thesis\.venv\Scripts\python.exe'
+& $python -m experiments.external_memory.em3_all_outcome_audit
+```
+
+| Input | Path | SHA256 |
+|---|---|---|
+| history manifest | `C:\Users\chiar\Desktop\LBH\thesis-personalisation\results\personalisation\pilot_a_context_memory\history_manifest.jsonl` | `7c85c38728d03985856d742f452992b3b3072af5f1c07845e099d9d07854da68` |
+| Dev manifest | `C:\Users\chiar\Desktop\LBH\thesis-personalisation\results\personalisation\pilot_a_context_memory\dev_manifest.jsonl` | `cf072d9323328b77e3d47d8a0c1beed8c40edc8767e075fb58593d6b72120606` |
+| four-way rows | `C:\Users\chiar\Desktop\LBH\thesis-context-lab\results\personalisation\external_memory\em2_four_way_dev_compare\rows.jsonl` | `7bc20cddc5a772e7c1f9fb3fdd60ec17e8c2813667b7c32ec835b4cbc15d87d7` |
+| fixed G/F/Context surface | `C:\Users\chiar\Desktop\LBH\thesis-context-lab\results\personalisation\external_memory\em2_fixed_gfc_dev\selected_rows.jsonl` | `6e4007b2ba7cd0bffea4c869a7860cc08c3671bf078c22e957ad09d6ce18ea25` |
+
+Expected eight-way group counts, in
+`G✓F✓H✓, G✓F✓H✗, G✓F✗H✓, G✓F✗H✗, G✗F✓H✓, G✗F✓H✗,
+G✗F✗H✓, G✗F✗H✗` order:
+
+```text
+3361, 24, 42, 100, 403, 35, 45, 1598
+```
+
+### Formal pair-generator regression
+
+Canonical runner:
+`experiments/external_memory/em3_generate_train_pairs.py`.
+
+Source manifest:
+`C:\Users\chiar\Desktop\LBH\thesis-personalisation\results\personalisation\reranking_matrix\manifests\history_full_short.jsonl`.
+
+Source SHA256:
+`6d32d44189c0824d7973a5a9a50359dce3fb8111f6f7a9078580eb69fac58597`.
+
+```powershell
+$python = 'C:\Users\chiar\Desktop\LBH\thesis\.venv\Scripts\python.exe'
+& $python -m experiments.external_memory.em3_generate_train_pairs `
+  --authors Etinjat Re_spectators breaddddd `
+  --audit-only `
+  --output-root results\personalisation\external_memory\em3_train_pairs_v1_regression_audit
+```
+
+Required checkpoint:
+
+| Item | Expected |
+|---|---:|
+| Eligible queries | 30,968 |
+| Positive pairs | 86,959 |
+| Negative pairs | 146,195 |
+| Total pairs | 233,154 |
+
+The audit must also report zero non-prior pairs, zero query-history reuse, and
+`test_used: false`. The existing frozen v1 pair manifest hash is
+`8729f0db9ea2d4cd5c82ef812d743cdb37f551b6ddfa591b3d788b42d5a8dee2`;
+its summary hash is
+`c9161b187e4cace65d8c33e55b96c2a109e5aecabba525107c3e2fa89f6fc0bd`.
+Audit-only mode deliberately does not rewrite or duplicate that 708 MB file.
+
+Planned checkpoint tag after explicit approval:
+`external-memory-em3-dev-audit-20260820`.
+
+Generated results remain local-only. Do not stage `results/`, JSONL, SQLite,
+logs, caches, embeddings, checkpoints, or model files.
+<!-- EM3-DEV-CHECKPOINT-20260820-END -->
