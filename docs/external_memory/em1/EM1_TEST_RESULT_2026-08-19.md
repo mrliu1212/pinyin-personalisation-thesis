@@ -139,3 +139,73 @@ recovery alone does not solve context-sensitive personal preference
 selection. This motivates EM-2 and EM-3.
 
 No Test retuning of K or lambda is permitted.
+
+## Recovery opportunity funnel
+
+The limited overall effect of EM-1 is partly explained by the size of the
+recovery opportunity.
+
+Across the 3,000 frozen Test examples:
+
+- Total Test rows: 3,000
+- Rows with at least one backend-compatible personal-only candidate: 306
+- Share of Test rows with an injectable personal-only candidate: 10.2%
+- Generic Top10 already contained Gold: 2,868
+- Generic Missing: 132
+- Backend-reachable Generic Missing: 122
+- Backend-unreachable Generic Missing: 10
+- Gold successfully recovered into the unified pool: 23
+- Recovered Gold reaching final Top10: 21
+- Recovered Gold reaching final Top3: 15
+- Recovered Gold reaching final Top1: 10
+
+The 306 eligible rows should not be interpreted as 306 opportunities to
+recover the correct answer. They only indicate that personal history contains
+at least one additional backend-compatible candidate outside the Generic
+Top10.
+
+The actual useful recovery opportunity is much smaller: among the 122
+backend-reachable cases where Generic Top10 missed Gold, EM-1 recovered Gold
+in 23 cases.
+
+Therefore the main limitation of EM-1 is not that exact candidate scoring
+fails. Rather, the number of examples where the correct missing candidate is
+both available in personal history and recoverable is relatively small.
+
+This explains why Recovery improves candidate coverage and ranking depth but
+produces little overall Top1 gain.
+
+## EM-1 final conclusion
+
+EM-1 demonstrates that External Memory can recover valid personal candidates
+that are absent from the Frozen Generic candidate surface.
+
+However, its contribution is primarily candidate coverage rather than final
+Top1 accuracy.
+
+The frozen Test evidence is:
+
+- G0 Top1: 77.600%
+- F Top1: 81.067%
+- R Top1: 77.700%
+- R+F Top1: 81.033%
+
+Relative to F, R+F produces:
+
+- 10 Top1 rescues
+- 11 Top1 harms
+- net Top1 change: -1 example
+
+At the same time, R+F improves:
+
+- Top3: 92.200% -> 92.700%
+- MRR@10: 0.8685 -> 0.8708
+- Missing@10: 4.400% -> 3.733%
+
+The correct interpretation is therefore:
+
+EM-1 is useful for recovering missing personal candidates, but the recovery
+opportunity is limited and Recovery alone is not sufficient to solve
+context-sensitive personalisation. This motivates EM-2 and EM-3, which focus
+on selecting the relevant historical evidence rather than only expanding the
+candidate surface.
