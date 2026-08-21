@@ -2,6 +2,8 @@
 
 Purpose: answer **how a frozen checkpoint could be rerun later**. This is a static evidence audit, not a record of reruns performed on 2026-08-19. Commands appear only where preserved CLI/source/report evidence establishes them.
 
+**Maintenance:** this is a living reproducibility index. Update `docs/REPRODUCIBILITY_INDEX.md` in place when a new checkpoint or reproduction record is added; do not fork routine updates into dated/versioned index filenames. Git history records revisions.
+
 Use a separate worktree for historical checkpoints; do not move the active worktree backwards:
 
 ```powershell
@@ -559,64 +561,172 @@ Planned checkpoint tag after explicit approval:
 Generated results remain local-only. Do not stage `results/`, JSONL, SQLite,
 logs, caches, embeddings, checkpoints, or model files.
 <!-- EM3-DEV-CHECKPOINT-20260820-END -->
-
-
 ---
 
-## Initial-Pinyin Personalisation — Recovery / Controllability closeout
+## Initial-Pinyin Personalisation — current Train-Val recovery + context checkpoint
 
-### Canonical reproducibility records
+Status: **DEVELOPMENT COMPLETE / LOCAL-ARTIFACT-DEPENDENT / PRE-DEV FREEZE PENDING**.
+
+The numbered Initial-Pinyin research records live under `docs/initial_personalisation/`. `docs/REPRODUCIBILITY_INDEX.md` itself is a living repository-wide index and is updated in place.
+
+### Canonical current records
 
 ```text
+docs/initial_personalisation/19_INITIAL_RECOVERY_CONTEXT_TRAINVAL_REPRODUCIBILITY_2026-08-21.md
+  Primary reproduction record for the latest activity.
+
+docs/initial_personalisation/18_INITIAL_RECOVERY_CONTEXT_TRAINVAL_FINAL_CONCLUSIONS_2026-08-21.md
+  Standalone scientific/data record for the same activity.
+
+docs/initial_personalisation/17_INITIAL_PV1_CONTEXT_RERANKING_RESULTS_AND_REPRODUCIBILITY_2026-08-21.md
+  Historical PV1 context-reranking control line.
+
 docs/initial_personalisation/16_INITIAL_REPRODUCIBILITY_2026-08-21_v4.md
-  Complete Initial+Short reproducibility through the current recovery and controllability phase.
+  Earlier broad Initial+Short reproducibility checkpoint.
 
 docs/initial_personalisation/15_INITIAL_PERSONALISATION_RECOVERY_REPRODUCIBILITY_2026-08-21.md
-  Compact reproducibility record focused on NGramSelector, NGram-CS, concentration, and Context–Preference–Confidence.
+  Earlier recovery/controllability reproducibility checkpoint.
 ```
 
-### Canonical latest runner
+### Frozen inputs / protocol identity
 
 ```text
-experiments/initial_personalisation/run_initial_ngram_cs_entropy_two_anchors_v1.py
-SHA256: e5460a81435a76375619bdac809d464f567a9cdc8ae4f9c37115388d3b25d9cc
-```
+Train-Fit rows = 144,526
+Train-Val rows = 34,416
+Initial Train-Fit SHA256 = 162f5c98daa86cc69947571e6d8f20fc401f0a82cdd3fd6e517eb7be2addbdb4
+Initial Train-Val SHA256 = d908d4dbd534e921f0bfd5e7a39b03037690073e8e567cfffecf61466ec0f0e4
+Candidate surface SHA256 = 205c0ba01cd0678d7a4341c503fa2e74cf126a70182ff582687025e4946764b2
+Generic predictions SHA256 = bd0fb4dc304e0b266b90fae6fe3ac65424d2f52b23fedfa881212706ba2c2873
+Frequency/PV1 predictions SHA256 = 7fd8aa158d8cd50bced36b55610f8d932bc65e3aae1dbbd5bd65907ff1707ea7
 
-### Canonical latest result root
+History semantics:
+  same author
+  -> strictly prior interactions
+  -> latest up-to-5000 RAW interactions
+  -> exact Initial-Pinyin filtering afterward
 
-```text
-results/personalisation/initial_recovery_comparison_v1/ngram_cs_entropy_two_anchors_v1/
-  features.jsonl
-  predictions.jsonl
-  grid_results.csv
-  feature_summary.json
-  comparison.json
-  artifact_checksums.json
-```
-
-### Current frozen development checkpoints
-
-```text
-Overall balanced: B + 4 P_NG + 4 CS + 2 E
-  Macro=.404807 Micro=.429364 Top3=.614801 Top5=.685815 MRR=.537433 Missing=.243172
-
-Top3-oriented: B + 6 P_NG + 2 CS + .25 E
-  Top3=.615876 Rec@3=.5737 Rec@10=.9283
-
-Selector alternative: NGramSelector@K3
-  Macro=.403964 Rec@3=.6051 Rec@10=.9051
-```
-
-### Safety / protocol
-
-```text
-Train-Val only for current method development
-Gold not used for candidate construction or scoring
+Gold used for candidate construction/scoring = false
+Gold used for Train-Val evaluation/selection/diagnosis only = true
 Dev3000 used = false
 Test used = false
-K10 not used in current main recovery line
 ```
 
-### Hash freeze
+### Exact current runner identities
 
-Exact local result hashes must come from the runner-generated `artifact_checksums.json` and/or `Get-FileHash`; do not infer them from filenames.
+```text
+run_initial_recovery_ngram_context_fusion_v1.py
+  SHA256 e6dcd1f68028ad5065064b6b714eaa88d92f74363a328570bfcc777b13271dc2
+
+run_initial_recovery_bge_ngram_context_fusion_v2.py
+  SHA256 b7d95374aa421cbc364699e44e0850ba2e72e50a2a5f816ad37f85b138d1435a
+
+run_initial_recovery_bge_ngram_context_fusion_v3.py
+  SHA256 2b29a86957b4f2adf17a13de37648766e1423d0ec99a57ea257c5aa155d89335
+
+run_initial_recovery_context_diagnostics_v1.py
+  SHA256 7c4a12a5f447405f024d8e8008253da23aab4775d2ae4500f5c44545583d3256
+
+run_initial_recovery_context_topk_transitions_v1.py
+  SHA256 3966111844719f29a07b580a10d18021b0cdf4a6846c71157de611e1a92eaef1
+```
+
+For exact commands, parameter grids, BGE cache behavior, expected console checkpoints, and failure rules, use document `19_...REPRODUCIBILITY...md`; do not reconstruct them from this index.
+
+### Reproduction sequence
+
+```text
+V1: Stage-1 recovery bases + NGramRecency grid
+  -> V2: NGramRecency + BGERecency 2-D grid
+  -> V3: expanded lambda_B boundary verification, no BGE recomputation
+  -> read-only context diagnosis
+  -> read-only Top1/Top3/Top5 rescue-harm diagnosis
+```
+
+Required V3 regressions:
+
+```text
+V1 NGram-only selected points reproduced: PASS
+V2 selected full-context points reproduced: PASS
+V3 selected points identical to V2: PASS
+No selected lambda_B at expanded upper boundary: PASS
+BGE recomputed in V3: false
+Dev3000 used: false
+Test used: false
+```
+
+### Canonical current result roots
+
+```text
+results/personalisation/initial_recovery_comparison_v1/recovery_ngram_context_fusion_v1/
+results/personalisation/initial_recovery_comparison_v1/recovery_bge_ngram_context_fusion_v2/
+results/personalisation/initial_recovery_comparison_v1/recovery_bge_ngram_context_fusion_v3/
+results/personalisation/initial_recovery_comparison_v1/recovery_context_diagnostics_v1/
+results/personalisation/initial_recovery_comparison_v1/recovery_context_topk_transitions_v1/
+```
+
+The V3 root is the canonical final selected-prediction/result root for this Train-Val stage. The diagnosis roots are post-hoc/read-only and must not be used to reopen tuning.
+
+### Frozen Train-Val operating points
+
+```text
+Primary overall:
+  4P+4CS+2E + NG-R lambda_N=4 + BGE-R lambda_B=6
+  Macro=.437058 Micro=.460571 Top3=.631392 Top5=.696478 MRR=.559755 Missing=.243172
+  Rec1=.4246 Rec3=.6969 Rec5=.8153 Rec10=.9485 RecMRR=.5892
+
+Coverage-oriented:
+  K5+Entropy + NG-R lambda_N=6 + BGE-R lambda_B=8
+  Macro=.436767 Micro=.459990 Top3=.626453 Top5=.688139 MRR=.557836 Missing=.243288
+  Rec1=.4430 Rec3=.7481 Rec5=.8778 Rec10=.9876 RecMRR=.6218
+
+Front-rank comparison:
+  6P+2CS+.25E + NG-R lambda_N=4 + BGE-R lambda_B=6
+  Macro=.436477 Micro=.459786 Top3=.630085 Top5=.696013 MRR=.558806 Missing=.243869
+  Rec1=.4415 Rec3=.6961 Rec5=.8069 Rec10=.9283 RecMRR=.5951
+```
+
+Primary selection is by pre-specified Macro-author Top1. The Balanced-vs-K5 Macro gap is only `.000291`; this is a Train-Val selection result, not evidence of statistical significance or holdout superiority.
+
+### Diagnostic reproduction checkpoints
+
+```text
+Primary 4P+4CS+2E:
+  Recovery -> NG-R:
+    Delta Macro = +.027644
+    Top1 rescue=2375 harm=1468 net=+907
+
+  NG-R -> Full:
+    Delta Macro = +.004607
+    Top1 rescue=681 harm=514 net=+167
+
+Recoverable R = 4,910
+Generic Missing = 12,565
+
+Top3 Recovery -> Full on R:
+  K5+Entropy:  rescue=745 harm=80 net=+665
+  4P+4CS+2E:   rescue=745 harm=20 net=+725
+  6P+2CS+.25E: rescue=617 harm=16 net=+601
+```
+
+Per-author primary final checkpoints:
+
+```text
+Agent Phage: Stage1=.470344 -> NG=.487374 -> Full=.493923; Missing=.171312
+Etinjat:     Stage1=.237235 -> NG=.271980 -> Full=.275218; Missing=.485056
+breaddddd:   Stage1=.506841 -> NG=.537999 -> Full=.542032; Missing=.167655
+```
+
+### Reproduction boundary
+
+This checkpoint is **Train-Val development only**. The current selected lambdas and recovery coefficients must be treated as frozen before opening Dev3000. Post-hoc diagnosis is explanatory only and must not trigger new gates, features, coefficients, or lambda tuning on the same Train-Val data.
+
+Next formal sequence:
+
+```text
+PRE-DEV FREEZE
+-> Dev3000 evaluation of frozen operating points / control
+-> pre-declared selection
+-> final freeze
+-> Test
+```
+
