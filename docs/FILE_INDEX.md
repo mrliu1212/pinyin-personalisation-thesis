@@ -319,3 +319,97 @@ All result trees, JSONL, SQLite, logs, caches, embeddings, checkpoints, and
 generated models remain GENERATED / LOCAL-ONLY and must not be staged as normal
 source artifacts.
 <!-- EM3-DEV-CHECKPOINT-20260820-END -->
+
+
+---
+
+## Initial-Pinyin Personalisation
+
+### Documentation
+
+```text
+docs/initial_personalisation/16_INITIAL_REPRODUCIBILITY_2026-08-21_v4.md
+  Full reproducibility record through candidate scoring, recovery, and controllability.
+
+docs/initial_personalisation/15_INITIAL_PERSONALISATION_RECOVERY_REPRODUCIBILITY_2026-08-21.md
+  Compact reproducibility record for the latest recovery phase.
+
+docs/initial_personalisation/14_INITIAL_PERSONALISATION_FILE_INDEX_2026-08-21.md
+  Compact Initial-Pinyin file map.
+
+docs/initial_personalisation/11_INITIAL_PERSONALISATION_EVALUATION_METRICS_AND_DESIGN.md
+  Metric definitions, calculation formulas, evaluation populations, and design rationale.
+
+docs/initial_personalisation/12_INITIAL_PERSONALISATION_METRIC_PURPOSE_AND_PRIORITIES.md
+  Metric purpose and priority: primary, secondary, recovery, and diagnostic metrics.
+
+docs/initial_personalisation/13_INITIAL_PERSONALISATION_CURRENT_CONCLUSIONS_AND_CONTROLLABILITY.md
+  Current model comparison, conclusions, and controllability interpretation.
+```
+
+### Current recovery / controllability runner
+
+```text
+experiments/initial_personalisation/run_initial_ngram_cs_entropy_two_anchors_v1.py
+  B+6P+2CS+lambda_E*Entropy and B+4P+4CS+lambda_E*Entropy sweep.
+  SHA256: e5460a81435a76375619bdac809d464f567a9cdc8ae4f9c37115388d3b25d9cc
+```
+
+### Important earlier runners retained in the comparison
+
+```text
+experiments/initial_personalisation/run_initial_pv1_ngram_selector_k135_v1.py
+  NGramSelector K1/K3/K5 ablation.
+
+experiments/initial_personalisation/run_initial_pv1_ngram_k5_additive_concentration_v1.py
+  Fixed-gamma K5 concentration.
+
+experiments/initial_personalisation/run_initial_pv1_ngram_k5_joint_frequency_concentration_v1.py
+  Joint frequency/concentration calibration.
+
+experiments/initial_personalisation/summarize_initial_all_results_v1.py
+  Read-only unified summary across existing Initial result artifacts.
+```
+
+### Latest result artifacts
+
+```text
+results/personalisation/initial_recovery_comparison_v1/ngram_cs_entropy_two_anchors_v1/comparison.json
+  Canonical latest full comparison.
+
+results/personalisation/initial_recovery_comparison_v1/ngram_cs_entropy_two_anchors_v1/grid_results.csv
+  Flat two-anchor lambda_E grid.
+
+results/personalisation/initial_recovery_comparison_v1/ngram_cs_entropy_two_anchors_v1/features.jsonl
+  Row-level features/protocol record.
+
+results/personalisation/initial_recovery_comparison_v1/ngram_cs_entropy_two_anchors_v1/predictions.jsonl
+  Row-level final ranking outputs.
+
+results/personalisation/initial_recovery_comparison_v1/ngram_cs_entropy_two_anchors_v1/feature_summary.json
+  Feature and safety summary.
+
+results/personalisation/initial_recovery_comparison_v1/ngram_cs_entropy_two_anchors_v1/artifact_checksums.json
+  Exact hashes for latest output artifacts.
+```
+
+### Important comparison artifacts
+
+```text
+results/personalisation/initial_recovery_comparison_v1/pv1_ngram_selector_k135_v1/comparison.json
+results/personalisation/initial_recovery_comparison_v1/pv1_ngram_selector_k135_v1/predictions.jsonl
+results/personalisation/initial_recovery_comparison_v1/recovery_ngram_cs_interpolation_k5_v1/comparison.json
+results/personalisation/initial_recovery_comparison_v1/pv1_ngram_k5_additive_concentration_v1/comparison.json
+results/personalisation/initial_recovery_comparison_v1/pv1_ngram_k5_joint_frequency_concentration_v1/comparison.json
+```
+
+### Current key checkpoints
+
+```text
+4P+4CS+2E -> current overall balanced development point
+6P+2CS+.25E -> current Overall Top3 point
+6P+2CS+1E -> current Overall Top5 point
+6P+2CS+2E -> coverage-oriented aggressive diagnostic
+6P+2CS+4E -> maximum-Rec@3 diagnostic, not an overall winner
+NGramSelector@K3 -> transparent selective-recovery alternative
+```

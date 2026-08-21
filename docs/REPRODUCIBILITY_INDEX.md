@@ -559,3 +559,64 @@ Planned checkpoint tag after explicit approval:
 Generated results remain local-only. Do not stage `results/`, JSONL, SQLite,
 logs, caches, embeddings, checkpoints, or model files.
 <!-- EM3-DEV-CHECKPOINT-20260820-END -->
+
+
+---
+
+## Initial-Pinyin Personalisation — Recovery / Controllability closeout
+
+### Canonical reproducibility records
+
+```text
+docs/initial_personalisation/16_INITIAL_REPRODUCIBILITY_2026-08-21_v4.md
+  Complete Initial+Short reproducibility through the current recovery and controllability phase.
+
+docs/initial_personalisation/15_INITIAL_PERSONALISATION_RECOVERY_REPRODUCIBILITY_2026-08-21.md
+  Compact reproducibility record focused on NGramSelector, NGram-CS, concentration, and Context–Preference–Confidence.
+```
+
+### Canonical latest runner
+
+```text
+experiments/initial_personalisation/run_initial_ngram_cs_entropy_two_anchors_v1.py
+SHA256: e5460a81435a76375619bdac809d464f567a9cdc8ae4f9c37115388d3b25d9cc
+```
+
+### Canonical latest result root
+
+```text
+results/personalisation/initial_recovery_comparison_v1/ngram_cs_entropy_two_anchors_v1/
+  features.jsonl
+  predictions.jsonl
+  grid_results.csv
+  feature_summary.json
+  comparison.json
+  artifact_checksums.json
+```
+
+### Current frozen development checkpoints
+
+```text
+Overall balanced: B + 4 P_NG + 4 CS + 2 E
+  Macro=.404807 Micro=.429364 Top3=.614801 Top5=.685815 MRR=.537433 Missing=.243172
+
+Top3-oriented: B + 6 P_NG + 2 CS + .25 E
+  Top3=.615876 Rec@3=.5737 Rec@10=.9283
+
+Selector alternative: NGramSelector@K3
+  Macro=.403964 Rec@3=.6051 Rec@10=.9051
+```
+
+### Safety / protocol
+
+```text
+Train-Val only for current method development
+Gold not used for candidate construction or scoring
+Dev3000 used = false
+Test used = false
+K10 not used in current main recovery line
+```
+
+### Hash freeze
+
+Exact local result hashes must come from the runner-generated `artifact_checksums.json` and/or `Get-FileHash`; do not infer them from filenames.
