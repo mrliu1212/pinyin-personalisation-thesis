@@ -559,3 +559,357 @@ Planned checkpoint tag after explicit approval:
 Generated results remain local-only. Do not stage `results/`, JSONL, SQLite,
 logs, caches, embeddings, checkpoints, or model files.
 <!-- EM3-DEV-CHECKPOINT-20260820-END -->
+
+<!-- CONTEXT-COMPARISON-PREP-20260820 -->
+## Context-model comparison Dev preparation - 2026-08-20
+
+Purpose: freeze the Clean3 balanced-3000 Full+Short/H5000 Dev surface, verify
+canonical/Pilot identity, audit five-model cache coverage, and build the
+local-only unified DB. CPU/SQLite only; external artifacts are read-only;
+model inference: **No**; GPU: **No**; Test used: **No**.
+
+```powershell
+$worktree = 'C:\Users\chiar\Desktop\LBH\thesis-context-compare'
+$python = 'C:\Users\chiar\Desktop\LBH\thesis\.venv\Scripts\python.exe'
+Set-Location $worktree
+& $python -m experiments.context_comparison.prepare_context_comparison `
+  --personalisation-root 'C:\Users\chiar\Desktop\LBH\thesis-personalisation\results\personalisation' `
+  --external-root 'C:\Users\chiar\Desktop\LBH\thesis-context-lab\results\personalisation\external_memory' `
+  --output-root 'results\personalisation\context_comparison_v1'
+```
+
+Primary inputs are the 32,212-row canonical Full+Short Dev manifest (SHA256
+`a62cb7bcc25c3c6938e5ab1d9b789a83bf0a2c506ee1765dfe82ab043d800235`),
+the 32,212-row Pilot Dev manifest (SHA256
+`cf072d9323328b77e3d47d8a0c1beed8c40edc8767e075fb58593d6b72120606`),
+the EM3 Dev population rows (SHA256
+`0c79db7a7f6fad2bee30b2cae82b1327f022ed4beeb53aa56af8055eea604059`),
+and the Generic/BGE/hidden/M2/EM3 artifacts in the Artifact Audit.
+
+Required assertions: exact 32,212 mapping; zero duplicate/unmapped/author/
+Pinyin/Gold mismatches; Clean3 Dev 22,723; eligible 16,794; exactly 1,000
+selected per author; all selected history-available; Test absent. Expected
+manifest SHA256:
+`9181f895eb19d0c36852e511263bfaefb34459dcd44efa6f45a44252e6b03f93`.
+
+Outputs under `results/personalisation/context_comparison_v1/` are generated,
+local-only, and must not be staged. Reruns byte-validate frozen JSON/JSONL and
+validate an existing database rather than silently replacing it.
+
+```powershell
+& $python -m pytest tests\context_comparison\test_prepare_context_comparison.py -q
+& $python -m py_compile experiments\context_comparison\prepare_context_comparison.py
+```
+<!-- CONTEXT-COMPARISON-PREP-20260820-END -->
+
+<!-- STANDARDIZED-CONTEXT-RESET-20260820 -->
+## Standardized context-model comparison reset
+
+Canonical protocol and live execution records:
+
+- `docs/context_comparison/STANDARDIZED_RESET_PLAN_2026-08-20.md`
+- `docs/context_comparison/STANDARDIZED_RESET_DECISION_LOG_2026-08-20.md`
+- `docs/context_comparison/STANDARDIZED_RESET_EXECUTION_LOG_2026-08-20.md`
+- `docs/context_comparison/TRAIN_VAL_SPLIT_RECORD_2026-08-20.md`
+- `docs/context_comparison/HISTORY_SEMANTICS_RECORD_2026-08-20.md`
+- `docs/context_comparison/MODEL_RETUNE_REGISTRY_2026-08-20.md`
+- `docs/context_comparison/WORKLOAD_CACHE_AUDIT_2026-08-20.md`
+
+Frozen source/split identities:
+
+| Artifact | SHA256 |
+|---|---|
+| authoritative Clean3 Train | `6d32d44189c0824d7973a5a9a50359dce3fb8111f6f7a9078580eb69fac58597` |
+| Train-Fit v1 | `547a4f8179f5d664a8621888236599938a2f967f055ef0c262be658b3500c8a6` |
+| Train-Val v1 | `d7ae1cc21ee029dde8458189b9dc7a0989b2b3a372627e079c3e2699307f2220` |
+| frozen Dev3000 | `9181f895eb19d0c36852e511263bfaefb34459dcd44efa6f45a44252e6b03f93` |
+| legacy 5,608 evaluator source | `7bc20cddc5a772e7c1f9fb3fdd60ec17e8c2813667b7c32ec835b4cbc15d87d7` |
+
+The legacy regression must reproduce
+`3361,24,42,100,403,35,45,1598` and currently passes. Focused validation:
+
+```powershell
+$python = 'C:\Users\chiar\Desktop\LBH\thesis\.venv\Scripts\python.exe'
+$env:PYTHONPYCACHEPREFIX = 'C:\Users\chiar\Desktop\LBH\thesis\.tmp_context_compare_pyc'
+& $python -m pytest -p no:cacheprovider --basetemp 'C:\Users\chiar\Desktop\LBH\thesis\.tmp_context_compare_pytest' tests\context_comparison -q
+& $python -m py_compile src\personalisation\standardized_context_comparison.py src\personalisation\standardized_generic.py experiments\context_comparison\prepare_standardized_reset.py
+```
+
+The exact preparation, Generic, hidden, BGE, pair-generation, and training
+commands are maintained in the execution log. All outputs under
+`results/personalisation/context_comparison_v2/` are local-only. `used_test`
+must be false throughout; Test is not part of this protocol execution.
+<!-- STANDARDIZED-CONTEXT-RESET-20260820-END -->
+
+### Historical Full+Short history-depth recovery
+
+Primary provenance note:
+
+- `docs/context_comparison/HISTORICAL_HISTORY_DEPTH_PROVENANCE_2026-08-20.md`
+
+Recovered comparison:
+
+| History | Frequency | M1 | M2 |
+|---|---:|---:|---:|
+| H500 | 74.0000% | 74.0333% | 73.6500% |
+| H5000 | 77.1833% | 76.7500% | 76.5000% |
+| HFull | 80.3500% | 80.6500% | 80.4000% |
+
+Recovered selected configurations:
+
+- H500 F: lambda_frequency=4
+- H500 M1: lambda_memory=4, top_n=5
+- H500 M2: lambda_m2=4, retrieval_k=10
+- H5000 F: lambda_frequency=4
+- H5000 M1: lambda_memory=4, top_n=5
+- H5000 M2: lambda_m2=4, retrieval_k=20
+- HFull F: lambda_frequency=4
+- HFull M1: lambda_memory=4, top_n=20
+- HFull M2: lambda_m2=4, retrieval_k=10
+
+Provenance-note SHA256:
+
+`C93572201955F0E3BE008BB4A546F26181F63470563EE3FBDD810240DE2C4DEC`
+
+Scientific status:
+
+- Historical Test evidence only.
+- Do not use for current model or hyperparameter selection.
+- H5000 remains the controlled bounded-memory setting for the current standardized protocol.
+- The historical history-depth curve is not a pure fixed-hyperparameter ablation because retrieval parameters differ across history budgets.
+
+## Standardized Full+Short comparison completion — 2026-08-21
+
+- Protocol and execution:
+  `docs/context_comparison/STANDARDIZED_RESET_PLAN_2026-08-20.md` and
+  `docs/context_comparison/STANDARDIZED_RESET_EXECUTION_LOG_2026-08-20.md`.
+- Frozen Train-Val selections:
+  `docs/context_comparison/PRE_DEV_FREEZE_2026-08-21.md` and
+  `results/personalisation/context_comparison_v2/pre_dev_freeze_v1.json`.
+- Sealed Dev3000 result:
+  `docs/context_comparison/STANDARDIZED_DEV3000_RESULT_2026-08-21.md` and
+  `results/personalisation/context_comparison_v2/dev3000/standardized_dev3000_result.json`.
+- Dev manifest SHA256:
+  `9181f895eb19d0c36852e511263bfaefb34459dcd44efa6f45a44252e6b03f93`.
+- PRE_DEV_FREEZE SHA256:
+  `7c0fcf69823f0b4b7d8b914a81ea54a097e12c03cb61c515c2400be46df46824`.
+- Predictions SHA256:
+  `dd219bfcb28fcad6a65f31eb14ddb16fc03c80f54a8b62a1cfe2504113c84233`.
+- All selection used Train-Val only; `used_dev3000=false` during selection and
+  `used_test=false` throughout. Test remains closed.
+
+<!-- FULL-TRANSFER-INITIAL-FINAL-REPRO-20260822 -->
+## Full+Short zero-shot Initial-final transfer — LOCAL-ARTIFACT-DEPENDENT
+
+- **Date:** 2026-08-22.
+- **Scientific status:** post-Dev follow-up; Full Train-Val descriptive evaluation only.
+- **Purpose:** apply the frozen Initial-Pinyin primary architecture `4P+4CS+2E + NGramRecency(lambda_N=4) + BGERecency(lambda_B=6)` directly to standardized Full+Short Train-Val without Full-specific tuning.
+- **Dev3000 used:** No.
+- **Test used:** No.
+- **Hyperparameter search on Full:** No.
+- **Canonical report:** `docs/context_comparison/FULL_TRANSFER_INITIAL_FINAL_TRAINVAL_2026-08-22.md`.
+- **Report SHA256:** `228e4c404ae8a369831ac1f0fe1bfd79cf2cdf91a1972b788057bfddb69884bc`.
+- **Runner:** `experiments/context_comparison/run_full_transfer_initial_final_v1.py`.
+- **Runner SHA256:** `f75d40f381e966f85cd4b20647ba7dc6a95df9116ad8657ca9a07505949a37b0`.
+
+### Frozen inputs
+
+| Artifact | Rows | SHA256 |
+|---|---:|---|
+| `results/personalisation/context_comparison_v2/clean3_train_fit_v1.jsonl` | 144,526 | `547a4f8179f5d664a8621888236599938a2f967f055ef0c262be658b3500c8a6` |
+| `results/personalisation/context_comparison_v2/clean3_train_val_v1.jsonl` | 34,416 | `d7ae1cc21ee029dde8458189b9dc7a0989b2b3a372627e079c3e2699307f2220` |
+| `results/personalisation/context_comparison_v2/train_val_generic/predictions.jsonl` | 34,416 | `cf4ae382fa23e5ec1154bf28320d13ac1d6ca9600e9dcf8a6aa599600bc28eab` |
+| `results/personalisation/context_comparison_v2/stage1/train_val.jsonl` | standardized Train-Val comparator artifact | `69e44c6b4d91c679b1ebcd7043f0fe98e093d9ae83849b542a37a875488c2a45` |
+| BGE GGUF | model | `5a88d266870fbd27c6f329df60de80e2d4cf3bbd5e6f080bd5c1b2e5abb12039` |
+
+History semantics must remain:
+
+```text
+same author -> strictly prior -> latest H5000 raw -> exact segmented-Pinyin
+```
+
+The H5000 budget is applied before exact-Pinyin filtering.
+
+### Frozen transferred configuration
+
+Stage1:
+
+```text
+Personal K = 5
+formula = boundary + 4*P_NG + 4*ChoiceShare + 2*EntropyConcentration
+P_NG type = InterpolatedNGramRecency
+P_NG maxN = 2
+P_NG kappa = 1
+P_NG tau = 2048
+```
+
+Stage2 NGramRecency:
+
+```text
+lambda_N = 4
+maxN = 2
+tau_N = 2048
+```
+
+Stage2 BGERecency:
+
+```text
+context = last 64 Chinese characters
+retrieval = cosine only, candidate-conditioned
+TopN per candidate = 5
+tau_B = 2048
+lambda_B = 6
+aggregation = max(0, cosine) * exp(-age/tau)
+```
+
+For the two frozen Generic rows with zero candidates, the runner applies a conservative no-op because the transferred Generic boundary is undefined; it does not invent a Full-specific recovery anchor.
+
+### Exact reproduction command
+
+```powershell
+Set-Location 'C:\Users\chiar\Desktop\LBH\thesis-context-compare'
+
+& 'C:\Users\chiar\Desktop\LBH\thesis\.venv\Scripts\python.exe' `
+  '.\experiments\context_comparison\run_full_transfer_initial_final_v1.py' `
+  --fit '.\results\personalisation\context_comparison_v2\clean3_train_fit_v1.jsonl' `
+  --val '.\results\personalisation\context_comparison_v2\clean3_train_val_v1.jsonl' `
+  --generic '.\results\personalisation\context_comparison_v2\train_val_generic\predictions.jsonl' `
+  --checkpoint 'C:\Users\chiar\Desktop\LBH\thesis\.build\pinyingpt2-concat' `
+  --bge-model 'C:\Users\chiar\Desktop\LBH\thesis\.cache\phase_04f\models\bge-small-zh-v1.5-q8_0.gguf' `
+  --standardized-stage1 '.\results\personalisation\context_comparison_v2\stage1\train_val.jsonl' `
+  --output-root '.\results\personalisation\context_comparison_followup_v1\full_transfer_initial_final_v1' `
+  --compatibility-device cpu `
+  --cuda-path 'C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.8' `
+  --progress-every 500
+```
+
+### Expected completed result
+
+Overall Macro-author Top1:
+
+```text
+Generic   0.7007949151
+Frequency 0.7768750752
+M1        0.7782391648
+Stage1    0.7885230323
+Final     0.7953665798
+```
+
+Expected Final diagnostics:
+
+```text
+Micro Top1       0.8245002325
+Top3             0.9119014412
+Top5             0.9306717806
+MRR@10           0.8710377879
+Missing@10       0.0519525802
+Ambiguous Macro  0.8021720889
+Conflict Macro   0.2289725953
+```
+
+Recovery expectation among the 620 Generic-missing rows with Gold in Personal K5:
+
+```text
+Final Rec@1  = 505 / 620 = 0.8145161290
+Final Rec@3  = 585 / 620 = 0.9435483871
+Final Rec@5  = 602 / 620 = 0.9709677419
+Final Rec@10 = 617 / 620 = 0.9951612903
+Final recovery MRR@10 = 0.8835701485
+```
+
+Transition expectations:
+
+```text
+Frequency -> Stage1: rescue=472 harm=119 net=+353
+Stage1 -> Final:     rescue=464 harm=252 net=+212
+Frequency -> Final:  rescue=893 harm=328 net=+565
+M1 -> Final:         rescue=899 harm=400 net=+499
+```
+
+### Generated output identity
+
+Output root:
+
+```text
+results/personalisation/context_comparison_followup_v1/full_transfer_initial_final_v1/
+```
+
+Known canonical hashes:
+
+| Artifact | SHA256 |
+|---|---|
+| `result.json` | `604a74d212ff16954b09f375a8db88f527cc07d12333fab0a7c18a7f712743a3` |
+| `run_setup.json` | `28ee66721e4ffcdad82f141d763c537e3fdcc60ca7faa4c0e2e2ed82c27e69e1` |
+| `stage1_predictions.jsonl` | `eacc6c37c53e581bc667483eb6b29816cc81c3239aad9c16acf16788611ec53f` |
+| `final_predictions.jsonl` | `fcc9b44c06fe0dc7bf629ad81d79476a4d27e52be934a37f4ac9c9d8d293973d` |
+
+The completed BGE cache must contain **42,278 / 42,278** required unique contexts.
+
+Generated results, JSONL, SQLite caches, and logs remain local-only and should not be staged. The human-authored runner/report/index files may be staged only under the repository's normal explicit-path Git policy and only with user authorization.
+
+### Interpretation boundary
+
+This checkpoint is a **descriptive zero-shot transfer result**. It must not be used to reopen the already completed standardized Train-Val selection or retroactively alter the seven-system sealed Dev3000 comparison. No statistical-significance claim is established by this checkpoint alone.
+<!-- FULL-TRANSFER-INITIAL-FINAL-REPRO-20260822-END -->
+
+<!-- FULL-RETUNED-FINAL-DEV-REPRO-20260822 -->
+## Full-retuned Final Train-Val selection + Dev3000 — LOCAL-ARTIFACT-DEPENDENT
+
+- **Date:** 2026-08-22.
+- **Scientific status:** post-Dev development extension; Full Train-Val parameter selection followed by a frozen Dev3000 development comparison.
+- **Test used:** No. Test remains CLOSED.
+- **Dev used for hyperparameter selection:** No.
+- **Dev role:** development comparison / feedback surface; not untouched final evaluation.
+- **Canonical report:** `docs/context_comparison/FULL_RETUNED_FINAL_DEV3000_CLOSEOUT_2026-08-22.md`.
+- **Runner:** `experiments/context_comparison/run_full_retune_final_trainval_dev_v1.py`.
+- **Runner SHA256:** `89d526cb61d3bb93a1caa3d401679db9f1f8b8efdc31d4daa4590adcce3dee8d`.
+- **Frozen base transfer runner SHA256:** `f75d40f381e966f85cd4b20647ba7dc6a95df9116ad8657ca9a07505949a37b0`.
+
+### Selection grid and rule
+
+```text
+Stage1 w_P  = [0.0, 2.0, 4.0, 6.0]
+Stage1 w_CS = [0.0, 2.0, 4.0, 6.0]
+Stage1 w_E  = [0.0, 2.0, 4.0]
+Stage2 lambda_N = [0.0, 2.0, 4.0, 6.0, 8.0]
+Stage2 lambda_B = [0.0, 2.0, 4.0, 6.0, 8.0]
+selection = Macro-author Top1 -> Micro Top1 -> MRR@10 -> distance to transferred reference -> lexicographic tie-break
+```
+
+Selected configuration:
+
+```text
+w_P=2.0  w_CS=6.0  w_E=4.0
+lambda_N=6.0  lambda_B=6.0
+```
+
+Fixed architecture remains Personal K5, H5000-before-Pinyin causal history, P_NG maxN=2/kappa=1/tau=2048, Stage2 NG maxN=2/tau=2048, and BGE context64/Top5/tau=2048.
+
+### Expected selected results
+
+```text
+Train-Val RetunedFinal Macro Top1 = 0.7960049266
+Train-Val RetunedFinal Micro Top1 = 0.8249941887
+Dev RetunedFinal Macro Top1       = 0.8436666667
+Dev RetunedFinal Micro Top1       = 0.8436666667
+Dev RetunedFinal Top3             = 0.9343333333
+Dev RetunedFinal MRR@10           = 0.8920410053
+Dev RetunedFinal Missing@10       = 0.0290000000
+Dev Stage1->Final rescue/harm/net = 67/38/+29
+```
+
+### Generated output identity
+
+- `selected_config.json` SHA256 `3dc3fb908aeeaa853526ad71cf85de7400f47d261ed7c09acdd8197446f5fa3d`
+- `tune/train_val_result.json` SHA256 `2899270eca2c474957afbb7cb1943140bd576ad3aa76514223ee2a0b0f4c7b48`
+- `dev/dev_result.json` SHA256 `07a9fb80a138681db6de05cba7361e948a880b61b02868ec2c06037ff69e48da`
+- Generated JSON/JSONL/SQLite/cache artifacts are LOCAL-ONLY / DO NOT STAGE.
+
+### Reproduction
+
+Use the exact two commands recorded in the canonical closeout report. Always run `--phase tune` first; the subsequent `--phase dev` requires and reuses the frozen `selected_config.json` and performs no Dev hyperparameter search.
+
+### Freeze boundary
+
+This development segment is closed. Do not change the selected Full-retuned configuration based on this Dev result unless the development phase is explicitly reopened. Test must remain untouched until a separately authorized final frozen evaluation.
+<!-- FULL-RETUNED-FINAL-DEV-REPRO-20260822-END -->
