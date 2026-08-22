@@ -607,13 +607,13 @@ validate an existing database rather than silently replacing it.
 
 Canonical protocol and live execution records:
 
-- `docs/context_comparison/STANDARDIZED_RESET_PLAN_2026-08-20.md`
-- `docs/context_comparison/STANDARDIZED_RESET_DECISION_LOG_2026-08-20.md`
-- `docs/context_comparison/STANDARDIZED_RESET_EXECUTION_LOG_2026-08-20.md`
-- `docs/context_comparison/TRAIN_VAL_SPLIT_RECORD_2026-08-20.md`
-- `docs/context_comparison/HISTORY_SEMANTICS_RECORD_2026-08-20.md`
-- `docs/context_comparison/MODEL_RETUNE_REGISTRY_2026-08-20.md`
-- `docs/context_comparison/WORKLOAD_CACHE_AUDIT_2026-08-20.md`
+- `docs/context_comparison/10_STANDARDIZED_RESET_PLAN_2026-08-20.md`
+- `docs/context_comparison/09_STANDARDIZED_RESET_DECISION_LOG_2026-08-20.md`
+- `docs/context_comparison/11_STANDARDIZED_RESET_EXECUTION_LOG_2026-08-20.md`
+- `docs/context_comparison/06_TRAIN_VAL_SPLIT_RECORD_2026-08-20.md`
+- `docs/context_comparison/04_HISTORY_SEMANTICS_RECORD_2026-08-20.md`
+- `docs/context_comparison/12_MODEL_RETUNE_REGISTRY_2026-08-20.md`
+- `docs/context_comparison/03_WORKLOAD_CACHE_AUDIT_2026-08-20.md`
 
 Frozen source/split identities:
 
@@ -645,7 +645,7 @@ must be false throughout; Test is not part of this protocol execution.
 
 Primary provenance note:
 
-- `docs/context_comparison/HISTORICAL_HISTORY_DEPTH_PROVENANCE_2026-08-20.md`
+- `docs/context_comparison/08_HISTORICAL_HISTORY_DEPTH_PROVENANCE_2026-08-20.md`
 
 Recovered comparison:
 
@@ -681,13 +681,13 @@ Scientific status:
 ## Standardized Full+Short comparison completion — 2026-08-21
 
 - Protocol and execution:
-  `docs/context_comparison/STANDARDIZED_RESET_PLAN_2026-08-20.md` and
-  `docs/context_comparison/STANDARDIZED_RESET_EXECUTION_LOG_2026-08-20.md`.
+  `docs/context_comparison/10_STANDARDIZED_RESET_PLAN_2026-08-20.md` and
+  `docs/context_comparison/11_STANDARDIZED_RESET_EXECUTION_LOG_2026-08-20.md`.
 - Frozen Train-Val selections:
-  `docs/context_comparison/PRE_DEV_FREEZE_2026-08-21.md` and
+  `docs/context_comparison/13_PRE_DEV_FREEZE_2026-08-21.md` and
   `results/personalisation/context_comparison_v2/pre_dev_freeze_v1.json`.
 - Sealed Dev3000 result:
-  `docs/context_comparison/STANDARDIZED_DEV3000_RESULT_2026-08-21.md` and
+  `docs/context_comparison/14_STANDARDIZED_DEV3000_RESULT_2026-08-21.md` and
   `results/personalisation/context_comparison_v2/dev3000/standardized_dev3000_result.json`.
 - Dev manifest SHA256:
   `9181f895eb19d0c36852e511263bfaefb34459dcd44efa6f45a44252e6b03f93`.
@@ -707,7 +707,7 @@ Scientific status:
 - **Dev3000 used:** No.
 - **Test used:** No.
 - **Hyperparameter search on Full:** No.
-- **Canonical report:** `docs/context_comparison/FULL_TRANSFER_INITIAL_FINAL_TRAINVAL_2026-08-22.md`.
+- **Canonical report:** `docs/context_comparison/16_FULL_TRANSFER_INITIAL_FINAL_TRAINVAL_2026-08-22.md`.
 - **Report SHA256:** `228e4c404ae8a369831ac1f0fe1bfd79cf2cdf91a1972b788057bfddb69884bc`.
 - **Runner:** `experiments/context_comparison/run_full_transfer_initial_final_v1.py`.
 - **Runner SHA256:** `f75d40f381e966f85cd4b20647ba7dc6a95df9116ad8657ca9a07505949a37b0`.
@@ -860,7 +860,7 @@ This checkpoint is a **descriptive zero-shot transfer result**. It must not be u
 - **Test used:** No. Test remains CLOSED.
 - **Dev used for hyperparameter selection:** No.
 - **Dev role:** development comparison / feedback surface; not untouched final evaluation.
-- **Canonical report:** `docs/context_comparison/FULL_RETUNED_FINAL_DEV3000_CLOSEOUT_2026-08-22.md`.
+- **Canonical report:** `docs/context_comparison/17_FULL_RETUNED_FINAL_DEV3000_CLOSEOUT_2026-08-22.md`.
 - **Runner:** `experiments/context_comparison/run_full_retune_final_trainval_dev_v1.py`.
 - **Runner SHA256:** `89d526cb61d3bb93a1caa3d401679db9f1f8b8efdc31d4daa4590adcce3dee8d`.
 - **Frozen base transfer runner SHA256:** `f75d40f381e966f85cd4b20647ba7dc6a95df9116ad8657ca9a07505949a37b0`.

@@ -270,11 +270,11 @@ registry and score cache. Exact final counts were:
 | Artifact | SHA256 |
 |---|---|
 | `results/personalisation/context_comparison_v2/pre_dev_freeze_v1.json` | `7c0fcf69823f0b4b7d8b914a81ea54a097e12c03cb61c515c2400be46df46824` |
-| `docs/context_comparison/PRE_DEV_FREEZE_2026-08-21.md` | `80146cd29ef92b2aa6243cf71e9a7ebeccf17a2446abec4331763985a1297d8c` |
+| `docs/context_comparison/13_PRE_DEV_FREEZE_2026-08-21.md` | `80146cd29ef92b2aa6243cf71e9a7ebeccf17a2446abec4331763985a1297d8c` |
 | `results/personalisation/context_comparison_v2/dev3000/standardized_dev3000_result.json` | `99e1b6960f96c39f107916873f80d5461d143be529f3970d275fded7ef9ab35f` |
 | `results/personalisation/context_comparison_v2/dev3000/predictions.jsonl` | `dd219bfcb28fcad6a65f31eb14ddb16fc03c80f54a8b62a1cfe2504113c84233` |
 | `results/personalisation/context_comparison_v2/dev3000/checksums.json` | `61962570748e493eaf21de975cea853c058ba3ce552c22c0bc23334ea78104c8` |
-| `docs/context_comparison/STANDARDIZED_DEV3000_RESULT_2026-08-21.md` | `3fb4592b0f2f8d2865c2ddec61b3dd3eabc64e999be0f204cbb2e55885fb2d39` |
+| `docs/context_comparison/14_STANDARDIZED_DEV3000_RESULT_2026-08-21.md` | `3fb4592b0f2f8d2865c2ddec61b3dd3eabc64e999be0f204cbb2e55885fb2d39` |
 
 Both the pre-Dev freeze and final result explicitly record `used_test=false`.
 The freeze also records `dev3000_used_for_selection=false`.

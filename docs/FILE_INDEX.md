@@ -325,10 +325,10 @@ source artifacts.
 
 | Path | Type | Purpose and dependencies/outputs | Related stage | Status |
 |---|---|---|---|---|
-| `docs/context_comparison/CONTEXT_COMPARISON_PROTOCOL_2026-08-20.md` | Protocol | Five routes, Clean3 Full+Short/H5000 surface, cache-blind sampling, metrics, cache/Test/freeze policy. | Phases 0-2 | ACTIVE / FROZEN PROTOCOL |
-| `docs/context_comparison/CONTEXT_COMPARISON_ARTIFACT_AUDIT_2026-08-20.md` | Research record | Exact model/cache/result inventory, compatibility decisions, registry, and frozen-3000 coverage. | Phases 3 and 6 | ACTIVE |
-| `docs/context_comparison/CONTEXT_COMPARISON_DATASET_RECORD_2026-08-20.md` | Dataset record | Clean3 Train/Dev accounting, identity bridge, deterministic balanced-3000 composition and SHA. | Phases 4-5 | FROZEN |
-| `docs/context_comparison/CONTEXT_COMPARISON_DB_RECORD_2026-08-20.md` | Database record | Local DB schema, joins/counts, oracle/runtime separation, prediction/missing coverage, regeneration. | Phase 7 | ACTIVE |
+| `docs/context_comparison/01_CONTEXT_COMPARISON_PROTOCOL_2026-08-20.md` | Protocol | Five routes, Clean3 Full+Short/H5000 surface, cache-blind sampling, metrics, cache/Test/freeze policy. | Phases 0-2 | ACTIVE / FROZEN PROTOCOL |
+| `docs/context_comparison/02_CONTEXT_COMPARISON_ARTIFACT_AUDIT_2026-08-20.md` | Research record | Exact model/cache/result inventory, compatibility decisions, registry, and frozen-3000 coverage. | Phases 3 and 6 | ACTIVE |
+| `docs/context_comparison/05_CONTEXT_COMPARISON_DATASET_RECORD_2026-08-20.md` | Dataset record | Clean3 Train/Dev accounting, identity bridge, deterministic balanced-3000 composition and SHA. | Phases 4-5 | FROZEN |
+| `docs/context_comparison/07_CONTEXT_COMPARISON_DB_RECORD_2026-08-20.md` | Database record | Local DB schema, joins/counts, oracle/runtime separation, prediction/missing coverage, regeneration. | Phase 7 | ACTIVE |
 | `experiments/context_comparison/prepare_context_comparison.py` | Reproducibility runner | Reads canonical/Pilot/EM3 Dev manifests and immutable caches; freezes rows before coverage; writes registry/audits/local DB. No inference. | Phases 4-7 | ACTIVE |
 | `experiments/context_comparison/__init__.py` | Package structure | Package marker for comparison preparation workflows. | Context comparison | ACTIVE |
 | `tests/context_comparison/test_prepare_context_comparison.py` | Test | Namespace-safe bridge, deterministic cache-blind balance, accounting with/without partition fields. | Validation | ACTIVE |
@@ -347,13 +347,13 @@ used. The inherited 5,608 surface is a legacy regression surface, not Clean3.
 
 | Path | Role | Status |
 |---|---|---|
-| `docs/context_comparison/STANDARDIZED_RESET_PLAN_2026-08-20.md` | Authoritative standardized Train-Fit/Train-Val/Dev3000 plan | ACTIVE / FROZEN PROTOCOL |
-| `docs/context_comparison/STANDARDIZED_RESET_DECISION_LOG_2026-08-20.md` | Scientific decisions and rejected alternatives | ACTIVE |
-| `docs/context_comparison/STANDARDIZED_RESET_EXECUTION_LOG_2026-08-20.md` | Exact commands, environment, failures/reruns, outputs | ACTIVE |
-| `docs/context_comparison/TRAIN_VAL_SPLIT_RECORD_2026-08-20.md` | Frozen whole-work split, counts, hashes | FROZEN |
-| `docs/context_comparison/HISTORY_SEMANTICS_RECORD_2026-08-20.md` | Rolling causal H5000 resolution and Dev audit | FROZEN |
-| `docs/context_comparison/MODEL_RETUNE_REGISTRY_2026-08-20.md` | Model identities, grids, tie breaks, EM3 recipe | ACTIVE / PRE-RESULT FROZEN |
-| `docs/context_comparison/WORKLOAD_CACHE_AUDIT_2026-08-20.md` | Exact representation reuse/miss audit | ACTIVE |
+| `docs/context_comparison/10_STANDARDIZED_RESET_PLAN_2026-08-20.md` | Authoritative standardized Train-Fit/Train-Val/Dev3000 plan | ACTIVE / FROZEN PROTOCOL |
+| `docs/context_comparison/09_STANDARDIZED_RESET_DECISION_LOG_2026-08-20.md` | Scientific decisions and rejected alternatives | ACTIVE |
+| `docs/context_comparison/11_STANDARDIZED_RESET_EXECUTION_LOG_2026-08-20.md` | Exact commands, environment, failures/reruns, outputs | ACTIVE |
+| `docs/context_comparison/06_TRAIN_VAL_SPLIT_RECORD_2026-08-20.md` | Frozen whole-work split, counts, hashes | FROZEN |
+| `docs/context_comparison/04_HISTORY_SEMANTICS_RECORD_2026-08-20.md` | Rolling causal H5000 resolution and Dev audit | FROZEN |
+| `docs/context_comparison/12_MODEL_RETUNE_REGISTRY_2026-08-20.md` | Model identities, grids, tie breaks, EM3 recipe | ACTIVE / PRE-RESULT FROZEN |
+| `docs/context_comparison/03_WORKLOAD_CACHE_AUDIT_2026-08-20.md` | Exact representation reuse/miss audit | ACTIVE |
 | `src/personalisation/standardized_context_comparison.py` | Split/history/evaluator invariants | ACTIVE |
 | `src/personalisation/standardized_generic.py` | Shape-safe resumable frozen Generic orchestration | ACTIVE |
 | `experiments/context_comparison/prepare_standardized_reset.py` | Versioned split/registry/history/regression preparation | ACTIVE |
@@ -371,7 +371,7 @@ generated v2 JSONL, SQLite, logs, embeddings, or checkpoints should be staged.
 
 ### Historical history-depth provenance
 
-- `docs/context_comparison/HISTORICAL_HISTORY_DEPTH_PROVENANCE_2026-08-20.md`
+- `docs/context_comparison/08_HISTORICAL_HISTORY_DEPTH_PROVENANCE_2026-08-20.md`
   - Recovered historical Full+Short H500/H5000/HFull results for Frequency, M1, and M2.
   - Records original result paths, selected hyperparameters, Test-selection safety, history semantics, interpretation limits, and SHA256 provenance.
 - Historical Test evidence only; does not modify the current standardized H5000 protocol.
@@ -381,9 +381,9 @@ generated v2 JSONL, SQLite, logs, embeddings, or checkpoints should be staged.
 
 | Path | Role | Status |
 |---|---|---|
-| `docs/context_comparison/CONTEXT_COMPARISON_COMPLETION_REPORT_2026-08-22.md` | Consolidated protocol, implementation, results, provenance, and limitations report | COMPLETED |
-| `docs/context_comparison/PRE_DEV_FREEZE_2026-08-21.md` | Human-readable frozen Train-Val selections and provenance | FROZEN |
-| `docs/context_comparison/STANDARDIZED_DEV3000_RESULT_2026-08-21.md` | Canonical sealed Dev3000 result and diagnostics | COMPLETED |
+| `docs/context_comparison/15_CONTEXT_COMPARISON_COMPLETION_REPORT_2026-08-22.md` | Consolidated protocol, implementation, results, provenance, and limitations report | COMPLETED |
+| `docs/context_comparison/13_PRE_DEV_FREEZE_2026-08-21.md` | Human-readable frozen Train-Val selections and provenance | FROZEN |
+| `docs/context_comparison/14_STANDARDIZED_DEV3000_RESULT_2026-08-21.md` | Canonical sealed Dev3000 result and diagnostics | COMPLETED |
 | `src/personalisation/standardized_reranking.py` | Exact pair registries, score caches, and standardized reranking | ACTIVE |
 | `experiments/context_comparison/run_standardized_rerankers.py` | Resumable Stage-1/pair-scoring/Train-Val orchestration | ACTIVE |
 | `experiments/context_comparison/run_standardized_dev3000.py` | Freeze-gated sealed Dev3000 orchestration | ACTIVE |
@@ -403,7 +403,7 @@ This block records a **post-Dev follow-up** performed after completion of the st
 | Path | Type | Purpose and dependencies/outputs | Related stage | Status |
 |---|---|---|---|---|
 | `experiments/context_comparison/run_full_transfer_initial_final_v1.py` | Follow-up experiment runner | Zero-shot transfer of the frozen Initial-Pinyin `4P+4CS+2E + NG-R4 + BGE-R6` architecture to standardized Full+Short Train-Val. Rebuilds causal Personal K5 from Full history, preserves H5000-before-Pinyin semantics, performs Stage1 recovery then fixed-surface NG-R/BGE-R reranking. Runner SHA256 `f75d40f381e966f85cd4b20647ba7dc6a95df9116ad8657ca9a07505949a37b0`. | Post-Dev Full transfer follow-up | FROZEN |
-| `docs/context_comparison/FULL_TRANSFER_INITIAL_FINAL_TRAINVAL_2026-08-22.md` | Research/result record | Full experimental purpose, transferred formulas/parameters, overall/Ambiguous/Conflict/per-author/recovery/transition data, interpretation limits, and exact reproduction command. SHA256 `228e4c404ae8a369831ac1f0fe1bfd79cf2cdf91a1972b788057bfddb69884bc`. | Post-Dev Full transfer follow-up | FROZEN |
+| `docs/context_comparison/16_FULL_TRANSFER_INITIAL_FINAL_TRAINVAL_2026-08-22.md` | Research/result record | Full experimental purpose, transferred formulas/parameters, overall/Ambiguous/Conflict/per-author/recovery/transition data, interpretation limits, and exact reproduction command. SHA256 `228e4c404ae8a369831ac1f0fe1bfd79cf2cdf91a1972b788057bfddb69884bc`. | Post-Dev Full transfer follow-up | FROZEN |
 | `results/personalisation/context_comparison_followup_v1/full_transfer_initial_final_v1/result.json` | Generated result | Canonical machine-readable Full Train-Val result. SHA256 `604a74d212ff16954b09f375a8db88f527cc07d12333fab0a7c18a7f712743a3`. | Follow-up evaluation | GENERATED / LOCAL-ONLY / DO NOT STAGE |
 | `results/personalisation/context_comparison_followup_v1/full_transfer_initial_final_v1/run_setup.json` | Generated setup/provenance | Frozen transferred parameters, paths, hashes, history policy, and `used_dev3000=false`, `used_test=false`. SHA256 `28ee66721e4ffcdad82f141d763c537e3fdcc60ca7faa4c0e2e2ed82c27e69e1`. | Follow-up reproducibility | GENERATED / LOCAL-ONLY / DO NOT STAGE |
 | `results/personalisation/context_comparison_followup_v1/full_transfer_initial_final_v1/stage1_predictions.jsonl` | Generated predictions | Stage1 `4P+4CS+2E` recovered candidate surface and ranking. SHA256 `eacc6c37c53e581bc667483eb6b29816cc81c3239aad9c16acf16788611ec53f`. | Follow-up Stage1 | GENERATED / LOCAL-ONLY / DO NOT STAGE |
@@ -431,7 +431,7 @@ Scientific interpretation: this result is descriptive evidence that the frozen I
 
 | Path | Role | Status |
 |---|---|---|
-| `docs/context_comparison/FULL_RETUNED_FINAL_DEV3000_CLOSEOUT_2026-08-22.md` | Canonical Full-specific retuning protocol, selected configuration, Dev3000 horizontal comparison, transition accounting, provenance, and freeze decision | COMPLETED / DEVELOPMENT CLOSED |
+| `docs/context_comparison/17_FULL_RETUNED_FINAL_DEV3000_CLOSEOUT_2026-08-22.md` | Canonical Full-specific retuning protocol, selected configuration, Dev3000 horizontal comparison, transition accounting, provenance, and freeze decision | COMPLETED / DEVELOPMENT CLOSED |
 | `experiments/context_comparison/run_full_retune_final_trainval_dev_v1.py` | Two-phase runner: Full Train-Val-only sequential weight selection followed by frozen Dev3000 evaluation; SHA256 `89d526cb61d3bb93a1caa3d401679db9f1f8b8efdc31d4daa4590adcce3dee8d` | FROZEN DEVELOPMENT RUNNER |
 | `results/personalisation/context_comparison_followup_v1/full_retune_final_trainval_dev_v1/selected_config.json` | Machine-readable Full Train-Val selected Stage1/Stage2 configuration | GENERATED / LOCAL-ONLY / DO NOT STAGE |
 | `results/personalisation/context_comparison_followup_v1/full_retune_final_trainval_dev_v1/tune/train_val_result.json` | Full Train-Val grid-selection result and selected predictions provenance | GENERATED / LOCAL-ONLY / DO NOT STAGE |
