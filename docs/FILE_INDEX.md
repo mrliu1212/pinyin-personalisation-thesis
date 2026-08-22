@@ -689,3 +689,26 @@ Dev headline: RetunedFinal Macro/Micro Top1 `0.843667`, Top3 `0.934333`, MRR@10 
 
 Train-Val performs parameter selection; Dev3000 is a development comparison surface; Test remains CLOSED. Generated result trees remain local-only and must not be staged.
 <!-- FULL-RETUNED-FINAL-DEV-CLOSEOUT-20260822-END -->
+
+<!-- POSTHOC-TASK-BIENCODER-CALIBRATION-20260822 -->
+## Post-hoc Task-BiEncoder recovery/calibration diagnostic - 2026-08-22
+
+| Path | Type | Purpose | Status |
+|---|---|---|---|
+| `docs/external_memory_next/17_POSTHOC_TASK_BIENCODER_RECOVERY_CALIBRATION_PROTOCOL_2026-08-22.md` | Protocol | Frozen equal-grid, causal, recovery, Q8, metric, and selection protocol | FROZEN RESEARCH RECORD |
+| `docs/external_memory_next/18_POSTHOC_TASK_BIENCODER_COMPARABILITY_PREFLIGHT_2026-08-22.md` | Audit | Baseline reconstruction, cache/cost gate, Full-Q8 portability, final support-union correction | COMPLETE |
+| `docs/external_memory_next/19_POSTHOC_TASK_BIENCODER_RECOVERY_CALIBRATION_RESULTS_2026-08-22.md` | Result report | Separate Initial/Full calibration, recovery, intrinsic, Q8, latency/Pareto results and conclusions | COMPLETE / PHASE CLOSED |
+| `src/personalisation/posthoc_context_calibration.py` | Source | Exact shared normalization, cosine-only Top5/recency, fixed-surface ranking, recovery merge, metrics, and tie-break arithmetic | ACTIVE |
+| `experiments/external_memory_next/prepare_posthoc_context_support_v1.py` | Runner | Hash-gated Initial/Full cache preflight and complete Generic/Task support materialization | ACTIVE |
+| `experiments/external_memory_next/score_full_personal_k5_q8_v1.py` | Runner | Resumable exact Q8 scoring on the frozen Full Personal-K5 pool | ACTIVE |
+| `experiments/external_memory_next/evaluate_posthoc_task_biencoder_calibration_v1.py` | Runner | Separate equal-grid Initial/Full fixed-surface, candidate-only, recovery, and downstream evaluation | ACTIVE |
+| `experiments/external_memory_next/benchmark_posthoc_task_latency_v1.py` | Runner | Bounded warm batch-1 task query and cached Top5 latency measurement | ACTIVE |
+| `experiments/external_memory_next/finalize_posthoc_latency_pareto_v1.py` | Runner | Machine-readable candidate accuracy/latency Pareto summary and plot | ACTIVE |
+| `experiments/external_memory_next/audit_posthoc_closeout_v1.py` | Validation runner | Read-only exhaustive chronology/H5000, prediction-order, candidate-union, Missing@10, population, and closed-resource audit | ACTIVE |
+| `tests/external_memory_next/test_posthoc_context_calibration.py` | Test | Recency ordering, candidate-set invariants, recovery merge, grid tie-break, and restriction tests | ACTIVE |
+| `results/personalisation/external_memory_next/posthoc_task_biencoder_calibration_v1/` | Generated namespace | Preflight, caches, supports, Full-Q8 scores, grids, predictions, metrics, latency, hashes, and Pareto plot | GENERATED / LOCAL-ONLY / DO NOT STAGE |
+
+Scientific checkpoint: Generic remained better than Task after equal downstream
+calibration in both tracks. Task's intrinsic Recall@1 gain did not translate to
+overall end-to-end improvement. Dev3000 and Test were not used.
+<!-- POSTHOC-TASK-BIENCODER-CALIBRATION-20260822-END -->

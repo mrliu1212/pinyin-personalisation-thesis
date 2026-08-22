@@ -1,6 +1,6 @@
 # External Memory Next — Read First
 
-Status: **EXPERIMENTS A/B/C COMPLETE / TRAIN-VAL DEVELOPMENT ONLY**
+Status: **EXPERIMENTS A/B/C + POST-HOC CALIBRATION COMPLETE / TRAIN-VAL DEVELOPMENT ONLY**
 
 Worktree: `C:\Users\chiar\Desktop\LBH\thesis-external-memory-next`
 
@@ -32,9 +32,26 @@ Base commit: `fb09ca2fa50589a0fc72130552212c5b47ed4365`
 4. Experiment C - task-specific bi-encoder: complete; strong intrinsic
    retrieval improvement but a slight fixed-fusion end-to-end regression. The
    predeclared gate failed, so no task-specific LambdaMART refit was run.
+5. Post-hoc recovery/calibration diagnostic: complete on separate Initial and
+   Full Train-Val tracks. Equal calibration, frozen Recency, and Personal-K5
+   recovery use did not convert the intrinsic Task retrieval gain into an
+   overall end-to-end gain. Q8/Q8+F remain the strongest candidate scorers.
 
 The current best Train-Val External Memory configuration remains the existing
 generic-BGE LambdaMART result from Experiment B.
+
+```text
+Experiment C: task-specific BiEncoder   COMPLETE
+Post-hoc calibration/recovery follow-up COMPLETE
+Task-BiEncoder further retuning         CLOSED FOR THIS PHASE
+Dev3000                                 CLOSED / UNUSED HERE
+Test                                    CLOSED / UNUSED
+```
+
+Current scientific direction: representation-level Task-BiEncoder improvement
+did not yield an end-to-end gain; nonlinear candidate-level evidence
+arbitration remains the stronger observed direction. This is not a causal or
+statistical-significance claim.
 
 ## Records
 
@@ -58,6 +75,10 @@ generic-BGE LambdaMART result from Experiment B.
   frozen before the later explicitly authorized training run.
 - `16_TASK_SPECIFIC_BIENCODER_RESULTS_2026-08-22.md`: causal audit, training,
   intrinsic retrieval, fixed-fusion result, hashes, and reproduction commands.
+- `17_...` and `18_...`: frozen post-hoc protocol and comparability/cost gate.
+- `19_POSTHOC_TASK_BIENCODER_RECOVERY_CALIBRATION_RESULTS_2026-08-22.md`:
+  separate Initial/Full calibration, recovery, Q8, latency/Pareto results,
+  answers to the primary questions, hashes, and reproduction commands.
 
 ## Current result checkpoint
 
@@ -77,6 +98,11 @@ Generic BGE intrinsic Macro Recall@1 = 0.7789437773409569
 Task fixed-fusion Macro Top1 = 0.7957117243433173
 Task vs frozen = 34 rescue / 46 harm / net -12
 Task-specific LambdaMART refit = not authorized by frozen gate
+Post-hoc Initial Generic joint Macro = 0.4370578839609785
+Post-hoc Initial Task joint Macro = 0.4356462413968509
+Post-hoc Full Generic joint Macro = 0.7960049265502147
+Post-hoc Full Task joint Macro = 0.7957480665207601
+Post-hoc conclusion = calibration/Recency/recovery do not produce a Task win
 Dev3000 used = false
 Test used = false
 ```
@@ -90,6 +116,7 @@ results/personalisation/external_memory_next/learned_fusion_input_audit_v1/
 results/personalisation/external_memory_next/lambdamart_matrices_v1/
 results/personalisation/external_memory_next/lambdamart_fusion_v1/
 results/personalisation/external_memory_next/task_specific_biencoder_v1/
+results/personalisation/external_memory_next/posthoc_task_biencoder_calibration_v1/
 ```
 
 The Generic cache and all downstream feature/matrix/result artifacts are

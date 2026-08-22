@@ -1290,3 +1290,192 @@ Use the exact two commands recorded in the canonical closeout report. Always run
 
 This development segment is closed. Do not change the selected Full-retuned configuration based on this Dev result unless the development phase is explicitly reopened. Test must remain untouched until a separately authorized final frozen evaluation.
 <!-- FULL-RETUNED-FINAL-DEV-REPRO-20260822-END -->
+
+<!-- POSTHOC-TASK-BIENCODER-CALIBRATION-REPRO-20260822 -->
+## Post-hoc Task-BiEncoder recovery/calibration - LOCAL-ARTIFACT-DEPENDENT
+
+- Date: 2026-08-22.
+- Selection/evaluation surface: separate Initial and Full Train-Val tracks.
+- Task checkpoint retrained: No.
+- Dev3000 used: No.
+- Test used: No.
+- Protocol: `docs/external_memory_next/17_POSTHOC_TASK_BIENCODER_RECOVERY_CALIBRATION_PROTOCOL_2026-08-22.md`.
+- Results: `docs/external_memory_next/19_POSTHOC_TASK_BIENCODER_RECOVERY_CALIBRATION_RESULTS_2026-08-22.md`.
+- Generated root: `results/personalisation/external_memory_next/posthoc_task_biencoder_calibration_v1/`.
+
+Set shared PowerShell paths:
+
+```powershell
+Set-Location 'C:\Users\chiar\Desktop\LBH\thesis-external-memory-next'
+$py = 'C:\Users\chiar\Desktop\LBH\thesis\.venv\Scripts\python.exe'
+$initial = 'C:\Users\chiar\Desktop\LBH\thesis-initial-research\results\personalisation\initial_recovery_comparison_v1'
+$full = 'C:\Users\chiar\Desktop\LBH\thesis-context-compare\results\personalisation'
+$root = '.\results\personalisation\external_memory_next\posthoc_task_biencoder_calibration_v1'
+$task = '.\results\personalisation\external_memory_next\task_specific_biencoder_v1'
+$checkpoint = "$task\training\final_refit\epoch_2"
+```
+
+Exact Initial/Full preflight and support commands:
+
+```powershell
+$initialSupport = @(
+  '--track','initial',
+  '--fit',"$initial\initial_train_fit_v1.jsonl",
+  '--val',"$initial\initial_train_val_v1.jsonl",
+  '--stage1',"$initial\recovery_ngram_context_fusion_v1\stage1_frozen.jsonl",
+  '--existing-support',"$initial\recovery_bge_ngram_context_fusion_v2\bge_recency_support.jsonl",
+  '--frequency-predictions',"$initial\frequency_pv1\predictions.jsonl",
+  '--generic-seed-cache',"$initial\recovery_bge_ngram_context_fusion_v2\bge_history_embedding_cache.sqlite3",
+  '--task-seed-cache',"$task\evaluation\task_vectors.sqlite3",
+  '--task-checkpoint',$checkpoint,
+  '--generic-bge-model','C:\Users\chiar\Desktop\LBH\thesis\.cache\phase_04f\models\bge-small-zh-v1.5-q8_0.gguf'
+)
+& $py -m experiments.external_memory_next.prepare_posthoc_context_support_v1 `
+  --phase preflight @initialSupport --output-root "$root\preflight"
+& $py -m experiments.external_memory_next.prepare_posthoc_context_support_v1 `
+  --phase score @initialSupport --output-root "$root\support"
+
+$fullSupport = @(
+  '--track','full',
+  '--fit',"$full\context_comparison_v2\clean3_train_fit_v1.jsonl",
+  '--val',"$full\context_comparison_v2\clean3_train_val_v1.jsonl",
+  '--stage1',"$full\context_comparison_followup_v1\full_retune_final_trainval_dev_v1\tune\train_val_stage1_features.jsonl",
+  '--existing-support',"$full\context_comparison_followup_v1\full_retune_final_trainval_dev_v1\tune\train_val_stage2_supports.jsonl",
+  '--generic-seed-cache',"$full\context_comparison_followup_v1\full_retune_final_trainval_dev_v1\tune\bge_context_cache.sqlite3",
+  '--task-seed-cache',"$task\evaluation\task_vectors.sqlite3",
+  '--task-checkpoint',$checkpoint,
+  '--generic-bge-model','C:\Users\chiar\Desktop\LBH\thesis\.cache\phase_04f\models\bge-small-zh-v1.5-q8_0.gguf'
+)
+& $py -m experiments.external_memory_next.prepare_posthoc_context_support_v1 `
+  --phase preflight @fullSupport --output-root "$root\preflight"
+& $py -m experiments.external_memory_next.prepare_posthoc_context_support_v1 `
+  --phase score @fullSupport --output-root "$root\support"
+```
+
+Exact resumable Full-Q8 command:
+
+```powershell
+& $py -m experiments.external_memory_next.score_full_personal_k5_q8_v1 `
+  --val "$full\context_comparison_v2\clean3_train_val_v1.jsonl" `
+  --features "$full\context_comparison_followup_v1\full_retune_final_trainval_dev_v1\tune\train_val_stage1_features.jsonl" `
+  --generic "$full\context_comparison_v2\train_val_generic\predictions.jsonl" `
+  --checkpoint 'C:\Users\chiar\Desktop\LBH\thesis\.build\pinyingpt2-concat' `
+  --output-root "$root\q8_full" --device cuda
+```
+
+Exact accepted evaluation command:
+
+```powershell
+& $py -m experiments.external_memory_next.evaluate_posthoc_task_biencoder_calibration_v1 `
+  --initial-fit "$initial\initial_train_fit_v1.jsonl" `
+  --initial-val "$initial\initial_train_val_v1.jsonl" `
+  --initial-stage1 "$initial\recovery_ngram_context_fusion_v1\stage1_frozen.jsonl" `
+  --initial-ngram "$initial\recovery_ngram_context_fusion_v1\ngram_recency_support.jsonl" `
+  --initial-support "$root\support\initial_support.jsonl" `
+  --initial-frequency "$initial\frequency_pv1\predictions.jsonl" `
+  --initial-q8 "$initial\candidate_scoring_q8_bge64_v1\q8\q8_k5_exact_scores.jsonl" `
+  --full-fit "$full\context_comparison_v2\clean3_train_fit_v1.jsonl" `
+  --full-val "$full\context_comparison_v2\clean3_train_val_v1.jsonl" `
+  --full-stage1 "$full\context_comparison_followup_v1\full_retune_final_trainval_dev_v1\tune\train_val_stage1_features.jsonl" `
+  --full-stage2 "$full\context_comparison_followup_v1\full_retune_final_trainval_dev_v1\tune\train_val_stage2_supports.jsonl" `
+  --full-support "$root\support\full_support.jsonl" `
+  --full-frozen "$full\context_comparison_followup_v1\full_retune_final_trainval_dev_v1\tune\train_val_selected_predictions.jsonl" `
+  --full-q8 "$root\q8_full\full_q8_scores.jsonl" `
+  --intrinsic-result "$task\evaluation\result.json" `
+  --lambdamart-result '.\results\personalisation\external_memory_next\lambdamart_fusion_v1\result.json' `
+  --output-root "$root\evaluation"
+```
+
+Exact bounded task latency command:
+
+```powershell
+& $py -m experiments.external_memory_next.benchmark_posthoc_task_latency_v1 `
+  --fit "$initial\initial_train_fit_v1.jsonl" `
+  --val "$initial\initial_train_val_v1.jsonl" `
+  --support "$root\support\initial_support.jsonl" `
+  --task-checkpoint $checkpoint `
+  --task-vectors "$root\support\initial_task_vectors.sqlite3" `
+  --output "$root\latency\task_biencoder_latency.json" `
+  --queries 500 --warmup 20
+```
+
+Exact latency/Pareto finalization command:
+
+```powershell
+& $py -m experiments.external_memory_next.finalize_posthoc_latency_pareto_v1 `
+  --evaluation "$root\evaluation\result.json" `
+  --task-latency "$root\latency\task_biencoder_latency.json" `
+  --historical-summary "$initial\all_results_summary_v1\all_results_summary.json" `
+  --support-initial "$root\support\support_initial_result.json" `
+  --support-full "$root\support\support_full_result.json" `
+  --q8-full "$root\q8_full\full_q8_summary.json" `
+  --output "$root\latency\latency_pareto.json" `
+  --plot "$root\latency\accuracy_latency_pareto.png"
+```
+
+Exact read-only invariant audit and final validation commands:
+
+```powershell
+& $py -m experiments.external_memory_next.audit_posthoc_closeout_v1 `
+  --result "$root\evaluation\result.json" `
+  --predictions "$root\evaluation\selected_predictions.jsonl" `
+  --initial-fit "$initial\initial_train_fit_v1.jsonl" `
+  --initial-val "$initial\initial_train_val_v1.jsonl" `
+  --initial-frequency "$initial\frequency_pv1\predictions.jsonl" `
+  --initial-support "$root\support\initial_support.jsonl" `
+  --full-fit "$full\context_comparison_v2\clean3_train_fit_v1.jsonl" `
+  --full-val "$full\context_comparison_v2\clean3_train_val_v1.jsonl" `
+  --full-stage1 "$full\context_comparison_followup_v1\full_retune_final_trainval_dev_v1\tune\train_val_stage1_features.jsonl" `
+  --full-support "$root\support\full_support.jsonl"
+
+& $py -m pytest tests\external_memory_next\test_posthoc_context_calibration.py -q
+& $py -m pytest tests\external_memory_next -q
+
+& $py -m py_compile `
+  src\personalisation\posthoc_context_calibration.py `
+  experiments\external_memory_next\prepare_posthoc_context_support_v1.py `
+  experiments\external_memory_next\score_full_personal_k5_q8_v1.py `
+  experiments\external_memory_next\evaluate_posthoc_task_biencoder_calibration_v1.py `
+  experiments\external_memory_next\benchmark_posthoc_task_latency_v1.py `
+  experiments\external_memory_next\finalize_posthoc_latency_pareto_v1.py `
+  experiments\external_memory_next\audit_posthoc_closeout_v1.py `
+  tests\external_memory_next\test_posthoc_context_calibration.py
+
+git diff --check
+rg -n '"(used_dev3000|used_test|dev3000_used|test_used)"\s*:\s*true' `
+  "$root" -g '*.json' -g '*.jsonl'
+Get-Process python -ErrorAction SilentlyContinue
+nvidia-smi
+```
+
+Expected primary values:
+
+```text
+Initial NGram+Generic-R Macro = 0.4370578839609785
+Initial NGram+Task-R Macro    = 0.4356462413968509
+Full NGram+Generic-R Macro    = 0.7960049265502147
+Full NGram+Task-R Macro       = 0.7957480665207601
+Initial Q8 K2+ Macro          = 0.6365306668058097
+Initial Q8+F K2+ Macro        = 0.6691641408627556
+Full historical LambdaMART    = 0.7988390633366215
+```
+
+Canonical generated artifact inventory:
+
+| Path under `$root` | Bytes | SHA256 |
+|---|---:|---|
+| `evaluation/result.json` | 227,542 | `5b622c0288c482adee584857801cf13358db3a86ea7171735edc0a83b98d4eac` |
+| `evaluation/grid.json` | 635,740 | `e8799c1ff765e05089db025de7ecfbb91fd6805877bb677bb60fdbd1663267f3` |
+| `evaluation/selected_predictions.jsonl` | 37,492,212 | `85eac5f6533de3f439f289811e2524f42b8e8146cf5a4b5fdc6c04e13184386c` |
+| `latency/latency_pareto.json` | 4,424 | `f9df5dafcc6af85fcc15e6745dbacf9371de60474b5f9d3aed311a72e8bc49ec` |
+| `latency/accuracy_latency_pareto.png` | 59,783 | `7d5c1efff99ab75f47f89b4d8c9165981021188970cd2f7c68b6a748557f5e42` |
+| `support/initial_support.jsonl` | 48,853,320 | `2c2bc7faddab4c032baf58d23a0767e6c31881bdd4c08f348cb865f43e4fced3` |
+| `support/full_support.jsonl` | 31,321,549 | `564ec16bd623d722a42b17eec5ee05daffff1918049cce6eaf8bb4ef9902ef4a` |
+| `q8_full/full_q8_scores.jsonl` | 1,763,192 | `99b9e7095cd6a6a457366aaddd185cf781f9e04dfccb60fdf939bdd0ff957ab6` |
+
+Frozen input SHA256 provenance is recorded in section 8 of the canonical result
+report. Generated artifacts are not Git inputs and must remain
+`GENERATED / LOCAL-ONLY / DO NOT STAGE`.
+Generated JSON/JSONL/SQLite/PNG artifacts remain local-only and must not be
+staged.
+<!-- POSTHOC-TASK-BIENCODER-CALIBRATION-REPRO-20260822-END -->
