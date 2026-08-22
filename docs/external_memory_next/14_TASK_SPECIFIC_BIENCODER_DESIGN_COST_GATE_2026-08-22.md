@@ -4,6 +4,10 @@ Date: 2026-08-22
 
 Status: **DESIGNED / TRAINING DEFERRED ON CURRENT EVIDENCE**
 
+Historical decision note: the user explicitly authorized execution later on
+2026-08-22. The frozen execution protocol and completed result are records 15
+and 16; this original evidence/cost gate is retained unchanged as provenance.
+
 ## 1. Research question
 
 Can a cacheable representation trained for IME historical utility improve on

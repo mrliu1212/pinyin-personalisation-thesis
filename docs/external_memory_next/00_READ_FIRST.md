@@ -1,6 +1,6 @@
 # External Memory Next — Read First
 
-Status: **EXPERIMENTS A/B COMPLETE / REPRODUCIBLE TRAIN-VAL IMPROVEMENT**
+Status: **EXPERIMENTS A/B/C COMPLETE / TRAIN-VAL DEVELOPMENT ONLY**
 
 Worktree: `C:\Users\chiar\Desktop\LBH\thesis-external-memory-next`
 
@@ -22,14 +22,19 @@ Base commit: `fb09ca2fa50589a0fc72130552212c5b47ed4365`
 
 ## Current order
 
-1. Phase 0 evidence and reusable-artifact audit: complete.
-2. Exact Full RetunedFinal baseline reproduction: complete.
-3. Choice Share smoothing ablation: complete; alpha 128 formally selected,
-   but prior-specific value is weak relative to simpler suppression controls.
-4. Nonlinear evidence-fusion study: complete; LambdaMART improved the primary
-   Train-Val metric.
-5. Task-specific bi-encoder design/cost gate: complete; training deferred on
-   current evidence.
+1. Phase 0 - evidence/readiness audit, including exact Full RetunedFinal
+   reproduction: complete.
+2. Experiment A - Choice Share smoothing: complete; a small diagnostic
+   improvement, with the evidence mainly indicating that raw Choice Share was
+   over-weighted.
+3. Experiment B - LambdaMART nonlinear fusion: complete; positive end-to-end
+   result, Macro Top1 `.7960049265502147 -> .7988390633366215`.
+4. Experiment C - task-specific bi-encoder: complete; strong intrinsic
+   retrieval improvement but a slight fixed-fusion end-to-end regression. The
+   predeclared gate failed, so no task-specific LambdaMART refit was run.
+
+The current best Train-Val External Memory configuration remains the existing
+generic-BGE LambdaMART result from Experiment B.
 
 ## Records
 
@@ -48,7 +53,11 @@ Base commit: `fb09ca2fa50589a0fc72130552212c5b47ed4365`
 - `13_LAMBDAMART_FUSION_RESULTS_2026-08-22.md`: selected nonlinear result,
   controls, breakdowns, interpretation, and hashes.
 - `14_TASK_SPECIFIC_BIENCODER_DESIGN_COST_GATE_2026-08-22.md`: evidence-based
-  design/cost gate and decision to defer training.
+  design/cost gate and original decision to defer training.
+- `15_TASK_SPECIFIC_BIENCODER_PREDECLARED_PROTOCOL_2026-08-22.md`: protocol
+  frozen before the later explicitly authorized training run.
+- `16_TASK_SPECIFIC_BIENCODER_RESULTS_2026-08-22.md`: causal audit, training,
+  intrinsic retrieval, fixed-fusion result, hashes, and reproduction commands.
 
 ## Current result checkpoint
 
@@ -63,6 +72,11 @@ LambdaMART Macro-author Top1 = 0.7988390633366215
 LambdaMART vs frozen = 267 rescue / 171 harm / net +96
 LambdaMART Conflict Macro Top1 = 0.2965464515079956
 Selected tree = depth 5 / 31 leaves / min leaf 500 / 100 rounds
+Task bi-encoder intrinsic Macro Recall@1 = 0.8109711910595357
+Generic BGE intrinsic Macro Recall@1 = 0.7789437773409569
+Task fixed-fusion Macro Top1 = 0.7957117243433173
+Task vs frozen = 34 rescue / 46 harm / net -12
+Task-specific LambdaMART refit = not authorized by frozen gate
 Dev3000 used = false
 Test used = false
 ```
@@ -75,6 +89,7 @@ results/personalisation/external_memory_next/train_fit_ranking_features_v1/
 results/personalisation/external_memory_next/learned_fusion_input_audit_v1/
 results/personalisation/external_memory_next/lambdamart_matrices_v1/
 results/personalisation/external_memory_next/lambdamart_fusion_v1/
+results/personalisation/external_memory_next/task_specific_biencoder_v1/
 ```
 
 The Generic cache and all downstream feature/matrix/result artifacts are

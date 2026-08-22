@@ -12,7 +12,7 @@ git worktree add --detach C:\Users\chiar\Desktop\LBH\thesis-reproduce-<name> <ta
 
 Status meanings follow [FILE_MANAGEMENT_RULES.md](FILE_MANAGEMENT_RULES.md): `COMPLETE`, `PARTIAL`, `RESULT-ONLY`, `LOCAL-ARTIFACT-DEPENDENT`, and `LEGACY`.
 
-## External Memory Next — Experiments A/B complete
+## External Memory Next — Experiments A/B/C complete
 
 - Worktree: `C:\Users\chiar\Desktop\LBH\thesis-external-memory-next`.
 - Branch: `work/external-memory-next`.
@@ -37,6 +37,9 @@ Status meanings follow [FILE_MANAGEMENT_RULES.md](FILE_MANAGEMENT_RULES.md): `CO
   `docs/external_memory_next/13_LAMBDAMART_FUSION_RESULTS_2026-08-22.md`.
 - Task-specific bi-encoder design/cost gate:
   `docs/external_memory_next/14_TASK_SPECIFIC_BIENCODER_DESIGN_COST_GATE_2026-08-22.md`.
+- Task-specific bi-encoder frozen protocol and completed result:
+  `docs/external_memory_next/15_TASK_SPECIFIC_BIENCODER_PREDECLARED_PROTOCOL_2026-08-22.md`
+  and `docs/external_memory_next/16_TASK_SPECIFIC_BIENCODER_RESULTS_2026-08-22.md`.
 - Development boundary: Train-Fit fitting and Train-Val selection only;
   Dev3000 is already observed and excluded from design/selection; Test closed.
 - Frozen Full RetunedFinal reproduction: **EXACT**, 34,416 candidate orders and
@@ -50,7 +53,15 @@ Status meanings follow [FILE_MANAGEMENT_RULES.md](FILE_MANAGEMENT_RULES.md): `CO
 - LambdaMART selection: depth `5`, leaves `31`, min leaf `500`, rounds `100`;
   Macro-author Top1 `.7988390633366215`, `267/171/+96` rescue/harm/net versus
   frozen RetunedFinal. Dev3000/Test remained unused.
-- Current reproducibility status: **EXPERIMENTS A/B COMPLETE / LOCAL-ARTIFACT-DEPENDENT**.
+- Task bi-encoder: BAAI revision
+  `7999e1d3359715c523056ef9478215996d62a620`, final checkpoint SHA256
+  `f9b87af11fcff692ad7c25fb6330f44f9f23ffedb480af9aec36af0e7cd08a8e`;
+  intrinsic Macro Recall@1 `.8109711910595357` versus generic BGE
+  `.7789437773409569`, but fixed-fusion Macro Top1 `.7957117243433173`
+  versus frozen `.7960049265502147`. The nonlinear-refit gate failed.
+- Exact Experiment C Windows commands are in record 16, section 8. Generated
+  groups, checkpoints, vectors, predictions, results, and logs are local-only.
+- Current reproducibility status: **EXPERIMENTS A/B/C COMPLETE / LOCAL-ARTIFACT-DEPENDENT**.
 
 Current Windows input-generation commands (run from the isolated worktree):
 
@@ -122,6 +133,85 @@ The Generic output is resumable through its `.partial.jsonl`; rerunning the
 same command skips completed row IDs and restores canonical original order.
 Generated Generic/features/matrices/models/results are local-only and should
 not be staged.
+
+### Task-Specific Bi-Encoder checkpoint
+
+- **Purpose:** test whether strictly causal, query-local same-Pinyin
+  supervision improves historical retrieval and frozen final IME ranking.
+- **Preceding closeout commit:**
+  `330204ae83ed24134befc0fb5ddb99d9b15239c5`.
+- **Protocol/result records:**
+  `docs/external_memory_next/15_TASK_SPECIFIC_BIENCODER_PREDECLARED_PROTOCOL_2026-08-22.md`
+  and `docs/external_memory_next/16_TASK_SPECIFIC_BIENCODER_RESULTS_2026-08-22.md`.
+- **Base model:** full-precision `BAAI/bge-small-zh-v1.5`, revision
+  `7999e1d3359715c523056ef9478215996d62a620`; shared four-layer encoder,
+  512-dimensional masked-mean/L2-normalized embeddings.
+- **Frozen dependencies:** Clean3 Train-Fit for fitting, Clean3 Train-Val for
+  the one-shot checkpoint evaluation, frozen Full RetunedFinal Stage-1 and
+  support/prediction artifacts, completed generic-BGE LambdaMART result, and
+  the exact EM3 Train-Fit pair registry. Dev3000 and Test are rejected.
+- **Causal groups:** 99,671 audited positive rounds; 32,999 positive-only
+  groups excluded from optimization; 66,672 trainable groups split into
+  59,686 inner-fit and 6,986 inner-gate groups.
+- **Selection:** epoch 2 by inner-gate Macro Recall@1 `.594849963`, then a
+  fresh two-epoch refit on all 66,672 trainable Train-Fit groups.
+- **Headline result:** intrinsic Macro Recall@1 `.778943777 -> .810971191`,
+  Micro Recall@1 `.788203753 -> .821233244`, and MRR@10
+  `.863742033 -> .883514537`; fixed-fusion Macro Top1
+  `.796004927 -> .795711724`, with `34/46/-12` rescue/harm/net. The frozen
+  nonlinear-refit gate failed, so no task-specific LambdaMART was fitted.
+- **Hashes:** base tree
+  `4d71fdf52d2c78025befad48d042d2bafa9199e19cdcf2b635c678a1e436b252`;
+  final checkpoint
+  `f9b87af11fcff692ad7c25fb6330f44f9f23ffedb480af9aec36af0e7cd08a8e`;
+  final weights
+  `81f1bc54ec80567cc15c3f986b4acc88033b0a9d268b78fa6c1a893360e63364`;
+  group registry
+  `9b9eda5629842ec2b57428a53c0e2b6e273c533d24dd918ed1914afbfb4c4441`;
+  evaluation result
+  `493d7901e7295ae58e2dcfc7d267bfe44ea797bd638357f47ca8fcf1791da0ad`;
+  predictions
+  `cbc5ce85605d2ddd035254e3a02a623512319976e0c931c5f4767996cf368ddf`.
+- **Artifact policy:** prepared groups, checkpoints, embeddings, predictions,
+  results, and logs remain local-only under
+  `results/personalisation/external_memory_next/task_specific_biencoder_v1/`
+  and `.build/external_memory_next_biencoder/`.
+- **Resource flags:** `used_dev3000=false`; `used_test=false`.
+- **Status:** **LOCAL-ARTIFACT-DEPENDENT**.
+
+Exact Windows commands (run from the isolated worktree):
+
+```powershell
+$python = 'C:\Users\chiar\Desktop\LBH\thesis\.venv\Scripts\python.exe'
+$compare = 'C:\Users\chiar\Desktop\LBH\thesis-context-compare\results\personalisation\context_comparison_v2'
+$follow = 'C:\Users\chiar\Desktop\LBH\thesis-context-compare\results\personalisation\context_comparison_followup_v1\full_retune_final_trainval_dev_v1\tune'
+$root = '.\results\personalisation\external_memory_next\task_specific_biencoder_v1'
+$revision = '7999e1d3359715c523056ef9478215996d62a620'
+$model = ".\.build\external_memory_next_biencoder\base\$revision"
+
+& $python -m experiments.external_memory_next.prepare_task_specific_biencoder_v1 `
+  --fit "$compare\clean3_train_fit_v1.jsonl" `
+  --pairs "$compare\em3_train_pairs_v1\train_pairs.jsonl" `
+  --output-root "$root\preparation"
+
+& $python -m experiments.external_memory_next.run_task_specific_biencoder_v1 `
+  --phase full `
+  --groups "$root\preparation\groups.jsonl" `
+  --audit "$root\preparation\audit.json" `
+  --base-model $model `
+  --output-root "$root\training"
+
+& $python -m experiments.external_memory_next.evaluate_task_specific_biencoder_v1 `
+  --fit "$compare\clean3_train_fit_v1.jsonl" `
+  --val "$compare\clean3_train_val_v1.jsonl" `
+  --stage2 "$follow\train_val_stage2_supports.jsonl" `
+  --frozen-predictions "$follow\train_val_selected_predictions.jsonl" `
+  --generic-bge-cache "$follow\bge_context_cache.sqlite3" `
+  --training-result "$root\training\training_result.json" `
+  --lambdamart-result '.\results\personalisation\external_memory_next\lambdamart_fusion_v1\result.json' `
+  --checkpoint "$root\training\final_refit\epoch_2" `
+  --output-root "$root\evaluation"
+```
 
 ## Current environment and shared local dependencies
 
