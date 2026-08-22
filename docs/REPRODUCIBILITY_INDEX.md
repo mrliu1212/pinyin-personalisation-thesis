@@ -2,6 +2,8 @@
 
 Purpose: answer **how a frozen checkpoint could be rerun later**. This is a static evidence audit, not a record of reruns performed on 2026-08-19. Commands appear only where preserved CLI/source/report evidence establishes them.
 
+**Maintenance:** this is a living reproducibility index. Update `docs/REPRODUCIBILITY_INDEX.md` in place when a new checkpoint or reproduction record is added; do not fork routine updates into dated/versioned index filenames. Git history records revisions.
+
 Use a separate worktree for historical checkpoints; do not move the active worktree backwards:
 
 ```powershell
@@ -9,6 +11,117 @@ git worktree add --detach C:\Users\chiar\Desktop\LBH\thesis-reproduce-<name> <ta
 ```
 
 Status meanings follow [FILE_MANAGEMENT_RULES.md](FILE_MANAGEMENT_RULES.md): `COMPLETE`, `PARTIAL`, `RESULT-ONLY`, `LOCAL-ARTIFACT-DEPENDENT`, and `LEGACY`.
+
+## External Memory Next — Experiments A/B complete
+
+- Worktree: `C:\Users\chiar\Desktop\LBH\thesis-external-memory-next`.
+- Branch: `work/external-memory-next`.
+- Base: `fb09ca2fa50589a0fc72130552212c5b47ed4365`.
+- Read first: `docs/external_memory_next/00_READ_FIRST.md`.
+- Base/provenance record:
+  `docs/external_memory_next/01_BASE_AND_PROVENANCE_2026-08-22.md`.
+- Phase 0 evidence audit:
+  `docs/external_memory_next/02_PHASE0_EVIDENCE_AUDIT_2026-08-22.md`.
+- Exact baseline gate:
+  `docs/external_memory_next/03_FULL_RETUNED_BASELINE_REPRODUCTION_2026-08-22.md`.
+- Choice Share smoothing design/result:
+  `docs/external_memory_next/04_CHOICE_SHARE_SMOOTHING_DESIGN_2026-08-22.md` and
+  `docs/external_memory_next/05_CHOICE_SHARE_SMOOTHING_FIXED_SURFACE_RESULTS_2026-08-22.md`.
+- Smoothing coefficient follow-up:
+  `docs/external_memory_next/06_SMOOTHING_FUSION_RETUNE_DESIGN_2026-08-22.md` and
+  `docs/external_memory_next/07_SMOOTHING_FUSION_RETUNE_RESULTS_2026-08-22.md`.
+- Learned-fusion data gate:
+  `docs/external_memory_next/08_NONLINEAR_FUSION_READINESS_AND_DATA_PLAN_2026-08-22.md`.
+- Learned-fusion input/result records:
+  `docs/external_memory_next/12_LEARNED_FUSION_INPUT_GATE_2026-08-22.md` and
+  `docs/external_memory_next/13_LAMBDAMART_FUSION_RESULTS_2026-08-22.md`.
+- Task-specific bi-encoder design/cost gate:
+  `docs/external_memory_next/14_TASK_SPECIFIC_BIENCODER_DESIGN_COST_GATE_2026-08-22.md`.
+- Development boundary: Train-Fit fitting and Train-Val selection only;
+  Dev3000 is already observed and excluded from design/selection; Test closed.
+- Frozen Full RetunedFinal reproduction: **EXACT**, 34,416 candidate orders and
+  ranks, Macro-author Top1 `.7960049265502147`.
+- Smoothing-only selection: alpha `128`, Macro-author Top1
+  `.7965154987791901`; `25` rescues, `9` harms, net `+16`; all historical
+  fusion coefficients were reselected unchanged.
+- Mechanism decomposition: raw `w_CS=2`, zero-prior shrinkage, all-author
+  shrinkage, and other-author shrinkage all produce net `+15` or `+16` Top1;
+  prior-specific added value is weak. See records `09_...` and `10_...`.
+- LambdaMART selection: depth `5`, leaves `31`, min leaf `500`, rounds `100`;
+  Macro-author Top1 `.7988390633366215`, `267/171/+96` rescue/harm/net versus
+  frozen RetunedFinal. Dev3000/Test remained unused.
+- Current reproducibility status: **EXPERIMENTS A/B COMPLETE / LOCAL-ARTIFACT-DEPENDENT**.
+
+Current Windows input-generation commands (run from the isolated worktree):
+
+```powershell
+$python = 'C:\Users\chiar\Desktop\LBH\thesis\.venv\Scripts\python.exe'
+$compare = 'C:\Users\chiar\Desktop\LBH\thesis-context-compare\results\personalisation\context_comparison_v2'
+$followup = 'C:\Users\chiar\Desktop\LBH\thesis-context-compare\results\personalisation\context_comparison_followup_v1\full_retune_final_trainval_dev_v1\tune'
+$next = '.\results\personalisation\external_memory_next'
+
+New-Item -ItemType Directory -Force "$next\train_fit_generic_v1" | Out-Null
+
+& $python -m experiments.external_memory_next.run_train_fit_generic_v1 `
+  --manifest "$compare\clean3_train_fit_v1.jsonl" `
+  --checkpoint 'C:\Users\chiar\Desktop\LBH\thesis\.build\pinyingpt2-concat' `
+  --output "$next\train_fit_generic_v1\predictions.jsonl" `
+  --batch-size 2 `
+  2> "$next\train_fit_generic_v1\stderr.log" `
+  | Tee-Object -FilePath "$next\train_fit_generic_v1\stdout.log"
+
+& $python -m experiments.external_memory_next.finalize_train_fit_generic_v1 `
+  --fit "$compare\clean3_train_fit_v1.jsonl" `
+  --predictions "$next\train_fit_generic_v1\predictions.jsonl" `
+  --stdout "$next\train_fit_generic_v1\stdout.log" `
+  --generator '.\experiments\external_memory_next\run_train_fit_generic_v1.py' `
+  --helper '.\src\personalisation\standardized_generic.py' `
+  --output-root "$next\train_fit_generic_v1"
+
+& $python -m experiments.external_memory_next.prepare_train_fit_ranking_features_v1 `
+  --phase stage1 `
+  --fit "$compare\clean3_train_fit_v1.jsonl" `
+  --generic "$next\train_fit_generic_v1\predictions.jsonl" `
+  --checkpoint 'C:\Users\chiar\Desktop\LBH\thesis\.build\pinyingpt2-concat' `
+  --output-root "$next\train_fit_ranking_features_v1"
+
+& $python -m experiments.external_memory_next.prepare_train_fit_ranking_features_v1 `
+  --phase supports `
+  --fit "$compare\clean3_train_fit_v1.jsonl" `
+  --bge-model 'C:\Users\chiar\Desktop\LBH\thesis\.cache\phase_04f\models\bge-small-zh-v1.5-q8_0.gguf' `
+  --seed-bge-cache 'C:\Users\chiar\Desktop\LBH\thesis-context-compare\results\personalisation\context_comparison_followup_v1\full_retune_final_trainval_dev_v1\tune\bge_context_cache.sqlite3' `
+  --cuda-path 'C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.8' `
+  --output-root "$next\train_fit_ranking_features_v1"
+
+& $python -m experiments.external_memory_next.audit_learned_fusion_inputs_v1 `
+  --fit-supports "$next\train_fit_ranking_features_v1\train_fit_candidate_supports.jsonl" `
+  --val-stage1 "$followup\train_val_stage1_features.jsonl" `
+  --val-stage2 "$followup\train_val_stage2_supports.jsonl" `
+  --val-predictions "$followup\train_val_selected_predictions.jsonl" `
+  --output-root "$next\learned_fusion_input_audit_v1"
+
+& $python -m experiments.external_memory_next.prepare_lambdamart_matrices_v1 `
+  --audit "$next\learned_fusion_input_audit_v1\audit.json" `
+  --fit-supports "$next\train_fit_ranking_features_v1\train_fit_candidate_supports.jsonl" `
+  --val-stage1 "$followup\train_val_stage1_features.jsonl" `
+  --val-stage2 "$followup\train_val_stage2_supports.jsonl" `
+  --val-predictions "$followup\train_val_selected_predictions.jsonl" `
+  --output-root "$next\lambdamart_matrices_v1"
+
+& $python -m pip install --target '.\.build\external_memory_next_deps' 'lightgbm==4.7.0'
+
+& $python -m experiments.external_memory_next.run_lambdamart_fusion_v1 `
+  --matrix-root "$next\lambdamart_matrices_v1" `
+  --audit "$next\learned_fusion_input_audit_v1\audit.json" `
+  --deps-root '.\.build\external_memory_next_deps' `
+  --smoothing-predictions "$next\choice_share_smoothing_fixed_surface_boundary_v2\selected_predictions.jsonl" `
+  --output-root "$next\lambdamart_fusion_v1"
+```
+
+The Generic output is resumable through its `.partial.jsonl`; rerunning the
+same command skips completed row IDs and restores canonical original order.
+Generated Generic/features/matrices/models/results are local-only and should
+not be staged.
 
 ## Current environment and shared local dependencies
 
@@ -559,8 +672,10 @@ Planned checkpoint tag after explicit approval:
 Generated results remain local-only. Do not stage `results/`, JSONL, SQLite,
 logs, caches, embeddings, checkpoints, or model files.
 <!-- EM3-DEV-CHECKPOINT-20260820-END -->
+---
 
-<!-- CONTEXT-COMPARISON-PREP-20260820 -->
+---
+
 ## Context-model comparison Dev preparation - 2026-08-20
 
 Purpose: freeze the Clean3 balanced-3000 Full+Short/H5000 Dev surface, verify
@@ -699,6 +814,178 @@ Scientific status:
   `used_test=false` throughout. Test remains closed.
 
 <!-- FULL-TRANSFER-INITIAL-FINAL-REPRO-20260822 -->
+
+---
+
+## Initial-Pinyin Personalisation — current Train-Val recovery + context checkpoint
+
+Status: **DEVELOPMENT COMPLETE / LOCAL-ARTIFACT-DEPENDENT / PRE-DEV FREEZE PENDING**.
+
+The numbered Initial-Pinyin research records live under `docs/initial_personalisation/`. `docs/REPRODUCIBILITY_INDEX.md` itself is a living repository-wide index and is updated in place.
+
+### Canonical current records
+
+```text
+docs/initial_personalisation/19_INITIAL_RECOVERY_CONTEXT_TRAINVAL_REPRODUCIBILITY_2026-08-21.md
+  Primary reproduction record for the latest activity.
+
+docs/initial_personalisation/18_INITIAL_RECOVERY_CONTEXT_TRAINVAL_FINAL_CONCLUSIONS_2026-08-21.md
+  Standalone scientific/data record for the same activity.
+
+docs/initial_personalisation/17_INITIAL_PV1_CONTEXT_RERANKING_RESULTS_AND_REPRODUCIBILITY_2026-08-21.md
+  Historical PV1 context-reranking control line.
+
+docs/initial_personalisation/16_INITIAL_REPRODUCIBILITY_2026-08-21_v4.md
+  Earlier broad Initial+Short reproducibility checkpoint.
+
+docs/initial_personalisation/15_INITIAL_PERSONALISATION_RECOVERY_REPRODUCIBILITY_2026-08-21.md
+  Earlier recovery/controllability reproducibility checkpoint.
+```
+
+### Frozen inputs / protocol identity
+
+```text
+Train-Fit rows = 144,526
+Train-Val rows = 34,416
+Initial Train-Fit SHA256 = 162f5c98daa86cc69947571e6d8f20fc401f0a82cdd3fd6e517eb7be2addbdb4
+Initial Train-Val SHA256 = d908d4dbd534e921f0bfd5e7a39b03037690073e8e567cfffecf61466ec0f0e4
+Candidate surface SHA256 = 205c0ba01cd0678d7a4341c503fa2e74cf126a70182ff582687025e4946764b2
+Generic predictions SHA256 = bd0fb4dc304e0b266b90fae6fe3ac65424d2f52b23fedfa881212706ba2c2873
+Frequency/PV1 predictions SHA256 = 7fd8aa158d8cd50bced36b55610f8d932bc65e3aae1dbbd5bd65907ff1707ea7
+
+History semantics:
+  same author
+  -> strictly prior interactions
+  -> latest up-to-5000 RAW interactions
+  -> exact Initial-Pinyin filtering afterward
+
+Gold used for candidate construction/scoring = false
+Gold used for Train-Val evaluation/selection/diagnosis only = true
+Dev3000 used = false
+Test used = false
+```
+
+### Exact current runner identities
+
+```text
+run_initial_recovery_ngram_context_fusion_v1.py
+  SHA256 e6dcd1f68028ad5065064b6b714eaa88d92f74363a328570bfcc777b13271dc2
+
+run_initial_recovery_bge_ngram_context_fusion_v2.py
+  SHA256 b7d95374aa421cbc364699e44e0850ba2e72e50a2a5f816ad37f85b138d1435a
+
+run_initial_recovery_bge_ngram_context_fusion_v3.py
+  SHA256 2b29a86957b4f2adf17a13de37648766e1423d0ec99a57ea257c5aa155d89335
+
+run_initial_recovery_context_diagnostics_v1.py
+  SHA256 7c4a12a5f447405f024d8e8008253da23aab4775d2ae4500f5c44545583d3256
+
+run_initial_recovery_context_topk_transitions_v1.py
+  SHA256 3966111844719f29a07b580a10d18021b0cdf4a6846c71157de611e1a92eaef1
+```
+
+For exact commands, parameter grids, BGE cache behavior, expected console checkpoints, and failure rules, use document `19_...REPRODUCIBILITY...md`; do not reconstruct them from this index.
+
+### Reproduction sequence
+
+```text
+V1: Stage-1 recovery bases + NGramRecency grid
+  -> V2: NGramRecency + BGERecency 2-D grid
+  -> V3: expanded lambda_B boundary verification, no BGE recomputation
+  -> read-only context diagnosis
+  -> read-only Top1/Top3/Top5 rescue-harm diagnosis
+```
+
+Required V3 regressions:
+
+```text
+V1 NGram-only selected points reproduced: PASS
+V2 selected full-context points reproduced: PASS
+V3 selected points identical to V2: PASS
+No selected lambda_B at expanded upper boundary: PASS
+BGE recomputed in V3: false
+Dev3000 used: false
+Test used: false
+```
+
+### Canonical current result roots
+
+```text
+results/personalisation/initial_recovery_comparison_v1/recovery_ngram_context_fusion_v1/
+results/personalisation/initial_recovery_comparison_v1/recovery_bge_ngram_context_fusion_v2/
+results/personalisation/initial_recovery_comparison_v1/recovery_bge_ngram_context_fusion_v3/
+results/personalisation/initial_recovery_comparison_v1/recovery_context_diagnostics_v1/
+results/personalisation/initial_recovery_comparison_v1/recovery_context_topk_transitions_v1/
+```
+
+The V3 root is the canonical final selected-prediction/result root for this Train-Val stage. The diagnosis roots are post-hoc/read-only and must not be used to reopen tuning.
+
+### Frozen Train-Val operating points
+
+```text
+Primary overall:
+  4P+4CS+2E + NG-R lambda_N=4 + BGE-R lambda_B=6
+  Macro=.437058 Micro=.460571 Top3=.631392 Top5=.696478 MRR=.559755 Missing=.243172
+  Rec1=.4246 Rec3=.6969 Rec5=.8153 Rec10=.9485 RecMRR=.5892
+
+Coverage-oriented:
+  K5+Entropy + NG-R lambda_N=6 + BGE-R lambda_B=8
+  Macro=.436767 Micro=.459990 Top3=.626453 Top5=.688139 MRR=.557836 Missing=.243288
+  Rec1=.4430 Rec3=.7481 Rec5=.8778 Rec10=.9876 RecMRR=.6218
+
+Front-rank comparison:
+  6P+2CS+.25E + NG-R lambda_N=4 + BGE-R lambda_B=6
+  Macro=.436477 Micro=.459786 Top3=.630085 Top5=.696013 MRR=.558806 Missing=.243869
+  Rec1=.4415 Rec3=.6961 Rec5=.8069 Rec10=.9283 RecMRR=.5951
+```
+
+Primary selection is by pre-specified Macro-author Top1. The Balanced-vs-K5 Macro gap is only `.000291`; this is a Train-Val selection result, not evidence of statistical significance or holdout superiority.
+
+### Diagnostic reproduction checkpoints
+
+```text
+Primary 4P+4CS+2E:
+  Recovery -> NG-R:
+    Delta Macro = +.027644
+    Top1 rescue=2375 harm=1468 net=+907
+
+  NG-R -> Full:
+    Delta Macro = +.004607
+    Top1 rescue=681 harm=514 net=+167
+
+Recoverable R = 4,910
+Generic Missing = 12,565
+
+Top3 Recovery -> Full on R:
+  K5+Entropy:  rescue=745 harm=80 net=+665
+  4P+4CS+2E:   rescue=745 harm=20 net=+725
+  6P+2CS+.25E: rescue=617 harm=16 net=+601
+```
+
+Per-author primary final checkpoints:
+
+```text
+Agent Phage: Stage1=.470344 -> NG=.487374 -> Full=.493923; Missing=.171312
+Etinjat:     Stage1=.237235 -> NG=.271980 -> Full=.275218; Missing=.485056
+breaddddd:   Stage1=.506841 -> NG=.537999 -> Full=.542032; Missing=.167655
+```
+
+### Reproduction boundary
+
+This checkpoint is **Train-Val development only**. The current selected lambdas and recovery coefficients must be treated as frozen before opening Dev3000. Post-hoc diagnosis is explanatory only and must not trigger new gates, features, coefficients, or lambda tuning on the same Train-Val data.
+
+Next formal sequence:
+
+```text
+PRE-DEV FREEZE
+-> Dev3000 evaluation of frozen operating points / control
+-> pre-declared selection
+-> final freeze
+-> Test
+```
+
+---
+
 ## Full+Short zero-shot Initial-final transfer — LOCAL-ARTIFACT-DEPENDENT
 
 - **Date:** 2026-08-22.

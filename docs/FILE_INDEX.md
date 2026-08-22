@@ -2,7 +2,49 @@
 
 Purpose: answer **what each meaningful file or directory is for, and what its current status is**. This is a static inventory of `work/external-memory-completion` at commit `a9a9351c85fe7f40f17c5232e5f77b6c84e7b35c`, inspected on 2026-08-19. It follows [FILE_MANAGEMENT_RULES.md](FILE_MANAGEMENT_RULES.md).
 
+**Maintenance:** this is a living repository index. Update `docs/FILE_INDEX.md` in place as the repository evolves; do not create dated/version-suffixed replacements for routine updates. Git history is the revision history.
+
 Statuses are `ACTIVE`, `FROZEN`, `HELPER`, `LEGACY`, `DEFERRED`, `GENERATED`, and `LOCAL-ONLY`. Compound statuses are used where a generated artifact is also intentionally local-only. No status authorizes deletion.
+
+## External Memory Next — active 2026-08-22
+
+| Path | Type | Purpose and dependencies/outputs | Related stage | Status |
+|---|---|---|---|---|
+| `docs/external_memory_next/00_READ_FIRST.md` | Current-status entry point | Scientific boundary, execution order, records, and resume rule for the isolated next-phase worktree. | External Memory Next | ACTIVE |
+| `docs/external_memory_next/01_BASE_AND_PROVENANCE_2026-08-22.md` | Provenance record | Base-selection evidence, branch divergence, supplied-index identities, and source checkpoint map. | Phase 0 | FROZEN RECORD |
+| `docs/external_memory_next/02_PHASE0_EVIDENCE_AUDIT_2026-08-22.md` | Evidence audit | Real Train-Fit/Train-Val distributions, feature availability, reusable artifacts, and method-design implications. | Phase 0 | COMPLETE |
+| `docs/external_memory_next/03_FULL_RETUNED_BASELINE_REPRODUCTION_2026-08-22.md` | Reproduction record | Exact arithmetic reconstruction of every frozen Full RetunedFinal Train-Val candidate order and rank. | Baseline gate | COMPLETE |
+| `docs/external_memory_next/04_CHOICE_SHARE_SMOOTHING_DESIGN_2026-08-22.md` | Predeclared design | Fixed-surface empirical-Bayes estimator, causal prior, alpha grid, selection rule, and limits. | Experiment A | FROZEN RECORD |
+| `docs/external_memory_next/05_CHOICE_SHARE_SMOOTHING_FIXED_SURFACE_RESULTS_2026-08-22.md` | Result record | Positive alpha=128 Train-Val ablation, boundary extension, breakdowns, hashes, and cautious interpretation. | Experiment A | COMPLETE |
+| `docs/external_memory_next/06_SMOOTHING_FUSION_RETUNE_DESIGN_2026-08-22.md` | Predeclared design | Sequential Choice Share coefficient and Stage-2 lambda follow-up grid. | Experiment A | FROZEN RECORD |
+| `docs/external_memory_next/07_SMOOTHING_FUSION_RETUNE_RESULTS_2026-08-22.md` | Result record | Negative retune result: original fusion weights reselected, isolating the smoothing effect. | Experiment A | COMPLETE |
+| `docs/external_memory_next/08_NONLINEAR_FUSION_READINESS_AND_DATA_PLAN_2026-08-22.md` | Readiness gate | Missing Train-Fit Generic surface, causal data-generation plan, cost, and learned-ranking boundary. | Experiment B | COMPLETE RECORD |
+| `docs/external_memory_next/09_CHOICE_SHARE_PRIOR_DECOMPOSITION_DESIGN_2026-08-22.md` | Predeclared diagnostic | Separates population-prior information from generic Choice Share suppression. | Experiment A | FROZEN RECORD |
+| `docs/external_memory_next/10_CHOICE_SHARE_PRIOR_DECOMPOSITION_RESULTS_2026-08-22.md` | Result record | Shows that raw Choice Share is over-weighted but prior-specific added value is weak. | Experiment A | COMPLETE |
+| `docs/external_memory_next/11_LAMBDAMART_FUSION_DESIGN_2026-08-22.md` | Predeclared design | Runtime feature schema, group policy, LightGBM objective, controls, grid, and selection rule. | Experiment B | FROZEN RECORD |
+| `docs/external_memory_next/12_LEARNED_FUSION_INPUT_GATE_2026-08-22.md` | Input/result gate | Validated 144,526-row Generic/support generation, runtime-only feature audit, matrices, hashes, and empty-surface no-op correction. | Experiment B | COMPLETE |
+| `docs/external_memory_next/13_LAMBDAMART_FUSION_RESULTS_2026-08-22.md` | Result record | Positive nonlinear-fusion Train-Val result, controls, subset/per-author metrics, feature contributions, limitations, and hashes. | Experiment B | COMPLETE |
+| `docs/external_memory_next/14_TASK_SPECIFIC_BIENCODER_DESIGN_COST_GATE_2026-08-22.md` | Design/cost decision | Causal training/evaluation design, compute estimate, literature links, and evidence-based decision to defer expensive training. | Experiment C | DEFERRED |
+| `experiments/external_memory_next/audit_phase0_evidence_v1.py` | Audit runner | Hash-gated Phase-0 distributions and initial frozen-metric check; accepts no Dev/Test path. | Phase 0 | ACTIVE |
+| `experiments/external_memory_next/reproduce_full_retuned_baseline_v1.py` | Reproduction runner | Rebuilds frozen Stage-1/final ranking arithmetic and verifies all 34,416 rows. | Baseline gate | ACTIVE |
+| `experiments/external_memory_next/run_choice_share_smoothing_v1.py` | Experiment runner | Original alpha grid for fixed-surface causal Choice Share smoothing. | Experiment A | ACTIVE |
+| `experiments/external_memory_next/run_choice_share_smoothing_boundary_v2.py` | Boundary runner | Versioned alpha-boundary extension; selected alpha=128 as an interior point. | Experiment A | ACTIVE |
+| `experiments/external_memory_next/run_smoothing_fusion_retune_v1.py` | Experiment runner | Sequential `w_CS` and Stage-2 lambda retune; reselected original coefficients. | Experiment A | ACTIVE |
+| `experiments/external_memory_next/run_choice_share_prior_decomposition_v1.py` | Diagnostic runner | Fixed-surface raw-scale, zero-prior, all-author, and other-author comparison. | Experiment A | ACTIVE |
+| `experiments/external_memory_next/run_train_fit_generic_v1.py` | Resumable GPU runner | Hash-pinned frozen PinyinGPT Generic generation for Clean3 Train-Fit only. | Experiment B input | ACTIVE |
+| `experiments/external_memory_next/finalize_train_fit_generic_v1.py` | Validation runner | Verifies 144,526-row order, frozen decoding/revisions, CUDA runtime, and final cache checksums. | Experiment B input | ACTIVE |
+| `experiments/external_memory_next/prepare_train_fit_ranking_features_v1.py` | Feature runner | Builds causal frozen Stage-1 Top10, then existing NGram/BGE supports, for Train-Fit learned-ranking groups. | Experiment B input | ACTIVE |
+| `experiments/external_memory_next/audit_learned_fusion_inputs_v1.py` | Feature-audit runner | Runtime-only feature distributions, group/positive coverage, source composition, and zero-positive policy. | Experiment B input | ACTIVE |
+| `experiments/external_memory_next/prepare_lambdamart_matrices_v1.py` | Matrix runner | Materializes compact author-free `X`, separate gold labels, query groups, and Val metadata after audit. | Experiment B input | ACTIVE |
+| `experiments/external_memory_next/run_lambdamart_fusion_v1.py` | Experiment runner | Resumable additive-stump control and 12-point deterministic LambdaMART grid with exact external Macro selection. | Experiment B | ACTIVE |
+| `src/personalisation/standardized_generic.py` | Runtime helper | Shape-safe deterministic bucketing, durable resume, and original-row-order restoration for frozen Generic generation. | Experiment B input | ACTIVE |
+| `src/personalisation/standardized_reranking.py` | Runtime helper | Standardized query/candidate adapters imported byte-for-byte from the audited comparison worktree. | Experiment B input | ACTIVE |
+| `tests/external_memory_next/` | Focused tests | Audit math, exact ranking arithmetic, smoothing, Generic bucketing/resume/Test rejection, empty-Generic no-op, matrix policy, and LambdaMART selection/ties. | External Memory Next | ACTIVE |
+
+Generated audit/result namespaces for this phase will remain under
+`results/personalisation/external_memory_next/` and are local-only unless an
+explicit later policy says otherwise. Dev3000 is excluded from design and
+selection; Test remains closed.
 
 ## Repository governance and entry points
 
@@ -319,6 +361,9 @@ All result trees, JSONL, SQLite, logs, caches, embeddings, checkpoints, and
 generated models remain GENERATED / LOCAL-ONLY and must not be staged as normal
 source artifacts.
 <!-- EM3-DEV-CHECKPOINT-20260820-END -->
+---
+
+---
 
 <!-- CONTEXT-COMPARISON-PREP-20260820 -->
 ## Context-model horizontal comparison preparation - 2026-08-20
@@ -394,6 +439,198 @@ generated v2 JSONL, SQLite, logs, embeddings, or checkpoints should be staged.
 The standardized comparison is complete on Dev3000. All selection was confined
 to Train-Val; `used_test=false`; Test remains closed.
 <!-- STANDARDIZED-COMPARISON-FINAL-20260821-END -->
+
+---
+
+## Initial-Pinyin Personalisation
+
+### Placement and maintenance rule
+
+```text
+All numbered Initial-Pinyin research documents belong under:
+  docs/initial_personalisation/
+
+This includes 01_..., 02_..., ..., 19_..., and decimal-numbered records such as 13.1_....
+
+Repository-wide living indexes remain at docs/ root:
+  docs/FILE_INDEX.md
+  docs/REPRODUCIBILITY_INDEX.md
+
+These two index files are updated in place. Their filenames are stable; Git history carries revisions.
+```
+
+### Canonical current documentation
+
+```text
+docs/initial_personalisation/19_INITIAL_RECOVERY_CONTEXT_TRAINVAL_REPRODUCIBILITY_2026-08-21.md
+  Canonical reproduction record for the final Train-Val Recovery -> NGramRecency -> BGERecency activity,
+  including V1/V2/V3, diagnosis, Top-k transitions, hashes, commands, regressions, and safety invariants.
+
+docs/initial_personalisation/18_INITIAL_RECOVERY_CONTEXT_TRAINVAL_FINAL_CONCLUSIONS_2026-08-21.md
+  Canonical data/conclusion record for the completed Train-Val recovery + context activity.
+  This is the main standalone record of the new result numbers and diagnosis.
+
+docs/initial_personalisation/17_INITIAL_PV1_CONTEXT_RERANKING_RESULTS_AND_REPRODUCIBILITY_2026-08-21.md
+  Historical PV1 fixed-candidate context-reranking checkpoint used as the control line for later recovery+context work.
+
+docs/initial_personalisation/16_INITIAL_REPRODUCIBILITY_2026-08-21_v4.md
+  Earlier broad Initial+Short reproducibility record through candidate scoring and Stage-1 recovery development.
+
+docs/initial_personalisation/15_INITIAL_PERSONALISATION_RECOVERY_REPRODUCIBILITY_2026-08-21.md
+  Earlier compact recovery/controllability reproducibility record.
+
+docs/initial_personalisation/14_INITIAL_PERSONALISATION_FILE_INDEX_2026-08-21.md
+  Historical compact Initial-Pinyin phase-local file map; repository-wide current navigation is this FILE_INDEX.md.
+
+docs/initial_personalisation/13.1_INITIAL_PERSONALISATION_RECOVERY_METHOD_COMPARISON_AND_REVISED_CONCLUSIONS_2026-08-21_v2.md
+  Stage-1 recovery-method comparison and revised conclusions before Stage-2 context fusion.
+
+docs/initial_personalisation/13_INITIAL_PERSONALISATION_CURRENT_CONCLUSIONS_AND_CONTROLLABILITY.md
+  Earlier current-conclusion checkpoint; superseded by the later 18/19 activity and the living current-conclusions file.
+
+docs/initial_personalisation/12_INITIAL_PERSONALISATION_METRIC_PURPOSE_AND_PRIORITIES.md
+  Metric purpose and priority: primary, secondary, recovery, and diagnostic metrics.
+
+docs/initial_personalisation/11_INITIAL_PERSONALISATION_EVALUATION_METRICS_AND_DESIGN.md
+  Metric definitions, calculation formulas, evaluation populations, and design rationale.
+```
+
+The earlier numbered `01_` through `10_` Initial-Pinyin research/design/diagnostic records remain in the same `docs/initial_personalisation/` directory as provenance. Do not move numbered Initial-Pinyin documents back to `docs/` root.
+
+### Living current-conclusions record
+
+```text
+docs/initial_personalisation/INITIAL_PERSONALISATION_CURRENT_CONCLUSIONS_AND_CONTROLLABILITY_v2.md
+  Current cross-phase Initial-Pinyin conclusions and controllability interpretation after the final Train-Val context activity.
+```
+
+This file is unnumbered because it is a living synthesis rather than a chronological experiment record.
+
+### Current final Train-Val recovery + context runners
+
+```text
+experiments/initial_personalisation/run_initial_recovery_ngram_context_fusion_v1.py
+  Stage-1 recovery bases + Stage-2 NGramRecency grid.
+  SHA256: e6dcd1f68028ad5065064b6b714eaa88d92f74363a328570bfcc777b13271dc2
+
+experiments/initial_personalisation/run_initial_recovery_bge_ngram_context_fusion_v2.py
+  Two-dimensional NGramRecency + BGERecency grid.
+  SHA256: b7d95374aa421cbc364699e44e0850ba2e72e50a2a5f816ad37f85b138d1435a
+
+experiments/initial_personalisation/run_initial_recovery_bge_ngram_context_fusion_v3.py
+  Expanded lambda_B boundary verification; arithmetic-only reuse of completed support.
+  SHA256: 2b29a86957b4f2adf17a13de37648766e1423d0ec99a57ea257c5aa155d89335
+
+experiments/initial_personalisation/run_initial_recovery_context_diagnostics_v1.py
+  Read-only final Train-Val diagnosis.
+  SHA256: 7c4a12a5f447405f024d8e8008253da23aab4775d2ae4500f5c44545583d3256
+
+experiments/initial_personalisation/run_initial_recovery_context_topk_transitions_v1.py
+  Read-only Top1/Top3/Top5 rescue-harm transition diagnosis.
+  SHA256: 3966111844719f29a07b580a10d18021b0cdf4a6846c71157de611e1a92eaef1
+```
+
+### Current final Train-Val result roots
+
+```text
+results/personalisation/initial_recovery_comparison_v1/recovery_ngram_context_fusion_v1/
+  NGram-only context fusion support and selected predictions.
+
+results/personalisation/initial_recovery_comparison_v1/recovery_bge_ngram_context_fusion_v2/
+  Original NGram+BGE two-dimensional grid and BGE support/cache products.
+
+results/personalisation/initial_recovery_comparison_v1/recovery_bge_ngram_context_fusion_v3/
+  Canonical final selected full-context operating points after expanded-boundary verification.
+  Durable files:
+    grid_results.csv
+    selected_metrics.csv
+    selected_predictions.jsonl
+    full_comparison.csv
+    comparison.json
+    run_manifest.json
+    artifact_checksums.json
+
+results/personalisation/initial_recovery_comparison_v1/recovery_context_diagnostics_v1/
+  Post-hoc read-only diagnostic outputs:
+    diagnostic_summary.json
+    headline_comparison.csv
+    per_author.csv
+    subset_metrics.csv
+    top1_transitions.csv
+    rank_movement.csv
+    recovery_diagnostics.csv
+    context_increment.csv
+    base_disagreement.csv
+    margin_diagnostics.csv
+    error_examples.jsonl
+    diagnostic_report.md
+    run_manifest.json
+    artifact_checksums.json
+
+results/personalisation/initial_recovery_comparison_v1/recovery_context_topk_transitions_v1/
+  Top-k transition outputs:
+    topk_transitions.csv
+    topk_transitions.json
+```
+
+### Current frozen Train-Val operating points
+
+```text
+Primary overall development selection:
+  4P+4CS+2E + NGramRecency(lambda_N=4) + BGERecency(lambda_B=6)
+  Macro=.437058  Micro=.460571  Top3=.631392  Top5=.696478
+  MRR=.559755  Missing=.243172
+  Recovery: Rec1=.4246 Rec3=.6969 Rec5=.8153 Rec10=.9485 RecMRR=.5892
+
+Coverage-oriented comparison:
+  K5+Entropy + NGramRecency(lambda_N=6) + BGERecency(lambda_B=8)
+  Macro=.436767  Micro=.459990  Top3=.626453  Top5=.688139
+  MRR=.557836  Missing=.243288
+  Recovery: Rec1=.4430 Rec3=.7481 Rec5=.8778 Rec10=.9876 RecMRR=.6218
+
+Front-rank comparison:
+  6P+2CS+.25E + NGramRecency(lambda_N=4) + BGERecency(lambda_B=6)
+  Macro=.436477  Micro=.459786  Top3=.630085  Top5=.696013
+  MRR=.558806  Missing=.243869
+  Recovery: Rec1=.4415 Rec3=.6961 Rec5=.8069 Rec10=.9283 RecMRR=.5951
+```
+
+Development interpretation: the balanced model is the Train-Val selection under the pre-specified Macro-author Top1 criterion, but the gap to K5+Entropy is very small. Do not claim significance or generalization before holdout evaluation.
+
+### Latest diagnostic checkpoints
+
+```text
+Primary 4P+4CS+2E context increments:
+  Recovery -> NG-R: Delta Macro = +.027644; Top1 rescue=2375 harm=1468 net=+907
+  NG-R -> Full:     Delta Macro = +.004607; Top1 rescue=681  harm=514  net=+167
+
+Top3 rescue/harm on recoverable R=4910, Recovery -> Full:
+  K5+Entropy:    rescue=745 harm=80 net=+665
+  4P+4CS+2E:     rescue=745 harm=20 net=+725
+  6P+2CS+.25E:   rescue=617 harm=16 net=+601
+
+Per-author primary full-context Top1 / Missing@10:
+  Agent Phage: Top1=.493923 Missing=.171312
+  Etinjat:     Top1=.275218 Missing=.485056
+  breaddddd:   Top1=.542032 Missing=.167655
+```
+
+Etinjat is substantially harder on this Initial-Pinyin surface, primarily because its candidate-set missing rate is much higher. Context still improves Etinjat from Stage-1 Top1 `.237235` to full-context `.275218`; do not infer a causal reason for the author difference without a dedicated upstream data/history audit.
+
+### Protocol state
+
+```text
+Train-Val development: complete
+V3 upper-boundary check: passed
+Post-hoc diagnosis: complete
+Dev3000 used: false
+Test used: false
+Next formal step: PRE-DEV FREEZE -> Dev3000
+```
+
+All generated result trees remain GENERATED / LOCAL-ONLY unless separately designated for tracking. Preserve versioned historical experiment outputs; do not overwrite them.
+
+---
 
 <!-- FULL-TRANSFER-INITIAL-FINAL-20260822 -->
 ## Full+Short zero-shot Initial-final transfer follow-up — 2026-08-22
