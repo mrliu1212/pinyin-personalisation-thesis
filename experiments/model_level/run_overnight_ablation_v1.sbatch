@@ -50,9 +50,11 @@ run_gpu() {
 
     srun \
       --exclusive \
+      --exact \
       --nodes=1 \
       --ntasks=1 \
       --cpus-per-task=4 \
+      --mem=24G \
       --gres=gpu:1 \
       bash -c '
         set -euo pipefail
