@@ -286,3 +286,13 @@ Then:
   - Generic Top1 = 0.819955.
   - Top1 gain = +11.586 percentage points.
   - LR=5e-4 frozen for Adapter V1.
+
+## Overnight Ablation and Cross-Author Protocol
+
+- `docs/model_level/07_OVERNIGHT_ABLATION_PROTOCOL_2026-08-23.md`
+  - Agent Phage A/B/C Full-only versus 3:1:2 comparison.
+  - Recent-history 500 / 5K / 25K / Full experiment.
+  - Frozen author-specific Dev1000 manifests.
+  - Full-history Full-only three-author models.
+  - Dev and full Train-Val Initial/Full evaluation.
+  - Models retained for later Hybrid integration.
