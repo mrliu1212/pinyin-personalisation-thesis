@@ -165,6 +165,9 @@ def deterministic_subset(
     return selected
 
 
+UNSUPPORTED_PINYIN_ERROR_PREFIX = "no tokenizer candidates for Pinyin "
+
+
 def prediction_row(
     row: Mapping[str, Any],
     backend: PinyinGPTConcatBackend,
@@ -179,19 +182,57 @@ def prediction_row(
 
     started = time.perf_counter()
 
+    generated = None
+    unsupported_reason = None
+
     with torch.inference_mode():
-        generated = backend.generate(
-            context,
-            pinyin,
-            top_k=top_k,
-            beam_size=beam_size,
-        )
+        try:
+            generated = backend.generate(
+                context,
+                pinyin,
+                top_k=top_k,
+                beam_size=beam_size,
+            )
+        except ValueError as error:
+            message = str(error)
+
+            # Evaluation denominator is frozen.  An input Pinyin sequence for
+            # which the frozen checkpoint exposes no tokenizer candidates is
+            # therefore an explicit miss, not a reason to drop the row.
+            #
+            # Catch ONLY this known backend condition.  Any unrelated
+            # ValueError remains a hard failure.
+            if not message.startswith(
+                UNSUPPORTED_PINYIN_ERROR_PREFIX
+            ):
+                raise
+
+            unsupported_reason = message
 
     elapsed = time.perf_counter() - started
 
-    candidates = [candidate.text for candidate in generated.candidates]
-    scores = [float(candidate.log_probability) for candidate in generated.candidates]
-    rank = candidates.index(gold) + 1 if gold in candidates else None
+    if generated is None:
+        candidates: list[str] = []
+        scores: list[float] = []
+        runtime_device = str(
+            getattr(backend, "device", "unknown")
+        )
+    else:
+        candidates = [
+            candidate.text
+            for candidate in generated.candidates
+        ]
+        scores = [
+            float(candidate.log_probability)
+            for candidate in generated.candidates
+        ]
+        runtime_device = generated.runtime_device
+
+    rank = (
+        candidates.index(gold) + 1
+        if gold in candidates
+        else None
+    )
 
     return {
         "schema_version": 1,
@@ -209,14 +250,24 @@ def prediction_row(
         "top10_candidate_scores": scores,
         "gold_top10_rank": rank,
         "top1_correct": rank == 1,
-        "top3_correct": rank is not None and rank <= 3,
-        "top5_correct": rank is not None and rank <= 5,
+        "top3_correct": (
+            rank is not None and rank <= 3
+        ),
+        "top5_correct": (
+            rank is not None and rank <= 5
+        ),
         "top10_present": rank is not None,
-        "reciprocal_rank_at_10": 0.0 if rank is None else 1.0 / rank,
+        "reciprocal_rank_at_10": (
+            0.0 if rank is None else 1.0 / rank
+        ),
+        "unsupported_input": (
+            unsupported_reason is not None
+        ),
+        "unsupported_reason": unsupported_reason,
         "inference_seconds": elapsed,
         "beam_size": beam_size,
         "top_k": top_k,
-        "runtime_device": generated.runtime_device,
+        "runtime_device": runtime_device,
     }
 
 
