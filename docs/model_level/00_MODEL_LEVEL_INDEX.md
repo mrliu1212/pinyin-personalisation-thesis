@@ -277,3 +277,12 @@ Then:
   - Planned Hybrid experiment.
   - Final untouched Test protocol.
   - Explicitly deferred experiments and Future Work boundaries.
+
+## Full Train-Val Confirmation
+
+- `docs/model_level/06_ADAPTER_V1_FULL_VAL_CONFIRMATION_2026-08-23.md`
+  - Full 13,741-row Agent Phage Train-Val confirmation.
+  - LR=5e-4 Top1 = 0.935813.
+  - Generic Top1 = 0.819955.
+  - Top1 gain = +11.586 percentage points.
+  - LR=5e-4 frozen for Adapter V1.
