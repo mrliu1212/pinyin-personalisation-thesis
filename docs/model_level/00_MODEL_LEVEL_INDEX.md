@@ -257,3 +257,11 @@ Then:
     Model-Level vs reranking
     optional hybrid
     final untouched Test
+
+## Deferred Future Work
+
+- `docs/model_level/04_ADAPTER_FUTURE_WORK_2026-08-23.md`
+  - Unified Full / Initial / Mixed Pinyin training.
+  - Controlled Short / Multi1-Multi5 training mixtures.
+  - Training-mixture ablations are intentionally deferred from Adapter V1.
+  - Future hybrid integration with external-memory reranking.
