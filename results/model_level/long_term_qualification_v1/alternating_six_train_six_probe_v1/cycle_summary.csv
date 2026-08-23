@@ -1,0 +1,7 @@
+cycle,train_block,train_rows,train_steps,probe_block,probe_rows,reserve_rows,probe_first_work,probe_last_work,probe_n_works
+1,1,5805,726,2,500,5305,6,12,7
+2,3,5806,726,4,500,5305,19,22,4
+3,5,5805,726,6,500,5306,22,22,1
+4,7,5805,726,8,500,5305,25,26,2
+5,9,5806,726,10,500,5305,27,33,7
+6,11,5805,726,12,500,5306,40,44,5
