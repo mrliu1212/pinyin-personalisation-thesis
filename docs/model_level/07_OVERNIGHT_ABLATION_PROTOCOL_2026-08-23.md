@@ -114,3 +114,37 @@ The overnight experiment does not:
 - tune other authors independently.
 
 Every distinct Adapter is trained once and reused for all of its evaluations.
+
+## Frozen-Tokenizer Training Representability Gate
+
+During the first full-history overnight attempt, Adapter training exposed a
+previously unseen dataset/checkpoint compatibility edge case: some canonical
+Train-Fit targets contain characters that are not exact tokens in the frozen
+PinyinGPT2-Concat tokenizer.
+
+A complete Train-Fit audit found:
+
+- Agent Phage: 55,926 nominal rows, 1 excluded, 55,925 effective rows.
+- Etinjat: 32,906 nominal rows, 351 excluded, 32,555 effective rows.
+- breaddddd: 55,694 nominal rows, 12 excluded, 55,682 effective rows.
+
+The 351 Etinjat exclusions include 40 rows marked `pair_trainable=True`;
+therefore `pair_trainable` alone is not a sufficient model-level training
+eligibility criterion.
+
+The model-level training policy now applies one minimal checkpoint-derived
+gate after selecting the nominal experiment population:
+
+- retain the row only if every Gold target character round-trips to the exact
+  same character through the frozen checkpoint tokenizer;
+- otherwise exclude the row and record it in training provenance.
+
+For recent-N experiments, nominal recent-N selection occurs before this gate,
+so the history horizon itself is not redefined.
+
+This gate applies only to Adapter training. Dev and Train-Val populations are
+not filtered, preserving benchmark comparability and allowing unsupported
+Gold targets to remain genuine missing cases.
+
+The first four completed Agent recent-history models did not encounter any
+unsupported target and are retained unchanged.

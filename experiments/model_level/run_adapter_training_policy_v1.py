@@ -20,6 +20,8 @@ import sys
 from pathlib import Path
 from typing import Any, Mapping
 
+from transformers import AutoTokenizer
+
 from experiments.model_level import run_adapter_training_v1 as base
 
 
@@ -27,6 +29,7 @@ ORIGINAL_CHOOSE_POPULATION = base.choose_training_population
 ORIGINAL_CHOOSE_REPRESENTATION = base.choose_pinyin_representation
 
 SELECTION_AUDIT: dict[str, Any] = {}
+TARGET_FILTER_AUDIT: dict[str, Any] = {}
 
 
 def chronological_key(row: Mapping[str, Any]) -> tuple[int, int, int, int, str]:
@@ -53,14 +56,77 @@ def chronological_key(row: Mapping[str, Any]) -> tuple[int, int, int, int, str]:
     )
 
 
-def make_recent_population_selector():
-    signature = inspect.signature(ORIGINAL_CHOOSE_POPULATION)
+def tokenizer_target_compatibility(
+    row: Mapping[str, Any],
+    tokenizer: Any,
+) -> tuple[bool, dict[str, Any] | None]:
+    """Check the exact character-token requirement used by Adapter training."""
+
+    target = str(row["gold"])
+
+    if target != str(row.get("target", target)):
+        raise RuntimeError(
+            f"Gold/target mismatch for row {row.get('row_id')!r}"
+        )
+
+    token_ids = tuple(
+        tokenizer.convert_tokens_to_ids(list(target))
+    )
+
+    invalid = []
+
+    for character, token_id in zip(target, token_ids):
+        token = tokenizer.convert_ids_to_tokens(token_id)
+
+        if (
+            token_id == tokenizer.unk_token_id
+            or token != character
+        ):
+            invalid.append(
+                {
+                    "character": character,
+                    "codepoint": f"U+{ord(character):04X}",
+                    "token_id": int(token_id),
+                    "roundtrip_token": token,
+                }
+            )
+
+    if not invalid:
+        return True, None
+
+    return False, {
+        "row_id": str(row["row_id"]),
+        "target": target,
+        "pair_trainable": row.get("pair_trainable"),
+        "work_chronological_index": row.get(
+            "work_chronological_index"
+        ),
+        "chronological_position": row.get(
+            "chronological_position"
+        ),
+        "invalid_characters": invalid,
+    }
+
+
+def make_population_selector(
+    history_selection: str,
+    tokenizer: Any,
+):
+    signature = inspect.signature(
+        ORIGINAL_CHOOSE_POPULATION
+    )
 
     def patched(*args: Any, **kwargs: Any):
         bound = signature.bind_partial(*args, **kwargs)
 
         row_name = None
-        for candidate in ("values", "rows", "author_rows", "population"):
+
+        for candidate in (
+            "values",
+            "rows",
+            "author_rows",
+            "population",
+        ):
             if candidate in bound.arguments:
                 row_name = candidate
                 break
@@ -71,67 +137,159 @@ def make_recent_population_selector():
                 f"choose_training_population{signature}"
             )
 
-        rows = list(bound.arguments[row_name])
+        source_rows = list(bound.arguments[row_name])
         max_rows = bound.arguments.get("max_rows")
 
-        if max_rows is None:
-            selected = sorted(rows, key=chronological_key)
-        else:
-            max_rows = int(max_rows)
-            if max_rows < 1:
-                raise RuntimeError("--max-rows must be positive")
-            if max_rows > len(rows):
+        # -------------------------------------------------------------
+        # First choose the NOMINAL experiment population.
+        # -------------------------------------------------------------
+
+        if history_selection == "recent":
+            if max_rows is None:
                 raise RuntimeError(
-                    f"--max-rows={max_rows} exceeds author population {len(rows)}"
+                    "Recent-history experiment requires explicit --max-rows"
                 )
 
-            ordered = sorted(rows, key=chronological_key)
-            selected = ordered[-max_rows:]
+            max_rows = int(max_rows)
 
-        if len({str(row["row_id"]) for row in selected}) != len(selected):
-            raise RuntimeError("Duplicate row_id detected in recent-history subset")
+            if max_rows < 1:
+                raise RuntimeError(
+                    "--max-rows must be positive"
+                )
 
-        SELECTION_AUDIT.clear()
-        SELECTION_AUDIT.update(
+            if max_rows > len(source_rows):
+                raise RuntimeError(
+                    f"--max-rows={max_rows} exceeds author "
+                    f"population {len(source_rows)}"
+                )
+
+            ordered = sorted(
+                source_rows,
+                key=chronological_key,
+            )
+
+            nominal = ordered[-max_rows:]
+
+        elif history_selection == "deterministic":
+            nominal = list(
+                ORIGINAL_CHOOSE_POPULATION(
+                    *args,
+                    **kwargs,
+                )
+            )
+
+        else:
+            raise RuntimeError(
+                f"Unsupported history selection: "
+                f"{history_selection!r}"
+            )
+
+        if len(
+            {str(row["row_id"]) for row in nominal}
+        ) != len(nominal):
+            raise RuntimeError(
+                "Duplicate row_id detected in nominal "
+                "training population"
+            )
+
+        # -------------------------------------------------------------
+        # Then apply the frozen-checkpoint representability gate.
+        # -------------------------------------------------------------
+
+        selected = []
+        excluded = []
+
+        for row in nominal:
+            compatible, reason = (
+                tokenizer_target_compatibility(
+                    row,
+                    tokenizer,
+                )
+            )
+
+            if compatible:
+                selected.append(row)
+            else:
+                excluded.append(reason)
+
+        if not selected:
+            raise RuntimeError(
+                "Tokenizer compatibility filter removed "
+                "the entire training population"
+            )
+
+        TARGET_FILTER_AUDIT.clear()
+        TARGET_FILTER_AUDIT.update(
             {
-                "selection": "most_recent",
-                "source_population_rows": len(rows),
-                "selected_rows": len(selected),
-                "ordering": [
-                    "work_chronological_index",
-                    "chronological_position",
-                    "source_position_start",
-                    "source_position_end",
-                    "row_id",
-                ],
-                "oldest_selected": (
-                    {
-                        "row_id": str(selected[0]["row_id"]),
-                        "work_chronological_index": int(
-                            selected[0]["work_chronological_index"]
-                        ),
-                        "chronological_position": int(
-                            selected[0]["chronological_position"]
-                        ),
-                    }
-                    if selected
-                    else None
+                "policy": (
+                    "exclude_target_not_exactly_representable_"
+                    "by_frozen_checkpoint_tokenizer"
                 ),
-                "newest_selected": (
-                    {
-                        "row_id": str(selected[-1]["row_id"]),
-                        "work_chronological_index": int(
-                            selected[-1]["work_chronological_index"]
-                        ),
-                        "chronological_position": int(
-                            selected[-1]["chronological_position"]
-                        ),
-                    }
-                    if selected
-                    else None
-                ),
+                "nominal_selected_rows": len(nominal),
+                "effective_training_rows": len(selected),
+                "excluded_rows": len(excluded),
+                "excluded": excluded,
             }
         )
+
+        # -------------------------------------------------------------
+        # Recent-history provenance.
+        # -------------------------------------------------------------
+
+        SELECTION_AUDIT.clear()
+
+        if history_selection == "recent":
+            SELECTION_AUDIT.update(
+                {
+                    "selection": "most_recent",
+                    "source_population_rows": len(
+                        source_rows
+                    ),
+                    "nominal_selected_rows": len(
+                        nominal
+                    ),
+                    "effective_training_rows": len(
+                        selected
+                    ),
+                    "ordering": [
+                        "work_chronological_index",
+                        "chronological_position",
+                        "source_position_start",
+                        "source_position_end",
+                        "row_id",
+                    ],
+                    "oldest_nominal": {
+                        "row_id": str(
+                            nominal[0]["row_id"]
+                        ),
+                        "work_chronological_index": int(
+                            nominal[0][
+                                "work_chronological_index"
+                            ]
+                        ),
+                        "chronological_position": int(
+                            nominal[0][
+                                "chronological_position"
+                            ]
+                        ),
+                    },
+                    "newest_nominal": {
+                        "row_id": str(
+                            nominal[-1]["row_id"]
+                        ),
+                        "work_chronological_index": int(
+                            nominal[-1][
+                                "work_chronological_index"
+                            ]
+                        ),
+                        "chronological_position": int(
+                            nominal[-1][
+                                "chronological_position"
+                            ]
+                        ),
+                    },
+                }
+            )
 
         return selected
 
@@ -193,12 +351,33 @@ def main() -> None:
 
     max_rows_raw = cli_value(remaining, "--max-rows")
 
-    if wrapper_args.history_selection == "recent":
-        if max_rows_raw is None:
-            raise RuntimeError(
-                "Recent-history experiment requires explicit --max-rows"
-            )
-        base.choose_training_population = make_recent_population_selector()
+    if (
+        wrapper_args.history_selection == "recent"
+        and max_rows_raw is None
+    ):
+        raise RuntimeError(
+            "Recent-history experiment requires explicit --max-rows"
+        )
+
+    checkpoint_raw = cli_value(
+        remaining,
+        "--checkpoint",
+    )
+
+    if checkpoint_raw is None:
+        raise RuntimeError("--checkpoint is required")
+
+    tokenizer = AutoTokenizer.from_pretrained(
+        checkpoint_raw,
+        local_files_only=True,
+    )
+
+    base.choose_training_population = (
+        make_population_selector(
+            wrapper_args.history_selection,
+            tokenizer,
+        )
+    )
 
     if wrapper_args.training_pinyin_policy == "full_only":
         base.choose_pinyin_representation = (
@@ -246,6 +425,7 @@ def main() -> None:
             else None
         ),
         "selection_audit": SELECTION_AUDIT or None,
+        "tokenizer_target_filter": TARGET_FILTER_AUDIT,
         "requested_mode_counts": requested,
         "effective_mode_counts": result.get("effective_mode_counts"),
     }
@@ -272,6 +452,10 @@ def main() -> None:
         f"{wrapper_args.history_selection}"
     )
     print(f"requested_mode_counts={requested}")
+    print(
+        "tokenizer_target_filter="
+        f"{TARGET_FILTER_AUDIT}"
+    )
 
     if SELECTION_AUDIT:
         print(
