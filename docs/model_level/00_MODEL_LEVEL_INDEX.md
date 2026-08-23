@@ -265,3 +265,15 @@ Then:
   - Controlled Short / Multi1-Multi5 training mixtures.
   - Training-mixture ablations are intentionally deferred from Adapter V1.
   - Future hybrid integration with external-memory reranking.
+
+## Remaining Research Plan
+
+- `docs/model_level/05_ADAPTER_V1_REMAINING_RESEARCH_PLAN_2026-08-23.md`
+  - Full Agent Phage LR=5e-4 confirmation.
+  - Agent Phage training-data learning curve.
+  - Minimal training-duration decision.
+  - Formal three-user Adapter training and validation.
+  - External-memory versus Model-Level comparison.
+  - Planned Hybrid experiment.
+  - Final untouched Test protocol.
+  - Explicitly deferred experiments and Future Work boundaries.
