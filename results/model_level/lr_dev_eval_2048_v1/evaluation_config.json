@@ -1,0 +1,40 @@
+{
+  "adapter_specs": [
+    {
+      "label": "lr_5e-5",
+      "path": "/home/3160454/work/thesis-model-level/results/model_level/lr_calibration_2048_v1/lr_5e-5/agent_phage_adapter_v1.safetensors"
+    },
+    {
+      "label": "lr_1e-4",
+      "path": "/home/3160454/work/thesis-model-level/results/model_level/lr_calibration_2048_v1/lr_1e-4/agent_phage_adapter_v1.safetensors"
+    },
+    {
+      "label": "lr_2e-4",
+      "path": "/home/3160454/work/thesis-model-level/results/model_level/lr_calibration_2048_v1/lr_2e-4/agent_phage_adapter_v1.safetensors"
+    },
+    {
+      "label": "lr_5e-4",
+      "path": "/home/3160454/work/thesis-model-level/results/model_level/lr_calibration_2048_v1/lr_5e-4/agent_phage_adapter_v1.safetensors"
+    }
+  ],
+  "author": "Agent Phage",
+  "author_train_val_rows": 13741,
+  "beam_size": 16,
+  "checkpoint": "aihijo/transformers4ime-pinyingpt-concat",
+  "checkpoint_path": "/home/3160454/work/model-level-assets-20260822/pinyingpt2-concat",
+  "checkpoint_revision": "76dd20dc92d8236a350fb732e99dde6fa15e2263",
+  "experiment": "model_level_adapter_dev_evaluation_v1",
+  "full_author_evaluation": false,
+  "max_rows": 2048,
+  "official_code_revision": "8f1573ed0bd4d1f3d8d3f10a05f7e870725646f1",
+  "pinyin_condition": "full",
+  "schema_version": 1,
+  "selected_rows": 2048,
+  "selection_seed": 20260822,
+  "target_type": "short",
+  "top_k": 10,
+  "train_val_path": "/home/3160454/work/model-level-assets-20260822/clean3_train_val_v1.jsonl",
+  "train_val_sha256": "d7ae1cc21ee029dde8458189b9dc7a0989b2b3a372627e079c3e2699307f2220",
+  "train_val_total_rows": 34416,
+  "used_test": false
+}

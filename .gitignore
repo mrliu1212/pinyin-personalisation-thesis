@@ -8,3 +8,13 @@ data/rime/
 .cache/phase_04e/
 .cache/phase_04f/
 .cache/livechat/
+
+# Model-Level generated Python artifacts
+__pycache__/
+*.pyc
+
+# Model-Level binary Adapter checkpoints
+results/model_level/**/*.safetensors
+
+# Model-Level per-example Dev predictions
+results/model_level/**/*_predictions.jsonl
