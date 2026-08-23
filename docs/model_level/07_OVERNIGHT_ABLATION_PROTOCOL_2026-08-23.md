@@ -2,6 +2,16 @@
 
 Date: 2026-08-23
 
+**Status:** COMPLETED
+
+Final results and interpretation are recorded in:
+
+`docs/model_level/08_ADAPTER_STATIC_RESULTS_CHECKPOINT_2026-08-23.md`
+
+The original protocol below is retained as the pre-result experimental
+specification.
+
+
 ## Purpose
 
 This protocol runs the remaining controlled Model-Level experiments required

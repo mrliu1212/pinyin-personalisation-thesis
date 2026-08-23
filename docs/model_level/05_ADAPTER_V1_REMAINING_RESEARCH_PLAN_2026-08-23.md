@@ -1,368 +1,319 @@
-# Model-Level Adapter V1: Remaining Research Plan
+# Model-Level Adapter V1 — Remaining Research Plan
 
-Date: 2026-08-23
-
-## 1. Objective
-
-The remaining Model-Level research will focus on completing and evaluating the
-existing Adapter V1 approach rather than expanding the architecture search.
-
-The main questions are:
-
-1. Does Model-Level Adapter personalisation remain effective on the complete
-   held-out development population?
-2. How does performance change as the amount of per-user training history
-   increases?
-3. How does Model-Level personalisation compare with the existing
-   external-memory / candidate-level personalisation system?
-4. Are Model-Level and external-memory personalisation complementary when
-   combined in a Hybrid system?
-5. Do the final conclusions hold on the untouched Test partition?
-
-No broad search over alternative Adapter architectures, LoRA variants,
-bottleneck sizes, placements, or training-mixture families is planned for the
-current thesis scope.
+**Date:** 2026-08-23
+**Status:** Static qualification complete; longitudinal continual phase next.
 
 ---
 
-## 2. Current Adapter V1 Configuration
+## 1. Completed work
 
-The current Adapter V1 architecture remains fixed unless a critical failure is
-identified.
+The following Model-Level Adapter work is complete:
 
-### Base model
+- Adapter architecture and hard gates;
+- deterministic GPU reproducibility;
+- exact target-only Concat training loss;
+- learning-rate calibration;
+- LR `5e-4` freeze;
+- full Agent Train-Val confirmation;
+- tokenizer-compatible training-target gate;
+- Full-only and mixed-Pinyin static training;
+- Agent history-size experiments;
+- three-author static Adapter training/evaluation;
+- full Train-Val evaluation;
+- unsupported-Pinyin denominator-preserving evaluation semantics;
+- Oldest5K / Random5K / Recent5K matched-budget controls;
+- Recent5K 625-versus-6991 optimization control;
+- Recent5K-long versus Full55925 matched-step diversity control.
 
-- PinyinGPT2-Concat
-- Base model frozen
-- 12 Transformer blocks
-- One residual serial bottleneck Adapter after each completed block
-- Hidden size: 768
-- Bottleneck size: 48
-- ReLU activation
-- Frozen final LayerNorm and tied LM head
-- Adapter parameters per user: 894,528
+Static results are frozen in:
 
-### Current training protocol
-
-- Train-Fit is the only partition used to update Adapter parameters.
-- Train-Val is held out for development, model selection, and calibration.
-- Test remains untouched until the final protocol is frozen.
-- Current Pinyin exposure:
-  - Full : Initial : Mixed = 3 : 1 : 2
-- Current target setting:
-  - Short targets
-- Current primary LR candidate:
-  - 5e-4
-- Base model remains frozen throughout Adapter training.
-
-The current multi-condition training protocol involving joint Short and
-Multi1-Multi5 targets is deferred to Future Work.
+`docs/model_level/08_ADAPTER_STATIC_RESULTS_CHECKPOINT_2026-08-23.md`
 
 ---
 
-## 3. Stage A: Complete Full Agent Phage Validation
+## 2. Frozen current configuration
 
-The immediate task is to complete the currently running full Train-Val
-confirmation for the LR=5e-4 Adapter.
+Architecture:
 
-### Population
+- frozen PinyinGPT2-Concat base;
+- 12 serial residual Adapters;
+- hidden 768;
+- bottleneck 48;
+- ReLU;
+- 894,528 trainable parameters per user.
 
-- Author: Agent Phage
-- Full Agent Phage Train-Val population: 13,741 rows
-- Full Pinyin evaluation
-- Short targets
-- Beam size: 16
-- Top-K: 10
+Current continual update baseline:
 
-### Existing Generic full-validation baseline
+- Full-Pinyin training;
+- Short targets;
+- LR `5e-4`;
+- batch size 8;
+- one-pass 5K update block;
+- 625 optimizer steps per complete 5K update block;
+- seed `20260822`;
+- deterministic training.
 
-N = 13,741
-
-- Top1 = 0.8199548796
-- Top3 = 0.9402518012
-- Top5 = 0.9581544284
-- Top10 = 0.9705989375
-- MRR = 0.8820930699
-- Missing@10 = 0.0294010625
-
-### Decision
-
-If LR=5e-4 remains clearly beneficial on the full Agent Phage Train-Val
-population, freeze LR=5e-4 for Adapter V1.
-
-Do not perform full-validation reruns for 5e-5, 1e-4, or 2e-4 unless the 5e-4
-confirmation exposes an unexpected failure.
+Master A demonstrated that repeated training of a fixed 5K population to 6,991
+steps strongly overfits. The continual protocol should therefore avoid repeated
+multi-epoch optimization of the same small episode by default.
 
 ---
 
-## 4. Stage B: Training-Data Learning Curve
+## 3. Longitudinal development corpus
 
-After LR confirmation, measure how Model-Level personalisation depends on the
-amount of available user history.
+Current longitudinal research uses Agent Phage only.
 
-This experiment is performed only for Agent Phage.
+Allowed corpus:
 
-### Training sizes
+`Train-Fit + Train-Val`
 
-Use deterministic nested Train-Fit populations:
+Combined nominal rows:
 
-- 2,048 rows
-- 8,192 rows
-- 32,768 rows
-- 55,926 rows (full Agent Phage Train-Fit)
+`69,667`
 
-The subsets should satisfy:
+Tokenizer-compatible effective rows:
 
-2,048 subset 8,192 subset 32,768 subset Full
+`69,664`
 
-where each smaller population is contained in the next larger population.
+Works:
 
-### Fixed variables
+`45`
 
-Across the learning-curve models, keep fixed:
+Chronology:
 
-- Adapter architecture
-- bottleneck = 48
-- LR = 5e-4
-- optimizer
-- batch size
-- seed
-- Pinyin exposure policy
-- loss definition
-- training epoch count
+- Train-Fit: work indices 0–30;
+- Train-Val: work indices 31–44;
+- combined indices: 0–44.
 
-Only the amount of Train-Fit data should change.
+Test remains sealed.
 
-### Evaluation
+Important semantic change:
 
-Use the existing frozen 2,048-row Agent Phage Train-Val subset for efficient
-comparison of all learning-curve models.
-
-Compare:
-
-- 2K training
-- 8K training
-- 32K training
-- Full Train-Fit training
-
-on exactly the same 2,048 development rows.
-
-The full Train-Fit model should additionally be evaluated on all 13,741 Agent
-Phage Train-Val rows.
-
-### Purpose
-
-This experiment should answer:
-
-- how much user history is needed before Adapter personalisation becomes useful;
-- whether performance continues to improve with more history;
-- whether gains begin to saturate;
-- whether Model-Level personalisation appears data-hungry relative to
-  external-memory personalisation.
+Once Train-Val is incorporated into the longitudinal stream, it is part of the
+development/training corpus for this research branch and is no longer an
+untouched validation partition.
 
 ---
 
-## 5. Stage C: Epoch / Training-Duration Decision
+## 4. Next Stage A — Freeze episode/probe manifests
 
-Do not perform a broad epoch search by default.
+Create deterministic chronological manifests before continual training.
 
-Start with the current one-epoch protocol.
+Working design:
 
-If the learning curve and full Train-Fit result show no clear evidence of
-under-training, retain one epoch.
+`[Update 5K] [Future Probe 500]`
 
-Only if the full-data model appears clearly under-trained should an additional
-two-epoch experiment be run.
+repeated for 12 cycles.
 
-The goal is to avoid turning training duration into another large
-hyperparameter search.
+This gives:
 
----
+- update rows: 60,000;
+- probe rows: 6,000;
+- remaining terminal future rows: 3,664.
 
-## 6. Stage D: Freeze Adapter V1 Protocol
+Exact manifests must be persisted and hashed before model results are inspected.
 
-After LR and training-duration decisions, freeze the Model-Level Adapter V1
-protocol.
-
-The frozen protocol should include:
-
-- architecture
-- Adapter placement
-- bottleneck size
-- activation
-- LR
-- optimizer
-- batch size
-- epoch count
-- random seed / deterministic policy
-- Pinyin exposure policy
-- loss
-- Beam16 / Top10 evaluation protocol
-- Train-Fit / Train-Val / Test partition semantics
-
-No Test result may be used to modify this protocol.
+Probe rows must never be used for training.
 
 ---
 
-## 7. Stage E: Formal Three-User Adapter Training
+## 5. Next Stage B — Prequential test-before-train protocol
 
-Train one independent Adapter per user using only that user's complete
-Train-Fit population.
+For episode `k`:
 
-Current Train-Fit sizes:
+1. load the warm Adapter state from episode `k-1`;
+2. evaluate Future Probe `k` before Update `k`;
+3. train once on Update `k`;
+4. evaluate Future Probe `k` again;
+5. retain all prior probe manifests for later retention evaluation.
 
-- Agent Phage: 55,926 rows
-- Etinjat: 32,906 rows
-- breaddddd: 55,694 rows
+This preserves causal ordering:
 
-The frozen PinyinGPT2-Concat base model is shared across users.
+past history -> model -> future probe -> later update.
 
-Only the per-user Adapter parameters are updated.
-
-Train-Val is not merged back into training.
-
----
-
-## 8. Stage F: Three-User Full Train-Val Evaluation
-
-Evaluate the formal per-user Adapters on the complete held-out Train-Val
-population.
-
-Primary comparison:
-
-1. Generic PinyinGPT2-Concat
-2. External-memory / candidate-level personalisation
-3. Model-Level Adapter
-
-Report at least:
-
-- Top1
-- Top3
-- Top5
-- Top10
-- MRR@10
-- Missing@10
-- micro aggregate
-- equally weighted macro-user aggregate
-
-Where row-level predictions are available, additionally analyse:
-
-- rescue
-- harm
-- net rescue
-- overlap between errors corrected by external memory and Adapter
-- cases corrected only by Adapter
-- cases corrected only by external memory
-
-This overlap analysis should guide the Hybrid experiment.
+No future row may influence an earlier model state.
 
 ---
 
-## 9. Stage G: Hybrid Personalisation
+## 6. Next Stage C — Warm continual Adapter
 
-Hybrid is a planned main experiment rather than only Future Work.
+The central experiment is a single per-user Adapter updated sequentially through
+the chronological stream.
 
-The intended architecture is:
+Baseline update unit:
 
-Pinyin + preceding context
-    ->
-Personalised Adapter PinyinGPT2-Concat
-    ->
-Adapter-specific autoregressive Beam16 candidate generation
-    ->
-External-memory / Final reranker
-    ->
-Hybrid final ranking
+- 5,000 compatible chronological rows;
+- batch 8;
+- one pass;
+- 625 optimizer steps.
 
-The Adapter must generate its own candidate set because Model-Level
-personalisation changes Transformer hidden states, token probabilities, beam
-pruning, and therefore the generated candidate population.
-
-Generic Beam caches must not be treated as Adapter-generated candidates.
-
-### Main Hybrid question
-
-Determine whether:
-
-- Model-Level Adapter personalisation and
-- external-memory personalisation
-
-capture complementary user-specific information.
-
-A strong Hybrid gain would support complementarity.
-
-A small or negligible Hybrid gain would suggest that the two methods capture
-largely overlapping personalisation signals.
-
-Both outcomes are scientifically meaningful.
+The purpose is to measure whether a fixed-size model-level personalization state
+can continuously absorb new user history.
 
 ---
 
-## 10. Stage H: Final Untouched Test
+## 7. Adaptation metrics
 
-Only after all development decisions are frozen should the Test partition be
-used.
+For every future probe, report at least:
 
-The intended final comparison is:
+- Top1;
+- Top3;
+- Top5;
+- Top10;
+- MRR@10;
+- Missing@10.
 
-1. Generic
-2. Best external-memory method
-3. Model-Level Adapter
-4. Hybrid
+For paired pre/post-update predictions also compute:
 
-The final per-user Adapters are trained using Train-Fit only.
+- rescue;
+- harm;
+- unchanged-correct;
+- unchanged-wrong;
+- net rescue.
 
-Train-Val remains a development/model-selection population and is not used for
-final parameter updates.
-
-After Test evaluation begins, no architecture, LR, epoch, training mixture, or
-ranking rule may be changed based on Test results.
-
----
-
-## 11. Explicitly Deferred Work
-
-The following are outside the current main experimental scope and are recorded
-as Future Work:
-
-- Full-only versus Full+Initial+Mixed training ablation
-- alternative Full / Initial / Mixed exposure ratios
-- joint Short + Multi training
-- Multi1-Multi5 exposure-ratio optimisation
-- unified multi-condition Adapter training
-- alternative Adapter bottleneck sizes
-- alternative Adapter placement
-- alternative Adapter activation functions
-- LoRA versus Adapter architecture search
-- large optimizer search
-- broad LR search beyond the existing calibration
-- major batched-generation engineering unless evaluation throughput becomes a
-  blocking issue
-
-These questions remain scientifically interesting but are deliberately deferred
-to preserve a focused and feasible thesis scope.
+The primary adaptation quantity is the change on the future probe caused by the
+immediately preceding chronological update.
 
 ---
 
-## 12. Remaining Main Pipeline
+## 8. Retention and forgetting
 
-The intended remaining sequence is:
+Earlier probes are re-evaluated after later updates.
 
-1. Complete LR=5e-4 full Agent Phage Train-Val confirmation.
-2. Freeze LR if confirmation succeeds.
-3. Run Agent Phage training-data learning curve:
-   2K -> 8K -> 32K -> Full.
-4. Decide whether one epoch is sufficient.
-5. Freeze Adapter V1 training protocol.
-6. Train formal Adapters for all three users.
-7. Run complete three-user Train-Val evaluation.
-8. Compare Generic, external memory, and Model-Level Adapter.
-9. Analyse rescue/error overlap.
-10. Build and evaluate Hybrid.
-11. Freeze all final methods.
-12. Run untouched Test once.
-13. Produce final thesis tables, figures, interpretation, and limitations.
+For probe `i` at later time `t`, define:
 
-The guiding principle for the remaining work is to finish the existing
-Model-Level approach rigorously rather than continuously expanding the search
-space.
+`Forget(i,t) = Acc(i,i) - Acc(i,t)`
+
+where `Acc(i,i)` is the post-learning performance associated with the time the
+probe was first incorporated into the learned history, and `Acc(i,t)` is its
+later performance.
+
+Report:
+
+- per-probe forgetting;
+- average forgetting;
+- worst-probe forgetting;
+- temporal forgetting curves.
+
+Replay is not part of the baseline.
+
+Replay is introduced only if warm continual training exhibits meaningful
+forgetting.
+
+---
+
+## 9. Generic preservation / locality
+
+Continual personalization should not be evaluated only on same-user future
+accuracy.
+
+A preservation/control analysis should measure whether sequential updates cause
+unwanted collateral drift outside the recently learned preference region.
+
+The exact control manifest must be frozen before the corresponding results are
+examined.
+
+---
+
+## 10. Warm versus Rebuild control
+
+Warm continual training may benefit from accumulated optimization trajectory,
+not only accumulated information.
+
+Therefore compare the warm Adapter against rebuild controls at selected
+checkpoints.
+
+Planned checkpoints:
+
+- after approximately 20K update rows;
+- after approximately 40K update rows;
+- after approximately 60K update rows.
+
+A rebuild model is trained from the zero-initialized Adapter state using the
+allowed historical data available up to that point.
+
+This control tests whether warm sequential updating provides a benefit or cost
+relative to rebuilding from accumulated history.
+
+---
+
+## 11. Replay decision
+
+Do not add replay pre-emptively.
+
+Decision rule:
+
+- if warm continual training shows little meaningful forgetting, retain the
+  simpler no-replay system;
+- if substantial forgetting is observed, introduce a minimal replay condition
+  as a targeted control.
+
+This keeps the research question focused.
+
+---
+
+## 12. Controlled Temporary versus Persistent stress test
+
+Natural ABA/ABB temporal shifts were audited but are not sufficiently clean to
+serve as preference-ground-truth events because semantic/context confounds
+remain.
+
+They are retained as a methodological negative result.
+
+A later controlled mechanistic stress test will therefore use ambiguous Pinyin
+with two real tokenizer-compatible candidates A/B.
+
+Measure:
+
+- candidate scores;
+- candidate ranks;
+- margin `Score(A) - Score(B)`;
+- takeover under persistent B exposure;
+- recovery after temporary B exposure;
+- collateral drift on unrelated Pinyin.
+
+Counterbalance:
+
+- A -> B;
+- B -> A.
+
+This is a stress test of the existing warm Adapter, not a new architecture.
+
+---
+
+## 13. Explicitly outside the current research line
+
+The following are not part of the remaining main pipeline unless reopened
+explicitly:
+
+- Adapter bottleneck 48 versus 96;
+- alternative Adapter architecture search;
+- LoRA comparison;
+- controlled-write architecture;
+- consolidation architecture;
+- controlled-read architecture;
+- external-memory Hybrid;
+- long-term × short-term hybrid control;
+- broad engineering benchmark phase;
+- final Test evaluation.
+
+The current research line ends after the longitudinal continual experiments and
+controlled temporary/persistent stress test.
+
+---
+
+## 14. Remaining sequence
+
+1. Freeze combined longitudinal corpus provenance.
+2. Freeze episode/probe manifests.
+3. Run prequential test-before-train baseline.
+4. Run warm continual Adapter.
+5. Measure adaptation / rescue / harm.
+6. Measure retention / forgetting.
+7. Measure generic preservation / locality.
+8. Run Warm versus Rebuild controls.
+9. Add replay only if warranted by forgetting.
+10. Run Temporary versus Persistent controlled stress test.
+11. Freeze final Model-Level conclusions.
+
+Test remains sealed.

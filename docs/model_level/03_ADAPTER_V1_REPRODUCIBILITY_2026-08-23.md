@@ -390,3 +390,426 @@ Interrupted evaluation resume:
 Test isolation:
 
     PASS
+
+---
+
+## 11. Post-calibration protocol freeze
+
+The earlier LR-calibration status in this document is historical.
+
+Subsequent full-development confirmation froze:
+
+`LR = 5e-4`
+
+for Adapter V1.
+
+Full Agent Phage Train-Val confirmation:
+
+- N = 13,741;
+- Generic Top1 = 0.8199548796;
+- Adapter Top1 = 0.935812532;
+- Adapter Top3 = 0.982897897;
+- Adapter MRR = 0.959568716;
+- Adapter Missing = 0.008660214.
+
+The static experiments after this point use LR `5e-4`.
+
+---
+
+## 12. Tokenizer-compatible training-target gate
+
+A complete frozen-tokenizer audit found the following Train-Fit populations.
+
+Nominal:
+
+- Agent Phage = 55,926;
+- Etinjat = 32,906;
+- breaddddd = 55,694.
+
+Effective tokenizer-compatible training populations:
+
+- Agent Phage = 55,925;
+- Etinjat = 32,555;
+- breaddddd = 55,682.
+
+Total excluded rows:
+
+`364`
+
+The training gate is applied after nominal experiment-population selection.
+
+Recent-N therefore means:
+
+1. select the nominal most-recent N rows;
+2. apply the frozen-checkpoint target-compatibility gate.
+
+Evaluation populations are not filtered by this training gate.
+
+Audit output:
+
+`results/model_level/train_fit_tokenizer_unknown_audit_v1.json`
+
+Implementation commit:
+
+`2c23bb5`
+
+---
+
+## 13. Fixed author Dev1000 identity
+
+Selection seed:
+
+`20260822`
+
+SHA256:
+
+Agent Phage:
+
+`aebdc7e60831ac5d67b5459db0c172afa7e7bf29d7d6df9bfc380a459a2e89ed`
+
+Etinjat:
+
+`a38c9d3feceb99f47046770c8bcfb68fc3a0a149897e548ab15545cfb283b454`
+
+breaddddd:
+
+`20bf977540d000c7021674df674d0c07464842c5c161ef12ddac1c7d49a84814`
+
+Root:
+
+`results/model_level/fixed_dev1000_v1/`
+
+These manifests are subsets of Train-Val.
+
+---
+
+## 14. Overnight static experiment reproduction
+
+Protocol:
+
+`docs/model_level/07_OVERNIGHT_ABLATION_PROTOCOL_2026-08-23.md`
+
+Runner:
+
+`experiments/model_level/run_overnight_ablation_v1.sbatch`
+
+Output root:
+
+`results/model_level/overnight_ablation_v1/`
+
+Training:
+
+- LR = `5e-4`;
+- batch size = 8;
+- epoch = 1;
+- seed = `20260822`;
+- Short targets;
+- Full-only unless explicitly mixed;
+- Full:Initial:Mixed mixed condition = `3:1:2`.
+
+Primary Agent conditions:
+
+- recent500 Full-only;
+- recent5000 Full-only;
+- recent25000 Full-only;
+- recent27963 Full-only;
+- full55925 Full-only;
+- full55925 mixed 3:1:2.
+
+Cross-author full-history Full-only:
+
+- Agent Phage;
+- Etinjat;
+- breaddddd.
+
+Evaluation:
+
+- Beam = 16;
+- Top-K = 10;
+- fixed Dev1000 Full and Initial;
+- complete Train-Val Full and Initial.
+
+GPU-isolation commit:
+
+`3ba4fdc`
+
+Etinjat-finalizer commit:
+
+`dddaa04`
+
+---
+
+## 15. Unsupported-Pinyin evaluation reproduction
+
+Evaluation denominator is preserved when the frozen checkpoint has no tokenizer
+candidate set for an input Pinyin segment.
+
+Caught condition:
+
+a `ValueError` whose message begins exactly with:
+
+`no tokenizer candidates for Pinyin `
+
+Recorded semantics:
+
+- candidates = `[]`;
+- candidate scores = `[]`;
+- `gold_top10_rank = null`;
+- Top1 = false;
+- Top3 = false;
+- Top5 = false;
+- Top10 present = false;
+- reciprocal rank = 0;
+- `unsupported_input = true`;
+- explicit unsupported reason.
+
+All unrelated `ValueError`s still propagate.
+
+Regression test:
+
+`tests/test_adapter_evaluation_unsupported_pinyin.py`
+
+Implementation commit:
+
+`18bf358`
+
+This policy completed the previously interrupted Etinjat Full Train-Val run.
+
+Etinjat Full Train-Val:
+
+- N = 8,030;
+- Top1 = 0.688044832;
+- Top3 = 0.823163138;
+- Top5 = 0.864508095;
+- Top10 = 0.900000000;
+- MRR = 0.763310354;
+- Missing = 0.100000000.
+
+---
+
+## 16. Master A history-manifest identity
+
+Pre-freeze audit root:
+
+`results/model_level/long_term_qualification_v1/audit_pre_freeze_v1/`
+
+Manifests:
+
+- `oldest5000_row_ids.json`
+- `random5000_row_ids.json`
+- `recent5000_row_ids.json`
+
+Each contains exactly 5,000 Agent Phage compatible Train-Fit row IDs.
+
+Selection seed:
+
+`20260822`
+
+Selection definitions:
+
+- Oldest5K = first 5,000 chronological compatible rows;
+- Recent5K = last 5,000 chronological compatible rows;
+- Random5K = seeded sample of 5,000 compatible rows, then chronological sort.
+
+Observed overlap:
+
+- Oldest5K vs Random5K = 453;
+- Oldest5K vs Recent5K = 0;
+- Random5K vs Recent5K = 432.
+
+Manifest training wrapper:
+
+`experiments/model_level/run_adapter_training_manifest_v1.py`
+
+The wrapper changes only exact row-population selection and delegates the
+canonical architecture/loss/optimizer/batching/save behavior to the existing
+training runner.
+
+---
+
+## 17. Master A optimizer-step controls
+
+Batch size:
+
+`8`
+
+5K one-pass condition:
+
+`5000 / 8 = 625 optimizer steps`
+
+Full Agent effective history:
+
+`55,925 / 8 -> ceil = 6,991 optimizer steps`
+
+Recent5K-long:
+
+- same 5,000 unique Recent5K rows;
+- maximum epochs = 12;
+- exact `max_steps = 6991`;
+- 11 complete epochs = 6,875 steps;
+- epoch 12 contributes 116 additional steps;
+- total = exactly 6,991 steps;
+- row exposures = 55,928.
+
+Full55925:
+
+- unique rows = 55,925;
+- one epoch;
+- optimizer steps = 6,991;
+- row exposures = 55,925;
+- last batch size = 5.
+
+Therefore the matched-step comparison has a three-row exposure difference:
+
+`55,928 versus 55,925`
+
+This is recorded explicitly. The experiment is an exact optimizer-step control,
+not an exact row-exposure control.
+
+---
+
+## 18. Master A reproduction
+
+Runner:
+
+`experiments/model_level/run_long_term_master_a_v1.sbatch`
+
+Commit introducing Master A:
+
+`5b0f19e`
+
+Slurm job:
+
+`634528`
+
+State:
+
+`COMPLETED`
+
+Exit code:
+
+`0:0`
+
+Elapsed:
+
+`01:30:45`
+
+Summary JSON:
+
+`results/model_level/long_term_qualification_v1/master_a_v1/master_a_summary.json`
+
+Summary CSV:
+
+`results/model_level/long_term_qualification_v1/master_a_v1/master_a_summary.csv`
+
+Test used:
+
+`false`
+
+Conditions:
+
+| Condition | Unique rows | Steps |
+|---|---:|---:|
+| Oldest5K | 5,000 | 625 |
+| Random5K | 5,000 | 625 |
+| Recent5K | 5,000 | 625 |
+| Recent5K-long | 5,000 | 6,991 |
+| Full55925 | 55,925 | 6,991 |
+
+Dev1000 Top1:
+
+| Condition | Full | Initial |
+|---|---:|---:|
+| Oldest5K | 0.945 | 0.652 |
+| Random5K | 0.941 | 0.652 |
+| Recent5K | 0.949 | 0.659 |
+| Recent5K-long | 0.868 | 0.567 |
+| Full55925 | 0.941 | 0.630 |
+
+Primary controls:
+
+- Recent5K minus Oldest5K @625:
+  Full Top1 `+0.4 pp`;
+- Recent5K minus Random5K @625:
+  Full Top1 `+0.8 pp`;
+- Recent5K @6991 minus Recent5K @625:
+  Full Top1 `-8.1 pp`;
+- Full55925 minus Recent5K-long @6991:
+  Full Top1 `+7.3 pp`.
+
+---
+
+## 19. Static-phase interpretation
+
+Static results support:
+
+- modest temporal-relevance benefit;
+- large repeated-exposure optimization effect;
+- strong protection from training-set diversity;
+- substantial cross-author heterogeneity;
+- clear Full-versus-Initial training-policy tradeoff.
+
+They do not support the simple claim that older history is intrinsically
+harmful.
+
+Canonical result checkpoint:
+
+`docs/model_level/08_ADAPTER_STATIC_RESULTS_CHECKPOINT_2026-08-23.md`
+
+---
+
+## 20. Longitudinal development corpus
+
+The next Model-Level phase uses the chronological Agent Phage stream formed from:
+
+`Train-Fit + Train-Val`
+
+Nominal combined rows:
+
+`69,667`
+
+Tokenizer-compatible effective rows:
+
+`69,664`
+
+Works:
+
+`45`
+
+Work indices:
+
+`0–44`
+
+Train-Fit:
+
+- work indices 0–30;
+- 55,926 nominal rows.
+
+Train-Val:
+
+- work indices 31–44;
+- 13,741 rows.
+
+No row-ID or work-index overlap exists between Train-Fit and Train-Val.
+
+Test remains sealed.
+
+Once Train-Val is used in this longitudinal branch, it is no longer described
+as untouched validation for that branch.
+
+---
+
+## 21. Current reproducibility boundary
+
+Static Adapter qualification is complete.
+
+The next provenance objects to freeze are:
+
+1. combined chronological corpus audit;
+2. episode manifests;
+3. future-probe manifests;
+4. prequential ordering;
+5. warm Adapter checkpoint lineage;
+6. retention-evaluation lineage.
+
+No Test data is included in the current Model-Level research line.
