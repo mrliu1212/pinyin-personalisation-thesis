@@ -34,15 +34,15 @@ experiments\initial_personalisation
 
 | File | Purpose | Known SHA / status |
 |---|---|---|
-| `run_initial_candidate_scoring_q8_bge64_v1.py` | candidate-only Q8/BGE64 comparison | historical completed |
-| `run_initial_candidate_scoring_ngram_recency_v1.py` | NGram / NGramRecency scoring | historical completed |
-| `run_initial_candidate_scoring_adaptive_ngram_top10_v1.py` | Hard/Soft/Interpolated NGram, K5/K10 exploration | historical completed; K10 now out of main scope |
-| `run_initial_pv1_ngram_selector_k5_v1.py` | K1 selector prototype | SHA `7f4efcfaa7aa39fdf13aba1e50bab40032dd38a5748d282e40b30e7ee079e83d` |
-| `run_initial_pv1_ngram_selector_k135_v1.py` | K1/K3/K5 selector ablation | completed; freeze local hash |
-| `run_initial_pv1_ngram_k5_additive_concentration_v1.py` | fixed-gamma K5 + concentration | completed; freeze local hash |
-| `run_initial_pv1_ngram_k5_joint_frequency_concentration_v1.py` | joint gamma/lambda K5 concentration | completed; freeze local hash |
-| `run_initial_ngram_cs_entropy_two_anchors_v1.py` | final two-anchor Context–Preference–Confidence sweep | SHA `e5460a81435a76375619bdac809d464f567a9cdc8ae4f9c37115388d3b25d9cc` |
-| `summarize_initial_all_results_v1.py` | read-only unified result summarizer | SHA `2624b43d0c3e21e50cbac9062d0f53d6890c4d7669832591146ec6f4bb98f4df` |
+| `13_run_initial_candidate_scoring_q8_bge64_v1.py` | candidate-only Q8/BGE64 comparison | historical completed |
+| `14_run_initial_candidate_scoring_ngram_recency_v1.py` | NGram / NGramRecency scoring | historical completed |
+| `15_run_initial_candidate_scoring_adaptive_ngram_top10_v1.py` | Hard/Soft/Interpolated NGram, K5/K10 exploration | historical completed; K10 now out of main scope |
+| `30_run_initial_pv1_ngram_selector_k5_v1.py` | K1 selector prototype | SHA `7f4efcfaa7aa39fdf13aba1e50bab40032dd38a5748d282e40b30e7ee079e83d` |
+| `32_run_initial_pv1_ngram_selector_k135_v1.py` | K1/K3/K5 selector ablation | completed; freeze local hash |
+| `17_run_initial_pv1_ngram_k5_additive_concentration_v1.py` | fixed-gamma K5 + concentration | completed; freeze local hash |
+| `18_run_initial_pv1_ngram_k5_joint_frequency_concentration_v1.py` | joint gamma/lambda K5 concentration | completed; freeze local hash |
+| `20_run_initial_ngram_cs_entropy_two_anchors_v1.py` | final two-anchor Context–Preference–Confidence sweep | SHA `e5460a81435a76375619bdac809d464f567a9cdc8ae4f9c37115388d3b25d9cc` |
+| `19_summarize_initial_all_results_v1.py` | read-only unified result summarizer | SHA `2624b43d0c3e21e50cbac9062d0f53d6890c4d7669832591146ec6f4bb98f4df` |
 
 ---
 
@@ -132,7 +132,7 @@ Run from repo root before closeout:
 ```powershell
 $root = '.\results\personalisation\initial_recovery_comparison_v1'
 
-Get-FileHash '.\experiments\initial_personalisation\run_initial_ngram_cs_entropy_two_anchors_v1.py' -Algorithm SHA256
+Get-FileHash '.\experiments\initial_personalisation\20_run_initial_ngram_cs_entropy_two_anchors_v1.py' -Algorithm SHA256
 Get-FileHash "$root\ngram_cs_entropy_two_anchors_v1\comparison.json" -Algorithm SHA256
 Get-FileHash "$root\ngram_cs_entropy_two_anchors_v1\grid_results.csv" -Algorithm SHA256
 Get-FileHash "$root\ngram_cs_entropy_two_anchors_v1\features.jsonl" -Algorithm SHA256

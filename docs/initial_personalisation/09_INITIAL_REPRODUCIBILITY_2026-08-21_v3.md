@@ -81,14 +81,14 @@ Files:
 Script:
 
 ```text
-experiments\initial_personalisation\prepare_initial_standardized.py
+experiments\initial_personalisation\01_prepare_initial_standardized.py
 ```
 
 Run from the Initial worktree root:
 
 ```powershell
 & 'C:\Users\chiar\Desktop\LBH\thesis\.venv\Scripts\python.exe' `
-  '.\experiments\initial_personalisation\prepare_initial_standardized.py'
+  '.\experiments\initial_personalisation\01_prepare_initial_standardized.py'
 ```
 
 The Initial transform is deterministic:
@@ -158,7 +158,7 @@ generic_inference_performed = false
 Script:
 
 ```text
-experiments\initial_personalisation\run_initial_train_val_generic.py
+experiments\initial_personalisation\02_run_initial_train_val_generic.py
 ```
 
 Run:
@@ -211,7 +211,7 @@ median_inference_ms_per_row = 32.10877499077469
 Script:
 
 ```text
-experiments\initial_personalisation\evaluate_initial_recoverability.py
+experiments\initial_personalisation\03_evaluate_initial_recoverability.py
 ```
 
 The evaluator must import:
@@ -262,7 +262,7 @@ Interpretation boundary: recoverability and oracle candidate coverage are not ac
 Script:
 
 ```text
-experiments\initial_personalisation\evaluate_full_vs_initial_candidate_coverage.py
+experiments\initial_personalisation\04_evaluate_full_vs_initial_candidate_coverage.py
 ```
 
 This audit must compare the exact same 34,416 standardized Train-Val anchors and verify author/work/chronology/context/Gold identity, with only Full Pinyin -> deterministic Initial changed.
@@ -413,7 +413,7 @@ Candidate-scoring work keeps the frozen Personal K5 surface unchanged and evalua
 Canonical runner:
 
 ```text
-experiments\initial_personalisation\run_initial_candidate_scoring_q8_bge64_v1.py
+experiments\initial_personalisation\13_run_initial_candidate_scoring_q8_bge64_v1.py
 ```
 
 Canonical fixed-master SHA256:
@@ -459,7 +459,7 @@ Test used = false
 Runner:
 
 ```text
-experiments\initial_personalisation\run_initial_candidate_scoring_ngram_recency_v1.py
+experiments\initial_personalisation\14_run_initial_candidate_scoring_ngram_recency_v1.py
 ```
 
 SHA256:
@@ -509,7 +509,7 @@ NGramRecency@2,tau=2048 mean = 0.0843688 ms
 Runner:
 
 ```text
-experiments\initial_personalisation\run_initial_candidate_scoring_adaptive_ngram_top10_v1.py
+experiments\initial_personalisation\15_run_initial_candidate_scoring_adaptive_ngram_top10_v1.py
 ```
 
 SHA256:
@@ -635,7 +635,7 @@ delta = -0.9496 percentage points
 Runner:
 
 ```text
-experiments\initial_personalisation\run_initial_ngram_frequency_fusion_v1.py
+experiments\initial_personalisation\21_run_initial_ngram_frequency_fusion_v1.py
 ```
 
 SHA256:

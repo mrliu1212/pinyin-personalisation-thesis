@@ -554,7 +554,7 @@ These are engineering hypotheses, not measured speedups yet.
 Runner:
 
 ```text
-experiments\initial_personalisation\run_initial_candidate_scoring_q8_bge64_v1.py
+experiments\initial_personalisation\13_run_initial_candidate_scoring_q8_bge64_v1.py
 ```
 
 Canonical fixed-master SHA256:
@@ -574,7 +574,7 @@ results\personalisation\initial_recovery_comparison_v1\candidate_scoring_q8_bge6
 Runner:
 
 ```text
-experiments\initial_personalisation\run_initial_candidate_scoring_ngram_recency_v1.py
+experiments\initial_personalisation\14_run_initial_candidate_scoring_ngram_recency_v1.py
 ```
 
 SHA256:
@@ -594,7 +594,7 @@ results\personalisation\initial_recovery_comparison_v1\candidate_scoring_ngram_r
 Runner:
 
 ```text
-experiments\initial_personalisation\run_initial_candidate_scoring_adaptive_ngram_top10_v1.py
+experiments\initial_personalisation\15_run_initial_candidate_scoring_adaptive_ngram_top10_v1.py
 ```
 
 SHA256:
@@ -630,7 +630,7 @@ K5/K10 surface SHA256:
 Runner:
 
 ```text
-experiments\initial_personalisation\run_initial_ngram_frequency_fusion_v1.py
+experiments\initial_personalisation\21_run_initial_ngram_frequency_fusion_v1.py
 ```
 
 SHA256:

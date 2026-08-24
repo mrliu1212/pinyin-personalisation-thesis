@@ -60,12 +60,12 @@ Files:
 
 Script:
 
-experiments\initial_personalisation\prepare_initial_standardized.py
+experiments\initial_personalisation\01_prepare_initial_standardized.py
 
 Run from the Initial worktree root:
 
 & 'C:\Users\chiar\Desktop\LBH\thesis\.venv\Scripts\python.exe' `
-  '.\experiments\initial_personalisation\prepare_initial_standardized.py'
+  '.\experiments\initial_personalisation\01_prepare_initial_standardized.py'
 
 The Initial transform is deterministic:
 
@@ -119,7 +119,7 @@ generic_inference_performed = false
 
 Script:
 
-experiments\initial_personalisation\run_initial_train_val_generic.py
+experiments\initial_personalisation\02_run_initial_train_val_generic.py
 
 Run:
 
@@ -160,7 +160,7 @@ median_inference_ms_per_row = 32.10877499077469
 
 Script:
 
-experiments\initial_personalisation\evaluate_initial_recoverability.py
+experiments\initial_personalisation\03_evaluate_initial_recoverability.py
 
 The evaluator must import:
 
@@ -201,7 +201,7 @@ Interpretation boundary: recoverability and oracle candidate coverage are not ac
 
 Script:
 
-experiments\initial_personalisation\evaluate_full_vs_initial_candidate_coverage.py
+experiments\initial_personalisation\04_evaluate_full_vs_initial_candidate_coverage.py
 
 This audit must compare the exact same 34,416 standardized Train-Val anchors and verify author/work/chronology/context/Gold identity, with only Full Pinyin -> deterministic Initial changed.
 

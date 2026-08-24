@@ -390,23 +390,23 @@ This file is unnumbered because it is a living synthesis rather than a chronolog
 ### Current final Train-Val recovery + context runners
 
 ```text
-experiments/initial_personalisation/run_initial_recovery_ngram_context_fusion_v1.py
+experiments/initial_personalisation/33_run_initial_recovery_ngram_context_fusion_v1.py
   Stage-1 recovery bases + Stage-2 NGramRecency grid.
   SHA256: e6dcd1f68028ad5065064b6b714eaa88d92f74363a328570bfcc777b13271dc2
 
-experiments/initial_personalisation/run_initial_recovery_bge_ngram_context_fusion_v2.py
+experiments/initial_personalisation/34_run_initial_recovery_bge_ngram_context_fusion_v2.py
   Two-dimensional NGramRecency + BGERecency grid.
   SHA256: b7d95374aa421cbc364699e44e0850ba2e72e50a2a5f816ad37f85b138d1435a
 
-experiments/initial_personalisation/run_initial_recovery_bge_ngram_context_fusion_v3.py
+experiments/initial_personalisation/35_run_initial_recovery_bge_ngram_context_fusion_v3.py
   Expanded lambda_B boundary verification; arithmetic-only reuse of completed support.
   SHA256: 2b29a86957b4f2adf17a13de37648766e1423d0ec99a57ea257c5aa155d89335
 
-experiments/initial_personalisation/run_initial_recovery_context_diagnostics_v1.py
+experiments/initial_personalisation/36_run_initial_recovery_context_diagnostics_v1.py
   Read-only final Train-Val diagnosis.
   SHA256: 7c4a12a5f447405f024d8e8008253da23aab4775d2ae4500f5c44545583d3256
 
-experiments/initial_personalisation/run_initial_recovery_context_topk_transitions_v1.py
+experiments/initial_personalisation/37_run_initial_recovery_context_topk_transitions_v1.py
   Read-only Top1/Top3/Top5 rescue-harm transition diagnosis.
   SHA256: 3966111844719f29a07b580a10d18021b0cdf4a6846c71157de611e1a92eaef1
 ```

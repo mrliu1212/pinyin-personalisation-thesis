@@ -485,7 +485,7 @@ Then normalize over the current final candidate set.
 Runner:
 
 ```text
-run_initial_recovery_ngram_context_fusion_v1.py
+33_run_initial_recovery_ngram_context_fusion_v1.py
 ```
 
 All three recovery bases selected:
@@ -614,7 +614,7 @@ net      = +1,155
 Runner:
 
 ```text
-run_initial_recovery_bge_ngram_context_fusion_v2.py
+34_run_initial_recovery_bge_ngram_context_fusion_v2.py
 ```
 
 Grid:
@@ -778,7 +778,7 @@ Therefore a boundary follow-up was required before freezing.
 Runner:
 
 ```text
-run_initial_recovery_bge_ngram_context_fusion_v3.py
+35_run_initial_recovery_bge_ngram_context_fusion_v3.py
 ```
 
 Expanded grid:
@@ -1684,13 +1684,13 @@ SHA256 = bd0fb4dc304e0b266b90fae6fe3ac65424d2f52b23fedfa881212706ba2c2873
 Known Stage-1 / Stage-2 runner checksums recorded during development:
 
 ```text
-run_initial_recovery_ngram_context_fusion_v1.py
+33_run_initial_recovery_ngram_context_fusion_v1.py
 SHA256 = e6dcd1f68028ad5065064b6b714eaa88d92f74363a328570bfcc777b13271dc2
 
-run_initial_recovery_bge_ngram_context_fusion_v2.py
+34_run_initial_recovery_bge_ngram_context_fusion_v2.py
 SHA256 = b7d95374aa421cbc364699e44e0850ba2e72e50a2a5f816ad37f85b138d1435a
 
-run_initial_recovery_bge_ngram_context_fusion_v3.py
+35_run_initial_recovery_bge_ngram_context_fusion_v3.py
 SHA256 = 2b29a86957b4f2adf17a13de37648766e1423d0ec99a57ea257c5aa155d89335
 ```
 

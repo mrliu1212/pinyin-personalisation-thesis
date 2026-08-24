@@ -243,7 +243,7 @@ This increases recovery but does not meaningfully improve overall ranking relati
 Canonical runner:
 
 ```text
-experiments\initial_personalisation\run_initial_ngram_cs_entropy_two_anchors_v1.py
+experiments\initial_personalisation\20_run_initial_ngram_cs_entropy_two_anchors_v1.py
 ```
 
 Runner SHA256:
@@ -292,7 +292,7 @@ where the entropy distribution uses the full legal visible same-Pinyin target di
 $py = 'C:\Users\chiar\Desktop\LBH\thesis\.venv\Scripts\python.exe'
 $root = '.\results\personalisation\initial_recovery_comparison_v1'
 
-& $py .\experiments\initial_personalisation\run_initial_ngram_cs_entropy_two_anchors_v1.py `
+& $py .\experiments\initial_personalisation\20_run_initial_ngram_cs_entropy_two_anchors_v1.py `
     --fit "$root\initial_train_fit_v1.jsonl" `
     --val "$root\initial_train_val_v1.jsonl" `
     --candidate-surface "$root\candidate_surface\train_val_candidate_surface.jsonl" `

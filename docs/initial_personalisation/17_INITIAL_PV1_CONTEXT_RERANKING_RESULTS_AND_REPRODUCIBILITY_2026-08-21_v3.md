@@ -375,7 +375,7 @@ This was tested but was weaker than Hard NGramRecency and is not the current mai
 
 Runner:
 
-experiments\initial_personalisation\run_initial_pv1_context_reranking_v2.py
+experiments\initial_personalisation\24_run_initial_pv1_context_reranking_v2.py
 
 Provided-copy SHA256:
 
@@ -419,7 +419,7 @@ Position remains an exploratory / appendix ablation, not the main context method
 
 Runner:
 
-experiments\initial_personalisation\run_initial_pv1_bge_ngram_context_reranking_v1.py
+experiments\initial_personalisation\26_run_initial_pv1_bge_ngram_context_reranking_v1.py
 
 Provided-copy SHA256:
 
@@ -492,7 +492,7 @@ Post-completion llama/ctypes callback messages appeared after outputs were writt
 
 Runner:
 
-experiments\initial_personalisation\run_initial_pv1_bge_recency_ngram_context_reranking_v2.py
+experiments\initial_personalisation\29_run_initial_pv1_bge_recency_ngram_context_reranking_v2.py
 
 SHA256:
 
@@ -590,7 +590,7 @@ The same post-completion llama/ctypes callback logging noise was observed after 
 
 Runner:
 
-experiments\initial_personalisation\run_initial_pv1_factorial_context_ablation_v3.py
+experiments\initial_personalisation\31_run_initial_pv1_factorial_context_ablation_v3.py
 
 SHA256:
 
@@ -1226,10 +1226,10 @@ C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.8
 
 | Runner | SHA256 |
 | --- | ---: |
-| run_initial_pv1_context_reranking_v2.py | 3f140f7c5ce32b5e37297472c2b5e63b603085f07453bfa236dffbe421b96b44 |
-| run_initial_pv1_bge_ngram_context_reranking_v1.py | 9082d0f72143c86e11d0f4addceb219e4dd3f5cc69bf58a55c2b7b4d4b8a87cb |
-| run_initial_pv1_bge_recency_ngram_context_reranking_v2.py | 0d02ede6819ca824b703816d30fa7276b429f1e834baa866c0add73b65d6a3db |
-| run_initial_pv1_factorial_context_ablation_v3.py | b8f71397c9ab7271b2cac2f2340bce76ed9a5ae9d42b5d15b4c47214a4942a8c |
+| 24_run_initial_pv1_context_reranking_v2.py | 3f140f7c5ce32b5e37297472c2b5e63b603085f07453bfa236dffbe421b96b44 |
+| 26_run_initial_pv1_bge_ngram_context_reranking_v1.py | 9082d0f72143c86e11d0f4addceb219e4dd3f5cc69bf58a55c2b7b4d4b8a87cb |
+| 29_run_initial_pv1_bge_recency_ngram_context_reranking_v2.py | 0d02ede6819ca824b703816d30fa7276b429f1e834baa866c0add73b65d6a3db |
+| 31_run_initial_pv1_factorial_context_ablation_v3.py | b8f71397c9ab7271b2cac2f2340bce76ed9a5ae9d42b5d15b4c47214a4942a8c |
 
 Before reproducing, verify your local copies match these hashes.
 
@@ -1374,10 +1374,10 @@ V3 safety behavior:
 
 ### 13.6 Verify local script hashes
 
-Get-FileHash '.\experiments\initial_personalisation\run_initial_pv1_context_reranking_v2.py' -Algorithm SHA256
-Get-FileHash '.\experiments\initial_personalisation\run_initial_pv1_bge_ngram_context_reranking_v1.py' -Algorithm SHA256
-Get-FileHash '.\experiments\initial_personalisation\run_initial_pv1_bge_recency_ngram_context_reranking_v2.py' -Algorithm SHA256
-Get-FileHash '.\experiments\initial_personalisation\run_initial_pv1_factorial_context_ablation_v3.py' -Algorithm SHA256
+Get-FileHash '.\experiments\initial_personalisation\24_run_initial_pv1_context_reranking_v2.py' -Algorithm SHA256
+Get-FileHash '.\experiments\initial_personalisation\26_run_initial_pv1_bge_ngram_context_reranking_v1.py' -Algorithm SHA256
+Get-FileHash '.\experiments\initial_personalisation\29_run_initial_pv1_bge_recency_ngram_context_reranking_v2.py' -Algorithm SHA256
+Get-FileHash '.\experiments\initial_personalisation\31_run_initial_pv1_factorial_context_ablation_v3.py' -Algorithm SHA256
 
 ### 13.7 Verify frozen input hashes
 

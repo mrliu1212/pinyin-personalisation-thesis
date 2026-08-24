@@ -14,11 +14,11 @@ This document is the reproducibility record for the final Train-Val recovery + c
 This file covers five new runners:
 
 ```text
-run_initial_recovery_ngram_context_fusion_v1.py
-run_initial_recovery_bge_ngram_context_fusion_v2.py
-run_initial_recovery_bge_ngram_context_fusion_v3.py
-run_initial_recovery_context_diagnostics_v1.py
-run_initial_recovery_context_topk_transitions_v1.py
+33_run_initial_recovery_ngram_context_fusion_v1.py
+34_run_initial_recovery_bge_ngram_context_fusion_v2.py
+35_run_initial_recovery_bge_ngram_context_fusion_v3.py
+36_run_initial_recovery_context_diagnostics_v1.py
+37_run_initial_recovery_context_topk_transitions_v1.py
 ```
 
 The numerical interpretation and thesis-level conclusions are recorded in document 18; this document focuses on **how to reproduce and verify** those results.
@@ -139,11 +139,11 @@ K5 theoretical recoverability = 4,910 / 12,565 = 39.0768%
 
 | Runner | SHA256 |
 |---|---|
-| `run_initial_recovery_ngram_context_fusion_v1.py` | `e6dcd1f68028ad5065064b6b714eaa88d92f74363a328570bfcc777b13271dc2` |
-| `run_initial_recovery_bge_ngram_context_fusion_v2.py` | `b7d95374aa421cbc364699e44e0850ba2e72e50a2a5f816ad37f85b138d1435a` |
-| `run_initial_recovery_bge_ngram_context_fusion_v3.py` | `2b29a86957b4f2adf17a13de37648766e1423d0ec99a57ea257c5aa155d89335` |
-| `run_initial_recovery_context_diagnostics_v1.py` | `7c4a12a5f447405f024d8e8008253da23aab4775d2ae4500f5c44545583d3256` |
-| `run_initial_recovery_context_topk_transitions_v1.py` | `3966111844719f29a07b580a10d18021b0cdf4a6846c71157de611e1a92eaef1` |
+| `33_run_initial_recovery_ngram_context_fusion_v1.py` | `e6dcd1f68028ad5065064b6b714eaa88d92f74363a328570bfcc777b13271dc2` |
+| `34_run_initial_recovery_bge_ngram_context_fusion_v2.py` | `b7d95374aa421cbc364699e44e0850ba2e72e50a2a5f816ad37f85b138d1435a` |
+| `35_run_initial_recovery_bge_ngram_context_fusion_v3.py` | `2b29a86957b4f2adf17a13de37648766e1423d0ec99a57ea257c5aa155d89335` |
+| `36_run_initial_recovery_context_diagnostics_v1.py` | `7c4a12a5f447405f024d8e8008253da23aab4775d2ae4500f5c44545583d3256` |
+| `37_run_initial_recovery_context_topk_transitions_v1.py` | `3966111844719f29a07b580a10d18021b0cdf4a6846c71157de611e1a92eaef1` |
 
 Companion final-conclusions record:
 
@@ -895,11 +895,11 @@ A change in either value indicates that a supposed Stage-2 reranker has accident
 Check runner hashes from the project copy:
 
 ```powershell
-Get-FileHash .\experiments\initial_personalisation\run_initial_recovery_ngram_context_fusion_v1.py -Algorithm SHA256
-Get-FileHash .\experiments\initial_personalisation\run_initial_recovery_bge_ngram_context_fusion_v2.py -Algorithm SHA256
-Get-FileHash .\experiments\initial_personalisation\run_initial_recovery_bge_ngram_context_fusion_v3.py -Algorithm SHA256
-Get-FileHash .\experiments\initial_personalisation\run_initial_recovery_context_diagnostics_v1.py -Algorithm SHA256
-Get-FileHash .\experiments\initial_personalisation\run_initial_recovery_context_topk_transitions_v1.py -Algorithm SHA256
+Get-FileHash .\experiments\initial_personalisation\33_run_initial_recovery_ngram_context_fusion_v1.py -Algorithm SHA256
+Get-FileHash .\experiments\initial_personalisation\34_run_initial_recovery_bge_ngram_context_fusion_v2.py -Algorithm SHA256
+Get-FileHash .\experiments\initial_personalisation\35_run_initial_recovery_bge_ngram_context_fusion_v3.py -Algorithm SHA256
+Get-FileHash .\experiments\initial_personalisation\36_run_initial_recovery_context_diagnostics_v1.py -Algorithm SHA256
+Get-FileHash .\experiments\initial_personalisation\37_run_initial_recovery_context_topk_transitions_v1.py -Algorithm SHA256
 ```
 
 Inspect final V3 selection directly:
