@@ -18,3 +18,5 @@ results/model_level/**/*.safetensors
 
 # Model-Level per-example Dev predictions
 results/model_level/**/*_predictions.jsonl
+
+local_artifacts/
