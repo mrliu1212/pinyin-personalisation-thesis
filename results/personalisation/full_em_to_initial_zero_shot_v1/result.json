@@ -1,0 +1,42 @@
+{
+  "experiment": "full_em_to_initial_zero_shot_v1",
+  "status": "complete",
+  "description": "Frozen Full LambdaMART applied zero-shot to Initial-Pinyin features reconstructed under the exact Full 25-feature schema.",
+  "full_model": "C:\\Users\\chiar\\Desktop\\LBH\\thesis-external-memory-next\\results\\personalisation\\external_memory_next\\lambdamart_fusion_v1\\models\\d5_m500_r100.txt",
+  "feature_count": 25,
+  "personal_score_reconstruction": {
+    "generic": "Initial frequency_support",
+    "personal_recovery": 0.0,
+    "basis": "Full builder uses row.get('personal_score', 0.0); Initial generic frequency_support preserves personal_score."
+  },
+  "metrics": {
+    "FullEM_to_Initial_Overall": {
+      "n": 34416,
+      "top1": 0.44607159460715945,
+      "top3": 0.6323221757322176,
+      "top5": 0.696420269642027,
+      "mrr_at_10": 0.5520901477164551,
+      "missing10": 0.24317178056717806
+    },
+    "FullEM_to_Initial_Agent": {
+      "n": 13741,
+      "top1": 0.489338476093443,
+      "top3": 0.695800887853868,
+      "top5": 0.7660286733134415,
+      "mrr_at_10": 0.6059954105602167,
+      "missing10": 0.17131213157703223
+    },
+    "ILT004D_Agent_reference": {
+      "n": 13741,
+      "top1": 0.5239793319263518,
+      "top3": 0.7092642456880868,
+      "top5": 0.7723600902408849,
+      "mrr_at_10": 0.6288061565261186,
+      "missing10": 0.17131213157703223
+    }
+  },
+  "training": false,
+  "tuning": false,
+  "used_dev3000": false,
+  "used_test": false
+}

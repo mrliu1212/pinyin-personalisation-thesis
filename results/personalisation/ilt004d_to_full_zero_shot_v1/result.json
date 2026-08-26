@@ -1,0 +1,65 @@
+{
+  "status": "complete",
+  "experiment": "ilt004d_to_full_zero_shot_v1",
+  "description": "Frozen Initial-specialized ILT-004 D applied zero-shot to the frozen Full candidate surface. Full evidence was reconstructed under exact Initial 27-feature semantics; Full task-shape features were reused in exact candidate order.",
+  "candidate_surface": "frozen Full LambdaMART surface",
+  "feature_semantics": "Initial / ILT-004 D",
+  "feature_count": 57,
+  "personal_frequency_reconstruction": {
+    "personal_candidates": 6736,
+    "max_integer_error": 3.552713678800501e-15
+  },
+  "metrics": {
+    "FullFrozenLambdaMART_Overall": {
+      "n": 34416,
+      "top1": 0.8277835890283589,
+      "top3": 0.911988609948861,
+      "top5": 0.9306136680613668,
+      "mrr_at_10": 0.8730430959575834,
+      "missing10": 0.05198163644816364
+    },
+    "ILT004D_to_Full_Overall": {
+      "n": 34416,
+      "top1": 0.8301371455137145,
+      "top3": 0.9120176662017666,
+      "top5": 0.9309623430962343,
+      "mrr_at_10": 0.874240202047036,
+      "missing10": 0.05198163644816364
+    },
+    "FullFrozenLambdaMART_Agent": {
+      "n": 13741,
+      "top1": 0.890400989738738,
+      "top3": 0.9639764209300633,
+      "top5": 0.9748198821046503,
+      "mrr_at_10": 0.9279772156782564,
+      "missing10": 0.017757077359726366
+    },
+    "ILT004D_to_Full_Agent": {
+      "n": 13741,
+      "top1": 0.8938214103777018,
+      "top3": 0.9639764209300633,
+      "top5": 0.9748198821046503,
+      "mrr_at_10": 0.9298140601120735,
+      "missing10": 0.017757077359726366
+    }
+  },
+  "agent_complementarity": {
+    "both_top1_correct": 12172,
+    "full_only_top1_correct": 63,
+    "ilt_only_top1_correct": 110,
+    "neither_top1_correct": 1396,
+    "oracle_either_top1": 0.8984062295320574
+  },
+  "agent_transition": {
+    "n": 13741,
+    "rescue": 110,
+    "harm": 63,
+    "unchanged_correct": 12172,
+    "unchanged_wrong": 1396,
+    "net": 47
+  },
+  "training": false,
+  "tuning": false,
+  "used_dev3000": false,
+  "used_test": false
+}
