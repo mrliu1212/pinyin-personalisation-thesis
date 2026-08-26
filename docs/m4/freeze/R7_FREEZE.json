@@ -1,0 +1,58 @@
+{
+  "base_system": {
+    "default_control_level": 0,
+    "default_ranking_fidelity": "94590/94590",
+    "frozen_m4_top1": 0.5980019029495718
+  },
+  "control_formula": "z_ctrl = z_base + ln(2) * u * phi",
+  "control_levels": [
+    -2,
+    -1,
+    0,
+    1,
+    2
+  ],
+  "controls": {
+    "composition_tolerance": {
+      "composition_support_at_minus2": 0.4281742256052437,
+      "composition_support_at_plus2": 0.43898932233851357,
+      "query_monotonicity_violations": 0,
+      "selected_phi_at_minus2": 0.11022995125766213,
+      "selected_phi_at_plus2": 0.11361925775701087
+    },
+    "exact_vs_composition": {
+      "composition_support_at_minus2": 0.4417908869859393,
+      "composition_support_at_plus2": 0.423321704197061,
+      "exact_support_at_minus2": 0.007770377418331748,
+      "exact_support_at_plus2": 0.008785283856644465,
+      "query_monotonicity_violations": 0
+    },
+    "personalisation_strength": {
+      "default_personal_top1_rate": 0.08564330267470134,
+      "query_monotonicity_violations": 0,
+      "strong_personal_top1_rate": 0.09406914050111005,
+      "weak_personal_top1_rate": 0.07413045776509145
+    }
+  },
+  "experiment": "M4-R7",
+  "hashes": {
+    "control_curves": "229d2191bb06e1615b42170e13217c33b04f01a6197c6c80e1fbfcc9d4dc07a5",
+    "r7a_runner": "a18de46673d2f5d3689049fd91c9dc293b9d2484061ca11fdfe196cbaa313218",
+    "r7a_summary": "9aaf8b2ec1a4ea74eb41d00ea5fbf0b50acc784a0e3e00107e81e5c711e17db5",
+    "r7b_runner": "4a7bade3252d7b13e4c3643925c28fefc91be466f620dc7df48b6512f669117c",
+    "r7b_summary": "2f6eca0f07fdbaf90619da06b0c6ef0ac19d3032c9502637a828f37001399ef2"
+  },
+  "name": "Explicit Post-Model Controllability Layer",
+  "next_stage": "End-to-end runtime and final closed-split evaluation",
+  "schema_version": 1,
+  "scientific_claim": {
+    "accuracy_is_not_control_objective": true,
+    "default_behavior_preserved": true,
+    "explicit_controls": true,
+    "learned_ranker_modified": false,
+    "query_level_behavioral_monotonicity": true
+  },
+  "status": "FROZEN",
+  "used_dev3000": false,
+  "used_test": false
+}

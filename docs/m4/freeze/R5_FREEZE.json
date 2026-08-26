@@ -1,0 +1,50 @@
+{
+  "experiment": "M4-R5",
+  "frozen_rule": {
+    "final_candidate_pool": "Generic Top10 + Personal Top5, maximum 15 unique candidates",
+    "generic_overlap": "remove all Generic Top10 overlap before recovery allocation",
+    "recovery_budget": "Personal-only Top5",
+    "same_text_merge": "max(p_exact, p_composition)",
+    "train_val_probability": "family-level OOF probabilities only"
+  },
+  "gold_policy": {
+    "candidate_generation": false,
+    "fusion_scoring": false,
+    "fusion_selection": false,
+    "posthoc_evaluation_only": true
+  },
+  "hashes": {
+    "composition_oof_input": "cf76840890d29b4e9f9cf4e672d9fb513f787cdf9e2aa091b1713fc873608a58",
+    "exact_oof_input": "dd569f0baa8a89faac5352cfb77d3261561be3f81ec5f0c4ba8344d49184b8a7",
+    "fusion_rows": "be09bc541f635e0a44fd7662714b3afc96488e6f5c1523895c0016d2be5fbd1a",
+    "runner": "5a59af81ca7fe30b0b069da803740e75488b6049a4f85caccc98000b2a339943",
+    "summary": "94aaae56c22250f54145db3cc974adcc2dfc2b2b59cd41756381eb5b5b22917c"
+  },
+  "headline": {
+    "final_pool_gain_pp": 7.149804419071781,
+    "final_pool_recall": 0.7862036156041865,
+    "fusion_latency_mean_ms": 0.006359598266201501,
+    "fusion_latency_p95_ms": 0.0155,
+    "generic_pruned_composition_r5": 0.2357426404119011,
+    "generic_pruned_exact_r5": 0.023896553079432458,
+    "generic_pruned_fusion_hits_r5": 6209,
+    "generic_pruned_fusion_r5": 0.24403568761545416,
+    "generic_pruned_n": 25443,
+    "generic_top10_recall": 0.7147055714134687,
+    "personal_fusion_recall_at_1": 0.05718363463368221,
+    "personal_fusion_recall_at_3": 0.0684216090495824,
+    "personal_fusion_recall_at_5": 0.07149804419071784
+  },
+  "name": "Calibrated Dual-Branch Personal Recovery Fusion",
+  "schema_version": 1,
+  "scientific_interpretation": {
+    "composition_is_primary_recovery_branch": true,
+    "exact_adds_complementary_recovery": true,
+    "exact_incremental_gp_top5_hits_over_composition": 211,
+    "next_stage": "R6 small-pool final reranking",
+    "recovery_architecture_closed": true
+  },
+  "status": "FROZEN",
+  "used_dev3000": false,
+  "used_test": false
+}

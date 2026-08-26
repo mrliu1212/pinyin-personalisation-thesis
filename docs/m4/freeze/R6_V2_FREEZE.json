@@ -1,0 +1,72 @@
+{
+  "evaluation_protocol": "5-fold family-level outer OOF; Exact and Composition calibration fit only on outer-training families; held-out R5 pools reproduced exactly",
+  "experiment": "M4-R6-v2",
+  "frozen_model": {
+    "sha256": "db2072cef940eab98295262610fd3df45baae729e5ec98737e950113381aa87d"
+  },
+  "gold_policy": {
+    "candidate_generation": false,
+    "heldout_calibration": false,
+    "heldout_fusion": false,
+    "heldout_ranking": false,
+    "posthoc_evaluation": true,
+    "training_labels": true
+  },
+  "hashes": {
+    "oof_query_results": "1d3ca31c291de7ed13f27fe2b48e07d241178c268c1877482d5f355e88160fb6",
+    "r5_freeze": "6c51da9bcbe677b922e7b8b8276dc8f762e65aab766898f2a40f010a596ca4f5",
+    "runner": "b8ee6989058a8ba15f187eff0b72cf52354389a53b406c706462814579bf838f",
+    "summary": "b0fa14cdeca6b0caf5292d1171e569d2dc163a5eea54fe4cebb9e6b48ef07cf1"
+  },
+  "headline": {
+    "frozen_full_top1": 0.5123691722169362,
+    "mrr": 0.6641118458839611,
+    "pool_missing_rate": 0.2137963843958135,
+    "r6_v2_macro_top1": 0.5463608623195598,
+    "r6_v2_micro_top1": 0.5980019029495718,
+    "top10": 0.7802938999894281,
+    "top1_gain_pp": 8.563273073263556,
+    "top1_harm_vs_full": 1825,
+    "top1_net_vs_full": 8100,
+    "top1_rescue_vs_full": 9925,
+    "top3": 0.7174859921767629,
+    "top5": 0.7503118722909399
+  },
+  "historical_r4_provenance": {
+    "current_windows_r4_m1_top1": 0.8808542129189132,
+    "difference_in_correct_rows": 1,
+    "historical_hpc_m1_top1": 0.880801353,
+    "interpretation": "Recorded as a one-row reconstruction discrepancy; not silently reconciled."
+  },
+  "latency": {
+    "final_ranker_predict_only_ms": {
+      "max": 0.4378,
+      "mean": 0.11903299999999999,
+      "median": 0.10885,
+      "n": 2000,
+      "p95": 0.1936,
+      "p99": 0.24382599999999996
+    },
+    "warning": "This is final LambdaMART reranking latency only, not end-to-end system latency."
+  },
+  "name": "Nested Full-Signal Small-Pool Final LambdaMART",
+  "next_stage": "Control layer and end-to-end runtime/final evaluation",
+  "per_length_top1": {
+    "M1": 0.8807484934982557,
+    "M2": 0.7246009091870177,
+    "M3": 0.5791309863621947,
+    "M4": 0.4563907389787504,
+    "M5": 0.34913838672164077
+  },
+  "recovered_generic_pruned": {
+    "conditional_top1": 0.6485746497020454,
+    "conditional_top3": 0.8155902721855371,
+    "conditional_top5": 0.9006281204702851,
+    "n": 6209
+  },
+  "schema_version": 1,
+  "scientific_role": "Final ranking architecture over Frozen Generic Top10 + Personal Recovery Top5",
+  "status": "FROZEN",
+  "used_dev3000": false,
+  "used_test": false
+}

@@ -1,0 +1,30 @@
+{
+    "schema_version":  1,
+    "status":  "FROZEN",
+    "checkpoint_date":  "2026-08-26",
+    "source_workspace":  "C:\\Users\\chiar\\Desktop\\LBH\\thesis-m4-recovery",
+    "git_lineage":  {
+                        "base_repo":  "C:\\Users\\chiar\\Desktop\\LBH\\thesis-context-compare",
+                        "base_branch":  "work/context-model-comparison",
+                        "base_commit":  "fb09ca2fa50589a0fc72130552212c5b47ed4365",
+                        "target_worktree":  "C:\\Users\\chiar\\Desktop\\LBH\\thesis-m4-final",
+                        "target_branch":  "work/m4-calibrated-recovery-control",
+                        "origin":  "https://github.com/mrliu1212/pinyin-personalisation-thesis.git"
+                    },
+    "headline":  {
+                     "frozen_generic_top1":  0.48346548260915528,
+                     "final_m4_top1":  0.59800190294957178,
+                     "absolute_gain_pp":  11.45364203404165,
+                     "r5_candidate_pool_recall":  0.7862036156041865
+                 },
+    "frozen_sha256":  {
+                          "r5_freeze":  "6c51da9bcbe677b922e7b8b8276dc8f762e65aab766898f2a40f010a596ca4f5",
+                          "r6_v2_model":  "db2072cef940eab98295262610fd3df45baae729e5ec98737e950113381aa87d",
+                          "r6_v2_freeze":  "be001bab70c56dbedfc59af7587facdd3d8ed7cce44b9547361ef3ef61fec4b6",
+                          "r7_freeze":  "b02904430a67df6b581a335a63f558bd71539a3f8ed925f0887c0682d73cda83"
+                      },
+    "large_results_committed":  false,
+    "dev3000_used":  false,
+    "test_used":  false,
+    "next_stage":  "end-to-end runtime and final closed-split evaluation"
+}

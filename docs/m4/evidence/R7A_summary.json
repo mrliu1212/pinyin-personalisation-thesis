@@ -1,0 +1,115 @@
+{
+  "calibration_ranking_fidelity": {
+    "queries_matched": 94590,
+    "queries_total": 94590,
+    "ranking_changed": false
+  },
+  "candidate_observations": 1146931,
+  "control_coordinate": "z_base = logit(p_base); future controls add bounded explicit log-odds shifts without modifying LambdaMART",
+  "control_primitives": {
+    "composition_preference": "phi_composition = p_composition",
+    "exact_preference": "phi_exact = p_exact",
+    "fragmentation_tolerance": "phi_fragmentation = p_composition * fragmentation_ratio",
+    "personalisation_strength": "phi_personal = recovery_confidence"
+  },
+  "experiment": "m4_r7a_control_surface_oof_v1",
+  "family_count": 18918,
+  "frozen_r6_rank_reproduction": {
+    "queries_matched": 94590,
+    "queries_total": 94590
+  },
+  "gold_used_for_base_ranking": false,
+  "gold_used_for_calibration_training_labels": true,
+  "gold_used_for_candidate_generation": false,
+  "gold_used_for_heldout_score_calibration": false,
+  "gold_used_for_posthoc_validation": true,
+  "hashes": {
+    "calibrator": "af144acab61fbf089fd491d13b0a498ec68bbd3a9355876dc1acad7e8f3978a4",
+    "composition": "cf76840890d29b4e9f9cf4e672d9fb513f787cdf9e2aa091b1713fc873608a58",
+    "m0": "59cb59170e348c60747522fef2c0af94deaaa0cc9cd022db273063249618915e",
+    "oof_surface": "4841a20c150c17c3057c180d333dad1efa25f4b12960790a51be3f7f745d918b",
+    "r4": "7cfe23b1aaa8a64f02432938bdb8f84fbae0d8a4bbcb791105f1488b6fa323dd",
+    "r5": "be09bc541f635e0a44fd7662714b3afc96488e6f5c1523895c0016d2be5fbd1a",
+    "r6_query_results": "1d3ca31c291de7ed13f27fe2b48e07d241178c268c1877482d5f355e88160fb6",
+    "r6_summary": "b0fa14cdeca6b0caf5292d1171e569d2dc163a5eea54fe4cebb9e6b48ef07cf1",
+    "raw_surface": "7f02c7500c20c1a6d360ca1fa6d7fb4a18a9f8612d27d0a585ad71131ea49d6b",
+    "runner": "a18de46673d2f5d3689049fd91c9dc293b9d2484061ca11fdfe196cbaa313218"
+  },
+  "positive_observations": 74367,
+  "query_count": 94590,
+  "r6_score_calibration": {
+    "constant_base": {
+      "base_rate": 0.06483999473377212,
+      "brier": 0.060635769816696536,
+      "logloss": 0.2400822912441001,
+      "mean_probability": 0.06483999473377211,
+      "n": 1146931,
+      "positives": 74367
+    },
+    "folds": [
+      {
+        "a": 1.3205290432061958,
+        "b": -2.276472848908053,
+        "fold": 0,
+        "optimizer": "L-BFGS-B",
+        "test_candidates": 226982,
+        "training_base_rate": 0.06476119871862462,
+        "training_candidates": 919949,
+        "training_positives": 59577
+      },
+      {
+        "a": 1.3202199924280342,
+        "b": -2.2739419139053747,
+        "fold": 1,
+        "optimizer": "L-BFGS-B",
+        "test_candidates": 230834,
+        "training_base_rate": 0.06485994387057266,
+        "training_candidates": 916097,
+        "training_positives": 59418
+      },
+      {
+        "a": 1.3182452662549045,
+        "b": -2.27367414945625,
+        "fold": 2,
+        "optimizer": "L-BFGS-B",
+        "test_candidates": 231671,
+        "training_base_rate": 0.06488429517295632,
+        "training_candidates": 915260,
+        "training_positives": 59386
+      },
+      {
+        "a": 1.3226731722893244,
+        "b": -2.270683591414794,
+        "fold": 3,
+        "optimizer": "L-BFGS-B",
+        "test_candidates": 229684,
+        "training_base_rate": 0.06497268456588029,
+        "training_candidates": 917247,
+        "training_positives": 59596
+      },
+      {
+        "a": 1.3164301582913291,
+        "b": -2.2767054993189073,
+        "fold": 4,
+        "optimizer": "L-BFGS-B",
+        "test_candidates": 227760,
+        "training_base_rate": 0.06472245099116486,
+        "training_candidates": 919171,
+        "training_positives": 59491
+      }
+    ],
+    "oof": {
+      "base_rate": 0.06483999473377212,
+      "brier": 0.027756537123794976,
+      "logloss": 0.10547504782394065,
+      "mean_probability": 0.06484047749117156,
+      "n": 1146931,
+      "positives": 74367
+    }
+  },
+  "schema_version": 1,
+  "scientific_role": "Leakage-safe OOF base-score surface for explicit post-model control interventions",
+  "status": "complete",
+  "used_dev3000": false,
+  "used_test": false
+}
