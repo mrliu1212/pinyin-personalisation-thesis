@@ -1,0 +1,30 @@
+{
+  "status": "PREPARED_AWAITING_HUMAN_APPROVAL",
+  "dataset_version": "final_fiveauthor_v1",
+  "source_manifest_sha256": "e05b07d5020ebf0ccf090e98b34e4c66db7dab9b565541d39feb2d6f1d1bb20b",
+  "git_dataset_freeze_commit": "c8d4a79d539e07939691149a8d8e8481d3b56d89",
+  "authors": [
+    "Re_spectators",
+    "Etinjat",
+    "Agent Phage",
+    "QBLevi",
+    "breaddddd"
+  ],
+  "rows": {
+    "fit": 150000,
+    "val": 20000,
+    "test": 40000
+  },
+  "adapter_input": {
+    "fit_rows": 150000,
+    "val_rows": 20000,
+    "test_rows_included": 0
+  },
+  "human_audit": {
+    "sample_size": 24,
+    "fit": 18,
+    "val": 6
+  },
+  "test_status": "CLOSED",
+  "training_started": false
+}

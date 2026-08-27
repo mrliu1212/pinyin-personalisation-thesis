@@ -1,0 +1,99 @@
+{
+  "protocol_version": "v1",
+  "status": "FROZEN_BEFORE_FINAL_TRAINING",
+  "dataset": {
+    "version": "final_fiveauthor_v1",
+    "fit_rows": 150000,
+    "validation_rows": 20000,
+    "test_rows": 40000,
+    "test_status": "CLOSED"
+  },
+  "authors": [
+    "Re_spectators",
+    "Etinjat",
+    "Agent Phage",
+    "QBLevi",
+    "breaddddd"
+  ],
+  "base_model": {
+    "name": "aihijo/transformers4ime-pinyingpt-concat",
+    "revision": "76dd20dc92d8236a350fb732e99dde6fa15e2263",
+    "local_path": "/home/3160454/work/model-level-assets-20260822/pinyingpt2-concat"
+  },
+  "systems": {
+    "generic_baseline": {
+      "name": "Generic PinyinGPT2-Concat",
+      "personalisation": false,
+      "author_adapter": false,
+      "external_memory": false,
+      "personal_reranker": false,
+      "purpose": "Non-personalised baseline using the same frozen base model and evaluation inputs."
+    },
+    "personalised_final": {
+      "name": "Adapter + H5000 Rich30",
+      "base_model_frozen": true,
+      "adapter": {
+        "type": "serial bottleneck residual",
+        "layers": 12,
+        "hidden_size": 768,
+        "bottleneck": 48,
+        "activation": "ReLU",
+        "dropout": 0.0,
+        "up_projection_init": "zero"
+      },
+      "training": {
+        "optimizer": "AdamW",
+        "learning_rate": 0.0005,
+        "weight_decay": 0.0,
+        "max_grad_norm": 1.0,
+        "epochs": 1,
+        "batch_size": 8,
+        "seed": 20260822
+      },
+      "external_memory": {
+        "history_size": 5000,
+        "history_rule": "same-author strictly-prior interactions only",
+        "exact_memory": true,
+        "composition_memory": true
+      },
+      "reranker": {
+        "name": "Rich30 LambdaMART",
+        "C1": false,
+        "objective": "lambdarank",
+        "metric": "ndcg",
+        "max_depth": 5,
+        "num_leaves": 31,
+        "min_data_in_leaf": 500,
+        "learning_rate": 0.05,
+        "lambda_l2": 0.0,
+        "rounds": 100,
+        "seed": 1729
+      }
+    }
+  },
+  "evaluation": {
+    "beam_size": 16,
+    "top_k": 10,
+    "same_test_rows_for_all_systems": true,
+    "same_pinyin_input": true,
+    "same_gold_target": true,
+    "metrics": [
+      "Top-1",
+      "Top-3",
+      "Top-5",
+      "Top-10",
+      "MRR",
+      "Missing@10"
+    ]
+  },
+  "development_policy": {
+    "fit": "Adapter training and personal history construction",
+    "validation": "Development checks and allowed model selection",
+    "test": "No model evaluation until all architecture and experimental decisions are frozen"
+  },
+  "final_comparison": [
+    "Generic baseline",
+    "Personalised final model"
+  ],
+  "test_model_runs_so_far": 0
+}

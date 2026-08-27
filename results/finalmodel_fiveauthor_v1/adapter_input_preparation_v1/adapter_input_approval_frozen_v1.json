@@ -1,0 +1,47 @@
+{
+  "status": "APPROVED_AND_FROZEN",
+  "timestamp_utc": "2026-08-27T03:39:34.233704+00:00",
+  "dataset_version": "final_fiveauthor_v1",
+  "dataset_freeze_commit": "c8d4a79d539e07939691149a8d8e8481d3b56d89",
+  "human_audit_completed": true,
+  "human_audit_sample_size": 24,
+  "rows": {
+    "fit": 150000,
+    "val": 20000,
+    "test": 40000
+  },
+  "model_input": {
+    "fit": 150000,
+    "val": 20000,
+    "test": 0
+  },
+  "test_status": "CLOSED",
+  "training_started": false,
+  "artifacts": {
+    "fit_manifest": {
+      "path": "/home/3160454/work/thesis-finalmodel-sixauthor-dataset-v1/results/finalmodel_fiveauthor_v1/adapter_input_preparation_v1/adapter_fit_manifest_frozen_v1.jsonl",
+      "sha256": "789d0e47e18120d1a9c5136c4f185d2ceb7c760b00f2c9796d4d356032cd4739",
+      "bytes": 259286078
+    },
+    "val_manifest": {
+      "path": "/home/3160454/work/thesis-finalmodel-sixauthor-dataset-v1/results/finalmodel_fiveauthor_v1/adapter_input_preparation_v1/adapter_val_manifest_frozen_v1.jsonl",
+      "sha256": "5c00277aaa989026520584614f02a32500545e38fdd0fb8f9bf2517a121cfdbe",
+      "bytes": 35041885
+    },
+    "audit_counts": {
+      "path": "/home/3160454/work/thesis-finalmodel-sixauthor-dataset-v1/results/finalmodel_fiveauthor_v1/adapter_input_preparation_v1/adapter_input_audit_counts_v1.csv",
+      "sha256": "608aa31bb05eb6d44d59b8a322e164115458dbb5abd1b32f8bd504e422d7edc5",
+      "bytes": 683
+    },
+    "summary": {
+      "path": "/home/3160454/work/thesis-finalmodel-sixauthor-dataset-v1/results/finalmodel_fiveauthor_v1/adapter_input_preparation_v1/adapter_input_summary_v1.json",
+      "sha256": "125885b0495dcd6bd7d468cb0b27ed4d015005a2633cb00e2be86ae7062e223e",
+      "bytes": 674
+    },
+    "human_audit": {
+      "path": "/home/3160454/work/thesis-finalmodel-sixauthor-dataset-v1/results/finalmodel_fiveauthor_v1/adapter_input_preparation_v1/human_audit_adapter_fitval_sample24_v1.jsonl",
+      "sha256": "c33adff5a692f77fadacab6381998a433ae7800446533d5fc23c2f490ae3de6d",
+      "bytes": 58387
+    }
+  }
+}
