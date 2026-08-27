@@ -1,12 +1,27 @@
 {
-  "protocol_version": "v1",
-  "status": "FROZEN_BEFORE_FINAL_TRAINING",
-  "dataset": {
-    "version": "final_fiveauthor_v1",
-    "fit_rows": 150000,
-    "validation_rows": 20000,
-    "test_rows": 40000,
-    "test_status": "CLOSED"
+  "adapter_training_compatibility": {
+    "compatible_row_ids_sha256": "64403217bd0af78f211c238b50db74a1b0144cf939e83908de8b4701f1433d3d",
+    "effective_adapter_training_rows": 149021,
+    "excluded_fit_rows": 979,
+    "exclusion_categories": {
+      "gold_pinyin_constraint_mismatch": 7,
+      "tokenizer_unknown_character": 960,
+      "unknown_pinyin_segment": 3,
+      "unsupported_pinyin_input": 9
+    },
+    "exclusions_sha256": "ef1b24c48e84b5e38f4ef97a7eefd38f9978afe3fbcbb02edbc0b988b2745bae",
+    "freeze_commit": "e6b714f3b37bea9e60c214adbf9d467010b8f8e2",
+    "frozen_fit_rows": 150000,
+    "per_author_effective_training_rows": {
+      "Agent Phage": 29991,
+      "Etinjat": 29131,
+      "QBLevi": 29967,
+      "Re_spectators": 29951,
+      "breaddddd": 29981
+    },
+    "policy": "The frozen dataset is not modified. Adapter gradient training excludes only Fit rows that cannot be represented by the frozen PinyinGPT2-Concat tokenizer/backend.",
+    "status": "FROZEN",
+    "summary_sha256": "9e07c657edce6812ee112c37e903c1f514964e27f4daca3b6e8441e77d17d304"
   },
   "authors": [
     "Re_spectators",
@@ -16,67 +31,38 @@
     "breaddddd"
   ],
   "base_model": {
+    "local_path": "/home/3160454/work/model-level-assets-20260822/pinyingpt2-concat",
     "name": "aihijo/transformers4ime-pinyingpt-concat",
-    "revision": "76dd20dc92d8236a350fb732e99dde6fa15e2263",
-    "local_path": "/home/3160454/work/model-level-assets-20260822/pinyingpt2-concat"
+    "revision": "76dd20dc92d8236a350fb732e99dde6fa15e2263"
   },
-  "systems": {
-    "generic_baseline": {
-      "name": "Generic PinyinGPT2-Concat",
-      "personalisation": false,
-      "author_adapter": false,
-      "external_memory": false,
-      "personal_reranker": false,
-      "purpose": "Non-personalised baseline using the same frozen base model and evaluation inputs."
-    },
-    "personalised_final": {
-      "name": "Adapter + H5000 Rich30",
-      "base_model_frozen": true,
-      "adapter": {
-        "type": "serial bottleneck residual",
-        "layers": 12,
-        "hidden_size": 768,
-        "bottleneck": 48,
-        "activation": "ReLU",
-        "dropout": 0.0,
-        "up_projection_init": "zero"
-      },
-      "training": {
-        "optimizer": "AdamW",
-        "learning_rate": 0.0005,
-        "weight_decay": 0.0,
-        "max_grad_norm": 1.0,
-        "epochs": 1,
-        "batch_size": 8,
-        "seed": 20260822
-      },
-      "external_memory": {
-        "history_size": 5000,
-        "history_rule": "same-author strictly-prior interactions only",
-        "exact_memory": true,
-        "composition_memory": true
-      },
-      "reranker": {
-        "name": "Rich30 LambdaMART",
-        "C1": false,
-        "objective": "lambdarank",
-        "metric": "ndcg",
-        "max_depth": 5,
-        "num_leaves": 31,
-        "min_data_in_leaf": 500,
-        "learning_rate": 0.05,
-        "lambda_l2": 0.0,
-        "rounds": 100,
-        "seed": 1729
-      }
-    }
+  "dataset": {
+    "fit_rows": 150000,
+    "test_rows": 40000,
+    "test_status": "CLOSED",
+    "validation_rows": 20000,
+    "version": "final_fiveauthor_v1"
+  },
+  "development_policy": {
+    "fit": "Adapter training and personal history construction",
+    "test": "No model evaluation until all architecture and experimental decisions are frozen",
+    "validation": "Development checks and allowed model selection"
   },
   "evaluation": {
     "beam_size": 16,
-    "top_k": 10,
-    "same_test_rows_for_all_systems": true,
-    "same_pinyin_input": true,
-    "same_gold_target": true,
+    "compatibility_reporting": {
+      "test": {
+        "diagnostic_evaluation": "Additionally report PinyinGPT-compatible-only Test metrics as a diagnostic subset.",
+        "frozen_population_modified": false,
+        "primary_final_evaluation": "Evaluate Generic baseline and Personalised final system on the same complete frozen Test population.",
+        "status": "CLOSED",
+        "unsupported_rows_in_primary_test": "retained"
+      },
+      "validation": {
+        "adapter_only_analysis": "Report metrics on the PinyinGPT-compatible Val subset when required.",
+        "end_to_end_personalised_analysis": "Retain the full frozen Val population.",
+        "frozen_population_modified": false
+      }
+    },
     "metrics": [
       "Top-1",
       "Top-3",
@@ -84,16 +70,68 @@
       "Top-10",
       "MRR",
       "Missing@10"
-    ]
-  },
-  "development_policy": {
-    "fit": "Adapter training and personal history construction",
-    "validation": "Development checks and allowed model selection",
-    "test": "No model evaluation until all architecture and experimental decisions are frozen"
+    ],
+    "same_gold_target": true,
+    "same_pinyin_input": true,
+    "same_test_rows_for_all_systems": true,
+    "top_k": 10
   },
   "final_comparison": [
     "Generic baseline",
     "Personalised final model"
   ],
+  "protocol_version": "v1",
+  "status": "FROZEN_BEFORE_FINAL_TRAINING",
+  "systems": {
+    "generic_baseline": {
+      "author_adapter": false,
+      "external_memory": false,
+      "name": "Generic PinyinGPT2-Concat",
+      "personal_reranker": false,
+      "personalisation": false,
+      "purpose": "Non-personalised baseline using the same frozen base model and evaluation inputs."
+    },
+    "personalised_final": {
+      "adapter": {
+        "activation": "ReLU",
+        "bottleneck": 48,
+        "dropout": 0.0,
+        "hidden_size": 768,
+        "layers": 12,
+        "type": "serial bottleneck residual",
+        "up_projection_init": "zero"
+      },
+      "base_model_frozen": true,
+      "external_memory": {
+        "composition_memory": true,
+        "exact_memory": true,
+        "history_rule": "same-author strictly-prior interactions only",
+        "history_size": 5000
+      },
+      "name": "Adapter + H5000 Rich30",
+      "reranker": {
+        "C1": false,
+        "lambda_l2": 0.0,
+        "learning_rate": 0.05,
+        "max_depth": 5,
+        "metric": "ndcg",
+        "min_data_in_leaf": 500,
+        "name": "Rich30 LambdaMART",
+        "num_leaves": 31,
+        "objective": "lambdarank",
+        "rounds": 100,
+        "seed": 1729
+      },
+      "training": {
+        "batch_size": 8,
+        "epochs": 1,
+        "learning_rate": 0.0005,
+        "max_grad_norm": 1.0,
+        "optimizer": "AdamW",
+        "seed": 20260822,
+        "weight_decay": 0.0
+      }
+    }
+  },
   "test_model_runs_so_far": 0
 }
