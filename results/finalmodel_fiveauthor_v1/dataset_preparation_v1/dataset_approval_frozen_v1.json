@@ -1,0 +1,133 @@
+{
+  "approval_status": "APPROVED_AND_FROZEN",
+  "dataset_version": "final_fiveauthor_v1",
+  "approval_timestamp_utc": "2026-08-27T03:28:09.582883+00:00",
+  "approved_after_human_audit": true,
+  "human_audit_sample_size": 24,
+  "authors": [
+    "Re_spectators",
+    "Etinjat",
+    "Agent Phage",
+    "QBLevi",
+    "breaddddd"
+  ],
+  "excluded_author": "MScarlet",
+  "eligible_works": 248,
+  "rows": {
+    "fit": 150000,
+    "val": 20000,
+    "test": 40000,
+    "total": 210000
+  },
+  "split": {
+    "policy": "chronological whole-work",
+    "target": "70/10/20"
+  },
+  "test_policy": {
+    "status": "CLOSED",
+    "model_evaluation_run": false,
+    "allowed_before_final": "data-integrity audit only"
+  },
+  "frozen_profiles": {
+    "typing": {
+      "Re_spectators": {
+        "full": 0.6,
+        "initial": 0.15,
+        "mixed": 0.25
+      },
+      "Etinjat": {
+        "full": 0.45,
+        "initial": 0.4,
+        "mixed": 0.15
+      },
+      "Agent Phage": {
+        "full": 0.5,
+        "initial": 0.17,
+        "mixed": 0.33
+      },
+      "QBLevi": {
+        "full": 0.3,
+        "initial": 0.25,
+        "mixed": 0.45
+      },
+      "breaddddd": {
+        "full": 0.65,
+        "initial": 0.1,
+        "mixed": 0.25
+      }
+    },
+    "M": {
+      "Re_spectators": {
+        "M1": 0.3,
+        "M2": 0.25,
+        "M3": 0.2,
+        "M4": 0.15,
+        "M5": 0.1
+      },
+      "Etinjat": {
+        "M1": 0.2,
+        "M2": 0.25,
+        "M3": 0.3,
+        "M4": 0.15,
+        "M5": 0.1
+      },
+      "Agent Phage": {
+        "M1": 0.2,
+        "M2": 0.2,
+        "M3": 0.2,
+        "M4": 0.2,
+        "M5": 0.2
+      },
+      "QBLevi": {
+        "M1": 0.15,
+        "M2": 0.15,
+        "M3": 0.2,
+        "M4": 0.25,
+        "M5": 0.25
+      },
+      "breaddddd": {
+        "M1": 0.35,
+        "M2": 0.25,
+        "M3": 0.2,
+        "M4": 0.12,
+        "M5": 0.08
+      }
+    }
+  },
+  "pinyin": {
+    "library": "pypinyin",
+    "version": "0.55.0",
+    "style": "Style.NORMAL",
+    "strict": true,
+    "tone_free": true,
+    "regression_checked": 50000,
+    "regression_mismatches": 0
+  },
+  "frozen_artifacts": {
+    "manifest": {
+      "path": "/home/3160454/work/thesis-finalmodel-sixauthor-dataset-v1/results/finalmodel_fiveauthor_v1/dataset_preparation_v1/final_fiveauthor_manifest_frozen_v1.jsonl",
+      "sha256": "e05b07d5020ebf0ccf090e98b34e4c66db7dab9b565541d39feb2d6f1d1bb20b",
+      "bytes": 522366745
+    },
+    "work_split": {
+      "path": "/home/3160454/work/thesis-finalmodel-sixauthor-dataset-v1/results/finalmodel_fiveauthor_v1/dataset_preparation_v1/work_split_manifest_frozen_v1.csv",
+      "sha256": "631f0ca1b769589c2f0294b10a8783aa95da93fe100c71d066df924922150813",
+      "bytes": 12835
+    },
+    "audit_counts": {
+      "path": "/home/3160454/work/thesis-finalmodel-sixauthor-dataset-v1/results/finalmodel_fiveauthor_v1/dataset_preparation_v1/dataset_audit_counts_frozen_v1.csv",
+      "sha256": "83de861ec2c7ae72e708d3004ccd748559a17872aef6aeed835d1ed6ec00cfad",
+      "bytes": 1006
+    },
+    "summary": {
+      "path": "/home/3160454/work/thesis-finalmodel-sixauthor-dataset-v1/results/finalmodel_fiveauthor_v1/dataset_preparation_v1/dataset_summary_frozen_v1.json",
+      "sha256": "3dac47996f2603bbb69b45265c996e132a5cf2a28a109bcbf8954dbf720d4e62",
+      "bytes": 3041
+    },
+    "test_sample24": {
+      "path": "/home/3160454/work/thesis-finalmodel-sixauthor-dataset-v1/results/finalmodel_fiveauthor_v1/dataset_preparation_v1/human_audit_test_sample24_frozen_v1.jsonl",
+      "sha256": "63e1e9c3f56a39c1009c1f8bae55c42024d023ffc2d17084ee29547bc7c88a9b",
+      "bytes": 62731
+    }
+  }
+}

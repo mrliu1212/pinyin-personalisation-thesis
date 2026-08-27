@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "status": "CANDIDATE_AWAITING_HUMAN_APPROVAL",
+  "seed": 20260827,
+  "authors": [
+    "Re_spectators",
+    "Etinjat",
+    "Agent Phage",
+    "QBLevi",
+    "breaddddd"
+  ],
+  "excluded_author": "MScarlet",
+  "eligible_works": 248,
+  "source_population": "Deep Author five-author selected population",
+  "pinyin": {
+    "library": "pypinyin",
+    "version": "0.55.0",
+    "style": "Style.NORMAL",
+    "strict": true,
+    "tone_free": true,
+    "regression_checked": 50000,
+    "regression_mismatches": 0
+  },
+  "split_policy": {
+    "type": "chronological_whole_work",
+    "target": {
+      "fit": 0.7,
+      "val": 0.1,
+      "test": 0.2
+    },
+    "boundary_basis": "historical interaction count Stage 4"
+  },
+  "rows_per_author_split": {
+    "fit": 30000,
+    "val": 4000,
+    "test": 8000
+  },
+  "typing_profile": {
+    "Re_spectators": {
+      "full": 0.6,
+      "initial": 0.15,
+      "mixed": 0.25
+    },
+    "Etinjat": {
+      "full": 0.45,
+      "initial": 0.4,
+      "mixed": 0.15
+    },
+    "Agent Phage": {
+      "full": 0.5,
+      "initial": 0.17,
+      "mixed": 0.33
+    },
+    "QBLevi": {
+      "full": 0.3,
+      "initial": 0.25,
+      "mixed": 0.45
+    },
+    "breaddddd": {
+      "full": 0.65,
+      "initial": 0.1,
+      "mixed": 0.25
+    }
+  },
+  "M_profile": {
+    "Re_spectators": {
+      "1": 0.3,
+      "2": 0.25,
+      "3": 0.2,
+      "4": 0.15,
+      "5": 0.1
+    },
+    "Etinjat": {
+      "1": 0.2,
+      "2": 0.25,
+      "3": 0.3,
+      "4": 0.15,
+      "5": 0.1
+    },
+    "Agent Phage": {
+      "1": 0.2,
+      "2": 0.2,
+      "3": 0.2,
+      "4": 0.2,
+      "5": 0.2
+    },
+    "QBLevi": {
+      "1": 0.15,
+      "2": 0.15,
+      "3": 0.2,
+      "4": 0.25,
+      "5": 0.25
+    },
+    "breaddddd": {
+      "1": 0.35,
+      "2": 0.25,
+      "3": 0.2,
+      "4": 0.12,
+      "5": 0.08
+    }
+  },
+  "interaction_generator": {
+    "schema": "final_interaction_v2_anchored_M1_M5",
+    "anchor": "historical M1 interaction",
+    "lengths": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "same_boundary_span": true,
+    "strict_token_index_continuity": true,
+    "strict_processed_position_continuity": true,
+    "context": "preserved from historical M1 anchor"
+  },
+  "mixed_policy": {
+    "multi_syllable": "deterministic SHA256 uniform selection over non-degenerate binary Full/Initial masks",
+    "single_syllable": "deterministic SHA256 50/50 Full-or-Initial fallback"
+  },
+  "row_counts": {
+    "fit": 150000,
+    "val": 20000,
+    "test": 40000,
+    "total": 210000
+  },
+  "gates": {
+    "environment": "PASS",
+    "eligibility": "PASS",
+    "pinyin_regression": "PASS",
+    "duplicate_row_id": 0,
+    "duplicate_candidate_id": 0,
+    "work_split_leakage": 0,
+    "chronology": "PASS",
+    "M_quota": "PASS",
+    "typing_quota": "PASS"
+  },
+  "test_status": "DATA MANIFEST CREATED; NO MODEL EVALUATION RUN",
+  "note": "Full/Initial/Mixed and M1-M5 profiles are synthetic experimental user profiles. They are not claims about the real typing behaviour of the source authors."
+}
