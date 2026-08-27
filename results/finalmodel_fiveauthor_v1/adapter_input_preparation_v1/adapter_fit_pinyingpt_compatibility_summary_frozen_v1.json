@@ -1,0 +1,43 @@
+{
+  "compatible_rows": 149021,
+  "error_categories": {
+    "gold_pinyin_constraint_mismatch": 7,
+    "tokenizer_unknown_character": 960,
+    "unknown_pinyin_segment": 3,
+    "unsupported_pinyin_input": 9
+  },
+  "excluded_fraction": 0.006526666666666667,
+  "excluded_rows": 979,
+  "frozen_fit_rows": 150000,
+  "per_author": {
+    "Agent Phage": {
+      "compatible": 29991,
+      "excluded": 9,
+      "frozen_fit": 30000
+    },
+    "Etinjat": {
+      "compatible": 29131,
+      "excluded": 869,
+      "frozen_fit": 30000
+    },
+    "QBLevi": {
+      "compatible": 29967,
+      "excluded": 33,
+      "frozen_fit": 30000
+    },
+    "Re_spectators": {
+      "compatible": 29951,
+      "excluded": 49,
+      "frozen_fit": 30000
+    },
+    "breaddddd": {
+      "compatible": 29981,
+      "excluded": 19,
+      "frozen_fit": 30000
+    }
+  },
+  "policy": "Frozen dataset is unchanged. Only Adapter gradient training excludes rows that cannot be represented by the frozen PinyinGPT2-Concat tokenizer/backend.",
+  "status": "FROZEN",
+  "test_status": "CLOSED",
+  "training_started": false
+}
