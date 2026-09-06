@@ -1,0 +1,7 @@
+system,N,newly_recovered,support_type,count,share_of_newly_recovered,share_of_all_test
+Generic+Explicit,40000,3490,exact_only,631,0.1808022922636103,0.015775
+Generic+Explicit,40000,3490,composition_only,2643,0.7573065902578796,0.066075
+Generic+Explicit,40000,3490,exact_and_composition,216,0.061891117478510026,0.0054
+Adapter+Explicit,40000,669,exact_only,137,0.20478325859491778,0.003425
+Adapter+Explicit,40000,669,composition_only,469,0.7010463378176383,0.011725
+Adapter+Explicit,40000,669,exact_and_composition,63,0.09417040358744394,0.001575

@@ -1,0 +1,19 @@
+author,left_split,right_split,js_divergence_bits
+ALL,Fit,Validation,0.8357948259448748
+ALL,Fit,Test,0.8102393718802479
+ALL,Validation,Test,0.8361010596675366
+Agent Phage,Fit,Validation,0.8984434168986185
+Agent Phage,Fit,Test,0.8827228405947937
+Agent Phage,Validation,Test,0.9055486730898604
+Etinjat,Fit,Validation,0.9396410760171399
+Etinjat,Fit,Test,0.9231231287252232
+Etinjat,Validation,Test,0.9486578491075363
+QBLevi,Fit,Validation,0.93365637797971
+QBLevi,Fit,Test,0.9212592380188696
+QBLevi,Validation,Test,0.9390739500113995
+Re_spectators,Fit,Validation,0.8447503373074424
+Re_spectators,Fit,Test,0.8602448806736497
+Re_spectators,Validation,Test,0.836105984004962
+breaddddd,Fit,Validation,0.8206971533464177
+breaddddd,Fit,Test,0.7615423081945198
+breaddddd,Validation,Test,0.8335343410303191

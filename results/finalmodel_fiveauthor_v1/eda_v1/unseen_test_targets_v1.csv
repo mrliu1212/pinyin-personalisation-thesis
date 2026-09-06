@@ -1,0 +1,13 @@
+author,reference_history,test_N,unseen_test_rows,unseen_test_row_rate,unseen_test_target_types
+Agent Phage,Fit,8000,6774,0.84675,6652
+Agent Phage,Fit+Validation,8000,6727,0.840875,6617
+Etinjat,Fit,8000,6915,0.864375,6579
+Etinjat,Fit+Validation,8000,6891,0.861375,6563
+QBLevi,Fit,8000,7149,0.893625,7035
+QBLevi,Fit+Validation,8000,7113,0.889125,7003
+Re_spectators,Fit,8000,6184,0.773,5672
+Re_spectators,Fit+Validation,8000,6004,0.7505,5583
+breaddddd,Fit,8000,5490,0.68625,5278
+breaddddd,Fit+Validation,8000,5403,0.675375,5232
+ALL,Fit,40000,32512,0.8128,
+ALL,Fit+Validation,40000,32138,0.80345,

@@ -1,0 +1,50 @@
+{
+  "analysis": "final_fiveauthor_eda_lexical_drift_v1",
+  "input": "results/finalmodel_fiveauthor_v1/dataset_preparation_v1/final_fiveauthor_manifest_frozen_v1.jsonl",
+  "input_sha256": "e05b07d5020ebf0ccf090e98b34e4c66db7dab9b565541d39feb2d6f1d1bb20b",
+  "N": 210000,
+  "authors": [
+    "Agent Phage",
+    "Etinjat",
+    "QBLevi",
+    "Re_spectators",
+    "breaddddd"
+  ],
+  "split_counts": {
+    "Fit": 150000,
+    "Validation": 20000,
+    "Test": 40000
+  },
+  "author_counts": {
+    "Re_spectators": 42000,
+    "Etinjat": 42000,
+    "Agent Phage": 42000,
+    "QBLevi": 42000,
+    "breaddddd": 42000
+  },
+  "definitions": {
+    "vocabulary_unit": "Exact Gold target string. This is target-span vocabulary, not an external Chinese word segmentation.",
+    "unseen_target": "A Test Gold target absent from the same author's specified earlier split vocabulary.",
+    "unseen_pinyin_target_pair": "A canonical Full-Pinyin + Gold pair absent from the same author's specified earlier split history.",
+    "jaccard": "Set intersection divided by set union.",
+    "js_divergence_bits": "Jensen-Shannon divergence between empirical target-frequency distributions, using log base 2.",
+    "distinctive_target_score": "Smoothed log2 rate ratio of one author's target frequency against all other authors combined; exploratory ranking only."
+  },
+  "outputs": [
+    "author_vocabulary_summary_v1.csv",
+    "author_top_targets_v1.csv",
+    "author_vocabulary_jaccard_v1.csv",
+    "author_distinctive_targets_v1.csv",
+    "split_vocabulary_summary_v1.csv",
+    "split_vocabulary_overlap_v1.csv",
+    "unseen_test_targets_v1.csv",
+    "unseen_test_pinyin_target_pairs_v1.csv",
+    "split_target_jsd_v1.csv"
+  ],
+  "gates": {
+    "expected_total_210000": true,
+    "expected_five_authors": true,
+    "expected_split_counts": true,
+    "expected_42000_per_author": true
+  }
+}

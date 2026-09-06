@@ -1,0 +1,1036 @@
+{
+  "bootstrap": {
+    "ci": 0.95,
+    "method": "paired nonparametric percentile bootstrap",
+    "repetitions": 20000,
+    "seed": 20260829
+  },
+  "interpretation_boundary": "Recovery-source counts describe whether newly recovered Gold candidates have Exact, Composition, or both forms of support. They are not an ablation estimate of the independent Top-1 causal contribution of Composition.",
+  "recovery_source_analysis": {
+    "Adapter+Explicit": {
+      "N": 40000,
+      "by_M": {
+        "1": {
+          "composition_only": {
+            "count": 2,
+            "share_within_M_recovery": 0.015037593984962405
+          },
+          "exact_and_composition": {
+            "count": 3,
+            "share_within_M_recovery": 0.022556390977443608
+          },
+          "exact_only": {
+            "count": 128,
+            "share_within_M_recovery": 0.9624060150375939
+          },
+          "total_newly_recovered": 133
+        },
+        "2": {
+          "composition_only": {
+            "count": 142,
+            "share_within_M_recovery": 0.7932960893854749
+          },
+          "exact_and_composition": {
+            "count": 32,
+            "share_within_M_recovery": 0.1787709497206704
+          },
+          "exact_only": {
+            "count": 5,
+            "share_within_M_recovery": 0.027932960893854747
+          },
+          "total_newly_recovered": 179
+        },
+        "3": {
+          "composition_only": {
+            "count": 152,
+            "share_within_M_recovery": 0.9101796407185628
+          },
+          "exact_and_composition": {
+            "count": 14,
+            "share_within_M_recovery": 0.08383233532934131
+          },
+          "exact_only": {
+            "count": 1,
+            "share_within_M_recovery": 0.005988023952095809
+          },
+          "total_newly_recovered": 167
+        },
+        "4": {
+          "composition_only": {
+            "count": 90,
+            "share_within_M_recovery": 0.8411214953271028
+          },
+          "exact_and_composition": {
+            "count": 14,
+            "share_within_M_recovery": 0.1308411214953271
+          },
+          "exact_only": {
+            "count": 3,
+            "share_within_M_recovery": 0.028037383177570093
+          },
+          "total_newly_recovered": 107
+        },
+        "5": {
+          "composition_only": {
+            "count": 83,
+            "share_within_M_recovery": 1.0
+          },
+          "exact_and_composition": {
+            "count": 0,
+            "share_within_M_recovery": 0.0
+          },
+          "exact_only": {
+            "count": 0,
+            "share_within_M_recovery": 0.0
+          },
+          "total_newly_recovered": 83
+        }
+      },
+      "examples": {
+        "composition_only": [
+          {
+            "M": 3,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "这里是道格",
+            "p_composition": 0.945926896237269,
+            "p_exact": null,
+            "piece_count": 3,
+            "provenance": null,
+            "row_id": "final5-d36f9bdc0bea0cb4ee378991",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 2,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "翻译的",
+            "p_composition": 1.0,
+            "p_exact": null,
+            "piece_count": 2,
+            "provenance": null,
+            "row_id": "final5-b523de5a836d360278de09bf",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 4,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "我也觉得问题",
+            "p_composition": 0.8216542528240524,
+            "p_exact": null,
+            "piece_count": 4,
+            "provenance": null,
+            "row_id": "final5-bc0a073affd079e9e97f4afa",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 3,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "full",
+            "gold": "一只手只是",
+            "p_composition": 0.8243069635031012,
+            "p_exact": null,
+            "piece_count": 4,
+            "provenance": null,
+            "row_id": "final5-ab011ddaa4b71d16f9136ebe",
+            "typing_mode": "full"
+          },
+          {
+            "M": 3,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "initial",
+            "gold": "所描绘的",
+            "p_composition": 0.7804198630237422,
+            "p_exact": null,
+            "piece_count": 3,
+            "provenance": null,
+            "row_id": "final5-4563af1f674d499a6c86704c",
+            "typing_mode": "initial"
+          },
+          {
+            "M": 5,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "想过要在设计",
+            "p_composition": 0.7752843491585512,
+            "p_exact": null,
+            "piece_count": 4,
+            "provenance": null,
+            "row_id": "final5-21e171e2409f440462a54814",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 3,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "这个元素挺",
+            "p_composition": 0.679294347372258,
+            "p_exact": null,
+            "piece_count": 3,
+            "provenance": null,
+            "row_id": "final5-d931fdcd4001abf0d8841561",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 2,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "initial",
+            "gold": "就敲定",
+            "p_composition": 0.41347358836605946,
+            "p_exact": null,
+            "piece_count": 2,
+            "provenance": null,
+            "row_id": "final5-4322103c708edbcb00db1b51",
+            "typing_mode": "initial"
+          },
+          {
+            "M": 2,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "initial",
+            "gold": "是描绘",
+            "p_composition": 0.7388519330905788,
+            "p_exact": null,
+            "piece_count": 2,
+            "provenance": null,
+            "row_id": "final5-b0cc42373d123b7acafd2fb6",
+            "typing_mode": "initial"
+          },
+          {
+            "M": 5,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "是描绘某个故事或者",
+            "p_composition": 0.8645283643550093,
+            "p_exact": null,
+            "piece_count": 5,
+            "provenance": null,
+            "row_id": "final5-8e9fa99ee4945cde9d6e6ac9",
+            "typing_mode": "mixed"
+          }
+        ],
+        "exact_and_composition": [
+          {
+            "M": 2,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "是什么",
+            "p_composition": 0.00010000000000000009,
+            "p_exact": 0.9414552471193822,
+            "piece_count": 2,
+            "provenance": null,
+            "row_id": "final5-b44c4afc7ac22ca5def18a8c",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 2,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "的点子",
+            "p_composition": 0.9982609987432235,
+            "p_exact": 1.0,
+            "piece_count": 2,
+            "provenance": null,
+            "row_id": "final5-56a639b2db3d57fe8bcace09",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 3,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "之物被焚毁",
+            "p_composition": 1.0,
+            "p_exact": 1.0,
+            "piece_count": 2,
+            "provenance": null,
+            "row_id": "final5-b2e15d416b6c021f4d99425f",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 2,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "initial",
+            "gold": "我关闭",
+            "p_composition": 0.8057792887760272,
+            "p_exact": 1.0,
+            "piece_count": 2,
+            "provenance": null,
+            "row_id": "final5-952adc83b6e057442f3bbe64",
+            "typing_mode": "initial"
+          },
+          {
+            "M": 2,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "的仪式",
+            "p_composition": 0.7952666597863052,
+            "p_exact": 1.0,
+            "piece_count": 2,
+            "provenance": null,
+            "row_id": "final5-2a9db114edfc7b5c00c41c55",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 1,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "最后",
+            "p_composition": 0.5622299264640611,
+            "p_exact": 0.21664968827985406,
+            "piece_count": 2,
+            "provenance": null,
+            "row_id": "final5-357324e077a9946206393056",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 4,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "内容可能涉及剧透",
+            "p_composition": 1.0,
+            "p_exact": 1.0,
+            "piece_count": 2,
+            "provenance": null,
+            "row_id": "final5-02577c3fcd1d1475e261a73b",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 2,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "我关闭",
+            "p_composition": 1.0,
+            "p_exact": 1.0,
+            "piece_count": 2,
+            "provenance": null,
+            "row_id": "final5-bfe4c8ff36e83d0cdac0be4f",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 3,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "点我关闭",
+            "p_composition": 1.0,
+            "p_exact": 1.0,
+            "piece_count": 2,
+            "provenance": null,
+            "row_id": "final5-26fc5afabd9b3442cb70ed9a",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 2,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "带感的",
+            "p_composition": 0.9867576492578979,
+            "p_exact": 1.0,
+            "piece_count": 2,
+            "provenance": null,
+            "row_id": "final5-9e2559669793d5ce453f0853",
+            "typing_mode": "mixed"
+          }
+        ],
+        "exact_only": [
+          {
+            "M": 1,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "initial",
+            "gold": "打算",
+            "p_composition": null,
+            "p_exact": 1.0,
+            "piece_count": null,
+            "provenance": null,
+            "row_id": "final5-f95601113e0188e331619e3d",
+            "typing_mode": "initial"
+          },
+          {
+            "M": 1,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "initial",
+            "gold": "断",
+            "p_composition": null,
+            "p_exact": 0.009025773967189284,
+            "piece_count": null,
+            "provenance": null,
+            "row_id": "final5-130a3b71271119f1e8cece4c",
+            "typing_mode": "initial"
+          },
+          {
+            "M": 1,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "initial",
+            "gold": "重写",
+            "p_composition": null,
+            "p_exact": 1.0,
+            "piece_count": null,
+            "provenance": null,
+            "row_id": "final5-a3739b202e99d86a70568dd4",
+            "typing_mode": "initial"
+          },
+          {
+            "M": 1,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "轶事",
+            "p_composition": null,
+            "p_exact": 0.24983144693575068,
+            "piece_count": null,
+            "provenance": null,
+            "row_id": "final5-073dfae66764d47074b29d52",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 1,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "诡异",
+            "p_composition": null,
+            "p_exact": 1.0,
+            "piece_count": null,
+            "provenance": null,
+            "row_id": "final5-f57e9bafb8c6aded9504bd39",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 1,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "initial",
+            "gold": "敲定",
+            "p_composition": null,
+            "p_exact": 1.0,
+            "piece_count": null,
+            "provenance": null,
+            "row_id": "final5-8e145181b9db864889027a6f",
+            "typing_mode": "initial"
+          },
+          {
+            "M": 1,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "initial",
+            "gold": "这",
+            "p_composition": null,
+            "p_exact": 0.31244808481881037,
+            "piece_count": null,
+            "provenance": null,
+            "row_id": "final5-0f5c0f2dd5d0708cd9e4e3ab",
+            "typing_mode": "initial"
+          },
+          {
+            "M": 1,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "full",
+            "gold": "鸽子",
+            "p_composition": null,
+            "p_exact": 1.0,
+            "piece_count": null,
+            "provenance": null,
+            "row_id": "final5-19b4bbe1e739c0c6c064e34c",
+            "typing_mode": "full"
+          },
+          {
+            "M": 1,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "题材",
+            "p_composition": null,
+            "p_exact": 1.0,
+            "piece_count": null,
+            "provenance": null,
+            "row_id": "final5-1eb28d947b708e7417d073c3",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 1,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "点子",
+            "p_composition": null,
+            "p_exact": 1.0,
+            "piece_count": null,
+            "provenance": null,
+            "row_id": "final5-4e9369c6a2e0b84a42cbe7f0",
+            "typing_mode": "mixed"
+          }
+        ]
+      },
+      "neural_top10_hit": 32162,
+      "neural_top10_hit_rate": 0.80405,
+      "newly_recovered": 669,
+      "newly_recovered_rate": 0.016725,
+      "recovery_support": {
+        "composition_only": {
+          "count": 469,
+          "share_of_all_test": 0.011725,
+          "share_of_newly_recovered": 0.7010463378176383
+        },
+        "exact_and_composition": {
+          "count": 63,
+          "share_of_all_test": 0.001575,
+          "share_of_newly_recovered": 0.09417040358744394
+        },
+        "exact_only": {
+          "count": 137,
+          "share_of_all_test": 0.003425,
+          "share_of_newly_recovered": 0.20478325859491778
+        }
+      },
+      "system": "Adapter+Explicit"
+    },
+    "Generic+Explicit": {
+      "N": 40000,
+      "by_M": {
+        "1": {
+          "composition_only": {
+            "count": 25,
+            "share_within_M_recovery": 0.03753753753753754
+          },
+          "exact_and_composition": {
+            "count": 24,
+            "share_within_M_recovery": 0.036036036036036036
+          },
+          "exact_only": {
+            "count": 617,
+            "share_within_M_recovery": 0.9264264264264265
+          },
+          "total_newly_recovered": 666
+        },
+        "2": {
+          "composition_only": {
+            "count": 735,
+            "share_within_M_recovery": 0.8698224852071006
+          },
+          "exact_and_composition": {
+            "count": 104,
+            "share_within_M_recovery": 0.12307692307692308
+          },
+          "exact_only": {
+            "count": 6,
+            "share_within_M_recovery": 0.007100591715976331
+          },
+          "total_newly_recovered": 845
+        },
+        "3": {
+          "composition_only": {
+            "count": 844,
+            "share_within_M_recovery": 0.9419642857142857
+          },
+          "exact_and_composition": {
+            "count": 50,
+            "share_within_M_recovery": 0.05580357142857143
+          },
+          "exact_only": {
+            "count": 2,
+            "share_within_M_recovery": 0.002232142857142857
+          },
+          "total_newly_recovered": 896
+        },
+        "4": {
+          "composition_only": {
+            "count": 579,
+            "share_within_M_recovery": 0.9293739967897271
+          },
+          "exact_and_composition": {
+            "count": 38,
+            "share_within_M_recovery": 0.060995184590690206
+          },
+          "exact_only": {
+            "count": 6,
+            "share_within_M_recovery": 0.009630818619582664
+          },
+          "total_newly_recovered": 623
+        },
+        "5": {
+          "composition_only": {
+            "count": 460,
+            "share_within_M_recovery": 1.0
+          },
+          "exact_and_composition": {
+            "count": 0,
+            "share_within_M_recovery": 0.0
+          },
+          "exact_only": {
+            "count": 0,
+            "share_within_M_recovery": 0.0
+          },
+          "total_newly_recovered": 460
+        }
+      },
+      "examples": {
+        "composition_only": [
+          {
+            "M": 3,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "full",
+            "gold": "和中分的",
+            "p_composition": 1.0,
+            "p_exact": null,
+            "piece_count": 4,
+            "provenance": null,
+            "row_id": "final5-3c5d0584005e7d44254c5b4f",
+            "typing_mode": "full"
+          },
+          {
+            "M": 1,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "中分",
+            "p_composition": 0.4198756931590142,
+            "p_exact": null,
+            "piece_count": 2,
+            "provenance": null,
+            "row_id": "final5-28b7958655d2ada15a8c9070",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 2,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "翻译的",
+            "p_composition": 1.0,
+            "p_exact": null,
+            "piece_count": 2,
+            "provenance": null,
+            "row_id": "final5-b523de5a836d360278de09bf",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 4,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "希望写原创多一点",
+            "p_composition": 0.7521085995552393,
+            "p_exact": null,
+            "piece_count": 5,
+            "provenance": null,
+            "row_id": "final5-64cd3b9bdc6d1b45f6f056fd",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 3,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "full",
+            "gold": "做下来做",
+            "p_composition": 0.9416888681835691,
+            "p_exact": null,
+            "piece_count": 4,
+            "provenance": null,
+            "row_id": "final5-3114bce6e9332fd4487fc09f",
+            "typing_mode": "full"
+          },
+          {
+            "M": 3,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "initial",
+            "gold": "和写原创",
+            "p_composition": 0.44860363306608547,
+            "p_exact": null,
+            "piece_count": 3,
+            "provenance": null,
+            "row_id": "final5-897561152e2f4ea03b65534c",
+            "typing_mode": "initial"
+          },
+          {
+            "M": 3,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "full",
+            "gold": "有很大的",
+            "p_composition": 0.8464555746006901,
+            "p_exact": null,
+            "piece_count": 4,
+            "provenance": null,
+            "row_id": "final5-7c5dee294d83dab69a08fe81",
+            "typing_mode": "full"
+          },
+          {
+            "M": 3,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "full",
+            "gold": "原创时的",
+            "p_composition": 0.48523038475889835,
+            "p_exact": null,
+            "piece_count": 3,
+            "provenance": null,
+            "row_id": "final5-5afba1269eda4af6b0b5470b",
+            "typing_mode": "full"
+          },
+          {
+            "M": 2,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "时的",
+            "p_composition": 0.2081208913216013,
+            "p_exact": null,
+            "piece_count": 2,
+            "provenance": null,
+            "row_id": "final5-489223a9cf935349be79f07a",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 4,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "full",
+            "gold": "而原创需要的",
+            "p_composition": 0.9979263950357677,
+            "p_exact": null,
+            "piece_count": 4,
+            "provenance": null,
+            "row_id": "final5-24ccd5b8f07815f9fc0c2da6",
+            "typing_mode": "full"
+          }
+        ],
+        "exact_and_composition": [
+          {
+            "M": 4,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "initial",
+            "gold": "基金会就是在试图",
+            "p_composition": 0.8007816813083168,
+            "p_exact": 1.0,
+            "piece_count": 4,
+            "provenance": null,
+            "row_id": "final5-d3885337b4e16fc98a0bf7ef",
+            "typing_mode": "initial"
+          },
+          {
+            "M": 2,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "是什么",
+            "p_composition": 0.00010000000000000009,
+            "p_exact": 0.9414552471193822,
+            "piece_count": 2,
+            "provenance": null,
+            "row_id": "final5-b44c4afc7ac22ca5def18a8c",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 2,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "initial",
+            "gold": "参加了",
+            "p_composition": 0.9050596103513556,
+            "p_exact": 1.0,
+            "piece_count": 2,
+            "provenance": null,
+            "row_id": "final5-8f7c9d7e397315952434d3fb",
+            "typing_mode": "initial"
+          },
+          {
+            "M": 2,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "full",
+            "gold": "对抗异常",
+            "p_composition": 1.0,
+            "p_exact": 1.0,
+            "piece_count": 2,
+            "provenance": null,
+            "row_id": "final5-ab16f368a6e81386ff70ddce",
+            "typing_mode": "full"
+          },
+          {
+            "M": 2,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "的做法",
+            "p_composition": 0.4565684826961051,
+            "p_exact": 1.0,
+            "piece_count": 2,
+            "provenance": null,
+            "row_id": "final5-a75d21547601e66fe6624616",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 2,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "脑海里",
+            "p_composition": 1.0,
+            "p_exact": 1.0,
+            "piece_count": 2,
+            "provenance": null,
+            "row_id": "final5-f7a5dafb0bf5fdff0ce9fdcd",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 2,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "的逻辑",
+            "p_composition": 1.0,
+            "p_exact": 1.0,
+            "piece_count": 2,
+            "provenance": null,
+            "row_id": "final5-7da424182284bd1e67eca748",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 2,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "蛮大的",
+            "p_composition": 0.7801988672019154,
+            "p_exact": 1.0,
+            "piece_count": 2,
+            "provenance": null,
+            "row_id": "final5-45208482109504008db3e82e",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 2,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "full",
+            "gold": "仪式感",
+            "p_composition": 0.5945538134290437,
+            "p_exact": 1.0,
+            "piece_count": 2,
+            "provenance": null,
+            "row_id": "final5-29f005d3b4eb34ec5a62154c",
+            "typing_mode": "full"
+          },
+          {
+            "M": 4,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "full",
+            "gold": "与自己深刻关联",
+            "p_composition": 1.0,
+            "p_exact": 1.0,
+            "piece_count": 4,
+            "provenance": null,
+            "row_id": "final5-b280d6d956c0a5906ae254b5",
+            "typing_mode": "full"
+          }
+        ],
+        "exact_only": [
+          {
+            "M": 1,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "翻译",
+            "p_composition": null,
+            "p_exact": 1.0,
+            "piece_count": null,
+            "provenance": null,
+            "row_id": "final5-c14c3fc0e9a7b79d64f08280",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 1,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "initial",
+            "gold": "时",
+            "p_composition": null,
+            "p_exact": 0.04008392920852342,
+            "piece_count": null,
+            "provenance": null,
+            "row_id": "final5-53ac0e491469743f6fa06d42",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 1,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "initial",
+            "gold": "断",
+            "p_composition": null,
+            "p_exact": 0.009025773967189284,
+            "piece_count": null,
+            "provenance": null,
+            "row_id": "final5-130a3b71271119f1e8cece4c",
+            "typing_mode": "initial"
+          },
+          {
+            "M": 1,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "initial",
+            "gold": "试图",
+            "p_composition": null,
+            "p_exact": 1.0,
+            "piece_count": null,
+            "provenance": null,
+            "row_id": "final5-2b8c567712b3846bba1b43ed",
+            "typing_mode": "initial"
+          },
+          {
+            "M": 1,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "full",
+            "gold": "基金会",
+            "p_composition": null,
+            "p_exact": 1.0,
+            "piece_count": null,
+            "provenance": null,
+            "row_id": "final5-6b3dbbcc0cb5fbdedf3b2de5",
+            "typing_mode": "full"
+          },
+          {
+            "M": 1,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "initial",
+            "gold": "去",
+            "p_composition": null,
+            "p_exact": 0.40818731478893683,
+            "piece_count": null,
+            "provenance": null,
+            "row_id": "final5-a575d791b7dd94642970a190",
+            "typing_mode": "initial"
+          },
+          {
+            "M": 1,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "initial",
+            "gold": "重写",
+            "p_composition": null,
+            "p_exact": 1.0,
+            "piece_count": null,
+            "provenance": null,
+            "row_id": "final5-a3739b202e99d86a70568dd4",
+            "typing_mode": "initial"
+          },
+          {
+            "M": 1,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "轶事",
+            "p_composition": null,
+            "p_exact": 0.1383346580503203,
+            "piece_count": null,
+            "provenance": null,
+            "row_id": "final5-020b1de849715d87aea138c2",
+            "typing_mode": "mixed"
+          },
+          {
+            "M": 1,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "initial",
+            "gold": "对抗",
+            "p_composition": null,
+            "p_exact": 0.8778408484772887,
+            "piece_count": null,
+            "provenance": null,
+            "row_id": "final5-9c71cc6d9f00f84eca642ed5",
+            "typing_mode": "initial"
+          },
+          {
+            "M": 1,
+            "author_name": "Re_spectators",
+            "effective_typing_mode": "mixed",
+            "gold": "轶事",
+            "p_composition": null,
+            "p_exact": 0.24983144693575068,
+            "piece_count": null,
+            "provenance": null,
+            "row_id": "final5-073dfae66764d47074b29d52",
+            "typing_mode": "mixed"
+          }
+        ]
+      },
+      "neural_top10_hit": 21414,
+      "neural_top10_hit_rate": 0.53535,
+      "newly_recovered": 3490,
+      "newly_recovered_rate": 0.08725,
+      "recovery_support": {
+        "composition_only": {
+          "count": 2643,
+          "share_of_all_test": 0.066075,
+          "share_of_newly_recovered": 0.7573065902578796
+        },
+        "exact_and_composition": {
+          "count": 216,
+          "share_of_all_test": 0.0054,
+          "share_of_newly_recovered": 0.061891117478510026
+        },
+        "exact_only": {
+          "count": 631,
+          "share_of_all_test": 0.015775,
+          "share_of_newly_recovered": 0.1808022922636103
+        }
+      },
+      "system": "Generic+Explicit"
+    }
+  },
+  "schema_version": 1,
+  "statistical_robustness": {
+    "Adapter_vs_Final": {
+      "N": 40000,
+      "bootstrap_reps": 20000,
+      "bootstrap_seed": 20260829,
+      "delta_mrr": 0.012561454795204796,
+      "delta_mrr_ci95_high": 0.013689328133671883,
+      "delta_mrr_ci95_low": 0.011459148377664001,
+      "delta_top1": 0.01285,
+      "delta_top1_ci95_high": 0.01455,
+      "delta_top1_ci95_high_pp": 1.455,
+      "delta_top1_ci95_low": 0.0112,
+      "delta_top1_ci95_low_pp": 1.1199999999999999,
+      "delta_top1_pp": 1.2850000000000001,
+      "left_mrr": 0.7023539781746032,
+      "left_system": "Adapter",
+      "left_top1": 0.643975,
+      "mcnemar": {
+        "discordant": 1182,
+        "exact_two_sided_p": 5.4175723574124405e-52,
+        "left_correct_right_wrong": 334,
+        "left_wrong_right_correct": 848,
+        "log10_p": -51.26619527950697
+      },
+      "right_mrr": 0.714915432969808,
+      "right_system": "Adapter+Explicit",
+      "right_top1": 0.656825
+    },
+    "GenericFrequency_vs_GenericExplicit": {
+      "N": 40000,
+      "bootstrap_reps": 20000,
+      "bootstrap_seed": 20260829,
+      "delta_mrr": 0.07437298042235542,
+      "delta_mrr_ci95_high": 0.07686636205808081,
+      "delta_mrr_ci95_low": 0.07189542757936508,
+      "delta_top1": 0.08295,
+      "delta_top1_ci95_high": 0.086225,
+      "delta_top1_ci95_high_pp": 8.622499999999999,
+      "delta_top1_ci95_low": 0.079675,
+      "delta_top1_ci95_low_pp": 7.967499999999999,
+      "delta_top1_pp": 8.295,
+      "left_mrr": 0.4346095060495061,
+      "left_system": "Generic+Frequency",
+      "left_top1": 0.3682,
+      "mcnemar": {
+        "discordant": 4742,
+        "exact_two_sided_p": 0.0,
+        "left_correct_right_wrong": 712,
+        "left_wrong_right_correct": 4030,
+        "log10_p": -Infinity
+      },
+      "right_mrr": 0.5089824864718615,
+      "right_system": "Generic+Explicit",
+      "right_top1": 0.45115
+    },
+    "Generic_vs_Adapter": {
+      "N": 40000,
+      "bootstrap_reps": 20000,
+      "bootstrap_seed": 20260829,
+      "delta_mrr": 0.289118501984127,
+      "delta_mrr_ci95_high": 0.2934538134920635,
+      "delta_mrr_ci95_low": 0.2848971783234127,
+      "delta_top1": 0.2948,
+      "delta_top1_ci95_high": 0.29985,
+      "delta_top1_ci95_high_pp": 29.985,
+      "delta_top1_ci95_low": 0.28975,
+      "delta_top1_ci95_low_pp": 28.975,
+      "delta_top1_pp": 29.48,
+      "left_mrr": 0.41323547619047624,
+      "left_system": "Generic",
+      "left_top1": 0.349175,
+      "mcnemar": {
+        "discordant": 13942,
+        "exact_two_sided_p": 0.0,
+        "left_correct_right_wrong": 1075,
+        "left_wrong_right_correct": 12867,
+        "log10_p": -Infinity
+      },
+      "right_mrr": 0.7023539781746032,
+      "right_system": "Adapter",
+      "right_top1": 0.643975
+    }
+  },
+  "test_queries": 40000
+}

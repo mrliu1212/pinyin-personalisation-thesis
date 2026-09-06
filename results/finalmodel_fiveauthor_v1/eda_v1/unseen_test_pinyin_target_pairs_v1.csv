@@ -1,0 +1,13 @@
+author,reference_history,test_N,test_rows_with_full_pinyin,test_rows_missing_full_pinyin,unseen_test_pinyin_target_rows,unseen_test_pinyin_target_rate
+Agent Phage,Fit,8000,8000,0,6774,0.84675
+Agent Phage,Fit+Validation,8000,8000,0,6727,0.840875
+Etinjat,Fit,8000,8000,0,6915,0.864375
+Etinjat,Fit+Validation,8000,8000,0,6891,0.861375
+QBLevi,Fit,8000,8000,0,7149,0.893625
+QBLevi,Fit+Validation,8000,8000,0,7113,0.889125
+Re_spectators,Fit,8000,8000,0,6184,0.773
+Re_spectators,Fit+Validation,8000,8000,0,6004,0.7505
+breaddddd,Fit,8000,8000,0,5490,0.68625
+breaddddd,Fit+Validation,8000,8000,0,5403,0.675375
+ALL,Fit,40000,40000,0,32512,0.8128
+ALL,Fit+Validation,40000,40000,0,32138,0.80345
