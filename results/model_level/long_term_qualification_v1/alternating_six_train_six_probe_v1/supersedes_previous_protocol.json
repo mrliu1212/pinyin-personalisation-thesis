@@ -1,7 +1,0 @@
-{
-  "reason": "Revised before execution to match the intended alternating longitudinal design: six approximately 5.8K training episodes interleaved with six held-out future blocks, rather than training on 66,664 of 69,664 effective rows.",
-  "replacement_protocol": "results/model_level/long_term_qualification_v1/alternating_six_train_six_probe_v1/frozen_protocol.json",
-  "schema_version": 1,
-  "status": "SUPERSEDED_NOT_EXECUTED",
-  "superseded_protocol": "results/model_level/long_term_qualification_v1/twelve_update_six_probe_v1/frozen_protocol.json"
-}

@@ -1,2 +1,0 @@
-hnswlib==0.8.0
-llama-cpp-python==0.3.16
